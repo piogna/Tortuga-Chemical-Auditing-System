@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "Maxxam - Dashboard";
+}
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Dashboard <small>Welcome!</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i> Dashboard
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-info-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">26</div>
+                        <div>New Items!</div>
+                    </div>
+                </div>
+            </div>
+            <a href='@Url.Action("Index", "InventoryItem")'>
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-green">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-exclamation-triangle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">12</div>
+                        <div>Expiring Items!</div>
+                    </div>
+                </div>
+            </div>
+            <a href='@Url.Action("Index", "InventoryItem")'>
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-forward fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">8</div>
+                        <div>Upcoming Tests!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-file-text"></i> Low Stock</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped" data-sort-name="quantity" data-sort-order="desc">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>ID Code</th>
+                                <th data-field="name" data-align="center" data-sortable="true">Quantity</th>
+                                <th>Item Type</th>
+                                <th>Last Order Date</th>
+                                <th>Supplier Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="color:red;">
+                                <td>65</td>
+                                <td>BB-CRM-NT-001</td>
+                                <td class="quantity">30 mL</td>
+                                <td>Reagent</td>
+                                <td>05/10/2014</td>
+                                <td>Supplier One</td>
+                            </tr>
+                            <tr style="color:red;">
+                                <td>42</td>
+                                <td>BB-CRM-NT-003</td>
+                                <td class="quantity">40 mL</td>
+                                <td>Reagent</td>
+                                <td>02/08/2014</td>
+                                <td>Supplier One</td>
+                            </tr>
+                            <tr style="color:red;">
+                                <td>78</td>
+                                <td>BB-CRM-NT-004</td>
+                                <td class="quantity">42 mL</td>
+                                <td>Reagent</td>
+                                <td>08/08/2014</td>
+                                <td>Supplier Two</td>
+                            </tr>
+                            <tr style="color:red;">
+                                <td>3</td>
+                                <td>BB-CRM-NT-006</td>
+                                <td class="quantity">75 mL</td>
+                                <td>Standard</td>
+                                <td>01/02/2015</td>
+                                <td>Supplier Three</td>
+                            </tr>
+                            <tr style="color:red;">
+                                <td>1</td>
+                                <td>BB-IS-ME-004</td>
+                                <td class="quantity">90 ml</td>
+                                <td>Reagent</td>
+                                <td>04/07/2014</td>
+                                <td>Supplier Two</td>
+                            </tr>
+                            <tr>
+                                <td>90</td>
+                                <td>BB-IS-ME-006</td>
+                                <td class="quantity">95 mL</td>
+                                <td>Reagent</td>
+                                <td>12/08/2014</td>
+                                <td>Supplier Four</td>
+                            </tr>
+                            <tr>
+                                <td>74</td>
+                                <td>BB-IS-ME-007</td>
+                                <td class="quantity">120 mL</td>
+                                <td>Standard</td>
+                                <td>02/04/2015</td>
+                                <td>Supplier Five</td>
+                            </tr>
+                            <tr>
+                                <td>81</td>
+                                <td>BB-IS-ME-009</td>
+                                <td class="quantity">180 mL</td>
+                                <td>Standard</td>
+                                <td>05/01/2014</td>
+                                <td>Supplier Two</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-right">
+                    <a href='@Url.Action("Index", "InventoryItem")'>View All Stock <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-file-text"></i> Recently Added Stock</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item Type</th>
+                                <th>Amount Remaining</th>
+                                <th>Updated By</th>
+                                <th>Lot#</th>
+                                <th>Date Added</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Reagent</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Standard</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                            <tr>
+                                <td>Standard</td>
+                                <td>1000 mL</td>
+                                <td>A Name</td>
+                                <td>XYZ123</td>
+                                <td>2015-04-05</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-right">
+                    <a href='@Url.Action("Index", "InventoryItem")'>View All Stock <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->

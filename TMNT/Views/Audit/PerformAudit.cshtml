@@ -1,0 +1,161 @@
+﻿@model TMNT.Models.ViewModels.AuditViewModel
+@{
+    ViewBag.Title = "Audit";
+}
+<style>
+    table td,
+    table th {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Perform Audit</h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-fw fa-check"></i> Perform Audit
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        @*<h2 class="sub-header col-md-offset-1">Working Standard Found!</h2>*@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-flask"></i> Working Standard(s) Found!</h3>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="col-md-2">Property</th>
+                                <th class="col-md-4">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col-md-2">@Html.LabelFor(model => model.IdCode)</td>
+                                <td class="col-md-4">@Model.IdCode</td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-2">@Html.LabelFor(model => model.PreparationDate)</td>
+                                <td class="col-md-4">@Model.PreparationDate.ToString().Split(' ')[0]</td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-2">@Html.LabelFor(model => model.Grade)</td>
+                                <td class="col-md-4">@Model.Grade %</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-flask"></i> Intermediate Standard(s) Found!</h3>
+            </div>
+            <div class="panel-body">
+                @foreach (var item in Model.PrepListItems) {
+                    if (item.IntermediateStandard != null) {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-2">Property</th>
+                                        <th class="col-md-4">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="col-md-2" style="font-weight:bold;">ID Code</td>
+                                        <td class="col-md-4">@item.IntermediateStandard.IdCode</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" style="font-weight:bold;">Date Created</td>
+                                        <td class="col-md-4">@item.IntermediateStandard.DateCreated.ToString().Split(' ')[0]</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" style="font-weight:bold;">Discard Date</td>
+                                        <td class="col-md-4">@item.IntermediateStandard.DiscardDate.ToString().Split(' ')[0]</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" style="font-weight:bold;">Replaces</td>
+                                        <td class="col-md-4">35789AZ@*@item.IntermediateStandard.Replaces*@</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-md-2" style="font-weight:bold;">Replaced By</td>
+                                        <td class="col-md-4">N/A@*@item.IntermediateStandard.ReplacedBy*@</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-flask"></i> Stock Standard(s) Found!</h3>
+            </div>
+            <div class="panel-body">
+                @foreach (var item in Model.PrepListItems) {
+                    if (item.StockStandard != null) {
+                        <div class="col-xs-6">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-2">Property</th>
+                                            <th class="col-md-4">Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-md-2" style="font-weight:bold;">ID Code</td>
+                                            <td class="col-md-4">@item.StockStandard.IdCode</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2" style="font-weight:bold;">Name</td>
+                                            <td class="col-md-4">@item.StockStandard.StockStandardName</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2" style="font-weight:bold;">Date Entered</td>
+                                            <td class="col-md-4">@item.StockStandard.DateEntered.ToString().Split(' ')[0]</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2" style="font-weight:bold;">Purity</td>
+                                            <td class="col-md-4">@item.StockStandard.Purity %</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2" style="font-weight:bold;">C of A</td>
+                                            <td class="col-md-4"><a href="#">PDF</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <div class="col-md-4 col-lg-offset-4">
+            @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @class = "btn btn-default col-md-offset-2" })
+            @*<a style="margin-right:15px;" href='#section-bar-1' class="btn btn-default">Dashboard</a>*@
+            @Html.ActionLink("Perform New Audit", "Index", new { @controller = "Audit" }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>

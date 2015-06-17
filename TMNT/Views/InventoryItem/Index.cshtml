@@ -1,0 +1,124 @@
+﻿@model IEnumerable<TMNT.Models.InventoryItem>
+
+    @{
+        ViewBag.Title = "Index";
+    }
+    <style>
+        .spacing {
+            margin-right: 10px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Inventory Manifest
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-clipboard"></i> Inventory Manifest
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 30px 0 80px 0;">
+        <label style="font-size:20px;" class="col-lg-offset-2">Filters: </label>
+        <div class="col-lg-12" style="text-align:center;">
+            <div class="btn-group spacing">
+                <button type="button" class="btn btn-default">Compound Type</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Reagent</a></li>
+                    <li><a href="#">Standard</a></li>
+                </ul>
+            </div>
+            <div class="btn-group spacing">
+                <button type="button" class="btn btn-default">Location</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Campobello</a></li>
+                    <li><a href="#">Burnaby</a></li>
+                </ul>
+            </div>
+            <div class="btn-group spacing">
+                <button type="button" class="btn btn-default">Department</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Organics</a></li>
+                    <li><a href="#">Metals</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <input type="checkbox" value="false" /><label>Show Expired</label>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CatalogueCode)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.InventoryItemName)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.CaseNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateModified)
+            </th>
+            <th>
+                Navigation
+            </th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CatalogueCode)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.InventoryItemName)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.CaseNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateModified.ToString().Split(' ')[0])
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.InventoryItemId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.InventoryItemId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.InventoryItemId })*@
+                    <a href="#">Edit</a> | <a href="#">Details</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div class="row">
+        <a href='@Url.Action("Index", "Home")' class="btn btn-default">« Back to Dashboard</a>
+    </div>

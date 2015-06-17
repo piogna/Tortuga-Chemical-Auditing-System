@@ -1,0 +1,58 @@
+﻿@model TMNT.Models.StockStandard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StockStandard</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StockStandardName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StockStandardName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SolventUsed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SolventUsed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Purity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Purity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StockStandardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,50 @@
+﻿@model TMNT.Models.StockReagent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>StockReagent</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEntered)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEntered)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReagentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReagentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnteredBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnteredBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ReagentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

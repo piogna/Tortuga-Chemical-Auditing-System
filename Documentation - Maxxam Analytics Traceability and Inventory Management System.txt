@@ -1,0 +1,19 @@
+Drew Kennedy
+April 4th
+
+• Added the IRepository interface
+• Added a repository directory under Models
+• Created Repository classes for:
+   • Inventory
+   • StockStandard
+   • StockReangent
+• Created Views for:
+   • StockStandard
+   • StockReagent
+   • Inventory
+• Modified the HomeController to change the Route from /Home/Index to /dashboard
+• Modified the RouteConfig file to allow customized routes
+• Modified the Dashbaord page to allow navigation to
+   • Create new reagent
+   • Create new standard
+   • This is not a test

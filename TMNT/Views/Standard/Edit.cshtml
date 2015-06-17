@@ -1,0 +1,157 @@
+﻿@model TMNT.Models.ViewModels.InventoryStockStandardViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<style>
+    #page-wrapper {
+        min-height: 900px;
+    }
+
+    button {
+        width: 33%;
+        color: #fff !important;
+        border-radius: 0 !important;
+        background-color: #428BCA !important;
+        float: right;
+    }
+
+    .next-section {
+        float: right;
+        bottom: 0;
+    }
+
+    .previous-section {
+        float: left;
+        bottom: 0;
+    }
+
+    .disabled-textbox {
+        width: 80%;
+        background-color: #EBEBE4;
+        color: #545454;
+        border:1px solid darkgray;
+    }
+
+    .push-right {
+        margin-right: 20px;
+    }
+
+    .right-float {
+        float: right;
+    }
+
+    .float-left {
+        float: left;
+    }
+</style>
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    Modify Stock Standard: @Html.DisplayFor(model => model.IdCode)
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Modify Stock Standard
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <section id="section-bar">
+            <div class="tabs tabs-style-bar">
+                <nav>
+                    <ul>
+                        <li><a href="#section-bar-1" class="icon icon-config"><span>Modify Stock Standard</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
+                        <li><a href="#section-bar-3" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
+                    </ul>
+                </nav>
+                @Html.ValidationSummary(true)
+                <div class="content-wrap">
+                    <section id="section-bar-1">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.LabelFor(model => model.StockStandardName)
+                                    @Html.EditorFor(model => model.StockStandardName, new { htmlAttributes = new { @placeholder = "Standard Name", @readonly = "readonly", @class = "disabled-textbox float-right" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.LabelFor(model => model.IdCode)
+                                    @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @readonly = "readonly", @class = "disabled-textbox" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.CatalogueCode)
+                                @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code" } })<span class="required push-right"></span>
+                                @Html.ValidationMessageFor(model => model.CatalogueCode)
+                                @Html.LabelFor(model => model.Size)
+                                @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @placeholder = "Size", @min = 0 } })<span class="required push-right"></span>
+                                @Html.ValidationMessageFor(model => model.Size)
+                                @Html.LabelFor(model => model.Grade)
+                                @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0 } })<span class="required"></span>
+                                @Html.ValidationMessageFor(model => model.Grade)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="section-bar-2">
+                        <div class="form-group">
+                            <div style="text-align:center;" class="page-header">
+                                <h2>Are You Sure?</h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 15px;">&#x2717; No, Go Back</a>
+                                    <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="section-bar-3">
+                        <div class="form-group" style="text-align:center;">
+                            <div style="padding-bottom:20px;">Summary</div>
+                            <div>Summary of Data would go here..</div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-3 col-md-10">
+                                @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
+                                @Html.ActionLink("Update Stock Standard", "Edit", new { @controller = "Standard" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
+                                <a onclick="window.print()" href='#section-bar-1' class="btn btn-default">Print Label</a>
+                            </div>
+                        </div>
+                    </section>
+                </div><!-- /content -->
+            </div><!-- /tabs -->
+        </section>
+        @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
+
+
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
