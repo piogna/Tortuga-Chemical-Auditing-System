@@ -2,7 +2,7 @@
 
 # Maxxam Analytics Traceability and Inventory Management System.
 #### Version
-
+Initial Upload. Unit tests still need to be brought over. Help page needs to be generated.
 
 ### How do I get set up? ###
 
