@@ -16,7 +16,7 @@ namespace TMNT.Helpers
             ApplicationDbContext db = new ApplicationDbContext();
             UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = manager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            return (user.Department != null) ? user.Department.DepartmentCode : "";
+            return (user.Department != null) ? user.Department.DepartmentCode : "No Department";
         }
     }
 }
