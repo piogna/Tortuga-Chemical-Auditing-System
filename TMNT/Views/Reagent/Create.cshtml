@@ -49,26 +49,31 @@
 
     /* Asterisk Required */
     .required {
-        content:" *";
-        color:red;
+        content: " *";
+        color: red;
     }
 
     /* Required Addon */
     .addon-required {
+        color: red;
         border-radius: 0;
-        background: red;
-        border-color: red;
+        font-size:22px;
+        padding:10px 9px 0 9px;
+    }
+    .addon-required:after {
+        content: "*";
+        margin-top:4px;
     }
 </style>
 
 <script>
     $(function () {
+        //filling summary table
         var inputs = $('.input-summary');
-        //var names = $('.input-summary[name]');
         var table = $('table.table-bordered > tbody');
-        var row = "";
 
         $('.btn-review').on('click', function (e) {
+            var row = "";
             for (var i = 0; i < inputs.length; i++) {
                 row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
                     "<td>" + inputs[i].attributes.getNamedItem('name').textContent + "</td><td>" + inputs[i].value + "</td>" +
@@ -183,9 +188,9 @@
                                     </div>
                                 </div>
                                 @*<div class="col-md-3">
-                                    @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
-                                    @Html.ValidationMessageFor(model => model.Unit)
-                                </div>*@
+                                        @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
+                                        @Html.ValidationMessageFor(model => model.Unit)
+                                    </div>*@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
