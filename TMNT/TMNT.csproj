@@ -166,6 +166,7 @@
     <Compile Include="Api\DeviceTestApiController.cs" />
     <Compile Include="Api\ExpiringStockApiController.cs" />
     <Compile Include="Api\LowStockStandardApiController.cs" />
+    <Compile Include="Api\StandardApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -228,9 +229,11 @@
     <Compile Include="Models\MSDS.cs" />
     <Compile Include="Models\PrepList.cs" />
     <Compile Include="Models\PrepListItem.cs" />
+    <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />
     <Compile Include="Models\Repository\InventoryItemRepository.cs" />
     <Compile Include="Models\Repository\IRepository.cs" />
+    <Compile Include="Models\Repository\StockStandardApiRepository.cs" />
     <Compile Include="Models\Repository\StockReagentRepository.cs" />
     <Compile Include="Models\Repository\StockStandardRepository.cs" />
     <Compile Include="Models\Repository\SupplierRepository.cs" />
