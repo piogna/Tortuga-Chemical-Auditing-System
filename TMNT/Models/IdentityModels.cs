@@ -71,5 +71,7 @@ namespace TMNT.Models {
             .WithOptional()
             .WillCascadeOnDelete(false);
         }
+
+        public System.Data.Entity.DbSet<TMNT.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
