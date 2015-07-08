@@ -21,7 +21,7 @@ namespace TMNT.Api
             : this(new StockStandardApiRepository()) {
         }
 
-        public IHttpActionResult Get(string? idCode)
+        public IHttpActionResult Get(string idCode)
         {
             StockStandard standard = repoStandard.Get(idCode.ToString());
             if (standard == null)
