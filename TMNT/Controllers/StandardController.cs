@@ -46,8 +46,8 @@ namespace TMNT.Controllers {
         [Route("create/new-standard")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var units = new UnitRepository().Get().ToList();
-            SelectList list = new SelectList(units, "UnitId", "UnitName");
+            var units = new List<string>() { "mg", "ul" }; //new UnitRepository().Get().ToList();//
+            SelectList list = new SelectList(units);//, "UnitId", "UnitName");
             ViewBag.Units = list;
             return View();
         }

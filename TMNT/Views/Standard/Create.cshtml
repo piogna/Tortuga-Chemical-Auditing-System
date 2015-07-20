@@ -5,6 +5,17 @@
 }
 
 <style>
+    /* Summary Table CSS */
+    table.table-bordered > thead > tr > th {
+        background: black;
+        color: #fff;
+        text-align: center;
+    }
+
+        table.table-bordered > thead > tr > th:first-child {
+            width: 25%;
+        }
+
     #page-wrapper {
         min-height: 900px;
     }
@@ -30,7 +41,56 @@
         float: left;
         bottom: 0;
     }
+
+    #Unit {
+        border-radius: 0;
+        border-left: none;
+    }
+
+    /* Asterisk Required */
+    .required {
+        content: " *";
+        color: red;
+    }
+
+    /* Required Addon */
+    .addon-required {
+        color: red;
+        border-radius: 0;
+        font-size: 22px;
+        padding: 10px 9px 0 9px;
+    }
+
+        .addon-required:after {
+            content: "*";
+            margin-top: 4px;
+        }
 </style>
+
+<script>
+    $(function () {
+        //fixing section 1 getting the appropriate classes
+        $('#section-bar-1').addClass('section');
+
+        //filling summary table
+        var inputs = $('.input-summary');
+        var table = $('table.table-bordered > tbody');
+
+        $('.btn-review').on('click', function (e) {
+            var row = "";
+            for (var i = 0; i < inputs.length; i++) {
+                row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
+                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent + "</td><td>" + inputs[i].value + "</td>" +
+                    "</tr>";
+            }
+            table.append(row);
+        });
+        //validating first section
+        var nextButtons = $('.next-section');
+        var sectionOneInputs = $('#section-bar-1 .input-summary');
+        var tabs = $('.tabs li');
+    });
+</script>
 
 @using (Html.BeginForm("Create", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -54,7 +114,7 @@
                 <nav>
                     <ul>
                         <li><a href="#section-bar-1" class="icon icon-config"><span>Standard Info Part I</span></a></li>
-                        <li><a href="#section-bar-2" class="icon icon-config"><span>Standard Info Part II</span></a></li>
+                        @*<li><a href="#section-bar-2" class="icon icon-config"><span>Standard Info Part II</span></a></li>*@
                         <li><a href="#section-bar-3" class="icon icon-upload"><span>Uploads</span></a></li>
                         <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
                         <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
@@ -66,85 +126,159 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.IdCode)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.IdCode)
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.StockStandardName, new { htmlAttributes = new { @placeholder = "Standard Name" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.StockStandardName)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.StockStandardName, new { htmlAttributes = new { @placeholder = "Standard Name", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.StockStandardName)
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.CatalogueCode)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.Amount)
-                                </div>
-                                <div class="col-md-3">
-                                    @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid" })
-                                    @Html.ValidationMessageFor(model => model.Unit)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CatalogueCode)
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.Grade)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Amount)
+                                        <div class="input-group-addon" style="padding:0; border:none; width:33%;">
+                                            @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
+                                            @Html.ValidationMessageFor(model => model.Unit)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Grade)
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
                             </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-2">
+                        </div>*@
+                        <!-- SECTION TWO INPUTS -->
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.CaseNumber)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CaseNumber)
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @cols = 48, @rows = 5 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.UsedFor)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.UsedFor)
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.SolventUsed, new { htmlAttributes = new { @placeholder = "Solvent Used" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.SolventUsed)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.SolventUsed, new { htmlAttributes = new { @placeholder = "Solvent Used", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.SolventUsed)
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @cols = 48, @rows = 5 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.Purity)
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Purity)
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-offset-1 col-md-10">
+                                <a href='#section-bar-3' class="btn btn-default next-section">Next »</a>
+                                @*<a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>*@
                             </div>
                         </div>
 
+                    </section>
+                    @*<section id="section-bar-2">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CaseNumber)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.UsedFor)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.SolventUsed, new { htmlAttributes = new { @placeholder = "Solvent Used", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.SolventUsed)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Purity)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10">
                                 <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
                                 <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>
-                    </section>
+                    </section>*@
                     <section id="section-bar-3">
                         <div class="col-lg-6">
                             @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
@@ -156,15 +290,28 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
+                                <a href='#section-bar-4' class="btn btn-default next-section btn-review">Review and Submit</a>
                                 <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>
                     </section>
                     <section id="section-bar-4">
                         <div class="form-group">
-                            <div style="text-align:center;" class="page-header">
-                                <h2>Are You Sure?</h2>
+                            <div class="page-header">
+                                <div class="container">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Field</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-3">
@@ -199,9 +346,4 @@
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>
-
-}
-
-@section Scripts {
-
 }
