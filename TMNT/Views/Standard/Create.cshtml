@@ -77,6 +77,10 @@
         var table = $('table.table-bordered > tbody');
 
         $('.btn-review').on('click', function (e) {
+            //absolutely prevent duplicate rows
+            if ($('table.table-bordered > tbody > tr').length > 0) {
+                table.find("tr").remove();
+            }
             var row = "";
             for (var i = 0; i < inputs.length; i++) {
                 row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
@@ -113,7 +117,7 @@
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
-                        <li><a href="#section-bar-1" class="icon icon-config"><span>Standard Info Part I</span></a></li>
+                        <li><a href="#section-bar-1" class="icon icon-config"><span>Standard Info</span></a></li>
                         @*<li><a href="#section-bar-2" class="icon icon-config"><span>Standard Info Part II</span></a></li>*@
                         <li><a href="#section-bar-3" class="icon icon-upload"><span>Uploads</span></a></li>
                         <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
