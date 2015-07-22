@@ -30,7 +30,7 @@ namespace TMNT.Models.ViewModels {
         public int Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
-        [Display(Name = "Used For")]
+        [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         public MSDS MSDS { get; set; }
         public string CreatedBy { get; set; }

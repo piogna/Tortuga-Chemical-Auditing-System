@@ -235,7 +235,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @cols = 48, @rows = 5, @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @style = "resize:none;", @rows = 5, @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                 </div>
@@ -270,56 +270,6 @@
                             </div>
                         </div>
                     </section>
-                    @*<section id="section-bar-2" class="section">
-                        <div class="col-lg-6">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required"></div>
-                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0, @class = "input-summary form-control" } })
-                        @Html.ValidationMessageFor(model => model.CaseNumber)
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required"></div>
-                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @cols = 48, @rows = 5, @class = "input-summary form-control" } })
-                        @Html.ValidationMessageFor(model => model.UsedFor)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required"></div>
-                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
-                        @Html.ValidationMessageFor(model => model.DateCreated)
-                        <div class="input-group-addon">Date Created</div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required"></div>
-                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
-                        @Html.ValidationMessageFor(model => model.DateModified)
-                        <div class="input-group-addon">Date Modified</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                <a href='#section-bar-3' class="btn btn-default next-section">Next »</a>
-                <a href='#section-bar-2' class="btn btn-default previous-section">« Previous</a>
-            </div>
-        </div>
-    </section>*@
                     <section id="section-bar-2" class="section">
                         <div class="col-lg-6">
                             @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
