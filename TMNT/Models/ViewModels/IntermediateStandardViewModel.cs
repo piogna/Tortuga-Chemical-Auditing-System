@@ -9,8 +9,6 @@ namespace TMNT.Models.ViewModels {
 
         [Key]
         public int IntermediateStandardId { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Discard Date")]
-        public DateTime DiscardDate { get; set; }
         [Required]
         public int Replaces { get; set; }
         [Required, Display(Name = "Replaced By")]

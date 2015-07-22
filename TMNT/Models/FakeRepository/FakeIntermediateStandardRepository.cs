@@ -11,7 +11,6 @@ namespace TMNT.Models.FakeRepository {
                 IntermediateStandardId = 9,
                 IdCode = "ORG-01-35790AZ",
                 DateCreated = new DateTime(2015, 04, 02),
-                DiscardDate = new DateTime(2015, 07, 05),
                 Replaces = 8,//replaces an intermediate standard to use
                 ReplacedBy = 9,//a number to signify the intermediate standard that replaces this one
                 PrepList = null//new FakePrepListRepository().Get(2)//new PrepList()
