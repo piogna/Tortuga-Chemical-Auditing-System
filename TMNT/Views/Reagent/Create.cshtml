@@ -53,6 +53,10 @@
         color: red;
     }
 
+    .input-group-addon {
+        border-radius: 0 !important;
+    }
+
     /* Required Addon */
     .addon-required {
         color: red;
@@ -67,7 +71,11 @@
 </style>
 
 <script>
+    var v = "test";
     $(function () {
+        //fixing section 1 getting the appropriate classes
+        $('#section-bar-1').addClass('section');
+
         //filling summary table
         var inputs = $('.input-summary');
         var table = $('table.table-bordered > tbody');
@@ -76,11 +84,27 @@
             var row = "";
             for (var i = 0; i < inputs.length; i++) {
                 row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
-                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent + "</td><td>" + inputs[i].value + "</td>" +
+                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
                     "</tr>";
             }
             table.append(row);
         });
+        //validating first section
+        var nextButtons = $('.next-section');
+        var sectionOneInputs = $('#section-bar-1 .input-summary');
+        var tabs = $('.tabs li');
+
+        //$(nextButtons[0]).on('click', function (e) {
+        //    for (var i = 0; i < sectionOneInputs.length; i++) {
+        //        if (sectionOneInputs[i].value === "" || sectionOneInputs[i].value === null) {
+        //            console.log("one is empty");
+        //            $("#section-bar-" + i.toString()).addClass('content-current');
+        //            $("#section-bar-2").removeClass('content-current');
+        //            tabs[1].removeAttribute('class');
+        //            tabs[0].setAttribute('class', 'tab-current');
+        //        }
+        //    }
+        //});
     });
 </script>
 
@@ -105,8 +129,7 @@
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
-                        <li><a href="#section-bar-1" class="icon icon-config"><span>Reagent Info Part I</span></a></li>
-                        <li><a href="#section-bar-2" class="icon icon-config"><span>Reagent Info Part II</span></a></li>
+                        <li><a href="#section-bar-1" class="icon icon-config"><span>Reagent Info</span></a></li>
                         <li><a href="#section-bar-3" class="icon icon-upload"><span>Uploads</span></a></li>
                         <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
                         <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
@@ -114,7 +137,7 @@
                 </nav>
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
-                    <section id="section-bar-1">
+                    <section id="section-bar-1" class="section">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -187,10 +210,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @*<div class="col-md-3">
-                                        @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
-                                        @Html.ValidationMessageFor(model => model.Unit)
-                                    </div>*@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -202,14 +221,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-2">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -235,8 +246,9 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @*@Html.LabelFor(model => model.DateCreated)*@ @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.DateCreated)
+                                        <div class="input-group-addon">Date Created</div>
                                     </div>
                                 </div>
                             </div>
@@ -244,20 +256,71 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @*@Html.LabelFor(model => model.DateModified)*@ @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.DateModified)
+                                        <div class="input-group-addon">Date Modified</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
                                 <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
-                                <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>
                     </section>
-                    <section id="section-bar-3">
+                    @*<section id="section-bar-2" class="section">
+                        <div class="col-lg-6">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required"></div>
+                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0, @class = "input-summary form-control" } })
+                        @Html.ValidationMessageFor(model => model.CaseNumber)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required"></div>
+                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @cols = 48, @rows = 5, @class = "input-summary form-control" } })
+                        @Html.ValidationMessageFor(model => model.UsedFor)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required"></div>
+                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateCreated)
+                        <div class="input-group-addon">Date Created</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required"></div>
+                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateModified)
+                        <div class="input-group-addon">Date Modified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
+                <a href='#section-bar-3' class="btn btn-default next-section">Next »</a>
+                <a href='#section-bar-2' class="btn btn-default previous-section">« Previous</a>
+            </div>
+        </div>
+    </section>*@
+                    <section id="section-bar-2" class="section">
                         <div class="col-lg-6">
                             @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
                             <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control" accept=".pdf" />
@@ -268,8 +331,8 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' class="btn btn-default next-section btn-review">Review and Submit</a>
-                                <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
+                                <a href='#section-bar-4' class="btn btn-default next-section btn-review">Review and Submit</a>
+                                <a href='#section-bar-3' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>
                     </section>
@@ -286,21 +349,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @*<tr>
-                                                    <td>
-                                                        field
-                                                    </td>
-                                                    <td>
-                                                        value
-                                                    </td>
-                                                </tr>*@
                                         </tbody>
                                         <tfoot>
-                                            @*<tr>
-                                                    <td>
-                                                        test
-                                                    </td>
-                                                </tr>*@
                                         </tfoot>
                                     </table>
                                 </div>
@@ -341,5 +391,5 @@
 }
 
 @section Scripts {
-    
+    @Scripts.Render("~/bundles/jqueryval")
 }

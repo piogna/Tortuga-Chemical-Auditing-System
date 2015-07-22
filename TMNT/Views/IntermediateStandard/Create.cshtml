@@ -5,6 +5,17 @@
 }
 
 <style>
+    /* Summary Table CSS */
+    table.table-bordered > thead > tr > th {
+        background: black;
+        color: #fff;
+        text-align: center;
+    }
+
+        table.table-bordered > thead > tr > th:first-child {
+            width: 25%;
+        }
+
     #page-wrapper {
         min-height: 900px;
     }
@@ -60,6 +71,34 @@
         }
 </style>
 
+<script>
+    $(function () {
+        //fixing section 1 getting the appropriate classes
+        $('#section-bar-1').addClass('section');
+
+        //filling summary table
+        var inputs = $('.input-summary');
+        var table = $('table.table-bordered > tbody');
+
+        $('.btn-review').on('click', function (e) {
+            //absolutely prevent duplicate rows
+            if ($('table.table-bordered > tbody > tr').length > 0) {
+                table.find("tr").remove();
+            }
+            var row = "";
+            for (var i = 0; i < inputs.length; i++) {
+                row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
+                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
+                    "</tr>";
+            }
+            table.append(row);
+        });
+        //validating first section
+        var nextButtons = $('.next-section');
+        var sectionOneInputs = $('#section-bar-1 .input-summary');
+        var tabs = $('.tabs li');
+    });
+</script>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -89,7 +128,6 @@
                 <nav>
                     <ul>
                         <li><a href="#section-bar-1" class="icon icon-config"><span>Inter. Standard Info</span></a></li>
-                        @*<li><a href="#section-bar-2" class="icon icon-config"><span>Standard Info Part II</span></a></li>*@
                         <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
                         <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
                     </ul>
@@ -105,8 +143,6 @@
                                         @Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.Replaces)
                                     </div>
-                                    @*@Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces" } })<span class="required"></span>
-                                        @Html.ValidationMessageFor(model => model.Replaces)*@
                                 </div>
                             </div>
 
@@ -204,7 +240,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Review and Submit</a>
+                                <a href='#section-bar-2' class="btn btn-default next-section btn-review">Review and Submit</a>
                             </div>
                         </div>
                     </section>
