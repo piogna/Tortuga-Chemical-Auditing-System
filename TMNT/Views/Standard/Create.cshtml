@@ -113,14 +113,17 @@
             </div>
         </div>
 
+        <p>
+            @Html.ActionLink("Back to List", "Index", "Standard", htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
         <section id="section-bar">
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
                         <li><a href="#section-bar-1" class="icon icon-config"><span>Standard Info</span></a></li>
-                        <li><a href="#section-bar-3" class="icon icon-upload"><span>Uploads</span></a></li>
-                        <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
-                        <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-upload"><span>Uploads</span></a></li>
+                        <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
                 @Html.ValidationSummary(true)
@@ -169,7 +172,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.CatalogueCode)
                                     </div>
                                 </div>
@@ -225,7 +228,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="section-bar-3">
+                    <section id="section-bar-2">
                         <div class="col-lg-6">
                             @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
                             <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control" accept=".pdf" />
@@ -241,7 +244,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="section-bar-4">
+                    <section id="section-bar-3">
                         <div class="form-group">
                             <div class="page-header">
                                 <div class="container">
@@ -261,8 +264,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-3">
-                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 30px;">&#x2717; No, Go Back</a>
-                                    <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
+                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 30px;">Cancel</a>
+                                    <input name="submit" type="submit" class="btn btn-default" value="Save" />
+                                    <input name="submit" type="submit" class="btn btn-default" value="Save & New" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="checkbox">
@@ -271,19 +275,6 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-5">
-                        <div class="form-group" style="text-align:center;">
-                            <div style="padding-bottom:20px;">Summary</div>
-                            <div>Summary of Data would go here..</div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-3 col-md-10">
-                                @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @Html.ActionLink("New Stock Reagent", "Create", new { @controller = "Reagent" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @*<a onclick="window.print()" href='#section-bar-1' class="btn btn-default">Print Label</a>*@
                             </div>
                         </div>
                     </section>

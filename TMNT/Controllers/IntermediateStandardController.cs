@@ -49,14 +49,26 @@ namespace TMNT.Controllers {
         // POST: /IntermediateStandard/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("create/new-intermediate-standard")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,Replaces,ReplacedBy")] IntermediateStandard intermediatestandard) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated")] IntermediateStandard intermediatestandard, string submit) {
+            intermediatestandard.PrepList = new PrepList();
+            var errors = ModelState.Where(item => item.Value.Errors.Any());
             if (ModelState.IsValid) {
                 //db.IntermediateStandards.Add(intermediatestandard);
                 //db.SaveChanges();
                 repo.Create(intermediatestandard);
-                return RedirectToAction("Index");
+
+                if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                    //save pressed
+                    return RedirectToAction("Index");// View("Index");
+                } else {
+                    //save & new pressed
+                    return RedirectToAction("Create");
+                }
+
+                //return RedirectToAction("Index");
             }
             return View(intermediatestandard);
         }

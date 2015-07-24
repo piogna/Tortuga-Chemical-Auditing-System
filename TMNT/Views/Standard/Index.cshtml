@@ -1,57 +1,64 @@
 ﻿@model IEnumerable<TMNT.Models.StockStandard>
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
 
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">
-            New Stock Standard
-        </h1>
-        <ol class="breadcrumb">
-            <li class="active">
-                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Stock Standard
-            </li>
-        </ol>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Stock Standards
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards
+                </li>
+            </ol>
+        </div>
     </div>
-</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.IdCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StockStandardName)
-        </th>
-        <th>
-            Certificate of Analysis
-        </th>
-    </tr>
+    <p>
+        @Html.ActionLink("New Standard", "Create", "Standard", htmlAttributes: new { @class = "btn btn-default" })
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StockStandardName)
-        </td>
-        <td>
-            @foreach (var i in item.InventoryItems)
-            {
-                foreach (var c in i.CertificatesOfAnalysis)
-                {
-                    //Html.ActionLink("CofA", "Get", "CofA", new { id = c.CertificateOfAnalysisId }, null);
-                    var id = c.CertificateOfAnalysisId;
-                    <a href="/CofA/Get/@id">CofA</a>
-                }
-            }
-        </td>
-    </tr>
-}
-</table>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.StockStandardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateEntered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StockStandardId }) |
+                    @Html.ActionLink("Det", "Details", new { id = item.StockStandardId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockStandardName)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.DateEntered)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                @*<td>
+                    @foreach (var i in item.InventoryItems) {
+                        foreach (var c in i.CertificatesOfAnalysis) {
+                            //Html.ActionLink("CofA", "Get", "CofA", new { id = c.CertificateOfAnalysisId }, null);
+                            var id = c.CertificateOfAnalysisId;
+                            <a href="/CofA/Get/@id">CofA</a>
+                        }
+                    }
+                </td>*@
+            </tr>
+        }
+    </table>

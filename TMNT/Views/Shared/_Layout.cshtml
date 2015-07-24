@@ -33,8 +33,6 @@
 <body>
 
     <div id="wrapper">
-        <!-- TEST COMMENT! -->
-        <!-- TEST COMMENT! -->
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -47,7 +45,6 @@
                 <a href='@Url.Action("Index", "Home")'>
                     <img src='@Url.Content("~/Content/Images/maxxam.png")' style="margin:3px 0 0 25px" />
                 </a>
-                @*<a class="navbar-brand" href="index.html">SB Admin v2.0</a>*@
             </div>
             <!-- /.navbar-header -->
 
@@ -274,52 +271,16 @@
                             <a href='@Url.Action("Index", "Home")'><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-flask fa-fw"></i> Reagent<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    @Html.ActionLink(" Create New Reagent", "Create", "Reagent")
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+                            <a href="@Url.Action("Index", "Reagent")"><i class="fa fa-fw fa-flask"></i> Reagents</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-flask fa-fw"></i> Standard<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#"><i class="fa fa-flask fa-fw"></i> Create<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            @Html.ActionLink(" New Stock Standard", "Create", "Standard")
-                                        </li>
-                                        <li>
-                                            @Html.ActionLink(" New Intermediate Standard", "Create", "IntermediateStandard")
-                                        </li>
-                                        <li>
-                                            @Html.ActionLink(" New Working Standard", "Create", "WorkingStandard")
-                                        </li>
-                                    </ul>
-                                    <a href="#"><i class="fa fa-flask fa-fw"></i> Update<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            @Html.ActionLink(" Update Stock Standard", "Edit", "Standard")
-                                        </li>
-                                        <li>
-                                            @*@Html.ActionLink(" Update Intermediate Standard", "Edit", "IntermediateStandard")*@
-                                            <a href="#">Update Intermediate Standard</a>
-                                        </li>
-                                        <li>
-                                            @*@Html.ActionLink(" Update Working Standard", "Edit", "WorkingStandard")*@
-                                            <a href="#">Update Working Standard</a>
-                                        </li>
-                                    </ul>
-                                    <a href="#"><i class="fa fa-flask fa-fw"></i> View<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            @Html.ActionLink(" View All Stock Standard", "Index", "Standard")
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Standards</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "IntermediateStandard")"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index", "InventoryItem")"><i class="fa fa-fw fa-clipboard"></i> Inventory Manifest</a>

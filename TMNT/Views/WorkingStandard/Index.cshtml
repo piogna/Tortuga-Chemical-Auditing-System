@@ -1,45 +1,56 @@
 ﻿@model IEnumerable<TMNT.Models.WorkingStandard>
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
 
-<h2>Index</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Working Standards
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards
+                </li>
+            </ol>
+        </div>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.PreparationDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Source)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Grade)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("New Standard", "Create", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PreparationDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Source)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Grade)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.WorkingStandardId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.WorkingStandardId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.WorkingStandardId })
-        </td>
-    </tr>
-}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreparationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+        </tr>
 
-</table>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.WorkingStandardId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.WorkingStandardId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreparationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </td>
+            </tr>
+        }
+
+    </table>

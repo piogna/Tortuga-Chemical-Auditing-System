@@ -44,8 +44,8 @@ namespace TMNT.Controllers {
         [Route("create/new-standard")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var units = new List<string>() { "mg", "ul" }; //new UnitRepository().Get().ToList();//
-            SelectList list = new SelectList(units);//, "UnitId", "UnitName");
+            var units = new UnitRepository().Get().ToList();//
+            SelectList list = new SelectList(units, "UnitId", "UnitName");
             ViewBag.Units = list;
             return View();
         }
@@ -56,7 +56,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("create/new-standard")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] InventoryStockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] InventoryStockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
             
@@ -107,7 +107,15 @@ namespace TMNT.Controllers {
                 standard.InventoryItems.Add(inventoryItem);
 
                 repoStandard.Create(standard);
-                return View("Confirmation", model);
+
+                if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                    //save pressed
+                    return RedirectToAction("Index");// View("Index");
+                } else {
+                    //save & new pressed
+                    return RedirectToAction("Create");
+                }
+                //return View("Confirmation", model);
             }
             return View(model);
         }

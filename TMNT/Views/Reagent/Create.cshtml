@@ -119,20 +119,23 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Stock Reagent
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home", null) / <i class="fa fa-flask"></i> New Stock Reagent
                     </li>
                 </ol>
             </div>
         </div>
+
+        <p>
+            @Html.ActionLink("Back to List", "Index", "Reagent", htmlAttributes: new { @class = "btn btn-default" })
+        </p>
 
         <section id="section-bar">
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
                         <li><a href="#section-bar-1" class="icon icon-config"><span>Reagent Info</span></a></li>
-                        <li><a href="#section-bar-3" class="icon icon-upload"><span>Uploads</span></a></li>
-                        <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
-                        <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-upload"><span>Uploads</span></a></li>
+                        <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
                 @Html.ValidationSummary(true)
@@ -275,7 +278,7 @@
                             </div>
                         </div>
                     </section>
-                    <section id="section-bar-4">
+                    <section id="section-bar-3">
                         <div class="form-group">
                             <div class="page-header">
                                 <div class="container">
@@ -294,8 +297,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 col-md-offset-3">
-                                        <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 30px;">&#x2717; No, Go Back</a>
-                                        <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
+                                        <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 30px;">Cancel</a>
+                                        <input name="submit" type="submit" class="btn btn-default" value="Save" />
+                                        <input name="submit" type="submit" class="btn btn-default" value="Save & New" />
                                     </div>
                                     <div class="col-md-4">
                                         <div class="checkbox">
@@ -305,19 +309,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-5">
-                        <div class="form-group" style="text-align:center;">
-                            <div style="padding-bottom:20px;">Summary</div>
-                            <div>Summary of Data would go here..</div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-3 col-md-10">
-                                @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @Html.ActionLink("New Stock Reagent", "Create", new { @controller = "Reagent" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @*<a onclick="window.print()" href='#section-bar-1' class="btn btn-default">Print Label</a>*@
                             </div>
                         </div>
                     </section>

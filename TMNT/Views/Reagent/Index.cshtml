@@ -1,50 +1,61 @@
 ﻿@model IEnumerable<TMNT.Models.StockReagent>
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
 
-<h2>Index</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Stock Reagents
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Reagents
+                </li>
+            </ol>
+        </div>
+    </div>
 
-<p>
-    @Html.ActionLink("New Reagent", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateEntered)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReagentName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EnteredBy)
-        </th>
-    </tr>
+    <p>
+        @Html.ActionLink("New Reagent", "Create", "Reagent", htmlAttributes: new { @class = "btn btn-default" })
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ReagentId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ReagentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ReagentId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateEntered)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReagentName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EnteredBy)
-        </td>
-    </tr>
-}
-</table>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReagentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateEntered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnteredBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ReagentId }) |
+                    @Html.ActionLink("Det", "Details", new { id = item.ReagentId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReagentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateEntered)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnteredBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+            </tr>
+        }
+    </table>

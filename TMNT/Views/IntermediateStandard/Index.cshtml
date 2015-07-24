@@ -1,51 +1,56 @@
 ﻿@model IEnumerable<TMNT.Models.IntermediateStandard>
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
 
-<h2>Index</h2>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Intermediate Standards
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Intermediate Standards
+                </li>
+            </ol>
+        </div>
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DiscardDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Replaces)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReplacedBy)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("New Intermediate", "Create", "IntermediateStandard", htmlAttributes: new { @class = "btn btn-default" })
+    </p>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiscardDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Replaces)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReplacedBy)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IntermediateStandardId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IntermediateStandardId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IntermediateStandardId })
-        </td>
-    </tr>
-}
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Replaces)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplacedBy)
+            </th>
+        </tr>
 
-</table>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IntermediateStandardId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Replaces)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplacedBy)
+                </td>
+            </tr>
+        }
+
+    </table>
