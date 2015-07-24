@@ -42,9 +42,9 @@ namespace TMNT.Models {
 
     public class LoginViewModel {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MinLength(6)]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -56,6 +56,10 @@ namespace TMNT.Models {
     }
 
     public class RegisterViewModel {
+        [Required]
+        [MinLength(6)]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -95,8 +99,8 @@ namespace TMNT.Models {
 
     public class ForgotPasswordViewModel {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [MinLength(6)]
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
     }
 }
