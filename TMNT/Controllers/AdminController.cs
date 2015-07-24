@@ -10,7 +10,7 @@ using TMNT.Models;
 
 namespace TMNT.Controllers
 {
-    public class AdminControllerController : Controller
+    public class AdminController : Controller
     {
         //private ApplicationDbContext db = new ApplicationDbContext();
 
