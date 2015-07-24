@@ -7,10 +7,11 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("New Reagent", "Create")
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.IdCode)
         </th>
@@ -23,11 +24,15 @@
         <th>
             @Html.DisplayNameFor(model => model.EnteredBy)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ReagentId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ReagentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ReagentId })
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.IdCode)
         </td>
@@ -40,12 +45,6 @@
         <td>
             @Html.DisplayFor(modelItem => item.EnteredBy)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ReagentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ReagentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ReagentId })
-        </td>
     </tr>
 }
-
 </table>

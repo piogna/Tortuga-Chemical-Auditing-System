@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
 using TMNT.Models.Repository;
+using Microsoft.AspNet.Identity;
 
 namespace TMNT.Controllers {
     public class IntermediateStandardController : Controller {
@@ -50,7 +51,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,DiscardDate,Replaces,ReplacedBy")] IntermediateStandard intermediatestandard) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,Replaces,ReplacedBy")] IntermediateStandard intermediatestandard) {
             if (ModelState.IsValid) {
                 //db.IntermediateStandards.Add(intermediatestandard);
                 //db.SaveChanges();

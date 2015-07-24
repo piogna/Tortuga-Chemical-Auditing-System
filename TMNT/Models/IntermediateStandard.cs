@@ -12,9 +12,9 @@ namespace TMNT.Models {
         public string IdCode { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        public int? Replaces { get; set; }
+        public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
-        public int? ReplacedBy { get; set; }
+        public string ReplacedBy { get; set; }
 
         //foreign keys
         [Required]

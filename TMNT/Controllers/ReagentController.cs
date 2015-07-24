@@ -41,8 +41,11 @@ namespace TMNT.Controllers {
         // GET: /Reagent/Create
         [Route("create/new-reagent")]
         public ActionResult Create() {
-            var units = new UnitRepository().Get().ToList();
-            SelectList list = new SelectList(units, "UnitId", "UnitName");
+            //var units = new UnitRepository().Get().ToList();
+            //SelectList list = new SelectList(units, "UnitId", "UnitName");
+
+            var units = new List<string>() { "mg", "ul" }; //new UnitRepository().Get().ToList();//
+            SelectList list = new SelectList(units);//, "UnitId", "UnitName");
             ViewBag.Units = list;
             return View();
         }
@@ -53,9 +56,14 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("create/new-reagent")]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,EnteredBy,Amount,Grade,UsedFor,InventoryItemName")] InventoryStockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] InventoryStockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
+            model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) 
+                                ? "USERID"
+                                : System.Web.HttpContext.Current.User.Identity.Name.Split('@')[0];
+
+            var errors = ModelState.Where(item => item.Value.Errors.Any());
 
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {

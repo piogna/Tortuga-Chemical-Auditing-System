@@ -18,7 +18,7 @@ namespace TMNT.Models {
         public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
-        [Required, Display(Name = "Entered By")]
+        [Display(Name = "Entered By")]
         public string EnteredBy { get; set; }
 
         //foreign keys
