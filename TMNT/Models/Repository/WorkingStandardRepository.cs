@@ -3,10 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class WorkingStandardRepository : IRepository<WorkingStandard> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public WorkingStandardRepository() { }
+
+        /// <summary>
+        /// Parameter for when multiple contexts are open at the same time.
+        /// </summary>
+        /// <param name="db"></param>
+        public WorkingStandardRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<WorkingStandard> Get() {
             return db.WorkingStandards.ToList();

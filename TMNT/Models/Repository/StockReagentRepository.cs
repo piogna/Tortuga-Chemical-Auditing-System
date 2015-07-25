@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public StockReagentRepository() { }
+
+        public StockReagentRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<StockReagent> Get() {
-            return db.StockReagents.ToList();
+            var list = db.StockReagents.ToList();
+            //db.Dispose();
+            return list;
         }
 
         public StockReagent Get(int? i) {
@@ -32,7 +41,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            db.Dispose();
         }
     }
 }

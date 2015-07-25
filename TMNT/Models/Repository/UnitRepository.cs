@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     /* Not using the database since units will remain static. List for better performance */
     public class UnitRepository : IRepository<Unit> {
-        private ApplicationDbContext _db = ApplicationDbContext.Create();
+        private ApplicationDbContext _db = DbContextSingleton.Instance;
+
+        public UnitRepository() { }
+
+        public UnitRepository(ApplicationDbContext db) {
+            this._db = db;
+        }
 
         private List<Unit> _units = new List<Unit>() {
             new Unit() {

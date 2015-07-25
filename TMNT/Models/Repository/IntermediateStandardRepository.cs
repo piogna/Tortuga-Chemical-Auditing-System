@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class IntermediateStandardRepository : IRepository<IntermediateStandard> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public IntermediateStandardRepository() { }
+
+        public IntermediateStandardRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<IntermediateStandard> Get() {
             return db.IntermediateStandards.ToList();

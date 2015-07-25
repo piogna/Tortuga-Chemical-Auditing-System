@@ -93,10 +93,45 @@
             }
             table.append(row);
         });
-        //validating first section
-        var nextButtons = $('.next-section');
-        var sectionOneInputs = $('#section-bar-1 .input-summary');
-        var tabs = $('.tabs li');
+        
+        //add another item
+        $('#build-recipe').on('click', '#another-item', function (e) {
+            e.preventDefault();
+            var recipes = $('#build-recipe');
+            
+            var addRow =
+                "<div class='row' style='margin:0 !important'>" +
+                    "<div class='col-md-3'>" +
+                        "<div class='form-group'>" +
+                            "<select name='type' class='input-xlarge-fuid input-summary form-control valid'>" +
+                                    "<option value='Reagent'>" +
+                                        "Reagent" +
+                                    "</option>" +
+                                    "<option value='Standard'>" +
+                                        "Standard" +
+                                    "</option>" +
+                                    "<option value='Intermedate Standard'>" +
+                                        "Intermediate Standard" +
+                                    "</option>" +
+                            "</select>" +
+                        "</div>" +
+                    "</div>" +
+                    "<div class='col-md-3'><input name='amount' type='text' class='input-summary form-control text-box single-line' placeholder='Amount' /></div>" +
+                    "<div class='col-md-3'><input name='lotnumber' type='text' class='input-summary form-control text-box single-line' placeholder='Lot #' /></div>" +
+                    "<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>" +
+                "</div>";
+            recipes.find('#another-item').remove("#another-item");
+            recipes.find('#remove-item').remove("#remove-item");
+            recipes.append(addRow);
+        });
+
+        //remove item
+        $('#build-recipe').on('click', '#remove-item', function (e) {
+            e.preventDefault();
+            var recipes = $('#build-recipe');
+            recipes.children("div[class=row]:last").remove();
+            recipes.children("div[class=row]:last").append("<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
+        });
     });
 </script>
 
@@ -133,6 +168,80 @@
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <section id="section-bar-1">
+                        <!-- Start Building Recipe Section -->
+                        <div id="build-recipe">
+                            <div class="row" style="margin:0 !important">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
+                                            <option>Nothing Selected</option>
+                                            <optgroup label="Item Type">
+                                                @foreach (var item in ViewBag.Types) {
+                                                    <option>
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="amount" type="text" class="input-group input-summary form-control text-box single-line" placeholder="Amount" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin:0 !important">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
+                                            <option>Nothing Selected</option>
+                                            <optgroup label="Item Type">
+                                                @foreach (var item in ViewBag.Types) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="amount" type="text" class="input-summary form-control text-box single-line" placeholder="Amount" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                </div>
+                            </div>
+                            <div class="row" style="margin:0 !important">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
+                                            <option>Nothing Selected</option>
+                                            <optgroup label="Item Type">
+                                                @foreach (var item in ViewBag.Types) {
+                                                    <option>
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="amount" type="text" class="input-summary form-control text-box single-line" placeholder="Amount" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="#" id="another-item" class="btn btn-default">Add</a>
+                                    <a href="#" id="remove-item" class="btn btn-default">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /End Recipe Section -->
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -212,7 +321,7 @@
                             </div>
                         </div>
                         <!-- SECTION TWO INPUTS -->
-                            
+
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
@@ -242,6 +351,7 @@
                             </div>
                         </div>
                     </section>
+
                     <section id="section-bar-2">
                         <div class="form-group">
                             <div class="page-header">

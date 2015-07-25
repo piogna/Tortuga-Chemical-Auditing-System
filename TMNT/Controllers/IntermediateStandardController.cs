@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using Microsoft.AspNet.Identity;
+using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     public class IntermediateStandardController : Controller {
@@ -43,6 +45,8 @@ namespace TMNT.Controllers {
         [Route("create/new-intermediate-standard")]
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
+            var units = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
+            ViewBag.Types = units;
             return View();
         }
 
@@ -52,13 +56,38 @@ namespace TMNT.Controllers {
         [Route("create/new-intermediate-standard")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated")] IntermediateStandard intermediatestandard, string submit) {
-            intermediatestandard.PrepList = new PrepList();
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated")] IntermediateStandardViewModel intermediatestandard, string submit) {
+            List<string> amounts = Request.Form.GetValues("amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
+            List<string> lotNumbers = Request.Form.GetValues("lotnumber").Where(item => !string.IsNullOrEmpty(item)).ToList();
+            List<string> types = Request.Form.GetValues("type").Where(item => !item.Equals("Nothing Selected")).ToList();
+            List<StockReagent> reagents = null;
+
+            foreach (var type in types) {
+                foreach (var lotNumber in lotNumbers) {
+                    if (type == "Reagent") {
+                        reagents = new StockReagentRepository(DbContextSingleton.Instance)
+                            .Get()
+                            .Where(x => x.IdCode == lotNumber)
+                            .ToList<StockReagent>();
+                    }
+                }
+            }
+
+            foreach (var reagent in reagents) {
+                var inventoryItem = new InventoryItemRepository(DbContextSingleton.Instance)
+                                    .Get()
+                                    .Where(x => x.StockReagent.ReagentId == reagent.ReagentId)
+                                    .FirstOrDefault();
+                inventoryItem.Amount -= Convert.ToInt32(amounts[0]);
+                new InventoryItemRepository().Update(inventoryItem);
+            }
+
+            intermediatestandard.PrepList = new PrepList() {  };
             var errors = ModelState.Where(item => item.Value.Errors.Any());
             if (ModelState.IsValid) {
                 //db.IntermediateStandards.Add(intermediatestandard);
                 //db.SaveChanges();
-                repo.Create(intermediatestandard);
+                //repo.Create(intermediatestandard);
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                     //save pressed

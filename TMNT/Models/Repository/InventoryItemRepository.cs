@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public InventoryItemRepository() { }
+
+        public InventoryItemRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<InventoryItem> Get() {
-            return db.InventoryItems;
+            var list = db.InventoryItems.ToList();
+            return list;
         }
 
         public InventoryItem Get(int? i) {
@@ -32,7 +40,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            db.Dispose();
         }
     }
 }

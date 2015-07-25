@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class StockStandardRepository : IRepository<StockStandard> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public StockStandardRepository() { }
+
+        public StockStandardRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<StockStandard> Get() {
             return db.StockStandards

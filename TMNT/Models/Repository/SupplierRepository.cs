@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class SupplierRepository : IRepository<Supplier> {
-        private ApplicationDbContext db = ApplicationDbContext.Create();
+        private ApplicationDbContext db = DbContextSingleton.Instance;
+
+        public SupplierRepository() { }
+
+        public SupplierRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
 
         public IEnumerable<Supplier> Get() {
             return db.Suppliers.ToList();

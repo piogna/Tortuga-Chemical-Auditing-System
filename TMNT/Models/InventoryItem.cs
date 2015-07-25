@@ -6,34 +6,33 @@ using System.Web;
 
 namespace TMNT.Models {
     public class InventoryItem {
-        public InventoryItem()
-        {
+        public InventoryItem() {
             CertificatesOfAnalysis = new List<CertificateOfAnalysis>();
             MSDS = new List<MSDS>();
         }
 
         [Key]
         public int InventoryItemId { get; set; }
-        [Required, Display(Name="Catalogue Code")]
+        [Required, Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
         [Required]
         public int Amount { get; set; }
         [Required]
         public int Grade { get; set; }
-        [Required, Display(Name="Case Number")]
+        [Required, Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
-        [Required, Display(Name="Used For")]
+        [Required, Display(Name = "Used For")]
         public string UsedFor { get; set; }
 
-        [Required, Display(Name="Created By")]
+        [Required, Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [Required, DataType(DataType.Date), Display(Name="Date Created")]
+        [Required, DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        [Required, DataType(DataType.Date), Display(Name="Date Modified")]
+        [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
-        
+
         public virtual ICollection<SpikingStandard> SpikingStandards { get; set; }
         public virtual ICollection<SurrogateSpikingStandard> SurrogateSpikingStandards { get; set; }
         public virtual ICollection<CertificateOfAnalysis> CertificatesOfAnalysis { get; set; }
