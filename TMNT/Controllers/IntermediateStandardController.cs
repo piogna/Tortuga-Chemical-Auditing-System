@@ -60,27 +60,52 @@ namespace TMNT.Controllers {
             List<string> amounts = Request.Form.GetValues("amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
             List<string> lotNumbers = Request.Form.GetValues("lotnumber").Where(item => !string.IsNullOrEmpty(item)).ToList();
             List<string> types = Request.Form.GetValues("type").Where(item => !item.Equals("Nothing Selected")).ToList();
-            List<StockReagent> reagents = null;
+            //List<StockReagent> reagents = new List<StockReagent>();
+            //List<StockStandard> standards = new List<StockStandard>();
+            List<object> things = new List<object>();
 
-            foreach (var type in types) {
-                foreach (var lotNumber in lotNumbers) {
+            foreach (var lotNumber in lotNumbers) {
+                foreach (var type in types) {
                     if (type == "Reagent") {
-                        reagents = new StockReagentRepository(DbContextSingleton.Instance)
+                        var add = new StockReagentRepository(DbContextSingleton.Instance)
                             .Get()
                             .Where(x => x.IdCode == lotNumber)
-                            .ToList<StockReagent>();
+                            .FirstOrDefault<StockReagent>();
+                        if (add != null) { things.Add(add); break; }
+                    } else if (type == "Standard") {
+                        var add = new StockStandardRepository(DbContextSingleton.Instance)
+                            .Get()
+                            .Where(x => x.IdCode == lotNumber)
+                            .FirstOrDefault<StockStandard>();
+                        if (add != null) { things.Add(add); break; }
                     }
                 }
             }
 
-            foreach (var reagent in reagents) {
-                var inventoryItem = new InventoryItemRepository(DbContextSingleton.Instance)
-                                    .Get()
-                                    .Where(x => x.StockReagent.ReagentId == reagent.ReagentId)
-                                    .FirstOrDefault();
-                inventoryItem.Amount -= Convert.ToInt32(amounts[0]);
-                new InventoryItemRepository().Update(inventoryItem);
-            }
+            if (things != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics(things, amounts); }
+
+            #region old inventory item code
+            //if (standards != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics<StockStandard>(standards, amounts); }
+
+            //reagents
+            //foreach (var reagent in reagents) {
+            //    var inventoryItem = new InventoryItemRepository(DbContextSingleton.Instance)
+            //                        .Get()
+            //                        .Where(x => x.StockReagent.ReagentId == reagent.ReagentId)
+            //                        .FirstOrDefault();
+            //    inventoryItem.Amount -= Convert.ToInt32(amounts[0]);
+            //    new InventoryItemRepository(DbContextSingleton.Instance).Update(inventoryItem);
+            //}
+            ////standards
+            //foreach (var standard in standards) {
+            //    var inventoryItem = new InventoryItemRepository(DbContextSingleton.Instance)
+            //                        .Get()
+            //                        .Where(x => x.StockStandard.StockStandardId == standard.StockStandardId)
+            //                        .FirstOrDefault();
+            //    inventoryItem.Amount -= Convert.ToInt32(amounts[0]);
+            //    new InventoryItemRepository(DbContextSingleton.Instance).Update(inventoryItem);
+            //}
+            #endregion
 
             intermediatestandard.PrepList = new PrepList() {  };
             var errors = ModelState.Where(item => item.Value.Errors.Any());

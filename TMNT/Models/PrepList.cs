@@ -11,6 +11,5 @@ namespace TMNT.Models {
         public virtual ICollection<WorkingStandard> WorkingStandards { get; set; }
         public virtual ICollection<IntermediateStandard> IntermediateStandards { get; set; }
         public virtual ICollection<PrepListItem> PrepListItems { get; set; }
-
     }
 }

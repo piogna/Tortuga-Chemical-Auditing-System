@@ -47,6 +47,11 @@
         border-left: none;
     }
 
+    #build-recipe > .row {
+        padding-left:15px;
+        padding-right:15px;
+    }
+
     /* Asterisk Required */
     .required {
         content: " *";
@@ -55,6 +60,10 @@
 
     .input-group-addon {
         border-radius: 0 !important;
+    }
+
+    .no-border-radius {
+        border-radius:0 !important;
     }
 
     /* Required Addon */
@@ -103,25 +112,40 @@
                 "<div class='row' style='margin:0 !important'>" +
                     "<div class='col-md-3'>" +
                         "<div class='form-group'>" +
-                            "<select name='type' class='input-xlarge-fuid input-summary form-control valid'>" +
-                                    "<option value='Reagent'>" +
-                                        "Reagent" +
-                                    "</option>" +
-                                    "<option value='Standard'>" +
-                                        "Standard" +
-                                    "</option>" +
-                                    "<option value='Intermedate Standard'>" +
-                                        "Intermediate Standard" +
-                                    "</option>" +
-                            "</select>" +
+                            "<div class='input-group'>" +
+                                "<div class='input-group-addon'></div>" +
+                                "<select name='type' class='input-xlarge-fuid input-summary form-control valid no-border-radius'>" +
+                                       "<option>Nothing Selected</option>" +
+                                       "<option value='Reagent'>" +
+                                           "Reagent" +
+                                       "</option>" +
+                                       "<option value='Standard'>" +
+                                           "Standard" +
+                                       "</option>" +
+                                       "<option value='Intermedate Standard'>" +
+                                           "Intermediate Standard" +
+                                       "</option>" +
+                                "</select>" +
+                            "</div>" +
                         "</div>" +
                     "</div>" +
-                    "<div class='col-md-3'><input name='amount' type='text' class='input-summary form-control text-box single-line' placeholder='Amount' /></div>" +
-                    "<div class='col-md-3'><input name='lotnumber' type='text' class='input-summary form-control text-box single-line' placeholder='Lot #' /></div>" +
-                    "<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>" +
-                "</div>";
-            recipes.find('#another-item').remove("#another-item");
-            recipes.find('#remove-item').remove("#remove-item");
+                "<div class='col-md-3'>" +
+                    "<div class='input-group'>" +
+                        "<div class='input-group-addon'></div>" +
+                        "<input name='amount' type='text' class='input-summary form-control text-box single-line no-border-radius' placeholder='Amount' />" +
+                    "</div>" +
+                "</div>" +
+                "<div class='col-md-3'>" +
+                    "<div class='input-group'>" +
+                    "<div class='input-group-addon'></div>" +
+                        "<input name='lotnumber' type='text' class='input-summary form-control text-box single-line no-border-radius' placeholder='Lot #' />" +
+                    "</div>" +
+                "</div>" +
+                "<div class='col-md-2'>" +
+                    "<a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a>" +
+                "</div>" +
+            "</div>";
+            recipes.find('.col-md-2').remove(".col-md-2");
             recipes.append(addRow);
         });
 
@@ -129,8 +153,14 @@
         $('#build-recipe').on('click', '#remove-item', function (e) {
             e.preventDefault();
             var recipes = $('#build-recipe');
-            recipes.children("div[class=row]:last").remove();
-            recipes.children("div[class=row]:last").append("<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
+            if (recipes.children("div[class=row]").length > 1) {
+                recipes.children("div[class=row]:last").remove();
+                recipes.children("div[class=row]:last").append("<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
+                
+                if (recipes.children("div[class=row]").length == 1) {
+                    $('#remove-item').attr('disabled', 'disabled');
+                }
+            }
         });
     });
 </script>
@@ -149,7 +179,6 @@
                         <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Intermediate Standard
                     </li>
                 </ol>
-
             </div>
         </div>
 
@@ -173,67 +202,94 @@
                             <div class="row" style="margin:0 !important">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
-                                            <option>Nothing Selected</option>
-                                            <optgroup label="Item Type">
-                                                @foreach (var item in ViewBag.Types) {
-                                                    <option>
-                                                        @item
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                        </select>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <select name="type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                                <option>Nothing Selected</option>
+                                                <optgroup label="Item Type">
+                                                    @foreach (var item in ViewBag.Types) {
+                                                        <option>
+                                                            @item
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="amount" type="text" class="input-group input-summary form-control text-box single-line" placeholder="Amount" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="lotnumber" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="row" style="margin:0 !important">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
-                                            <option>Nothing Selected</option>
-                                            <optgroup label="Item Type">
-                                                @foreach (var item in ViewBag.Types) {
-                                                    <option value="@item">
-                                                        @item
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                        </select>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <select name="type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                                <option>Nothing Selected</option>
+                                                <optgroup label="Item Type">
+                                                    @foreach (var item in ViewBag.Types) {
+                                                        <option value="@item">
+                                                            @item
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="amount" type="text" class="input-summary form-control text-box single-line" placeholder="Amount" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="lotnumber" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
+                                    </div>
                                 </div>
                             </div>
                             <div class="row" style="margin:0 !important">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <select name="type" class="input-xlarge-fuid input-summary form-control valid">
-                                            <option>Nothing Selected</option>
-                                            <optgroup label="Item Type">
-                                                @foreach (var item in ViewBag.Types) {
-                                                    <option>
-                                                        @item
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                        </select>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <select name="type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                                <option>Nothing Selected</option>
+                                                <optgroup label="Item Type">
+                                                    @foreach (var item in ViewBag.Types) {
+                                                        <option>
+                                                            @item
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="amount" type="text" class="input-summary form-control text-box single-line" placeholder="Amount" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input name="lotnumber" type="text" class="input-summary form-control text-box single-line" placeholder="Lot #" />
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input name="lotnumber" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
+                                    </div>
                                 </div>
                                 <div class="col-md-2">
                                     <a href="#" id="another-item" class="btn btn-default">Add</a>

@@ -15,7 +15,7 @@ namespace TMNT.Models {
         public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
         public string ReplacedBy { get; set; }
-
+        public int Amount { get; set; }
         //foreign keys
         [Required]
         public virtual PrepList PrepList { get; set; }

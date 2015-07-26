@@ -38,7 +38,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            db.Dispose();
         }
     }
 }
