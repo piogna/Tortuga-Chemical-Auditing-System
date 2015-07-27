@@ -18,8 +18,8 @@ namespace TMNT.Models {
         public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
-        [Display(Name = "Entered By")]
         public string EnteredBy { get; set; }
+        public string LastModifiedBy { get; set; }
 
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

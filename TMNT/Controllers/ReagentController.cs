@@ -60,11 +60,9 @@ namespace TMNT.Controllers {
             model.Unit = new UnitRepository().Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) 
                                 ? "USERID"
-                                : System.Web.HttpContext.Current.User.Identity.Name.Split('@')[0];
+                                : System.Web.HttpContext.Current.User.Identity.Name;
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
-
-
 
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {

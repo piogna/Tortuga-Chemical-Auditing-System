@@ -44,7 +44,7 @@ namespace TMNT.Controllers {
         [Route("create/new-standard")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var units = new UnitRepository().Get().ToList();//
+            var units = new UnitRepository().Get().ToList();
             SelectList list = new SelectList(units, "UnitId", "UnitName");
             ViewBag.Units = list;
             return View();
@@ -59,14 +59,15 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] InventoryStockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
-            
+
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Today
+                        DateAdded = DateTime.Now
                     };
+
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
                         cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
                     }
@@ -89,7 +90,10 @@ namespace TMNT.Controllers {
                     StockStandardName = model.StockStandardName,
                     DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,
-                    Purity = model.Purity
+                    Purity = model.Purity,
+                    EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
+                                ? "USERID"
+                                : System.Web.HttpContext.Current.User.Identity.Name
                 };
 
                 InventoryItem inventoryItem = new InventoryItem() {
@@ -98,7 +102,7 @@ namespace TMNT.Controllers {
                     Grade = model.Grade,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
-                    CreatedBy = (User.Identity.GetUserId() != null) ? User.Identity.GetUserId() : "USERID",
+                    CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                 };

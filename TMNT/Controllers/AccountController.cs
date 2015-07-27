@@ -44,6 +44,7 @@ namespace TMNT.Controllers {
 
         //
         // GET: /Account/Login
+        [Route("login")]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
@@ -52,6 +53,7 @@ namespace TMNT.Controllers {
 
         //
         // POST: /Account/Login
+        [Route("login")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

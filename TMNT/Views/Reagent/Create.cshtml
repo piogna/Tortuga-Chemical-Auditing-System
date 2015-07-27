@@ -81,6 +81,10 @@
         var table = $('table.table-bordered > tbody');
 
         $('.btn-review').on('click', function (e) {
+            //absolutely prevent duplicate rows
+            if ($('table.table-bordered > tbody > tr').length > 0) {
+                table.find("tr").remove();
+            }
             var row = "";
             for (var i = 0; i < inputs.length; i++) {
                 row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute

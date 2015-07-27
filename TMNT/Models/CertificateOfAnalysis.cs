@@ -15,6 +15,7 @@ namespace TMNT.Models
         [StringLength(100)]
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
+        //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateAdded { get; set; }
 
         //Foreign Keys

@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201507261718433_IntermediateStandardAddPropAmount.Designer.cs">
       <DependentUpon>201507261718433_IntermediateStandardAddPropAmount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.cs" />
+    <Compile Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.Designer.cs">
+      <DependentUpon>201507271931529_EnteredByAndLastModifiedBy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -240,6 +244,7 @@
     <Compile Include="Models\MSDS.cs" />
     <Compile Include="Models\PrepList.cs" />
     <Compile Include="Models\PrepListItem.cs" />
+    <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />
     <Compile Include="Models\Repository\InventoryItemRepository.cs" />
@@ -434,6 +439,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507261718433_IntermediateStandardAddPropAmount.resx">
       <DependentUpon>201507261718433_IntermediateStandardAddPropAmount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.resx">
+      <DependentUpon>201507271931529_EnteredByAndLastModifiedBy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

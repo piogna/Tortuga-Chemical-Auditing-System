@@ -21,6 +21,8 @@ namespace TMNT.Models {
         public string SolventUsed { get; set; }
         [Required]
         public double Purity { get; set; }
+        public string EnteredBy { get; set; }
+        public string LastModifiedBy { get; set; }
 
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

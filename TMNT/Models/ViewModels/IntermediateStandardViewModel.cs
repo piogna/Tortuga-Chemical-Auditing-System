@@ -9,13 +9,11 @@ namespace TMNT.Models.ViewModels {
 
         [Key]
         public int IntermediateStandardId { get; set; }
-        [Required]
-        public int Replaces { get; set; }
-        [Required, Display(Name = "Replaced By")]
-        public int ReplacedBy { get; set; }
+        public string Replaces { get; set; }
+        [Display(Name = "Replaced By")]
+        public string ReplacedBy { get; set; }
 
         //foreign keys
-        [Required]
         public virtual PrepList PrepList { get; set; }
         public virtual PrepListItem PrepListItem { get; set; }
 
@@ -37,14 +35,13 @@ namespace TMNT.Models.ViewModels {
         public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Required]
-        public byte[] MSDS { get; set; }
-        [Required, Display(Name = "Created By")]
+        //[Required]
+        //public byte[] MSDS { get; set; }
+        [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
-
     }
 }
