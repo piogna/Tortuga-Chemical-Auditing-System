@@ -5,21 +5,23 @@
 }
 
 <style>
+    /* Summary Table CSS */
+    table.table-bordered > thead > tr > th {
+        background: black;
+        color: #fff;
+        text-align: center;
+    }
+
+    table.table-bordered > thead > tr > th:first-child {
+        width: 25%;
+    }
+
     #page-wrapper {
         min-height: 900px;
     }
 
     input[type=text] {
         width: 100%;
-        border-radius: 0 !important;
-    }
-
-    button {
-        width: 33%;
-        color: #fff !important;
-        border-radius: 0 !important;
-        background-color: #428BCA !important;
-        float: right;
     }
 
     .next-section {
@@ -31,7 +33,126 @@
         float: left;
         bottom: 0;
     }
+
+    #Unit {
+        border-radius: 0;
+        border-left: none;
+    }
+
+    /* Asterisk Required */
+    .required {
+        content: " *";
+        color: red;
+    }
+
+    .input-group-addon {
+        border-radius: 0 !important;
+        min-width: 28px;
+    }
+
+    .no-border-radius {
+        border-radius: 0 !important;
+    }
+
+    .no-border {
+        border: none;
+        box-shadow: none;
+    }
+
+    .pass-or-fail {
+        padding-top: 15px;
+    }
+
+    /* Required Addon */
+    .addon-required {
+        color: red;
+        border-radius: 0;
+        font-size: 22px;
+        padding: 10px 9px 0 9px;
+    }
+
+        .addon-required:after {
+            content: "*";
+            margin-top: 4px;
+        }
+
+    .addon-weight {
+        min-width: 85px;
+        border-left: none;
+    }
+
+    #additional-weights {
+        display: none;
+    }
 </style>
+
+<script>
+    $(function () {
+        //fixing a rendering issue in IE with class btn-success
+        if (false || !!document.documentMode) {
+            $('.btn-success').css('float', 'right');
+        }
+
+        var validateOne = $('.weight-validate').first();
+        var validateTwo = $('.weight-validate').eq(1);
+        var validateThree = $('.weight-validate').eq(2);
+        var passOrFailOne = $('.pass-or-fail').first();
+        var passOrFailTwo = $('.pass-or-fail').eq(1);
+        var passOrFailThree = $('.pass-or-fail').eq(2);
+
+        var weightOne = $('.weight-one');
+        var weightTwo = $('.weight-two');
+        var weightThree = $('.weight-three');
+
+        //weight must be within 2% of 0.5000 to pass. if not, two other inputs will apear to pass the verification.
+        $(validateOne).on('click', function (e) {
+            e.preventDefault();
+            var weightOneVal = parseFloat($('.weight-one').val());
+
+            if (weightOneVal > 0.4990 && weightOneVal < .5010) {
+                //pass
+                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
+                weightOne.attr('readonly', 'readonly');
+            } else {
+                //fail
+                weightOne.attr('readonly', 'readonly');
+                validateOne.attr('disabled', 'disabled');
+                passOrFailOne.first().text("Fail").css('color', 'red');
+
+                validateThree.attr('disabled', 'disabled');
+                weightThree.attr('readonly', 'readonly');
+
+                $('#additional-weights').css('display', 'block');
+            }
+        });
+        //second verification if first fails
+        $(validateTwo).on('click', function (e) {
+            e.preventDefault();
+            var weightTwoVal = parseFloat($('.weight-two').val());
+
+            if (weightTwoVal > 9.8000 && weightTwoVal < 10.2000) {
+                //pass
+                passOrFailTwo.first().text("Pass!").css('color', '#5cb85c');
+                weightTwo.attr('readonly', 'readonly');
+                validateThree.attr('disabled', 'disabled');
+                weightThree.attr('readonly', 'readonly');
+            } else {
+                //fail
+                weightTwo.attr('readonly', 'readonly');
+                validateTwo.attr('disabled', 'disabled');
+                validateThree.removeAttr('disabled');
+                weightThree.removeAttr('readonly');
+                $('#add-required').addClass('addon-required');
+                passOrFailTwo.first().text("Fail").css('color', 'red');
+            }
+        });
+
+        $(validateThree).on('click', function (e) {
+            e.preventDefault();
+            console.log('clicked');
+        });
+    });
+</script>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -56,62 +177,115 @@
                 <nav>
                     <ul>
                         <li class="section-list"><a href="#section-bar-1" class="icon icon-config"><span>Test Info</span></a></li>
-                        <li class="section-list"><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
-                        <li class="section-list"><a href="#section-bar-4" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
+                        <li class="section-list"><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <section id="section-bar-1">
+                        <div class="col-md-12" style="background-color: lightgrey;">
+                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Pick Balance to Verify</h4>
+                        </div>
                         <div class="form-group">
-                            <div class="col-lg-3 col-lg-offset-9">
-                                <input value="2015-04-13" type="text" disabled />
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    @Html.EditorFor(model => model.BalanceId, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
+                                    @Html.ValidationMessageFor(model => model.BalanceId)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    @Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fuid input-summary form-control valid no-border-radius" })
+                                    @Html.ValidationMessageFor(model => model.Location)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    <select name="WorkStation" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                        <option>Nothing Selected</option>
+                                        <optgroup label="Work Station">
+                                            <option>Station One</option>
+                                            <option>Station Two</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-lg-3">
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.EditorFor(model => model.BalanceId, new { htmlAttributes = new { @placeholder = "Balance ID" } })
-                                        @Html.ValidationMessageFor(model => model.BalanceId)
-                                    </div>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    <input type="text" class="input-summary form-control no-border-radius" placeholder="Weight ID" />
                                 </div>
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        @* This is the area in question for the DropDownList - requires functionality *@
-                                        @*@Html.DropDownListFor(model => model.Location, ViewBag.Locations as SelectList, "Select a Location")*@
-                                        @Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid" })
-
-                                        @*@Html.EditorFor(model => model.Location, new { htmlAttributes = new { @placeholder = "Location" } })*@
-                                        @Html.ValidationMessageFor(model => model.Location)
-                                    </div>
-                                </div>
-                                @*<input class="form-control" type="text" placeholder="Balance ID" style="margin-bottom:15px;" />*@
-                                @*<input class="form-control" type="text" placeholder="Location" />*@
                             </div>
+                        </div>
+                        <div class="col-md-12" style="background-color: lightgrey;">
+                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Start Balance Verification</h4>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-4">
-                                @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One" } })
-                                @Html.ValidationMessageFor(model => model.WeightOne)
-                                @*<input class="form-control" type="text" placeholder="Weight One" />*@
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one" } })
+                                    @Html.ValidationMessageFor(model => model.WeightOne)
+                                    <div class="input-group-addon addon-weight">0.5000</div>
+                                    <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                </div>
+                                <div class="input-group col-lg-9">
+                                    <div class="checkbox">
+                                        <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                    </div>
+                                </div>
+                                <div class="input-group col-lg-2">
+                                    <div class="form-control no-border pass-or-fail" style="float:right;"></div>
+                                </div>
                             </div>
-                            <div class="col-lg-4">
-                                @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two" } })
-                                @Html.ValidationMessageFor(model => model.WeightTwo)
-                                @*<input class="form-control" type="text" placeholder="Weight Two" />*@
-                            </div>
-                            <div class="col-lg-4">
-                                @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three" } })
-                                @Html.ValidationMessageFor(model => model.WeightThree)
-                                @*<input class="form-control" type="text" placeholder="Weight Three" />*@
+                            <div id="additional-weights">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @class = "input-summary form-control weight-two" } })
+                                        @Html.ValidationMessageFor(model => model.WeightTwo)
+                                        <div class="input-group-addon addon-weight">10.0000</div>
+                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                    </div>
+                                    <div class="input-group col-lg-9">
+                                        <div class="checkbox">
+                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-lg-2">
+                                        <div class="form-control no-border pass-or-fail" style="float:right;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <div id="add-required" class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @class = "input-summary form-control weight-three" } })
+                                        @Html.ValidationMessageFor(model => model.WeightThree)
+                                        <div class="input-group-addon addon-weight">100.0000</div>
+                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                    </div>
+                                    <div class="input-group col-lg-9">
+                                        <div class="checkbox">
+                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-lg-2">
+                                        <div class="form-control no-border pass-or-fail" style="float:right;"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-6">
-                                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { cols = 50, rows = 6, @placeholder = "Comments?" } })
-                                @*@Html.TextAreaFor(model => model.Comments, new { htmlAttributes = new { cols = 50, rows = 6, @placeholder = "Comments?" } })*@
-                                @*<textarea placeholder="Comments" rows="6" cols="50" style="resize:none;"></textarea>*@
+                                <div class="input-group">
+                                    <div class="input-group-addon"></div>
+                                    @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { cols = 50, rows = 6, @placeholder = "Comments", @class = "input-summary form-control no-border-radius", @style = "resize:none;" } })
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -129,22 +303,6 @@
                                 <div class="col-md-4 col-md-offset-4">
                                     <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 15px;">&#x2717; No, Go Back</a>
                                     <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
-                                    @*<input style="margin-left:8%;" type="submit" value="&#x2713; Yes, Create Record" class="btn btn-default icon-home" />*@
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-3">
-                        <div class="form-group" style="text-align:center;">
-                            <div style="padding-bottom:20px;">Summary</div>
-                            <div>Summary of Data would go here..</div>
-                        </div>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @class = "btn btn-default col-md-offset-2" })
-                                    @*<a style="margin-right:15px;" href='#section-bar-1' class="btn btn-default">Dashboard</a>*@
-                                    @Html.ActionLink("New Balance Test", "Create", new { @controller = "ScaleTest" }, new { @class = "btn btn-default" })
                                 </div>
                             </div>
                         </div>

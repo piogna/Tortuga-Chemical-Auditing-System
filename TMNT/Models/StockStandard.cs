@@ -13,7 +13,7 @@ namespace TMNT.Models {
         public int StockStandardId { get; set; }
         [Required, Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Required, Display(Name = "Name")]
+        [Required, Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
         [Required, DataType(DataType.Date), Display(Name="Date Entered")]
         public DateTime DateEntered { get; set; }
@@ -21,7 +21,11 @@ namespace TMNT.Models {
         public string SolventUsed { get; set; }
         [Required]
         public double Purity { get; set; }
+        [Display(Name = "Entered By")]
         public string EnteredBy { get; set; }
+        [Display(Name = "Last Modified")]
+        public DateTime? LastModified { get; set; }
+        [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
 
         //foreign keys
