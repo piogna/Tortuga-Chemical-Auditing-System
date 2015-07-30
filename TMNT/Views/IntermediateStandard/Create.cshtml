@@ -406,7 +406,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control", data_provide="datepicker" } })
                                         @Html.ValidationMessageFor(model => model.DateCreated)
                                         <div class="input-group-addon">Date Created</div>
                                     </div>
@@ -416,7 +416,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control", data_provide = "datepicker" } })
                                         @Html.ValidationMessageFor(model => model.DateModified)
                                         <div class="input-group-addon">Date Modified</div>
                                     </div>
@@ -466,5 +466,14 @@
             </div><!-- /tabs -->
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
+
+        @section scripts
+            {
+                <script>
+                    $('.datepicker').datepicker({
+                        format: 'yyyy/m/dd'
+                    })
+                </script>
+            }
     </div>
 }

@@ -284,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\XmlDocument.xml" />
+    <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -336,6 +337,7 @@
     <Content Include="Content\Images\stroke7pixeden.eot" />
     <Content Include="Content\Images\stroke7pixeden.ttf" />
     <Content Include="Content\Images\stroke7pixeden.woff" />
+    <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />

@@ -39,7 +39,7 @@ namespace TMNT.Models.ViewModels {
         //public byte[] MSDS { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
+        [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
