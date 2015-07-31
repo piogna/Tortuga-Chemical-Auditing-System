@@ -28,7 +28,7 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("ScaleTest")]
         public ActionResult Index() {
-            //return View(db.DeviceTests.ToList());
+            return View(db.DeviceTests.ToList());
             return View();
         }
 
