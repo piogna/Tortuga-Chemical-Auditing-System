@@ -31,7 +31,7 @@ namespace TMNT
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                       "~/Scripts/sb-admin-2.js",
-                      "~/Scripts/metisMenu.js");
+                      "~/Scripts/metisMenu.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", 
