@@ -31,15 +31,13 @@ namespace TMNT
 
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
                       "~/Scripts/sb-admin-2.js",
-                      "~/Scripts/metisMenu.js",
-                      "~/Scripts/bootstrap-datepicker.js"));
+                      "~/Scripts/metisMenu.js");
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css", 
                       "~/Content/sections.css",
                       "~/Content/sb-admin-2.css",
-                      "~/Content/metisMenu.css",
-                      "~/Content/bootstrap-datepicker.css")
+                      "~/Content/metisMenu.css")
                       .Include("~/Content/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));
 
             // Set EnableOptimizations to false for debugging. For more information,
