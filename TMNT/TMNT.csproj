@@ -220,6 +220,14 @@
     <Compile Include="Migrations\201507281412191_FixChanges.Designer.cs">
       <DependentUpon>201507281412191_FixChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507311711291_DeviceColumnsAdded.cs" />
+    <Compile Include="Migrations\201507311711291_DeviceColumnsAdded.Designer.cs">
+      <DependentUpon>201507311711291_DeviceColumnsAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507311743050_DeviceTypeColumn.cs" />
+    <Compile Include="Migrations\201507311743050_DeviceTypeColumn.Designer.cs">
+      <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -471,6 +479,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507281412191_FixChanges.resx">
       <DependentUpon>201507281412191_FixChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507311711291_DeviceColumnsAdded.resx">
+      <DependentUpon>201507311711291_DeviceColumnsAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507311743050_DeviceTypeColumn.resx">
+      <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
