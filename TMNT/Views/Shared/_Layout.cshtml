@@ -302,62 +302,74 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-wrench fa-fw"></i> Device Test<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href='@Url.Action("Create", "ScaleTest")'>New Balance Test</a>
-                                </li>
-                                <li>
-                                    <a href='@Url.Action("Create", "SyringeTest")'>New Syringe Test</a>
-                                </li>
-                                <li>
-                                    <a href="#">New Pipette Test</a>
-                                </li>
-                                <li>
-                                    <a href="#">View Pending Tests</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Audit")"><i class="fa fa-fw fa-check"></i> Perform Audit</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-fw fa-question-circle"></i> Help</a>
-                        </li> 
-                    </ul>
+                        @*<li>
+                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Device Test<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href='@Url.Action("Create", "ScaleTest")'>New Balance Test</a>
+                                    </li>
+                                    <li>
+                                        <a href='@Url.Action("Create", "SyringeTest")'>New Syringe Test</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">New Pipette Test</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">View Pending Tests</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>*@
+                            <li>
+                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Devices<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href='@Url.Action("Index", "ScaleTest")'>Balances</a>
+                                    </li>
+                                    <li>
+                                        <a href='@Url.Action("Index", "SyringeTest")'>Volumetric Devices (Don't Click Yet)</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index", "Audit")"><i class="fa fa-fw fa-check"></i> Perform Audit</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-question-circle"></i> Help</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
                 </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/js")
-        @RenderSection("scripts", required: false)
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                @RenderBody()
-                <div class="row footer">
-                    <hr />
-                    <div class="footer-container">
-                        <p class="text-muted">
-                            Tortuga &copy;<br />
-                            All Rights Reserved 
-                            <span id="date-today"></span>
-                        </p>
+                <!-- /.navbar-static-side -->
+            </nav>
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/bundles/bootstrap")
+            @Scripts.Render("~/bundles/js")
+            @RenderSection("scripts", required: false)
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    @RenderBody()
+                    <div class="row footer">
+                        <hr />
+                        <div class="footer-container">
+                            <p class="text-muted">
+                                Tortuga &copy;<br />
+                                All Rights Reserved
+                                <span id="date-today"></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <!-- /.container-fluid -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-    <script>
-        document.getElementById('date-today').innerHTML = new Date().getFullYear();
-    </script>
-</body>
-</html>
+        <!-- /#wrapper -->
+        <script>
+            document.getElementById('date-today').innerHTML = new Date().getFullYear();
+        </script>
+    </body>
+    </html>

@@ -29,7 +29,7 @@ namespace TMNT.Controllers {
         [Route("ScaleTest")]
         public ActionResult Index() {
             //return View(db.DeviceTests.ToList());
-            throw new NotImplementedException();
+            return View();
         }
 
         // GET: /ScaleTest/Details/5
