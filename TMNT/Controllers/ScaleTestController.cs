@@ -26,12 +26,14 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/
+        [Route("ScaleTest")]
         public ActionResult Index() {
             //return View(db.DeviceTests.ToList());
             throw new NotImplementedException();
         }
 
         // GET: /ScaleTest/Details/5
+        [Route("ScaleTest/Details/{id?}")]
         public ActionResult Details(int? id) {
             throw new NotImplementedException();
             //if (id == null) {
@@ -45,7 +47,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/Create
-        [Route("create/new-balance-test")]
+        [Route("ScaleTest/Create")]
         public ActionResult Create() {
             //sending all Locations to the view
             var list = locRepo.Get().ToList();
@@ -59,7 +61,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("create/new-balance-test")]
+        [Route("ScaleTest/Create")]
         public ActionResult Create([Bind(Include = "BalanceId,WeightOne,WeightTwo,WeightThree,Comments")] BalanceTestViewModel balancetest) {
             int? selectedValue = Convert.ToInt32(Request.Form["Location"]);
             balancetest.Location = locRepo.Get(selectedValue);
@@ -73,6 +75,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/Edit/5
+        [Route("ScaleTest/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             //if (id == null) {
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,6 +91,7 @@ namespace TMNT.Controllers {
         // POST: /ScaleTest/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("ScaleTest/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DeviceTestId")] DeviceTest devicetest) {
@@ -101,6 +105,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/Delete/5
+        [Route("ScaleTest/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             //if (id == null) {
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -114,6 +119,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /ScaleTest/Delete/5
+        [Route("ScaleTest/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

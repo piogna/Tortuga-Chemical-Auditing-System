@@ -21,12 +21,13 @@ namespace TMNT.Controllers {
             this.repo = repo;
         }
         // GET: /Reagent/
-        [Route("get/all-reagents")]
+        [Route("Reagent")]
         public ActionResult Index() {
             return View(repo.Get());//db.StockReagents.ToList());
         }
 
         // GET: /Reagent/Details/5
+        [Route("Reagent/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,7 +40,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Reagent/Create
-        [Route("create/new-reagent")]
+        [Route("Reagent/Create")]
         public ActionResult Create() {
             var units = new UnitRepository().Get().ToList();
             SelectList list = new SelectList(units, "UnitId", "UnitName");
@@ -50,9 +51,9 @@ namespace TMNT.Controllers {
         // POST: /Reagent/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("create/new-reagent")]
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] InventoryStockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             string s  = Request.Form["Unit"];
             
@@ -125,6 +126,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Reagent/Edit/5
+        [Route("Reagent/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -139,6 +141,7 @@ namespace TMNT.Controllers {
         // POST: /Reagent/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReagentId,IdCode,DateEntered,ReagentName,EnteredBy")] StockReagent stockreagent) {
@@ -152,6 +155,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Reagent/Delete/5
+        [Route("Reagent/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -164,6 +168,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /Reagent/Delete/5
+        [Route("Reagent/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

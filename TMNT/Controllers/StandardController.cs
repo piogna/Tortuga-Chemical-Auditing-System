@@ -23,13 +23,14 @@ namespace TMNT.Controllers {
             this.repoStandard = repoStandard;
         }
 
-        [Route("get/all-standards")]
+        [Route("Standard")]
         // GET: /Standard/
         public ActionResult Index() {
             return View(repoStandard.Get());//db.StockStandards.ToList());
         }
 
         // GET: /Standard/Details/5
+        [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,7 +42,7 @@ namespace TMNT.Controllers {
             return View(stockstandard);
         }
 
-        [Route("create/new-standard")]
+        [Route("Standard/Create")]
         // GET: /Standard/Create
         public ActionResult Create() {
             var units = new UnitRepository().Get().ToList();
@@ -54,7 +55,7 @@ namespace TMNT.Controllers {
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("create/new-standard")]
+        [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] InventoryStockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
@@ -125,7 +126,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Standard/Edit/5
-        [Route("edit/first-record")]
+        [Route("Standard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             //hard-coded right now for prototype purposes
             id = 1;
@@ -159,7 +160,7 @@ namespace TMNT.Controllers {
         // POST: /Standard/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Route("edit/first-record")]
+        [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "StockStandardName,DateEntered,IdCode,Purity,SolventUsed,Size,Grade,CatalogueCode,CaseNumber,UsedFor")] 
@@ -193,6 +194,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Standard/Delete/5
+        [Route("Standard/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -205,6 +207,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /Standard/Delete/5
+        [Route("Standard/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

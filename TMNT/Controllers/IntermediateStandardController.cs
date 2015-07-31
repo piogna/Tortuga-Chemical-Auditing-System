@@ -20,12 +20,13 @@ namespace TMNT.Controllers {
         }
 
         // GET: /IntermediateStandard/
-        [Route("get/all-intermediate-standards")]
+        [Route("IntermediateStandard")]
         public ActionResult Index() {
             return View(repo.Get());
         }
 
         // GET: /IntermediateStandard/Details/5
+        [Route("IntermediateStandard/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,7 +38,7 @@ namespace TMNT.Controllers {
             return View(intermediatestandard);
         }
 
-        [Route("create/new-intermediate-standard")]
+        [Route("IntermediateStandard/Create")]
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
             var units = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
@@ -48,7 +49,7 @@ namespace TMNT.Controllers {
         // POST: /IntermediateStandard/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Route("create/new-intermediate-standard")]
+        [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,InventoryItemName,UsedFor,CatalogueCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
@@ -135,6 +136,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /IntermediateStandard/Edit/5
+        [Route("IntermediateStandard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -149,6 +151,7 @@ namespace TMNT.Controllers {
         // POST: /IntermediateStandard/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("IntermediateStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IntermediateStandardId,DateCreated,DiscardDate,Replaces,ReplacedBy")] IntermediateStandard intermediatestandard) {
@@ -160,6 +163,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /IntermediateStandard/Delete/5
+        [Route("IntermediateStandard/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -172,6 +176,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /IntermediateStandard/Delete/5
+        [Route("IntermediateStandard/Edit/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

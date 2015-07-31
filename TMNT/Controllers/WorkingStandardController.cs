@@ -22,12 +22,13 @@ namespace TMNT.Controllers {
         }
 
         // GET: /WorkingStandard/
-        [Route("get/all-working-standards")]
+        [Route("WorkingStandard")]
         public ActionResult Index() {
             return View(repo.Get());//db.WorkingStandards.ToList());
         }
 
         // GET: /WorkingStandard/Details/5
+        [Route("WorkingStandard/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -39,7 +40,7 @@ namespace TMNT.Controllers {
             return View(workingstandard);
         }
 
-        [Route("create/new-working-standard")]
+        [Route("WorkingStandard/Create")]
         // GET: /WorkingStandard/Create
         public ActionResult Create() {
             return View();
@@ -48,6 +49,7 @@ namespace TMNT.Controllers {
         // POST: /WorkingStandard/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("WorkingStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "WorkingStandardId,PreparationDate,Source,Grade")] WorkingStandard workingstandard) {
@@ -62,6 +64,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /WorkingStandard/Edit/5
+        [Route("WorkingStandard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -76,6 +79,7 @@ namespace TMNT.Controllers {
         // POST: /WorkingStandard/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("WorkingStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "WorkingStandardId,PreparationDate,Source,Grade")] WorkingStandard workingstandard) {
@@ -89,6 +93,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /WorkingStandard/Delete/5
+        [Route("WorkingStandard/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,6 +106,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /WorkingStandard/Delete/5
+        [Route("WorkingStandard/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

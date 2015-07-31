@@ -24,12 +24,13 @@ namespace TMNT.Controllers {
         }
 
         // GET: /InventoryItem/
-        [Route("get/all-inventory-items")]
+        [Route("InventoryItem")]
         public ActionResult Index() {
             return View(repo.Get());
         }
 
         // GET: /InventoryItem/Details/5
+        [Route("InventoryItem/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -42,6 +43,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /InventoryItem/Create
+        [Route("InventoryItem/Create")]
         public ActionResult Create() {
             return View();
         }
@@ -49,6 +51,7 @@ namespace TMNT.Controllers {
         // POST: /InventoryItem/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("InventoryItem/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated,DateModified")] InventoryItem inventoryitem, HttpPostedFileBase upload)
@@ -79,6 +82,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /InventoryItem/Edit/5
+        [Route("InventoryItem/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -93,6 +97,7 @@ namespace TMNT.Controllers {
         // POST: /InventoryItem/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("InventoryItem/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated,DateModified,CertificateOfAnalysis")] InventoryItem inventoryitem) {
@@ -106,6 +111,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /InventoryItem/Delete/5
+        [Route("InventoryItem/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -118,6 +124,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /InventoryItem/Delete/5
+        [Route("InventoryItem/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {

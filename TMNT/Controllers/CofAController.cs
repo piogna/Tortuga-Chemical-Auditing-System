@@ -12,10 +12,12 @@ namespace TMNT.Controllers {
         ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: CofA
+        [Route("CofA")]
         public ActionResult Index() {
             return View();
         }
 
+        [Route("CofA/{id?}")]
         public ActionResult Get(int? id) {
             CertificateOfAnalysis cofa = db.CertificatesOfAnalysis.Find(id);
             MemoryStream ms = new MemoryStream(cofa.Content, 0, 0, true, true);

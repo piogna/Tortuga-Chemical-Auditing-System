@@ -10,7 +10,7 @@ using TMNT.Models.ViewModels;
 namespace TMNT.Controllers {
     public class AuditController : Controller {
         // GET: Audit
-        [Route("start/new-audit")]
+        [Route("Audit")]
         public ActionResult Index() {
             return View();
         }
@@ -18,7 +18,7 @@ namespace TMNT.Controllers {
         // POST: PerformAudit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("audit-results")]
+        [Route("PerformAudit")]
         public ActionResult PerformAudit(string id) {
             if (id != null) {
                 var model = new AuditApiController().Get(id.ToUpper());

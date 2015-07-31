@@ -8,11 +8,12 @@ namespace TMNT.Controllers {
     public class SyringeTestController : Controller {
         //
         // GET: /SyringeTest/
+        [Route("SyringeTest")]
         public ActionResult Index() {
             return View();
         }
 
-        [Route("create/new-syringe-test")]
+        [Route("SyringeTest/Create")]
         public ActionResult Create() {
             return View();
         }

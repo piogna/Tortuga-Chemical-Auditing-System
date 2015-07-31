@@ -17,8 +17,8 @@ namespace TMNT.Controllers {
         public ReportsController(IRepository<InventoryItem> repo) {
             this.repo = repo;
         }
-        
 
+        [Route("Report/LowStockReport")]
         public ActionResult LowStockReport() {
             List<InventoryItem> items = new InventoryItemRepository()
                 .Get()
@@ -29,6 +29,7 @@ namespace TMNT.Controllers {
             return View("LowStockReport", items);
         }
 
+        [Route("Report/CalibrationReport")]
         public ActionResult CalibrationReport() {
             return View("CalibrationReport");
         }
