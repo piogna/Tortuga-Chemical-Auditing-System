@@ -34,15 +34,15 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/Details/5
         [Route("Balance/Details/{id?}")]
         public ActionResult Details(int? id) {
-            throw new NotImplementedException();
-            //if (id == null) {
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //DeviceTest devicetest = db.DeviceTests.Find(id);
-            //if (devicetest == null) {
-            //    return HttpNotFound();
-            //}
-            //return View(devicetest);
+            //throw new NotImplementedException();
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Device device = repo.Get(id);
+            if (device == null) {
+                return HttpNotFound();
+            }
+            return View(device);
         }
 
         [Route("Balance/Create")]

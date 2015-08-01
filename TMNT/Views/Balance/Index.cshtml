@@ -48,15 +48,10 @@
                         @Html.ActionLink("Verification Required", "Verification", new { id = item.DeviceId }, htmlAttributes: new { @style = "color:red;" })
                     </td>
                 } else {
-                    <td>
+                    <td style="color:green;">
                         Verified
                     </td>
                 }
-                @*<td>
-                    @if (!@item.IsVerified) {
-                        @Html.ActionLink("Verification Test", "Create", new { id = item.DeviceId })
-                    }
-                </td>*@
                 <td>
                     @item.LastVerifiedBy
                 </td>
