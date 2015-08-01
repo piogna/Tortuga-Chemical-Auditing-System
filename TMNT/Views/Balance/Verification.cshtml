@@ -201,20 +201,19 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    @*@Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fuid input-summary form-control valid no-border-radius" })
-                                    @Html.ValidationMessageFor(model => model.Location)*@
                                     <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                        <option>Nothing Selected</option>
+                                        <option>No Location Selected</option>
                                         <optgroup label="Item Type">
                                             @foreach (var item in ViewBag.Locations) {
                                                 if (item == ViewBag.SelectedLocation) {
                                                     <option selected>
                                                         @item
                                                     </option>
+                                                } else {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
                                                 }
-                                                <option>
-                                                    @item
-                                                </option>
                                             }
                                         </optgroup>
                                     </select>
@@ -256,7 +255,7 @@
                                 </div>
                                 <div class="input-group col-lg-9">
                                     <div class="checkbox">
-                                        <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                        <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
                                     </div>
                                 </div>
                                 <div class="input-group col-lg-2">
@@ -274,7 +273,7 @@
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                            <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
                                         </div>
                                     </div>
                                     <div class="input-group col-lg-2">
@@ -291,7 +290,7 @@
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
+                                            <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
                                         </div>
                                     </div>
                                     <div class="input-group col-lg-2">

@@ -56,7 +56,7 @@ namespace TMNT.Controllers {
             //retrieving all rows from recipe builder - replace with view model in the future
             List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
             List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
-            List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("Nothing Selected")).ToList();
+            List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("No Chemical Type Selected")).ToList();
             List<object> reagentAndStandardContainer = new List<object>();
             List<PrepListItem> prepItems = new List<PrepListItem>();
 

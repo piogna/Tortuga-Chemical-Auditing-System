@@ -11,12 +11,14 @@ namespace TMNT.Models.ViewModels {
         [Required, Display(Name="Device Code")]
         public string DeviceCode { get; set; }
         public Location Location { get; set; }
+        [Display(Name="Level/Clean")]
+        public List<bool> LevelClean { get; set; }
         [Display(Name = "Weight One")]
-        public double WeightOne { get; set; }
+        public double? WeightOne { get; set; }
         [Display(Name="Weight Two")]
-        public double WeightTwo { get; set; }
+        public double? WeightTwo { get; set; }
         [Display(Name = "Weight Three")]
-        public double WeightThree { get; set; }
+        public double? WeightThree { get; set; }
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
     }

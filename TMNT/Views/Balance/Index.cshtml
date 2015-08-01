@@ -45,7 +45,7 @@
                 @if (!@item.IsVerified) {
                     <td>
                         @*@Html.ActionLink("Not Verified - Click Here to Verify", "CreateVerification", new { @id = item.DeviceId })*@
-                        @Html.ActionLink("Verify", "Verification", new { id = item.DeviceId })
+                        @Html.ActionLink("Verification Required", "Verification", new { id = item.DeviceId }, htmlAttributes: new { @style = "color:red;" })
                     </td>
                 } else {
                     <td>

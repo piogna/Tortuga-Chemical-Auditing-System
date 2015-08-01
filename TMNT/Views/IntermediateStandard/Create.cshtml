@@ -127,7 +127,7 @@
                             "<div class='input-group'>" +
                                 "<div class='input-group-addon'></div>" +
                                 "<select name='Type' class='input-xlarge-fuid input-summary form-control valid no-border-radius'>" +
-                                       "<option>Nothing Selected</option>" +
+                                       "<option>No Chemical Type Selected</option>" +
                                            "<optgroup label='Item Type'>" +
                                            "<option value='Reagent'>" +
                                                "Reagent" +
@@ -227,7 +227,7 @@
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
                                             <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>Nothing Selected</option>
+                                                <option>No Chemical Type Selected</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
                                                         <option>
@@ -258,7 +258,7 @@
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
                                             <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>Nothing Selected</option>
+                                                <option>No Chemical Type Selected</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
                                                         <option value="@item">
@@ -289,11 +289,11 @@
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
                                             <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>Nothing Selected</option>
+                                                <option>No Chemical Type Selected</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
                                                         <option value="@item">
-                                                            item
+                                                            @item
                                                         </option>
                                                     }
                                                 </optgroup>
