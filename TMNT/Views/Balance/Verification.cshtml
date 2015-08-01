@@ -12,9 +12,9 @@
         text-align: center;
     }
 
-    table.table-bordered > thead > tr > th:first-child {
-        width: 25%;
-    }
+        table.table-bordered > thead > tr > th:first-child {
+            width: 25%;
+        }
 
     #page-wrapper {
         min-height: 900px;
@@ -172,6 +172,10 @@
             </div>
         </div>
 
+        <p>
+            @Html.ActionLink("Back to List", "Index", "Balance", htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
         <section id="section-bar">
             <div class="tabs tabs-style-bar">
                 <nav>
@@ -190,15 +194,31 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    @Html.EditorFor(model => model.BalanceId, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
-                                    @Html.ValidationMessageFor(model => model.BalanceId)
+                                    @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    @Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fuid input-summary form-control valid no-border-radius" })
-                                    @Html.ValidationMessageFor(model => model.Location)
+                                    @*@Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fuid input-summary form-control valid no-border-radius" })
+                                    @Html.ValidationMessageFor(model => model.Location)*@
+                                    <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                        <option>Nothing Selected</option>
+                                        <optgroup label="Item Type">
+                                            @foreach (var item in ViewBag.Locations) {
+                                                if (item == ViewBag.SelectedLocation) {
+                                                    <option selected>
+                                                        @item
+                                                    </option>
+                                                }
+                                                <option>
+                                                    @item
+                                                </option>
+                                            }
+                                        </optgroup>
+                                    </select>
+
                                 </div>
                             </div>
                             <div class="col-md-4">

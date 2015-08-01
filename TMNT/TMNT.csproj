@@ -187,7 +187,7 @@
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\ReagentController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\ScaleTestController.cs" />
+    <Compile Include="Controllers\BalanceController.cs" />
     <Compile Include="Controllers\StandardController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\SyringeTestController.cs" />
@@ -228,6 +228,14 @@
     <Compile Include="Migrations\201507311743050_DeviceTypeColumn.Designer.cs">
       <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508011419403_AddedStatusToDevice.cs" />
+    <Compile Include="Migrations\201508011419403_AddedStatusToDevice.Designer.cs">
+      <DependentUpon>201508011419403_AddedStatusToDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508011914249_DeviceCode.cs" />
+    <Compile Include="Migrations\201508011914249_DeviceCode.Designer.cs">
+      <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -260,6 +268,7 @@
     <Compile Include="Models\MSDS.cs" />
     <Compile Include="Models\PrepList.cs" />
     <Compile Include="Models\PrepListItem.cs" />
+    <Compile Include="Models\Repository\DeviceRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />
@@ -427,12 +436,12 @@
     <Content Include="Views\Reagent\Index.cshtml" />
     <Content Include="Views\Reports\CalibrationReport.cshtml" />
     <Content Include="Views\Reports\LowStockReport.cshtml" />
-    <Content Include="Views\ScaleTest\Confirmation.cshtml" />
-    <Content Include="Views\ScaleTest\Create.cshtml" />
-    <Content Include="Views\ScaleTest\Delete.cshtml" />
-    <Content Include="Views\ScaleTest\Details.cshtml" />
-    <Content Include="Views\ScaleTest\Edit.cshtml" />
-    <Content Include="Views\ScaleTest\Index.cshtml" />
+    <Content Include="Views\Balance\Confirmation.cshtml" />
+    <Content Include="Views\Balance\Create.cshtml" />
+    <Content Include="Views\Balance\Delete.cshtml" />
+    <Content Include="Views\Balance\Details.cshtml" />
+    <Content Include="Views\Balance\Edit.cshtml" />
+    <Content Include="Views\Balance\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -460,6 +469,7 @@
     <Content Include="Views\AdminController\Details.cshtml" />
     <Content Include="Views\AdminController\Edit.cshtml" />
     <Content Include="Views\AdminController\Index.cshtml" />
+    <Content Include="Views\Balance\Verification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506171724071_Init.resx">
@@ -485,6 +495,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507311743050_DeviceTypeColumn.resx">
       <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508011419403_AddedStatusToDevice.resx">
+      <DependentUpon>201508011419403_AddedStatusToDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508011914249_DeviceCode.resx">
+      <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

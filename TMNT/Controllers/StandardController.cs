@@ -10,7 +10,6 @@ using TMNT.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 using TMNT.Models.FakeRepository;
 
-
 namespace TMNT.Controllers {
     public class StandardController : Controller {
 

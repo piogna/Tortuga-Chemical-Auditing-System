@@ -9,6 +9,12 @@ namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
+        public DeviceRepository() { }
+
+        public DeviceRepository(ApplicationDbContext db) {
+            this.db = db;
+        }
+
         public IEnumerable<Device> Get() {
             return db.Devices.ToList();
         }

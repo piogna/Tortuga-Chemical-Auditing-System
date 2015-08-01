@@ -11,29 +11,28 @@ using TMNT.Models.FakeModels;
 using TMNT.Models.FakeRepository;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
-    public class ScaleTestController : Controller {
-        FakeLocationRepository locRepo = new FakeLocationRepository();
+    public class BalanceController : Controller {
 
-        private IRepository<FakeDeviceTest> repoScaleTest;
-        public ScaleTestController()
-            : this(new FakeDeviceTestRepository()) {
+        private IRepository<Device> repo;
+        public BalanceController()
+            : this(new DeviceRepository()) {
         }
 
-        public ScaleTestController(IRepository<FakeDeviceTest> repoScaleTest) {
-            this.repoScaleTest = repoScaleTest;
+        public BalanceController(IRepository<Device> repo) {
+            this.repo = repo;
         }
 
         // GET: /ScaleTest/
-        [Route("ScaleTest")]
+        [Route("Balances")]
         public ActionResult Index() {
-            return View(db.DeviceTests.ToList());
-            return View();
+            return View(repo.Get().Where(item => item.DeviceType == "Balance"));
         }
 
         // GET: /ScaleTest/Details/5
-        [Route("ScaleTest/Details/{id?}")]
+        [Route("Balance/Details/{id?}")]
         public ActionResult Details(int? id) {
             throw new NotImplementedException();
             //if (id == null) {
@@ -46,14 +45,35 @@ namespace TMNT.Controllers {
             //return View(devicetest);
         }
 
-        // GET: /ScaleTest/Create
-        [Route("ScaleTest/Create")]
+        [Route("Balance/Create")]
         public ActionResult Create() {
-            //sending all Locations to the view
-            var list = locRepo.Get().ToList();
-            SelectList selects = new SelectList(list, "LocationId", "LocationName");
-            ViewBag.Locations = selects;
             return View();
+        }
+
+        // GET: /ScaleTest/Create
+        [Route("Balance/Verification")]
+        public ActionResult VerificationUnspecified() {
+            //sending all Locations to the view
+            var list = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();//repo.Get().Select(item => item.Department.Location).ToList();
+            //SelectList selects = new SelectList(list, "LocationId", "LocationName");
+            ViewBag.Locations = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();
+            return View("Verification");
+        }
+
+        [Route("Balance/Verification/{id?}")]
+        public ActionResult Verification(int? id) {
+            //sending all Locations to the view
+            ViewBag.Locations = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();
+            var balance = repo.Get(id);
+
+            ViewBag.DeviceCode = balance.DeviceCode;
+            ViewBag.SelectedLocation = balance.Department.Location.LocationName;
+            
+            return View(new BalanceTestViewModel() {
+                BalanceId = balance.DeviceId,
+                Location = balance.Department.Location,
+                DeviceCode = balance.DeviceCode
+            });
         }
 
         // POST: /ScaleTest/Create
@@ -61,10 +81,10 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("ScaleTest/Create")]
-        public ActionResult Create([Bind(Include = "BalanceId,WeightOne,WeightTwo,WeightThree,Comments")] BalanceTestViewModel balancetest) {
+        [Route("Balance/Verification")]
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightOne,WeightTwo,WeightThree,Comments")] BalanceTestViewModel balancetest) {
             int? selectedValue = Convert.ToInt32(Request.Form["Location"]);
-            balancetest.Location = locRepo.Get(selectedValue);
+            //balancetest.Location = repo.Get(selectedValue);
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
@@ -75,7 +95,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/Edit/5
-        [Route("ScaleTest/Edit/{id?}")]
+        [Route("Balance/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             //if (id == null) {
             //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -91,7 +111,7 @@ namespace TMNT.Controllers {
         // POST: /ScaleTest/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [Route("ScaleTest/Edit/{id?}")]
+        [Route("Balance/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DeviceTestId")] DeviceTest devicetest) {
@@ -105,21 +125,20 @@ namespace TMNT.Controllers {
         }
 
         // GET: /ScaleTest/Delete/5
-        [Route("ScaleTest/Delete/{id?}")]
+        [Route("Balance/Delete/{id?}")]
         public ActionResult Delete(int? id) {
-            //if (id == null) {
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //DeviceTest devicetest = db.DeviceTests.Find(id);
-            //if (devicetest == null) {
-            //    return HttpNotFound();
-            //}
-            //return View(devicetest);
-            throw new NotImplementedException();
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Device device = repo.Get(id);
+            if (device == null) {
+                return HttpNotFound();
+            }
+            return View(device);
         }
 
         // POST: /ScaleTest/Delete/5
-        [Route("ScaleTest/Delete/{id?}")]
+        [Route("Balance/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
