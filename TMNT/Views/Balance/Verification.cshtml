@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.ViewModels.BalanceTestViewModel
+﻿@model TMNT.Models.ViewModels.BalanceViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -154,7 +154,7 @@
     });
 </script>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(Html.BeginForm("CreateVerification", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" }))) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -320,8 +320,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-4 col-md-offset-4">
-                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 15px;">&#x2717; No, Go Back</a>
-                                    <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
+                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 15px;">Cancel</a>
+                                    <input type="submit" class="btn btn-default" value="Save" />
                                 </div>
                             </div>
                         </div>

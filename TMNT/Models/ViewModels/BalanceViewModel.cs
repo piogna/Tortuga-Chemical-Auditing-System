@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace TMNT.Models.ViewModels {
-    public class BalanceTestViewModel {
+    public class BalanceViewModel {
         [Required(ErrorMessage="The balance ID is required"), Display(Name="Balance ID")]
         public int BalanceId { get; set; }
         [Required, Display(Name="Device Code")]
@@ -21,5 +21,13 @@ namespace TMNT.Models.ViewModels {
         public double? WeightThree { get; set; }
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
+        [Display(Name = "Verification Standing")]
+        public bool IsVerified { get; set; }
+        [Display(Name = "Date Last Verified")]
+        public DateTime? LastVerified { get; set; }
+        public string Status { get; set; }//in good standing, getting repaired etc
+        public virtual Department Department { get; set; }
+        [Display(Name = "Last Verified By")]
+        public virtual ApplicationUser User { get; set; }
     }
 }

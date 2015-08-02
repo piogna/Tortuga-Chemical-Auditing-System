@@ -28,13 +28,48 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("Balances")]
         public ActionResult Index() {
-            return View(repo.Get().Where(item => item.DeviceType == "Balance"));
+            var balances = repo.Get().Where(item => item.DeviceType == "Balance");
+            var viewModels = new List<BalanceViewModel>();
+
+            foreach (var item in balances) {
+                viewModels.Add(new BalanceViewModel() { 
+                    BalanceId = item.DeviceId,
+                    DeviceCode = item.DeviceCode,
+                    Location = item.Department.Location,
+                    Status = item.Status,
+                    IsVerified = item.IsVerified,
+                    Department = item.Department,
+                    LastVerified = item.DeviceVerifications
+                                .Where(x => x.Device == item)
+                                .OrderBy(x => x.VerifiedOn)
+                                .Select(x => x.VerifiedOn)
+                                .Count() == 0 ?
+                                    null :
+                                    item.DeviceVerifications
+                                        .Where(x => x.Device == item)
+                                        .OrderBy(x => x.VerifiedOn)
+                                        .Select(x => x.VerifiedOn)
+                                        .First(),
+                    User = item.DeviceVerifications
+                                .Where(x => x.Device == item)
+                                .OrderBy(x => x.VerifiedOn)
+                                .Select(x => x.User)
+                                .Count() == 0 ?
+                                    null :
+                                    item.DeviceVerifications
+                                        .Where(x => x.Device == item)
+                                        .OrderBy(x => x.VerifiedOn)
+                                        .Select(x => x.User)
+                                        .First()
+                });
+            }
+
+            return View(viewModels);
         }
 
         // GET: /ScaleTest/Details/5
         [Route("Balance/Details/{id?}")]
         public ActionResult Details(int? id) {
-            //throw new NotImplementedException();
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -69,7 +104,7 @@ namespace TMNT.Controllers {
             ViewBag.DeviceCode = balance.DeviceCode;
             ViewBag.SelectedLocation = balance.Department.Location.LocationName;
             
-            return View(new BalanceTestViewModel() {
+            return View(new BalanceViewModel() {
                 BalanceId = balance.DeviceId,
                 Location = balance.Department.Location,
                 DeviceCode = balance.DeviceCode
@@ -82,13 +117,26 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightOne,WeightTwo,WeightThree,Comments")] BalanceTestViewModel balancetest) {
-            int? selectedValue = Convert.ToInt32(Request.Form["Location"]);
-            //balancetest.Location = repo.Get(selectedValue);
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
+            string selectedValue = Request.Form["Type"];
+            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode == balancetest.DeviceCode).Select(item => item.DeviceId).First();
+            balancetest.Location = new ApplicationDbContext().Locations.Where(item => item.LocationName == selectedValue).First();
+
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
-                return View("Confirmation", balancetest);
+                balancetest.LastVerified = DateTime.Now;
+                balancetest.IsVerified = true;
+
+                DeviceVerification verification = new DeviceVerification() {
+                    VerifiedOn = balancetest.LastVerified,
+                    WeightOne = balancetest.WeightOne,
+                    WeightTwo = balancetest.WeightTwo,
+                    WeightThree = balancetest.WeightThree,
+                    Device = repo.Get(balancetest.BalanceId)
+                };
+
+                return RedirectToAction("Index");
             }
 
             return View(balancetest);

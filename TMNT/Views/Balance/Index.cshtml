@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TMNT.Models.Device>
+﻿@model IEnumerable<TMNT.Models.ViewModels.BalanceViewModel>
 
     @{
         ViewBag.Title = "Index";
@@ -30,23 +30,23 @@
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
             <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-            <th>@Html.DisplayNameFor(model => model.LastVerifiedBy)</th>
+            <th>Last Verified By</th>
         </tr>
 
         @foreach (var item in Model) {
             <tr>
                 @if (!@item.IsVerified) {
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.DeviceId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.DeviceId }) |
-                        @Html.ActionLink("Archive", "Delete", new { id = item.DeviceId }) |
-                        @Html.ActionLink("Verify", "Verification", new { id = item.DeviceId }, htmlAttributes: new { @style = "color:red;" })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
+                        @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId }) |
+                        @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @style = "color:red;" })
                     </td>
                 } else {
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.DeviceId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.DeviceId }) |
-                        @Html.ActionLink("Archive", "Delete", new { id = item.DeviceId })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
+                        @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
                     </td>
                 }
                 <td>
@@ -64,9 +64,15 @@
                         Verified
                     </td>
                 }
-                <td>
-                    @item.LastVerifiedBy
-                </td>
+                @if (@item.User == null) {
+                    <td>
+                        N/A
+                    </td>
+                } else {
+                    <td>
+                        @item.User.UserName
+                    </td>
+                }
             </tr>
         }
     </table>

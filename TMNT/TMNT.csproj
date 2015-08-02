@@ -236,6 +236,18 @@
     <Compile Include="Migrations\201508011914249_DeviceCode.Designer.cs">
       <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508021916280_FixingDeviceVerifications.cs" />
+    <Compile Include="Migrations\201508021916280_FixingDeviceVerifications.Designer.cs">
+      <DependentUpon>201508021916280_FixingDeviceVerifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508021952167_MinorBalanceChange.cs" />
+    <Compile Include="Migrations\201508021952167_MinorBalanceChange.Designer.cs">
+      <DependentUpon>201508021952167_MinorBalanceChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508022012102_FixBalanceOne.cs" />
+    <Compile Include="Migrations\201508022012102_FixBalanceOne.Designer.cs">
+      <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -288,7 +300,7 @@
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\UserSettings.cs" />
     <Compile Include="Models\ViewModels\AuditViewModel.cs" />
-    <Compile Include="Models\ViewModels\BalanceTestViewModel.cs" />
+    <Compile Include="Models\ViewModels\BalanceViewModel.cs" />
     <Compile Include="Models\ViewModels\IntermediateStandardViewModel.cs" />
     <Compile Include="Models\ViewModels\InventoryStockReagentViewModel.cs" />
     <Compile Include="Models\ViewModels\InventoryStockStandardViewModel.cs" />
@@ -501,6 +513,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508011914249_DeviceCode.resx">
       <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508021916280_FixingDeviceVerifications.resx">
+      <DependentUpon>201508021916280_FixingDeviceVerifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508021952167_MinorBalanceChange.resx">
+      <DependentUpon>201508021952167_MinorBalanceChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508022012102_FixBalanceOne.resx">
+      <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
