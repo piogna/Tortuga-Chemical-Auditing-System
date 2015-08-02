@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.DeviceTest
+﻿@model TMNT.Models.Device
 
 @{
     ViewBag.Title = "Edit";
@@ -12,10 +12,10 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>DeviceTest</h4>
+        <h4>Balance</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.DeviceTestId)
+        @Html.HiddenFor(model => model.DeviceId)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

@@ -97,15 +97,14 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/Edit/5
         [Route("Balance/Edit/{id?}")]
         public ActionResult Edit(int? id) {
-            //if (id == null) {
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //DeviceTest devicetest = db.DeviceTests.Find(id);
-            //if (devicetest == null) {
-            //    return HttpNotFound();
-            //}
-            //return View(devicetest);
-            throw new NotImplementedException();
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Device device = repo.Get(id);
+            if (device == null) {
+                return HttpNotFound();
+            }
+            return View(device);
         }
 
         // POST: /ScaleTest/Edit/5
@@ -114,14 +113,12 @@ namespace TMNT.Controllers {
         [Route("Balance/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DeviceTestId")] DeviceTest devicetest) {
-        //    if (ModelState.IsValid) {
-        //        db.Entry(devicetest).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-            //    return View(devicetest);
-            throw new NotImplementedException();
+        public ActionResult Edit([Bind(Include = "DeviceTestId")] Device device) {
+            if (ModelState.IsValid) {
+                repo.Update(device);
+                return RedirectToAction("Index");
+            }
+            return View(device);
         }
 
         // GET: /ScaleTest/Delete/5
@@ -141,12 +138,9 @@ namespace TMNT.Controllers {
         [Route("Balance/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id) {
-            //DeviceTest devicetest = db.DeviceTests.Find(id);
-            //db.DeviceTests.Remove(devicetest);
-            //db.SaveChanges();
-            //return RedirectToAction("Index");
-            throw new NotImplementedException();
+        public ActionResult DeleteConfirmed(int? id) {
+            repo.Delete(id);
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing) {
