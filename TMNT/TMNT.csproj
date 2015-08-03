@@ -281,6 +281,8 @@
     <Compile Include="Models\PrepList.cs" />
     <Compile Include="Models\PrepListItem.cs" />
     <Compile Include="Models\Repository\DeviceRepository.cs" />
+    <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
+    <Compile Include="Models\Repository\LocationRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />

@@ -12,6 +12,8 @@ using TMNT.Models.FakeRepository;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace TMNT.Controllers {
     public class BalanceController : Controller {
@@ -88,17 +90,18 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/Create
         [Route("Balance/Verification")]
         public ActionResult VerificationUnspecified() {
+            var locations = new LocationRepository(DbContextSingleton.Instance);
             //sending all Locations to the view
-            var list = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();//repo.Get().Select(item => item.Department.Location).ToList();
+            var list = locations.Get().Select(name => name.LocationName).ToList();//repo.Get().Select(item => item.Department.Location).ToList();
             //SelectList selects = new SelectList(list, "LocationId", "LocationName");
-            ViewBag.Locations = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();
+            ViewBag.Locations = locations.Get().Select(name => name.LocationName).ToList();
             return View("Verification");
         }
 
         [Route("Balance/Verification/{id?}")]
         public ActionResult Verification(int? id) {
             //sending all Locations to the view
-            ViewBag.Locations = new ApplicationDbContext().Locations.Select(name => name.LocationName).ToList();
+            ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
             var balance = repo.Get(id);
 
             ViewBag.DeviceCode = balance.DeviceCode;
@@ -120,25 +123,35 @@ namespace TMNT.Controllers {
         public ActionResult CreateVerification([Bind(Include = "BalanceId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
             string selectedValue = Request.Form["Type"];
             balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode == balancetest.DeviceCode).Select(item => item.DeviceId).First();
-            balancetest.Location = new ApplicationDbContext().Locations.Where(item => item.LocationName == selectedValue).First();
-
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //var user = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+            
+            if (!User.Identity.IsAuthenticated || User == null) {
+                return RedirectToAction("Login", "Account");
+            }
+            var user = User.Identity.GetUserId();
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
-                balancetest.LastVerified = DateTime.Now;
-                balancetest.IsVerified = true;
+                var balance = repo.Get(balancetest.BalanceId);
+                balance.IsVerified = true;
 
                 DeviceVerification verification = new DeviceVerification() {
-                    VerifiedOn = balancetest.LastVerified,
+                    VerifiedOn = DateTime.Now,
                     WeightOne = balancetest.WeightOne,
                     WeightTwo = balancetest.WeightTwo,
                     WeightThree = balancetest.WeightThree,
-                    Device = repo.Get(balancetest.BalanceId)
+                    Device = repo.Get(balancetest.BalanceId),
+                    //as of right now we HAVE to get the user like this, which is garbage
+                    User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user)
                 };
+
+                new DeviceVerificationRepostory().Create(verification);
+
+                balance.DeviceVerifications.Add(verification);
+                repo.Update(balance);
 
                 return RedirectToAction("Index");
             }
-
             return View(balancetest);
         }
 

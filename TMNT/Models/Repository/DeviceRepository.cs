@@ -30,6 +30,7 @@ namespace TMNT.Models.Repository {
 
         public void Update(Device t) {
             db.Entry(t).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Delete(int? i) {
