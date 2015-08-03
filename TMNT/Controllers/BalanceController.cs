@@ -20,7 +20,7 @@ namespace TMNT.Controllers {
 
         private IRepository<Device> repo;
         public BalanceController()
-            : this(new DeviceRepository()) {
+            : this(new DeviceRepository(DbContextSingleton.Instance)) {
         }
 
         public BalanceController(IRepository<Device> repo) {
@@ -34,6 +34,7 @@ namespace TMNT.Controllers {
             var viewModels = new List<BalanceViewModel>();
 
             foreach (var item in balances) {
+                CompareDates.SetBalanceToUnverified(item);
                 viewModels.Add(new BalanceViewModel() { 
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
