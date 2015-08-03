@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
-using TMNT.Models.FakeModels;
-using TMNT.Models.FakeRepository;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 
 namespace TMNT.Controllers {
     public class BalanceController : Controller {
