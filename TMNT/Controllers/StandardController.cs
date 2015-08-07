@@ -7,8 +7,6 @@ using System.Web.Mvc;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
-using Microsoft.AspNet.Identity;
-using TMNT.Models.FakeRepository;
 
 namespace TMNT.Controllers {
     public class StandardController : Controller {
@@ -132,7 +130,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = new FakeStockStandardRepository().Get(id);//repoStandard.Get(id);
+            StockStandard stockstandard = repoStandard.Get(id);//new FakeStockStandardRepository().Get(id);
 
             InventoryStockStandardViewModel model = new InventoryStockStandardViewModel() {
                 StockStandardName = stockstandard.StockStandardName,
@@ -185,8 +183,8 @@ namespace TMNT.Controllers {
                 //    item.Size = stockstandard.Size;
                 //    item.Grade = stockstandard.Grade;
                 //}
-
-                new FakeStockStandardRepository().Update(standard);
+                repoStandard.Update(standard);
+                //new FakeStockStandardRepository().Update(standard);
                 return View("Confirmation", stockstandard);
             }
             return View(stockstandard);
