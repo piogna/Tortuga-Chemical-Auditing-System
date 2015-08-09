@@ -15,6 +15,7 @@ namespace TMNT.Models {
         public string CatalogueCode { get; set; }
         [Required]
         public int Amount { get; set; }
+        public double LowAmountThreshHold { get; set; }
         [Required]
         public int Grade { get; set; }
         [Required, Display(Name = "Case Number")]

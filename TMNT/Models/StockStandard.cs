@@ -13,6 +13,7 @@ namespace TMNT.Models {
         public string IdCode { get; set; }
         [Required, Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
+        public double LowAmountThreshHold { get; set; }
         [Required, DataType(DataType.Date), Display(Name="Date Entered")]
         public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Solvent Used")]

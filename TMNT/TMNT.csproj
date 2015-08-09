@@ -167,7 +167,7 @@
     <Compile Include="Api\AuditApiController.cs" />
     <Compile Include="Api\DeviceTestApiController.cs" />
     <Compile Include="Api\ExpiringStockApiController.cs" />
-    <Compile Include="Api\LowStockStandardApiController.cs" />
+    <Compile Include="Api\LowStockApiController.cs" />
     <Compile Include="Api\StandardApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -252,6 +252,10 @@
     <Compile Include="Migrations\201508092034315_AddedTypeToInventoryItem.Designer.cs">
       <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs" />
+    <Compile Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.Designer.cs">
+      <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -287,6 +291,7 @@
     <Compile Include="Models\Repository\DeviceRepository.cs" />
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />
+    <Compile Include="Models\Repository\LowStockRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />
@@ -532,6 +537,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508092034315_AddedTypeToInventoryItem.resx">
       <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.resx">
+      <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

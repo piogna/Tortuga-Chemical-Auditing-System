@@ -16,6 +16,7 @@ namespace TMNT.Models {
         public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
+        public double LowAmountThreshHold { get; set; }
         [Display(Name = "Entered By")]
         public string EnteredBy { get; set; }
         [Display(Name = "Last Modified")]
