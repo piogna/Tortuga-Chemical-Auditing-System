@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201508022012102_FixBalanceOne.Designer.cs">
       <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508092034315_AddedTypeToInventoryItem.cs" />
+    <Compile Include="Migrations\201508092034315_AddedTypeToInventoryItem.Designer.cs">
+      <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -525,6 +529,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508022012102_FixBalanceOne.resx">
       <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508092034315_AddedTypeToInventoryItem.resx">
+      <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
