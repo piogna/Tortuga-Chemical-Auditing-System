@@ -11,7 +11,7 @@ namespace TMNT.Controllers {
 
         private IRepository<InventoryItem> repo;
 
-        public InventoryItemController() : this(new FakeInventoryItemRepository()) {
+        public InventoryItemController() : this(new InventoryItemRepository()) {
 
         }
 
