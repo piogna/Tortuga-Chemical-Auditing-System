@@ -48,6 +48,19 @@
     </dl>
 
 </div>
+
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>Verified On</th>
+        <th>Verified By</th>
+    </tr>
+    @foreach (var item in Model.DeviceVerifications.OrderBy(x => x.VerifiedOn)) {
+        <tr>
+            <td>@item.VerifiedOn</td>
+            <td>@item.User.FirstName @item.User.LastName</td>
+        </tr>
+    }
+</table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.BalanceId }) |
     @Html.ActionLink("Back to List", "Index")
