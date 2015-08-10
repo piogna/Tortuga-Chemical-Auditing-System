@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.Device
+﻿@model TMNT.Models.ViewModels.BalanceViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -49,6 +49,6 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.DeviceId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BalanceId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

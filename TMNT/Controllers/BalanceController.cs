@@ -74,7 +74,21 @@ namespace TMNT.Controllers {
             if (device == null) {
                 return HttpNotFound();
             }
-            return View(device);
+
+            var balanceData = new BalanceViewModel() {
+                BalanceId = device.DeviceId,
+                Department = device.Department,
+                DeviceCode = device.DeviceCode,
+                IsVerified = device.IsVerified,
+                Location = device.Department.Location,
+                LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First(),
+                Status = device.Status,
+                DeviceVerifications = device.DeviceVerifications.ToList(),
+                LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First()//last verified by
+                //User = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User).First()
+            };
+
+            return View(balanceData);
         }
 
         [Route("Balance/Create")]

@@ -24,8 +24,13 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Date Last Verified")]
         public DateTime? LastVerified { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
+        [Display(Name = "Last Verified By")]
+        public string LastVerifiedBy { get; set; }//full name
         public virtual Department Department { get; set; }
         [Display(Name = "Last Verified By")]
         public virtual ApplicationUser User { get; set; }
+
+        //for details
+        public List<DeviceVerification> DeviceVerifications { get; set; }
     }
 }
