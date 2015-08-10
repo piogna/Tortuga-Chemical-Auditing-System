@@ -14,14 +14,16 @@ namespace TMNT.Utils {
         /// <param name="scale"></param>
         /// <returns></returns>
         public static Device SetBalanceToUnverified(Device scale) {
-            var test  = new DeviceVerificationRepostory(DbContextSingleton.Instance).Get()
-                .Where(item => item.Device == scale)
-                .OrderBy(item => item.VerifiedOn)
-                .Select(item => item.VerifiedOn)
-                .First();
-            if (test.Value.Date < DateTime.Today) {
-                scale.IsVerified = false;
-                new DeviceRepository(DbContextSingleton.Instance).Update(scale);
+            if (scale.DeviceVerifications.Count > 0) {
+                var test = new DeviceVerificationRepostory(DbContextSingleton.Instance).Get()
+                    .Where(item => item.Device == scale)
+                    .OrderBy(item => item.VerifiedOn)
+                    .Select(item => item.VerifiedOn)
+                    .First();
+                if (test.Value.Date < DateTime.Today) {
+                    scale.IsVerified = false;
+                    new DeviceRepository(DbContextSingleton.Instance).Update(scale);
+                }
             }
             return scale;
         }
