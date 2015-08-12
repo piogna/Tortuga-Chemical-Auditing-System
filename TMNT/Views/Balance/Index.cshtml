@@ -1,30 +1,103 @@
 ﻿@model IEnumerable<TMNT.Models.ViewModels.BalanceViewModel>
 
-    @{
-        ViewBag.Title = "Index";
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+
+<style>
+    /*#region overriding data table css*/
+    table.dataTable thead .sorting_asc::after {
+        content: none !important;
     }
 
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                Balances
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Balances
-                </li>
-            </ol>
-        </div>
+    table.dataTable thead .sorting_desc::after {
+        content: none !important;
+    }
+
+    table.dataTable thead .sorting::after {
+        content: none !important;
+    }
+    /*#endregion*/
+
+    /*#region overriding pagination tabs css*/
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 0;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: #337ab7 !important;
+        border: 1px solid #ddd;
+    }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #eee;
+            border: 1px solid #ddd;
+            color: #337ab7 !important;
+        }
+
+    .previous {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    .next {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .disabled {
+        border: 1px solid #ddd !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+        cursor: not-allowed;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        z-index: 2;
+        color: #fff !important;
+        cursor: default;
+        background: #337ab7 !important;
+        border: 1px solid #337ab7;
+    }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+            color: #fff !important;
+            cursor: default;
+            border: 1px solid #337ab7;
+        }
+    /*#endregion*/
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Balances
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> Balances
+            </li>
+        </ol>
     </div>
+</div>
 
-    <p>
-        @Html.ActionLink("New Balance Verification", "VerificationUnspecified", "Balance", htmlAttributes: new { @class = "btn btn-default" })
-        @Html.ActionLink("Add New Balance", "Create", "Balance", htmlAttributes: new { @class = "btn btn-default" })
-    </p>
+<p>
+    @Html.ActionLink("New Balance Verification", "VerificationUnspecified", "Balance", htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Add New Balance", "Create", "Balance", htmlAttributes: new { @class = "btn btn-default" })
+</p>
 
-    <hr />
+<hr />
 
-    <table class="table table-bordered table-striped">
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
         <tr>
             <th>Action</th>
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
@@ -32,7 +105,8 @@
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
             <th>Last Verified By</th>
         </tr>
-
+    </thead>
+    <tbody>
         @foreach (var item in Model) {
             <tr>
                 @if (!@item.IsVerified) {
@@ -75,4 +149,22 @@
                 }
             </tr>
         }
-    </table>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Action</th>
+            <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+            <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+            <th>Last Verified By</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(function () {
+        $('#myTable').dataTable({
+            "pageLength": 50
+        });
+    });
+</script>

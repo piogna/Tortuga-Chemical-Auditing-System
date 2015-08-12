@@ -256,6 +256,10 @@
     <Compile Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.Designer.cs">
       <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508121747107_Bum.cs" />
+    <Compile Include="Migrations\201508121747107_Bum.Designer.cs">
+      <DependentUpon>201508121747107_Bum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -335,6 +339,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\font-awesome\css\font-awesome-4.4.0.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Images\404-error.png" />
     <Content Include="Content\Images\chemistry-woman.jpg" />
@@ -540,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.resx">
       <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508121747107_Bum.resx">
+      <DependentUpon>201508121747107_Bum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

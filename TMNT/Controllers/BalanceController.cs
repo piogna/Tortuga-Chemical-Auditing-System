@@ -75,19 +75,30 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            var balanceData = new BalanceViewModel() {
+            BalanceViewModel balanceData = new BalanceViewModel() {
                 BalanceId = device.DeviceId,
                 Department = device.Department,
                 DeviceCode = device.DeviceCode,
                 IsVerified = device.IsVerified,
                 Location = device.Department.Location,
-                LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First(),
                 Status = device.Status,
-                DeviceVerifications = device.DeviceVerifications.ToList(),
-                LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First()//last verified by
-                //User = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User).First()
             };
 
+            if (device.DeviceVerifications.Count > 0) {
+                balanceData.DeviceVerifications = device.DeviceVerifications.ToList();
+                balanceData.LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
+                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
+
+                    //BalanceId = device.DeviceId,
+                    //Department = device.Department,
+                    //DeviceCode = device.DeviceCode,
+                    //IsVerified = device.IsVerified,
+                    //Location = device.Department.Location,
+                    //LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First(),
+                    //Status = device.Status,
+                    //LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First()//last verified by
+                    //User = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User).First()
+            }
             return View(balanceData);
         }
 

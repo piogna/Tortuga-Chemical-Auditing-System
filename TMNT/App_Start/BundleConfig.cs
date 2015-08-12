@@ -38,7 +38,7 @@ namespace TMNT
                       "~/Content/sections.css",
                       "~/Content/sb-admin-2.css",
                       "~/Content/metisMenu.css")
-                      .Include("~/Content/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));
+                      .Include("~/Content/font-awesome/css/font-awesome-4.4.0.min.css", new CssRewriteUrlTransform()));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
