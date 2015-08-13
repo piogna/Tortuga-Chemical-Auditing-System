@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
+using System;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
@@ -28,8 +29,12 @@ namespace TMNT.Models.Repository {
         }
 
         public void Update(InventoryItem t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+            try {
+                db.Entry(t).State = EntityState.Modified;
+                db.SaveChanges();
+            } catch (System.Data.Entity.Validation.DbEntityValidationException ex) {
+
+            }
         }
 
         public void Delete(int? i) {

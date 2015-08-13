@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.IntermediateStandard
+﻿@model TMNT.Models.ViewModels.IntermediateStandardViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -31,6 +31,38 @@
         <dd>
             @Html.DisplayFor(model => model.DateCreated)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.PrepListItems)
+        </dt>*@
+
+        @*@foreach (var item in Model.PrepListItems) {
+            if (item.StockReagent != null) {
+                <dd>
+                    @item.StockReagent.ReagentName
+                </dd>
+            }
+
+            if (item.StockStandard != null) {
+                <dd>
+                    @item.StockStandard.StockStandardName
+                </dd>
+            }
+
+            if (item.IntermediateStandard != null) {
+                <dd>
+                    @item.IntermediateStandard.IntermediateStandardId
+                </dd>
+            }
+        }*@
 
         @if (Model.Replaces == null) {
             <dt>
@@ -70,6 +102,51 @@
 
     </dl>
 </div>
+
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Item Type</th>
+            <th>@Html.DisplayNameFor(model => model.PrepListItems)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PrepListItems) {
+            <tr>
+                @if (item.StockReagent != null) {
+                    <td>
+                        Stock Reagent
+                    </td>
+                    <td>
+                        @item.StockReagent.ReagentName
+                    </td>
+                }
+
+                @if (item.StockStandard != null) {
+                    <td>
+                        Stock Standard
+                    </td>
+                    <td>
+                        @item.StockStandard.StockStandardName
+                    </td>
+                }
+
+                @if (item.IntermediateStandard != null) {
+                    <td>
+                        Stock Intermediate Standard
+                    </td>
+                    <td>
+                        @item.IntermediateStandard.IntermediateStandardId
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IntermediateStandardId })
     @*@Html.ActionLink("Back to List", "Index")*@

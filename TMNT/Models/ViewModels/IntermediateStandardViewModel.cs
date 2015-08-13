@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class IntermediateStandardViewModel {
 
-        [Key]
         public int IntermediateStandardId { get; set; }
         public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
         public string ReplacedBy { get; set; }
+        [Display(Name="ID Code")]
+        public string IdCode { get; set; }
 
         //foreign keys
         public virtual PrepList PrepList { get; set; }
-        public virtual PrepListItem PrepListItem { get; set; }
+        [Display(Name="Items")]
+        public virtual List<PrepListItem> PrepListItems { get; set; }
 
         public virtual StockStandard StockStandard { get; set; }
 
@@ -25,7 +28,7 @@ namespace TMNT.Models.ViewModels {
         [Required, Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
         [Required]
-        public int Size { get; set; }
+        public int TotalAmount { get; set; }
         [Required]
         public int Grade { get; set; }
         [Required, Display(Name = "Case Number")]

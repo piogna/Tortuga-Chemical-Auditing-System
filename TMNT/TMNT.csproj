@@ -260,6 +260,14 @@
     <Compile Include="Migrations\201508121747107_Bum.Designer.cs">
       <DependentUpon>201508121747107_Bum.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508131741037_TrackingAmountsTaken.cs" />
+    <Compile Include="Migrations\201508131741037_TrackingAmountsTaken.Designer.cs">
+      <DependentUpon>201508131741037_TrackingAmountsTaken.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.cs" />
+    <Compile Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.Designer.cs">
+      <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -548,6 +556,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508121747107_Bum.resx">
       <DependentUpon>201508121747107_Bum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508131741037_TrackingAmountsTaken.resx">
+      <DependentUpon>201508131741037_TrackingAmountsTaken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.resx">
+      <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

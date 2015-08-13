@@ -22,7 +22,7 @@ namespace TMNT.Models {
         public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For")]
         public string UsedFor { get; set; }
-        [Required]
+        //[Required]
         public string Type { get; set; }
         [Required, Display(Name = "Created By")]
         public string CreatedBy { get; set; }
