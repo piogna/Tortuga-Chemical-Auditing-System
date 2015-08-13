@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TMNT.Models;
+using System;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -45,6 +46,13 @@ namespace TMNT.Controllers {
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
+            string username = "";
+
+            if (Request.Cookies["Username"] != null) {
+                username = Request.Cookies["Username"].Value;
+            }
+
+            ViewBag.Username = username;
             return View();
         }
 
@@ -64,6 +72,15 @@ namespace TMNT.Controllers {
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result) {
                 case SignInStatus.Success:
+                    //setting the "Remember Me?" checkbox
+                    if (model.RememberMe) {
+                        // is authenticated so save cookie
+                        Response.Cookies["Username"].Value = model.UserName;
+                        Response.Cookies["Username"].Expires = DateTime.Now.AddDays(5);
+                    } else {
+                        // remove cookie by forcing it to expire immediately
+                        Response.Cookies["Username"].Expires = DateTime.Now.AddDays(-1);
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

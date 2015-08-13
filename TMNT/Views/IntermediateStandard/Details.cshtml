@@ -21,9 +21,80 @@
     @Html.ActionLink("Back to List", "Index", "IntermediateStandard", htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
+<hr />
+
+<div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Prep List Table</h4>
+</div>
+
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Item Type</th>
+            <th>Item Code</th>
+            <th>Amount Used</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PrepListItems) {
+            <tr>
+                @if (item.StockReagent != null) {
+                    <td>
+                        Stock Reagent
+                    </td>
+                    <td>
+                        @item.StockReagent.ReagentName
+                    </td>
+                    <td>
+                        @item.StockReagentAmountTaken
+                    </td>
+                }
+
+                @if (item.StockStandard != null) {
+                    <td>
+                        Stock Standard
+                    </td>
+                    <td>
+                        @item.StockStandard.StockStandardName
+                    </td>
+                    <td>
+                        @item.StockStandardAmountTaken
+                    </td>
+                }
+
+                @if (item.IntermediateStandard != null) {
+                    <td>
+                        Stock Intermediate Standard
+                    </td>
+                    <td>
+                        @item.IntermediateStandard.IntermediateStandardId
+                    </td>
+                    <td>
+                        @item.IntermediateStandardAmountTaken
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+
+    </tfoot>
+</table>
+
+<div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Intermediate Standard Information</h4>
+</div>
+
 <div>
-    <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.DateCreated)
         </dt>
@@ -39,30 +110,6 @@
         <dd>
             @Html.DisplayFor(model => model.Amount)
         </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.PrepListItems)
-        </dt>*@
-
-        @*@foreach (var item in Model.PrepListItems) {
-            if (item.StockReagent != null) {
-                <dd>
-                    @item.StockReagent.ReagentName
-                </dd>
-            }
-
-            if (item.StockStandard != null) {
-                <dd>
-                    @item.StockStandard.StockStandardName
-                </dd>
-            }
-
-            if (item.IntermediateStandard != null) {
-                <dd>
-                    @item.IntermediateStandard.IntermediateStandardId
-                </dd>
-            }
-        }*@
 
         @if (Model.Replaces == null) {
             <dt>
@@ -102,50 +149,6 @@
 
     </dl>
 </div>
-
-<table id="myTable" class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Item Type</th>
-            <th>@Html.DisplayNameFor(model => model.PrepListItems)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.PrepListItems) {
-            <tr>
-                @if (item.StockReagent != null) {
-                    <td>
-                        Stock Reagent
-                    </td>
-                    <td>
-                        @item.StockReagent.ReagentName
-                    </td>
-                }
-
-                @if (item.StockStandard != null) {
-                    <td>
-                        Stock Standard
-                    </td>
-                    <td>
-                        @item.StockStandard.StockStandardName
-                    </td>
-                }
-
-                @if (item.IntermediateStandard != null) {
-                    <td>
-                        Stock Intermediate Standard
-                    </td>
-                    <td>
-                        @item.IntermediateStandard.IntermediateStandardId
-                    </td>
-                }
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-
-    </tfoot>
-</table>
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IntermediateStandardId })

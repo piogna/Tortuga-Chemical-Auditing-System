@@ -100,20 +100,6 @@ namespace TMNT.Controllers {
                 }
             }
 
-            //for (int i = 0; i < reagentAndStandardContainer.Count; i++) {
-            //    if (reagentAndStandardContainer[i] is StockStandard) {
-            //        builder.Add(new PrepListItemBuilder() {
-            //            Standard = reagentAndStandardContainer[i] as StockStandard,
-            //            StandardAmount = double.Parse(amounts[i])
-            //        });
-            //    } else if (reagentAndStandardContainer[i] is StockReagent) {
-            //        builder.Add(new PrepListItemBuilder() {
-            //            Reagent = reagentAndStandardContainer[i] as StockReagent,
-            //            StandardAmount = double.Parse(amounts[i])
-            //        });
-            //    }
-            //}
-
             //building the prep list with the desired prep list items
             int counter = 0;
             foreach (var item in reagentAndStandardContainer) {
@@ -219,13 +205,4 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
     }
-
-    //class PrepListItemBuilder {
-    //    public StockReagent Reagent { get; set; }
-    //    public double? ReagentAmount { get; set; }
-    //    public StockStandard Standard { get; set; }
-    //    public double? StandardAmount { get; set; }
-    //    public IntermediateStandard IntermediateStandard { get; set; }
-    //    public double? IntermediateStandardAmount { get; set; }
-    //}
 }
