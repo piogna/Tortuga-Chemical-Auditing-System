@@ -4,10 +4,24 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @Model.IdCode Intermediate Standard Details
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> Intermediate Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Intermediate Standard Details
+            </li>
+        </ol>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "IntermediateStandard", htmlAttributes: new { @class = "btn btn-default" })
+</p>
 
 <div>
-    <h4>IntermediateStandard</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,18 +32,11 @@
             @Html.DisplayFor(model => model.DateCreated)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DiscardDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DiscardDate)
-        </dd>
         @if (Model.Replaces == null) {
             <dt>
                 Replaces
             </dt>
-            
+
             <dd>
                 N/A
             </dd>
@@ -64,6 +71,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IntermediateStandardId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IntermediateStandardId })
+    @*@Html.ActionLink("Back to List", "Index")*@
 </p>
