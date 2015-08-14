@@ -26,6 +26,9 @@
 
 <p>
     @Html.ActionLink("Back to List", "Index", "Standard", htmlAttributes: new { @class = "btn btn-default" })
+    @if (@ViewBag.ReturnUrl != null) {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Return to Intermediate Standard</a>
+    }
 </p>
 
 <div>

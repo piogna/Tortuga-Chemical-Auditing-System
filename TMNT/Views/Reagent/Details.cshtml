@@ -101,11 +101,14 @@
 
 <p>
     @Html.ActionLink("Back to List", "Index", "Reagent", htmlAttributes: new { @class = "btn btn-default" })
+    @if (@ViewBag.ReturnUrl != null) {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Return to Intermediate Standard</a>
+    }
 </p>
 
 <hr />
 
-<div class="col-md-12" style="background-color: lightgrey;">
+@*<div class="col-md-12" style="background-color: lightgrey;">
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Where @Model.IdCode Has Been Used</h4>
 </div>
 
@@ -119,7 +122,7 @@
     <tfoot>
 
     </tfoot>
-</table>
+</table>*@
 
 <div class="col-md-12" style="background-color: lightgrey;">
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Information</h4>

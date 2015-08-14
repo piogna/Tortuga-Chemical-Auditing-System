@@ -64,6 +64,10 @@ namespace TMNT.Controllers {
         // GET: /Standard/Details/5
         [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
+            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            }
+
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
