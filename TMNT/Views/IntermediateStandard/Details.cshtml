@@ -37,8 +37,10 @@
 <table id="myTable" class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>Action</th>
             <th>Item Type</th>
-            <th>Item Code</th>
+            <th>Item ID Code</th>
+            <th>Item Name</th>
             <th>Amount Taken</th>
         </tr>
     </thead>
@@ -47,39 +49,51 @@
             <tr>
                 @if (item.StockReagent != null) {
                     <td>
+                        @Html.ActionLink("Details", "Details", "Reagent", null, new { id = item.StockReagent.ReagentId })
+                    </td>
+                    <td>
                         Stock Reagent
                     </td>
                     <td>
-                        @item.StockReagent.ReagentName
+                        @item.StockReagent.IdCode
                     </td>
                     <td>
-                        @item.Amount
+                        @item.StockReagent.ReagentName
                     </td>
                 }
 
                 @if (item.StockStandard != null) {
                     <td>
+                        @Html.ActionLink("Details", "Details", "Standard", null, new { id = item.StockStandard.StockStandardId })
+                    </td>
+                    <td>
                         Stock Standard
                     </td>
                     <td>
-                        @item.StockStandard.StockStandardName
+                        @item.StockStandard.IdCode
                     </td>
                     <td>
-                        @item.Amount
+                        @item.StockStandard.StockStandardName
                     </td>
                 }
 
                 @if (item.IntermediateStandard != null) {
                     <td>
+                        @Html.ActionLink("Details", "Details", "IntermediateStandard", null, new { id = item.IntermediateStandard.IntermediateStandardId })
+                    </td>
+                    <td>
                         Stock Intermediate Standard
+                    </td>
+                    <td>
+                        @item.IntermediateStandard.IdCode
                     </td>
                     <td>
                         @item.IntermediateStandard.IntermediateStandardId
                     </td>
-                    <td>
-                        @item.Amount
-                    </td>
                 }
+                <td>
+                    @item.Amount
+                </td>
             </tr>
         }
     </tbody>
