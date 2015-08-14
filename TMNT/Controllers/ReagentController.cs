@@ -36,6 +36,7 @@ namespace TMNT.Controllers {
                     LastModifiedBy = item.LastModifiedBy
                 });
             }
+
             //iterating through the associated InventoryItem and retrieving the appropriate data
             //this is faster than LINQ
             int counter = 0;
@@ -50,6 +51,7 @@ namespace TMNT.Controllers {
                         list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].Grade = invItem.Grade;
+                        //list[counter].PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                     }
                 }
                 counter++;
@@ -63,11 +65,55 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockReagent stockreagent = repo.Get(id);
-            if (stockreagent == null) {
+
+            StockReagent reagent = repo.Get(id);
+
+            if (reagent == null) {
                 return HttpNotFound();
             }
-            return View(stockreagent);
+
+            var vReagent = new StockReagentViewModel() {
+                ReagentId = reagent.ReagentId,
+                IdCode = reagent.IdCode,
+                DateEntered = reagent.DateEntered,
+                EnteredBy = reagent.EnteredBy,
+                ReagentName = reagent.ReagentName,
+                LowAmountThreshHold = reagent.LowAmountThreshHold,
+                LastModified = reagent.LastModified,
+                LastModifiedBy = reagent.LastModifiedBy
+            };
+
+            //var itemsWhereReagentWasUsed = new PrepListItemRepository().Get().ToList()
+            //    .Join(new IntermediateStandardRepository().Get(),
+            //        prepListItem => prepListItem.PrepList.PrepListId,
+            //        intStandard => intStandard.PrepList.PrepListId,
+            //        (prepListItem, intStandard) => new { prepListItem.PrepList, intStandard.PrepList.PrepListId })
+            //    .Where(x => x.PrepList.PrepListId == x.PrepListId)
+            //    //.Join(new StockReagentRepository().Get(),
+            //    //    prepListItem => prepListItem.PrepList.PrepListId,
+            //    //    linqReagent => linqReagent.)
+            //    .GroupBy(x => x.PrepList.IntermediateStandards)
+            //    .Select(x => x as IntermediateStandard)
+            //    .ToList();
+
+            /* CONSIDER STORED PROCEDURE HERE */
+            
+            foreach (var invItem in reagent.InventoryItems) {
+                if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
+                    vReagent.Amount = invItem.Amount;
+                    vReagent.CaseNumber = invItem.CaseNumber;
+                    vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.UsedFor = invItem.UsedFor;
+                    vReagent.Unit = invItem.Unit;
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
+                    vReagent.Grade = invItem.Grade;
+                    //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
+                    //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
+                }
+            }
+
+            return View(vReagent);
         }
 
         // GET: /Reagent/Create

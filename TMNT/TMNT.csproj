@@ -309,6 +309,7 @@
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />
     <Compile Include="Models\Repository\LowStockRepository.cs" />
+    <Compile Include="Models\Repository\PrepListItemRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
     <Compile Include="Models\Repository\IntermediateStandardRepository.cs" />

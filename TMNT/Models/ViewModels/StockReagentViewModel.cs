@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
@@ -36,5 +37,9 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public MSDS MSDS { get; set; }
         public Unit Unit { get; set; }
+
+        public List<PrepListItem> PrepListItems { get; set; }
+
+        //public List<object> ItemsWhereReagentUsed { get; set; }
     }
 }
