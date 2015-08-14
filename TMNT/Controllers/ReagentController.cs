@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace TMNT.Controllers {
     public class ReagentController : Controller {
@@ -20,7 +21,40 @@ namespace TMNT.Controllers {
         // GET: /Reagent/
         [Route("Reagent")]
         public ActionResult Index() {
-            return View(repo.Get());//db.StockReagents.ToList());
+            var reagents = repo.Get();
+            List<StockReagentViewModel> list = new List<StockReagentViewModel>();
+
+            foreach (var item in reagents) {
+                list.Add(new StockReagentViewModel() {
+                    ReagentId = item.ReagentId,
+                    IdCode = item.IdCode,
+                    DateEntered = item.DateEntered,
+                    EnteredBy = item.EnteredBy,
+                    ReagentName = item.ReagentName,
+                    LowAmountThreshHold = item.LowAmountThreshHold,
+                    LastModified = item.LastModified,
+                    LastModifiedBy = item.LastModifiedBy
+                });
+            }
+            //iterating through the associated InventoryItem and retrieving the appropriate data
+            //this is faster than LINQ
+            int counter = 0;
+            foreach (var reagent in reagents) {
+                foreach (var invItem in reagent.InventoryItems) {
+                    if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
+                        list[counter].Amount = invItem.Amount;
+                        list[counter].CaseNumber = invItem.CaseNumber;
+                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].UsedFor = invItem.UsedFor;
+                        list[counter].Unit = invItem.Unit;
+                        list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].Grade = invItem.Grade;
+                    }
+                }
+                counter++;
+            }
+            return View(list);
         }
 
         // GET: /Reagent/Details/5
@@ -29,7 +63,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockReagent stockreagent = repo.Get(id);//db.StockReagents.Find(id);
+            StockReagent stockreagent = repo.Get(id);
             if (stockreagent == null) {
                 return HttpNotFound();
             }
@@ -51,7 +85,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] InventoryStockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             string s  = Request.Form["Unit"];
             
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
@@ -111,13 +145,11 @@ namespace TMNT.Controllers {
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                     //save pressed
-                    return RedirectToAction("Index");// View("Index");
+                    return RedirectToAction("Index");
                 } else {
                     //save & new pressed
                     return RedirectToAction("Create");
                 }
-
-                //return View("Confirmation", model);
             }
             return View(model);
         }
@@ -128,7 +160,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockReagent stockreagent = repo.Get(id);//db.StockReagents.Find(id);
+            StockReagent stockreagent = repo.Get(id);
             if (stockreagent == null) {
                 return HttpNotFound();
             }
@@ -143,8 +175,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReagentId,IdCode,DateEntered,ReagentName,EnteredBy")] StockReagent stockreagent) {
             if (ModelState.IsValid) {
-                //db.Entry(stockreagent).State = EntityState.Modified;
-                //db.SaveChanges();
                 repo.Update(stockreagent);
                 return RedirectToAction("Index");
             }
@@ -157,7 +187,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockReagent stockreagent = repo.Get(id);//db.StockReagents.Find(id);
+            StockReagent stockreagent = repo.Get(id);
             if (stockreagent == null) {
                 return HttpNotFound();
             }
@@ -169,9 +199,6 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            //StockReagent stockreagent = db.StockReagents.Find(id);
-            //db.StockReagents.Remove(stockreagent);
-            //db.SaveChanges();
             repo.Delete(id);
             return RedirectToAction("Index");
         }

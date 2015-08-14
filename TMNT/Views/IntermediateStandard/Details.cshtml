@@ -32,7 +32,7 @@
         <tr>
             <th>Item Type</th>
             <th>Item Code</th>
-            <th>Amount Used</th>
+            <th>Amount Taken</th>
         </tr>
     </thead>
     <tbody>
@@ -46,7 +46,7 @@
                         @item.StockReagent.ReagentName
                     </td>
                     <td>
-                        @item.StockReagentAmountTaken
+                        @item.Amount
                     </td>
                 }
 
@@ -58,7 +58,7 @@
                         @item.StockStandard.StockStandardName
                     </td>
                     <td>
-                        @item.StockStandardAmountTaken
+                        @item.Amount
                     </td>
                 }
 
@@ -70,7 +70,7 @@
                         @item.IntermediateStandard.IntermediateStandardId
                     </td>
                     <td>
-                        @item.IntermediateStandardAmountTaken
+                        @item.Amount
                     </td>
                 }
             </tr>
@@ -104,7 +104,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.Amount) Remaining
         </dt>
 
         <dd>

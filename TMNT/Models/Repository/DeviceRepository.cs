@@ -2,6 +2,7 @@
 using System.Linq;
 using TMNT.Utils;
 using System.Data.Entity;
+using System;
 
 namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
@@ -27,8 +28,12 @@ namespace TMNT.Models.Repository {
         }
 
         public void Update(Device t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+            try {
+                db.Entry(t).State = EntityState.Modified;
+                db.SaveChanges();
+            } catch (Exception ex) {
+
+            }
         }
 
         public void Delete(int? i) {

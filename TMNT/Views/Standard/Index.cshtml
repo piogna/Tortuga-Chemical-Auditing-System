@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TMNT.Models.StockStandard>
+﻿@model IEnumerable<TMNT.Models.ViewModels.StockStandardViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -111,6 +111,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
             </th>
+            <th>
+                Amount Remaining
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -124,14 +127,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StockStandardName)
                 </td>
-                <th>
+                <td>
                     @Html.DisplayFor(modelItem => item.DateEntered)
-                </th>
-                <th>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.EnteredBy)
-                </th>
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
                 </td>
                 @*<td>
                         @foreach (var i in item.InventoryItems) {
@@ -159,6 +165,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                Amount Remaining
             </th>
         </tr>
     </tfoot>

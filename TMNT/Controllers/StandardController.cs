@@ -23,7 +23,42 @@ namespace TMNT.Controllers {
         [Route("Standard")]
         // GET: /Standard/
         public ActionResult Index() {
-            return View(repoStandard.Get());//db.StockStandards.ToList());
+            var standards = repoStandard.Get();
+            List<StockStandardViewModel> list = new List<StockStandardViewModel>();
+
+            foreach (var item in standards) {
+                list.Add(new StockStandardViewModel() {
+                    StockStandardId = item.StockStandardId,
+                    StockStandardName = item.StockStandardName,
+                    DateEntered = item.DateEntered,
+                    EnteredBy = item.EnteredBy,
+                    IdCode = item.IdCode,
+                    LastModified = item.LastModified,
+                    LastModifiedBy = item.LastModifiedBy,
+                    LowAmountThreshHold = item.LowAmountThreshHold,
+                    Purity = item.Purity,
+                    SolventUsed = item.SolventUsed
+                });
+            }
+            //iterating through the associated InventoryItem and retrieving the appropriate data
+            //this is faster than LINQ
+            int counter = 0;
+            foreach (var standard in standards) {
+                foreach (var invItem in standard.InventoryItems) {
+                    if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
+                        list[counter].Amount = invItem.Amount;
+                        list[counter].CaseNumber = invItem.CaseNumber;
+                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].UsedFor = invItem.UsedFor;
+                        list[counter].Unit = invItem.Unit;
+                        list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].Grade = invItem.Grade;
+                    }
+                }
+                counter++;
+            }
+            return View(list);
         }
 
         // GET: /Standard/Details/5
@@ -32,7 +67,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repoStandard.Get(id);//db.StockStandards.Find(id);
+            StockStandard stockstandard = repoStandard.Get(id);
             if (stockstandard == null) {
                 return HttpNotFound();
             }
@@ -54,7 +89,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] InventoryStockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
 
@@ -112,12 +147,11 @@ namespace TMNT.Controllers {
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                     //save pressed
-                    return RedirectToAction("Index");// View("Index");
+                    return RedirectToAction("Index");
                 } else {
                     //save & new pressed
                     return RedirectToAction("Create");
                 }
-                //return View("Confirmation", model);
             }
             return View(model);
         }
@@ -126,13 +160,13 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             //hard-coded right now for prototype purposes
-            id = 1;
+            //id = 1;
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repoStandard.Get(id);//new FakeStockStandardRepository().Get(id);
+            StockStandard stockstandard = repoStandard.Get(id);
 
-            InventoryStockStandardViewModel model = new InventoryStockStandardViewModel() {
+            StockStandardViewModel model = new StockStandardViewModel() {
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
@@ -161,12 +195,9 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "StockStandardName,DateEntered,IdCode,Purity,SolventUsed,Size,Grade,CatalogueCode,CaseNumber,UsedFor")] 
-            InventoryStockStandardViewModel stockstandard) {
+            StockStandardViewModel stockstandard) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                //db.Entry(stockstandard).State = EntityState.Modified;
-                //db.SaveChanges();
-                //repoStandard.Update(stockstandard);
                 StockStandard standard = new StockStandard() {
                     IdCode = stockstandard.IdCode,
                     Purity = stockstandard.Purity,
@@ -177,14 +208,7 @@ namespace TMNT.Controllers {
                         }
                     }
                 };
-
-                //foreach (var item in standard.InventoryItems) {
-                //    item.CatalogueCode = stockstandard.CatalogueCode;
-                //    item.Size = stockstandard.Size;
-                //    item.Grade = stockstandard.Grade;
-                //}
                 repoStandard.Update(standard);
-                //new FakeStockStandardRepository().Update(standard);
                 return View("Confirmation", stockstandard);
             }
             return View(stockstandard);
@@ -196,7 +220,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repoStandard.Get(id);//db.StockStandards.Find(id);
+            StockStandard stockstandard = repoStandard.Get(id);
             if (stockstandard == null) {
                 return HttpNotFound();
             }
@@ -208,9 +232,6 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            //StockStandard stockstandard = db.StockStandards.Find(id);
-            //db.StockStandards.Remove(stockstandard);
-            //db.SaveChanges();
             repoStandard.Delete(id);
             return RedirectToAction("Index");
         }
