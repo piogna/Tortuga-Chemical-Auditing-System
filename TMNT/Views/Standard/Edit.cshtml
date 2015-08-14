@@ -1,10 +1,15 @@
-﻿@model TMNT.Models.ViewModels.InventoryStockStandardViewModel
+﻿@model TMNT.Models.ViewModels.StockStandardViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
 <style>
+    /* Fixing Side Menu Selectors */
+    #side-menu > li:first-child > a {
+        background-color: #F8F8F8;
+    }
+
     #page-wrapper {
         min-height: 900px;
     }
@@ -99,9 +104,9 @@
                                 @Html.LabelFor(model => model.CatalogueCode)
                                 @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code" } })<span class="required push-right"></span>
                                 @Html.ValidationMessageFor(model => model.CatalogueCode)
-                                @Html.LabelFor(model => model.Size)
-                                @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @placeholder = "Size", @min = 0 } })<span class="required push-right"></span>
-                                @Html.ValidationMessageFor(model => model.Size)
+                                @Html.LabelFor(model => model.Amount)
+                                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Size", @min = 0 } })<span class="required push-right"></span>
+                                @Html.ValidationMessageFor(model => model.Amount)
                                 @Html.LabelFor(model => model.Grade)
                                 @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0 } })<span class="required"></span>
                                 @Html.ValidationMessageFor(model => model.Grade)
