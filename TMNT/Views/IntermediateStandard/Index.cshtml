@@ -103,6 +103,9 @@
         <tr>
             <th>Action</th>
             <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
@@ -124,6 +127,9 @@
                     @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId })
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
@@ -141,6 +147,9 @@
     <tfoot>
         <tr>
             <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>

@@ -108,14 +108,20 @@
         <tr>
             <th>Verified On</th>
             <th>Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
         </tr>
     </thead>
     <tbody>
         @if (Model.DeviceVerifications != null) {
-            foreach (var item in Model.DeviceVerifications.OrderBy(x => x.VerifiedOn)) {
+            foreach (var item in Model.DeviceVerifications) {
                 <tr>
                     <td>@item.VerifiedOn</td>
                     <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.WeightOne</td>
+                    <td>@item.WeightTwo</td>
+                    <td>@item.WeightThree</td>
                 </tr>
             }
         }
@@ -124,6 +130,9 @@
         <tr>
             <th>Verified On</th>
             <th>Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
         </tr>
     </tfoot>
 </table>

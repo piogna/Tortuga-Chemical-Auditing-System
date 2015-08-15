@@ -17,7 +17,7 @@ namespace TMNT.Utils {
             if (scale.DeviceVerifications.Count > 0) {
                 var test = new DeviceVerificationRepostory(DbContextSingleton.Instance).Get()
                     .Where(item => item.Device == scale)
-                    .OrderBy(item => item.VerifiedOn)
+                    .OrderByDescending(item => item.VerifiedOn)
                     .Select(item => item.VerifiedOn)
                     .First();
                 if (test.Value.Date < DateTime.Today) {

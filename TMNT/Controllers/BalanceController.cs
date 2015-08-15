@@ -38,7 +38,7 @@ namespace TMNT.Controllers {
                     Department = item.Department,
                     LastVerified = item.DeviceVerifications
                                 .Where(x => x.Device == item)
-                                .OrderBy(x => x.VerifiedOn)
+                                .OrderByDescending(x => x.VerifiedOn)
                                 .Select(x => x.VerifiedOn)
                                 .Count() == 0 ?
                                     null :
@@ -49,7 +49,7 @@ namespace TMNT.Controllers {
                                         .First(),
                     User = item.DeviceVerifications
                                 .Where(x => x.Device == item)
-                                .OrderBy(x => x.VerifiedOn)
+                                .OrderByDescending(x => x.VerifiedOn)
                                 .Select(x => x.User)
                                 .Count() == 0 ?
                                     null :
@@ -85,7 +85,7 @@ namespace TMNT.Controllers {
             };
 
             if (device.DeviceVerifications.Count > 0) {
-                balanceData.DeviceVerifications = device.DeviceVerifications.ToList();
+                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).Take(5).ToList();
                 balanceData.LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
                 balanceData.LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
 
