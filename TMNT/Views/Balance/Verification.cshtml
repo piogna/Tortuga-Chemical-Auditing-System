@@ -87,7 +87,7 @@
     }
 
     #additional-weights {
-        display: none;
+        opacity:0.5;
     }
 </style>
 
@@ -101,9 +101,14 @@
         var validateOne = $('.weight-validate').first();
         var validateTwo = $('.weight-validate').eq(1);
         var validateThree = $('.weight-validate').eq(2);
+
         var passOrFailOne = $('.pass-or-fail').first();
         var passOrFailTwo = $('.pass-or-fail').eq(1);
         var passOrFailThree = $('.pass-or-fail').eq(2);
+
+        //var levelCleanOne = $('.level-clean').first();
+        var levelCleanTwo = $('.level-clean').eq(1);
+        var levelCleanThree = $('.level-clean').eq(2);
 
         var weightOne = $('.weight-one');
         var weightTwo = $('.weight-two');
@@ -125,9 +130,12 @@
                 passOrFailOne.first().text("Fail").css('color', 'red');
 
                 validateThree.attr('disabled', 'disabled');
-                weightThree.attr('readonly', 'readonly');
+                //weightThree.attr('readonly', 'readonly');
 
-                $('#additional-weights').css('display', 'block');
+                $('#additional-weights').css('opacity', '1.0');
+                weightTwo.removeAttr("disabled");
+                validateTwo.removeAttr("disabled");
+                levelCleanTwo.removeAttr("disabled");
             }
         });
         //second verification if first fails
@@ -145,8 +153,11 @@
                 //fail
                 weightTwo.attr('readonly', 'readonly');
                 validateTwo.attr('disabled', 'disabled');
+
                 validateThree.removeAttr('disabled');
-                weightThree.removeAttr('readonly');
+                weightThree.removeAttr('disabled');
+                levelCleanThree.removeAttr("disabled");
+
                 $('#add-required').addClass('addon-required');
                 passOrFailTwo.first().text("Fail").css('color', 'red');
             }
@@ -222,7 +233,6 @@
                                             }
                                         </optgroup>
                                     </select>
-
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -250,6 +260,7 @@
                             <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Start Balance Verification</h4>
                         </div>
                         <div class="form-group">
+                            <!-- Weight One -->
                             <div class="col-lg-4">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
@@ -260,7 +271,7 @@
                                 </div>
                                 <div class="input-group col-lg-9">
                                     <div class="checkbox">
-                                        <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
+                                        <label class="form-control no-border"><input class="level-clean" type="checkbox" style="" />Level/Clean</label>
                                     </div>
                                 </div>
                                 <div class="input-group col-lg-2">
@@ -268,34 +279,36 @@
                                 </div>
                             </div>
                             <div id="additional-weights">
+                                <!-- Weight Two -->
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @class = "input-summary form-control weight-two" } })
+                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two" } })
                                         @Html.ValidationMessageFor(model => model.WeightTwo)
                                         <div class="input-group-addon addon-weight">10.0000</div>
-                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Validate</a>
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
+                                            <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
                                         </div>
                                     </div>
                                     <div class="input-group col-lg-2">
                                         <div class="form-control no-border pass-or-fail" style="float:right;"></div>
                                     </div>
                                 </div>
+                                <!-- Weight Three -->
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div id="add-required" class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @class = "input-summary form-control weight-three" } })
+                                        @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three" } })
                                         @Html.ValidationMessageFor(model => model.WeightThree)
                                         <div class="input-group-addon addon-weight">100.0000</div>
-                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Validate</a>
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" style="" />Level/Clean</label>
+                                            <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
                                         </div>
                                     </div>
                                     <div class="input-group col-lg-2">

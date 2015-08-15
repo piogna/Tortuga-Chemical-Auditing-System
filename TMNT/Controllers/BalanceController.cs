@@ -86,8 +86,8 @@ namespace TMNT.Controllers {
 
             if (device.DeviceVerifications.Count > 0) {
                 balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).Take(5).ToList();
-                balanceData.LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
-                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
+                balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
+                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
 
                     //BalanceId = device.DeviceId,
                     //Department = device.Department,
