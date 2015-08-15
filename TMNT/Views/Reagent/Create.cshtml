@@ -103,17 +103,30 @@
         var sectionOneInputs = $('#section-bar-1 .input-summary');
         var tabs = $('.tabs li');
 
-        //$(nextButtons[0]).on('click', function (e) {
-        //    for (var i = 0; i < sectionOneInputs.length; i++) {
-        //        if (sectionOneInputs[i].value === "" || sectionOneInputs[i].value === null) {
-        //            console.log("one is empty");
-        //            $("#section-bar-" + i.toString()).addClass('content-current');
-        //            $("#section-bar-2").removeClass('content-current');
-        //            tabs[1].removeAttribute('class');
-        //            tabs[0].setAttribute('class', 'tab-current');
-        //        }
-        //    }
-        //});
+        //"disabling" next-section click until all required fields are clicked. this is very hacky.
+        $($('.next-section')).on('click', function () {
+                $('.tabs-style-bar > nav > ul > li:first-child').addClass('tab-current');
+                $('.tabs-style-bar > nav > ul > li').eq(1).removeClass('tab-current');
+
+                $("#section-bar-1").addClass("content-current");
+                $('#section-bar-2').removeClass("content-current");
+
+                $('.required-field').each(function () {
+                    if ($(this).val() === "" || $(this).val() === null) {
+                        $(this).css("border", "1px solid red");
+                    } else {
+                        $(this).css("border", "1px solid #ccc");
+                    }
+                });
+        });
+
+        $($('.required-field')).on('keyup', function () {
+            $('.required-field').each(function () {
+                if ($(this).is(':focus') && $(this).val() !== "") {
+                    $(this).first().css("border", "1px solid #ccc");
+                }
+            });
+        });
     });
 </script>
 
@@ -128,7 +141,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home", null) / <i class="fa fa-flask"></i> Stock Reagents / <i class="fa fa-star-half-o"></i> New Stock Reagent
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home", null) / <i class="fa fa-flask"></i> Stock Reagents / <i class="fa fa-star-o"></i> New Stock Reagent
                     </li>
                 </ol>
             </div>
@@ -155,7 +168,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.IdCode)
                                     </div>
                                 </div>
@@ -165,7 +178,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Entered", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Entered", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.DateEntered)
                                         <div class="input-group-addon">Date Entered</div>
                                     </div>
@@ -175,7 +188,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.ReagentName, new { htmlAttributes = new { @placeholder = "Reagent Name", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.ReagentName, new { htmlAttributes = new { @placeholder = "Reagent Name", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.ReagentName)
                                     </div>
                                 </div>
@@ -184,7 +197,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0, @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0, @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.CaseNumber)
                                     </div>
                                 </div>
@@ -193,7 +206,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @style = "resize:none;", @rows = 5, @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @style = "resize:none;", @rows = 5, @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                 </div>
@@ -205,7 +218,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.CatalogueCode)
                                     </div>
                                 </div>
@@ -214,7 +227,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.InventoryItemName, new { htmlAttributes = new { @placeholder = "Inventory Item Name", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.InventoryItemName, new { htmlAttributes = new { @placeholder = "Inventory Item Name", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.InventoryItemName)
                                     </div>
                                 </div>
@@ -223,10 +236,10 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.Amount)
                                         <div class="input-group-addon" style="padding:0; border:none; width:33%;">
-                                            @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
+                                            @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control required-field" })
                                             @Html.ValidationMessageFor(model => model.Unit)
                                         </div>
                                     </div>
@@ -236,7 +249,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0, @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0, @class = "input-summary form-control required-field required-field" } })
                                         @Html.ValidationMessageFor(model => model.Grade)
                                     </div>
                                 </div>
@@ -247,7 +260,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.DateEntered)
                                         <div class="input-group-addon">Date Created</div>
                                     </div>
@@ -257,7 +270,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.LastModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.LastModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.LastModified)
                                         <div class="input-group-addon">Date Modified</div>
                                     </div>

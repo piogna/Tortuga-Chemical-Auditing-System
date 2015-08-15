@@ -5,6 +5,11 @@
 }
 
 <style>
+    /* Fixing Side Menu Selectors */
+    #side-menu > li:first-child > a {
+        background-color: #F8F8F8;
+    }
+
     /* Summary Table CSS */
     table.table-bordered > thead > tr > th {
         background: black;
@@ -107,7 +112,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-star-half-o"></i> New Stock Standard
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-star-o"></i> New Stock Standard
                     </li>
                 </ol>
             </div>

@@ -53,7 +53,7 @@
         this.tabs.forEach(function (tab, idx) {
             tab.addEventListener('click', function (ev) {
                 ev.preventDefault();
-                self._show(idx);
+                //self._show(idx);
             });
         });
 

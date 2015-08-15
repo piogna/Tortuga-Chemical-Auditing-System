@@ -375,8 +375,9 @@ body #cdawrap {
 
 .tabs-style-bar nav ul li a:hover,
 .tabs-style-bar nav ul li a:focus {
-	color: #2CC185;
-    cursor:pointer;
+	/*color: #2CC185;
+    cursor:pointer;*/
+    cursor:default;
 }
 
 .tabs-style-bar nav ul li a span {

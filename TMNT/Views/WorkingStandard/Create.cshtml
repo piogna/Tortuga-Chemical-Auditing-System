@@ -44,11 +44,15 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Working Standard
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards / <i class="fa fa-star-o"></i> New Working Standard
                     </li>
                 </ol>
             </div>
         </div>
+
+        <p>
+            @Html.ActionLink("Back to List", "Index", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
+        </p>
 
         <section id="section-bar">
             <div class="tabs tabs-style-bar">
