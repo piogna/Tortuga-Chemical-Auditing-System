@@ -5,6 +5,11 @@
 }
 
 <style>
+    /* Fixing Side Menu Selectors */
+    #side-menu > li:first-child > a {
+        background-color: #F8F8F8;
+    }
+
     /* Summary Table CSS */
     table.table-bordered > thead > tr > th {
         background: black;
@@ -242,8 +247,8 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateCreated)
+                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.DateEntered)
                                         <div class="input-group-addon">Date Created</div>
                                     </div>
                                 </div>
@@ -252,8 +257,8 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
-                                        @Html.ValidationMessageFor(model => model.DateModified)
+                                        @Html.EditorFor(model => model.LastModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LastModified)
                                         <div class="input-group-addon">Date Modified</div>
                                     </div>
                                 </div>
