@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace TMNT.Models.Repository {
     public interface IRepository<T> : IDisposable {
+
         IEnumerable<T> Get();
         T Get(int? i);
         void Create(T t);

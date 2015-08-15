@@ -186,6 +186,7 @@
     <Compile Include="Controllers\InventoryItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
+    <Compile Include="Controllers\PDFViewerController.cs" />
     <Compile Include="Controllers\ReagentController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\BalanceController.cs" />
@@ -309,6 +310,7 @@
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />
     <Compile Include="Models\Repository\LowStockRepository.cs" />
+    <Compile Include="Models\Repository\PDFRepository.cs" />
     <Compile Include="Models\Repository\PrepListItemRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
     <Compile Include="Models\Repository\IApiRepository.cs" />
@@ -513,6 +515,7 @@
     <Content Include="Views\AdminController\Edit.cshtml" />
     <Content Include="Views\AdminController\Index.cshtml" />
     <Content Include="Views\Balance\Verification.cshtml" />
+    <Content Include="Views\PDFViewer\ViewPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506171724071_Init.resx">
@@ -581,6 +584,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

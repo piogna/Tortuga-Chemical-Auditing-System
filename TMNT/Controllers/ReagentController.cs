@@ -62,12 +62,14 @@ namespace TMNT.Controllers {
         // GET: /Reagent/Details/5
         [Route("Reagent/Details/{id?}")]
         public ActionResult Details(int? id) {
-            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
-                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            if (Request.UrlReferrer == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            } else if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            if (id == null) {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             }
 
             StockReagent reagent = repo.Get(id);

@@ -71,11 +71,37 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repoStandard.Get(id);
-            if (stockstandard == null) {
+
+            StockStandard standard = repoStandard.Get(id);
+
+            StockStandardViewModel vStandard = new StockStandardViewModel() {
+                StockStandardId = standard.StockStandardId,
+                IdCode = standard.IdCode,
+                DateEntered = standard.DateEntered,
+                EnteredBy = standard.EnteredBy,
+                StockStandardName = standard.StockStandardName,
+                LowAmountThreshHold = standard.LowAmountThreshHold,
+                LastModified = standard.LastModified,
+                LastModifiedBy = standard.LastModifiedBy
+            };
+
+            foreach (var invItem in standard.InventoryItems) {
+                if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
+                    vStandard.Amount = invItem.Amount;
+                    vStandard.CaseNumber = invItem.CaseNumber;
+                    vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vStandard.UsedFor = invItem.UsedFor;
+                    vStandard.Unit = invItem.Unit;
+                    vStandard.CatalogueCode = invItem.CatalogueCode;
+                    vStandard.Grade = invItem.Grade;
+                }
+            }
+
+            if (standard == null) {
                 return HttpNotFound();
             }
-            return View(stockstandard);
+            return View(vStandard);
         }
 
         [Route("Standard/Create")]

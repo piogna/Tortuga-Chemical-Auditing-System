@@ -162,6 +162,21 @@
             @Html.DisplayFor(model => model.EnteredBy)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.CertificateOfAnalysis)
+        </dt>
+
+        <dd>
+            @Html.ActionLink("View Cerificate of Analysis", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" } )
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MSDS)
+        </dt>
+
+        <dd>
+            @Html.ActionLink("View MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+        </dd>
     </dl>
 </div>
 <p>
