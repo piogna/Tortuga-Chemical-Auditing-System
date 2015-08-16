@@ -105,19 +105,28 @@
 
         //"disabling" next-section click until all required fields are clicked. this is very hacky.
         $($('.next-section')).on('click', function () {
+            var validForm = true;
+            $('.required-field').each(function () {
+                if ($(this).val() === "") {
+                    validForm = false;
+                }
+            });
+
+            if (!validForm) {
                 $('.tabs-style-bar > nav > ul > li:first-child').addClass('tab-current');
                 $('.tabs-style-bar > nav > ul > li').eq(1).removeClass('tab-current');
-
                 $("#section-bar-1").addClass("content-current");
                 $('#section-bar-2').removeClass("content-current");
 
                 $('.required-field').each(function () {
+                    //alert("test");
                     if ($(this).val() === "" || $(this).val() === null) {
                         $(this).css("border", "1px solid red");
                     } else {
                         $(this).css("border", "1px solid #ccc");
                     }
                 });
+            }
         });
 
         $($('.required-field')).on('keyup', function () {
