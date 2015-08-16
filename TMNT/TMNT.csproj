@@ -270,9 +270,9 @@
     <Compile Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.Designer.cs">
       <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201508141353382_ForceUpdateDb.cs" />
-    <Compile Include="Migrations\201508141353382_ForceUpdateDb.Designer.cs">
-      <DependentUpon>201508141353382_ForceUpdateDb.cs</DependentUpon>
+    <Compile Include="Migrations\201508162025072_notsure.cs" />
+    <Compile Include="Migrations\201508162025072_notsure.Designer.cs">
+      <DependentUpon>201508162025072_notsure.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -572,8 +572,8 @@
     <EmbeddedResource Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.resx">
       <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508141353382_ForceUpdateDb.resx">
-      <DependentUpon>201508141353382_ForceUpdateDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508162025072_notsure.resx">
+      <DependentUpon>201508162025072_notsure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

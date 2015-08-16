@@ -7,13 +7,13 @@ namespace TMNT.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ForceUpdateDb : IMigrationMetadata
+    public sealed partial class notsure : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ForceUpdateDb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(notsure));
         
         string IMigrationMetadata.Id
         {
-            get { return "201508141353382_ForceUpdateDb"; }
+            get { return "201508162025072_notsure"; }
         }
         
         string IMigrationMetadata.Source
