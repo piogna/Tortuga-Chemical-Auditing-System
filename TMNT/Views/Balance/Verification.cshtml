@@ -132,6 +132,8 @@
                 validateThree.attr('disabled', 'disabled');
                 //weightThree.attr('readonly', 'readonly');
 
+                $('#add-required-1').addClass('addon-required');
+
                 $('#additional-weights').css('opacity', '1.0');
                 weightTwo.removeAttr("disabled");
                 validateTwo.removeAttr("disabled");
@@ -158,7 +160,7 @@
                 weightThree.removeAttr('disabled');
                 levelCleanThree.removeAttr("disabled");
 
-                $('#add-required').addClass('addon-required');
+                $('#add-required-2').addClass('addon-required');
                 passOrFailTwo.first().text("Fail").css('color', 'red');
             }
         });
@@ -182,7 +184,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> Balances / <i class="fa fa-star-o"></i> New Balance Verification
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-wrench"></i> Devices / <i class="fa fa-balance-scale"></i> Balances / <i class="fa fa-star-o"></i> New Balance Verification
                     </li>
                 </ol>
             </div>
@@ -282,7 +284,7 @@
                                 <!-- Weight Two -->
                                 <div class="col-lg-4">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div id="add-required-1" class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two" } })
                                         @Html.ValidationMessageFor(model => model.WeightTwo)
                                         <div class="input-group-addon addon-weight">10.0000</div>
@@ -300,7 +302,7 @@
                                 <!-- Weight Three -->
                                 <div class="col-lg-4">
                                     <div class="input-group">
-                                        <div id="add-required" class="input-group-addon"></div>
+                                        <div id="add-required-2" class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three" } })
                                         @Html.ValidationMessageFor(model => model.WeightThree)
                                         <div class="input-group-addon addon-weight">100.0000</div>
