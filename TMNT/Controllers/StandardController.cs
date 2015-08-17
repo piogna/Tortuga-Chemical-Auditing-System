@@ -107,9 +107,11 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var units = new UnitRepository().Get().ToList();
-            SelectList list = new SelectList(units, "UnitId", "UnitName");
-            ViewBag.Units = list;
+            var volumeUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Volume")).ToList();
+            var weightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).ToList();
+
+            ViewBag.WeightUnits = weightUnits;
+            ViewBag.VolumeUnits = volumeUnits;
             return View();
         }
 

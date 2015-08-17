@@ -188,6 +188,8 @@ namespace TMNT.Controllers {
                     CreatedBy = (User.Identity.GetUserId() != null) ? User.Identity.GetUserId() : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
+                    Unit = model.Unit,
+                    Type = model.GetType().Name
                 };
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);

@@ -189,8 +189,25 @@
                                         @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.Amount)
                                         <div class="input-group-addon" style="padding:0; border:none; width:33%;">
-                                            @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
-                                            @Html.ValidationMessageFor(model => model.Unit)
+                                            @*@Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control" })
+                                            @Html.ValidationMessageFor(model => model.Unit)*@
+                                            <select class="input-xlarge-fluid input-summary form-control required-field" id="Unit" name="Unit" aria-invalid="false">
+                                                <option value="">Select Metric</option>
+                                                <optgroup label="Weight">
+                                                    @foreach (var item in ViewBag.WeightUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Volume">
+                                                    @foreach (var item in ViewBag.VolumeUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

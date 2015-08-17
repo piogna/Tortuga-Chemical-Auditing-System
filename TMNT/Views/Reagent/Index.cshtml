@@ -142,7 +142,7 @@
                         @Html.DisplayFor(modelItem => item.IdCode)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Amount)
+                        @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
                     </td>
                 </tr>
             }
