@@ -125,9 +125,11 @@ namespace TMNT.Controllers {
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
         public ActionResult Create() {
-            var units = new UnitRepository().Get().ToList();
-            SelectList list = new SelectList(units, "UnitId", "UnitName");
-            ViewBag.Units = list;
+            var volumeUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Volume")).ToList();
+            var weightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).ToList();
+
+            ViewBag.WeightUnits = weightUnits;
+            ViewBag.VolumeUnits = volumeUnits;
             return View();
         }
 
@@ -138,8 +140,6 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            string s  = Request.Form["Unit"];
-            
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) 

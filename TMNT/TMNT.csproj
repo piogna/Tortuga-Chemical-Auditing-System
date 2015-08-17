@@ -274,6 +274,14 @@
     <Compile Include="Migrations\201508162025072_notsure.Designer.cs">
       <DependentUpon>201508162025072_notsure.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508171855315_UnitType.cs" />
+    <Compile Include="Migrations\201508171855315_UnitType.Designer.cs">
+      <DependentUpon>201508171855315_UnitType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508171910337_UnitShrthandNameAndFullName.cs" />
+    <Compile Include="Migrations\201508171910337_UnitShrthandNameAndFullName.Designer.cs">
+      <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -576,6 +584,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508162025072_notsure.resx">
       <DependentUpon>201508162025072_notsure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508171855315_UnitType.resx">
+      <DependentUpon>201508171855315_UnitType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508171910337_UnitShrthandNameAndFullName.resx">
+      <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

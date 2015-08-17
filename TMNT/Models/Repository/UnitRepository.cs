@@ -14,19 +14,8 @@ namespace TMNT.Models.Repository {
             this._db = db;
         }
 
-        private List<Unit> _units = new List<Unit>() {
-            new Unit() {
-                UnitId = 1,
-                UnitName = "ml"
-            },
-            new Unit() {
-                UnitId = 2,
-                UnitName = "ug"
-            }
-        };
-
         public IEnumerable<Unit> Get() {
-            return _db.Units.ToList();//_units;
+            return _db.Units.ToList();
         }
 
         public Unit Get(int? i) {

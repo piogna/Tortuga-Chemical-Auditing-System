@@ -5,6 +5,68 @@
 }
 
 <style>
+    /*.dropdown-submenu{position:relative;}
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
+
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-submenu > a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #cccccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
+        .dropdown-menu {
+            margin:0 !important;
+            padding: 2px 0 !important;
+            border-radius:0 !important;
+            -webkit-box-shadow:none !important;
+            box-shadow:none !important;
+        }
+
+        .dropdown-menu:first-child {
+            border-left:none !important;
+        }
+
+            .dropdown-menu > li > a {
+                padding: 4px 20px !important;
+            }
+
+        .dropdown-submenu:hover > a:after {
+            border-left-color: #ffffff;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+        }
+
+            .dropdown-submenu.pull-left > .dropdown-menu {
+                left: -100%;
+                margin-left: 10px;
+                -webkit-border-radius: 6px 0 6px 6px;
+                -moz-border-radius: 6px 0 6px 6px;
+                border-radius: 6px 0 6px 6px;
+            }*/
+
+
     /* Fixing Side Menu Selectors */
     #side-menu > li:first-child > a {
         background-color: #F8F8F8;
@@ -213,8 +275,27 @@
                                         @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.Amount)
                                         <div class="input-group-addon" style="padding:0; border:none; width:33%;">
-                                            @Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control required-field" })
-                                            @Html.ValidationMessageFor(model => model.Unit)
+                                            @*@Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control required-field" })*@
+
+                                            <select class="input-xlarge-fluid input-summary form-control required-field" id="Unit" name="Unit" aria-invalid="false">
+                                                <option value="">Select Metric</option>
+                                                <optgroup label="Weight">
+                                                    @foreach (var item in ViewBag.WeightUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Volume">
+                                                    @foreach (var item in ViewBag.VolumeUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                            </select>
+                                            @*@Html.ValidationMessageFor(model => model.Unit)*@
+                                            
                                         </div>
                                     </div>
                                 </div>
