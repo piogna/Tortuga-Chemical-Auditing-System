@@ -140,9 +140,9 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Today
+                        DateAdded = DateTime.Now
                     };
-                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                     }
                     model.MSDS = msds;

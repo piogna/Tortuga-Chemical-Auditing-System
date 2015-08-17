@@ -106,12 +106,12 @@ namespace TMNT.Controllers {
                 if (item is StockReagent) {
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
-                        StockReagentAmountTaken = double.Parse(amounts[counter])
+                        //StockReagentAmountTaken = double.Parse(amounts[counter])
                     });
                 } else if (item is StockStandard) {
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
-                        StockStandardAmountTaken = double.Parse(amounts[counter])
+                        //StockStandardAmountTaken = double.Parse(amounts[counter])
                     });
                 }
                 counter++;
