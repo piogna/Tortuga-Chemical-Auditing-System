@@ -11,11 +11,15 @@ namespace TMNT
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            //tabs custom bundle
             bundles.Add(new ScriptBundle("~/bundles/section-tabs").Include(
                         "~/Scripts/modernizr-custom.js",
                         "~/Scripts/js-tabs.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        //required fields bundle
+                        "~/Scripts/form-validation.js",
+                        "~/Scripts/file-validation.js",
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-sidemenu").Include(
                         "~/Scripts/jquery-sidemenu.js"));

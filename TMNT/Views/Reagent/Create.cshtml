@@ -10,6 +10,10 @@
         background-color: #F8F8F8;
     }
 
+    input[type=file] {
+        border-radius:0;
+    }
+
     /* Summary Table CSS */
     table.table-bordered > thead > tr > th {
         background: black;
@@ -76,7 +80,6 @@
 </style>
 
 <script>
-    var v = "test";
     $(function () {
         //fixing section 1 getting the appropriate classes
         $('#section-bar-1').addClass('section');
@@ -98,44 +101,95 @@
             }
             table.append(row);
         });
+        /*
         //validating first section
+
+        //selectors
         var nextButtons = $('.next-section');
         var sectionOneInputs = $('#section-bar-1 .input-summary');
-        var tabs = $('.tabs li');
+        //var tabs = $('.tabs li');
+        var requiredField = $('.required-field');
+        var dateInput = $('input[type=date]');
+        var fileInput = $('input[type=file]');
+        var tabs = $('.tabs-style-bar > nav > ul > li');
+
+        //section selectors
+        var sectionOne = $('#section-bar-1');
+        var sectionTwo = $('#section-bar-2');
+        var sectionThree = $('#section-bar-3');
 
         //"disabling" next-section click until all required fields are clicked. this is very hacky.
-        $($('.next-section')).on('click', function () {
+        $('.btn-next').on('click', function () {
             var validForm = true;
-            $('.required-field').each(function () {
-                if ($(this).val() === "") {
+            requiredField.each(function () {
+                if (!$(this).val()) {
                     validForm = false;
                 }
             });
 
             if (!validForm) {
-                $('.tabs-style-bar > nav > ul > li:first-child').addClass('tab-current');
-                $('.tabs-style-bar > nav > ul > li').eq(1).removeClass('tab-current');
-                $("#section-bar-1").addClass("content-current");
-                $('#section-bar-2').removeClass("content-current");
+                tabs.eq(0).addClass('tab-current');
+                tabs.eq(1).removeClass('tab-current');
+                sectionOne.addClass("content-current");
+                sectionTwo.removeClass("content-current");
 
-                $('.required-field').each(function () {
-                    //alert("test");
-                    if ($(this).val() === "" || $(this).val() === null) {
+                $(requiredField).each(function () {
+                    if (!$(this).val()) {
                         $(this).css("border", "1px solid red");
                     } else {
                         $(this).css("border", "1px solid #ccc");
                     }
                 });
+            } else {
+                tabs.eq(0).removeClass('tab-current');
+                tabs.eq(1).addClass('tab-current');
+                sectionOne.removeClass("content-current");
+                sectionTwo.addClass("content-current");
             }
         });
-
-        $($('.required-field')).on('keyup', function () {
-            $('.required-field').each(function () {
-                if ($(this).is(':focus') && $(this).val() !== "") {
+        //checking the required fields. if they have a value, the border goes back to default.
+        requiredField.on('keyup', function () {
+            requiredField.each(function () {
+                if ($(this).is(':focus') && $(this).val()) {
                     $(this).first().css("border", "1px solid #ccc");
                 }
             });
         });
+        //checking the date inputs. if they have a value on focusout, the border goes back to default.
+        dateInput.on('change', function () {
+           dateInput.each(function () {
+                if ($(this).val()) {
+                    $(this).first().css("border", "1px solid #ccc");
+                }
+            });
+        });
+
+        //file validator script
+        $('.btn-review').on('click', function () {
+            fileInput.each(function () {
+                if (!$(this).val()) {
+                    tabs.eq(1).addClass('tab-current');
+                    tabs.eq(2).removeClass('tab-current');
+                    sectionTwo.addClass("content-current");
+                    sectionThree.removeClass("content-current");
+                    $(this).css("border", "1px solid red");
+                } else {
+                    tabs.eq(1).removeClass('tab-current');
+                    tabs.eq(2).addClass('tab-current');
+                    sectionTwo.removeClass("content-current");
+                    sectionThree.addClass("content-current");
+                }
+            });
+        });
+
+        fileInput.on('change', function () {
+            fileInput.each(function () {
+                if ($(this).val()) {
+                    $(this).first().css("border", "1px solid #ccc");
+                }
+            });
+        });
+        */
     });
 </script>
 
@@ -289,7 +343,7 @@
 
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
+                                <a href='#section-bar-2' class="btn btn-default next-section btn-next">Next »</a>
                             </div>
                         </div>
                     </section>
@@ -349,7 +403,6 @@
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
