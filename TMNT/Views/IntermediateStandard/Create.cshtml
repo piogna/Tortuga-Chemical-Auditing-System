@@ -6,11 +6,13 @@
 
 <style>
     /* Fixing Side Menu Selectors */
+    /* Universal */
     #side-menu > li:first-child > a {
         background-color: #F8F8F8;
     }
 
     /* Summary Table CSS */
+    /* Universal Create */
     table.table-bordered > thead > tr > th {
         background: black;
         color: #fff;
@@ -20,62 +22,39 @@
         table.table-bordered > thead > tr > th:first-child {
             width: 25%;
         }
-
-    #page-wrapper {
-        min-height: 900px;
-    }
-
+        
+    /* Universal Create */
     input[type=text] {
         width: 100%;
     }
-
-    button {
-        width: 33%;
-        color: #fff !important;
-        border-radius: 0 !important;
-        background-color: #428BCA !important;
-        float: right;
-    }
-
+    
+    /* Universal Create */
     .next-section {
         float: right;
         bottom: 0;
     }
-
+    
+    /* Universal Create */
     .previous-section {
         float: left;
         bottom: 0;
     }
-
+    
+    /* Universal Create */
     #Unit {
         border-radius: 0;
         border-left: none;
     }
-
-    #build-recipe {
-        height: 235px;
-        overflow-y: scroll;
-    }
-
-        #build-recipe > .row {
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-
-    /* Asterisk Required */
-    .required {
-        content: " *";
-        color: red;
-    }
-
+    
+    /* Universal Create */
     .input-group-addon {
         border-radius: 0 !important;
     }
-
+    
+    /* Universal Create */
     .no-border-radius {
         border-radius: 0 !important;
     }
-
 
     .input-group-addon {
         min-width: 28px;
@@ -92,6 +71,19 @@
         .addon-required:after {
             content: "*";
             margin-top: 4px;
+        }
+
+        
+
+    /* Just for Intermediate Standard */
+    #build-recipe {
+        height: 235px;
+        overflow-y: scroll;
+    }
+
+        #build-recipe > .row {
+            padding-left: 15px;
+            padding-right: 15px;
         }
 </style>
 
