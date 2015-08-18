@@ -1,153 +1,153 @@
 ﻿@model IEnumerable<TMNT.Models.WorkingStandard>
 
-    @{
-        ViewBag.Title = "Index";
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+
+<style>
+    /*#region overriding data table css*/
+    table.dataTable thead .sorting_asc::after {
+        content: none !important;
     }
 
-    <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+    table.dataTable thead .sorting_desc::after {
+        content: none !important;
+    }
 
-    <style>
-        /*#region overriding data table css*/
-        table.dataTable thead .sorting_asc::after {
-            content: none !important;
-        }
+    table.dataTable thead .sorting::after {
+        content: none !important;
+    }
+    /*#endregion*/
 
-        table.dataTable thead .sorting_desc::after {
-            content: none !important;
-        }
+    /*#region overriding pagination tabs css*/
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 0;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        color: #337ab7 !important;
+        border: 1px solid #ddd;
+    }
 
-        table.dataTable thead .sorting::after {
-            content: none !important;
-        }
-        /*#endregion*/
-
-        /*#region overriding pagination tabs css*/
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            box-sizing: border-box;
-            display: inline-block;
-            min-width: 1.5em;
-            padding: 0.5em 1em;
-            margin-left: 0;
-            text-align: center;
-            text-decoration: none !important;
-            cursor: pointer;
-            color: #337ab7 !important;
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: #eee;
             border: 1px solid #ddd;
+            color: #337ab7 !important;
         }
 
-            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-                background: #eee;
-                border: 1px solid #ddd;
-                color: #337ab7 !important;
-            }
+    .previous {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
 
-        .previous {
-            border-bottom-left-radius: 4px;
-            border-top-left-radius: 4px;
-        }
+    .next {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+    }
 
-        .next {
-            border-bottom-right-radius: 4px;
-            border-top-right-radius: 4px;
-        }
+    .disabled {
+        border: 1px solid #ddd !important;
+    }
 
-        .disabled {
-            border: 1px solid #ddd !important;
-        }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+        cursor: not-allowed;
+    }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
-            cursor: not-allowed;
-        }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        z-index: 2;
+        color: #fff !important;
+        cursor: default;
+        background: #337ab7 !important;
+        border: 1px solid #337ab7;
+    }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            z-index: 2;
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
             color: #fff !important;
             cursor: default;
-            background: #337ab7 !important;
             border: 1px solid #337ab7;
         }
+    /*#endregion*/
+</style>
 
-            .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-                color: #fff !important;
-                cursor: default;
-                border: 1px solid #337ab7;
-            }
-        /*#endregion*/
-    </style>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                Working Standards
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards
-                </li>
-            </ol>
-        </div>
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Working Standards
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards
+            </li>
+        </ol>
     </div>
+</div>
 
-    <p>
-        @Html.ActionLink("New Working Standard", "Create", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
-    </p>
+<p>
+    @Html.ActionLink("New Working Standard", "Create", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
+</p>
 
-    <hr />
+<hr />
 
-    <table id="myTable" class="table table-bordered table-striped">
-        <thead>
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreparationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
             <tr>
-                <th>Action</th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PreparationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Source)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Grade)
-                </th>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.WorkingStandardId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.WorkingStandardId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PreparationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.WorkingStandardId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.WorkingStandardId })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PreparationDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Source)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Grade)
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Action</th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PreparationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Source)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Grade)
-                </th>
-            </tr>
-        </tfoot>
-    </table>
-    <script>
-        $(function () {
-            $('#myTable').dataTable({
-                "pageLength": 50
-            });
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.PreparationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+        </tr>
+    </tfoot>
+</table>
+<script>
+    $(function () {
+        $('#myTable').dataTable({
+            "pageLength": 50
         });
-    </script>
+    });
+</script>

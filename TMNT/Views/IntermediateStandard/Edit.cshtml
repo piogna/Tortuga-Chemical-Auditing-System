@@ -4,13 +4,6 @@
     ViewBag.Title = "Edit";
 }
 
-<style>
-    /* Fixing Side Menu Selectors */
-    #side-menu > li:first-child > a {
-        background-color: #F8F8F8;
-    }
-</style>
-
 <h2>Edit</h2>
 
 
@@ -30,14 +23,6 @@
                 @Html.EditorFor(model => model.DateCreated)
                 @Html.ValidationMessageFor(model => model.DateCreated)
             </div>
-        </div>
-
-        <div class="form-group">
-            @*@Html.LabelFor(model => model.DiscardDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DiscardDate)
-                @Html.ValidationMessageFor(model => model.DiscardDate)
-            </div>*@
         </div>
 
         <div class="form-group">
