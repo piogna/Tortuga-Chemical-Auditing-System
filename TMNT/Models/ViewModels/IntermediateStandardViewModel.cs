@@ -18,8 +18,7 @@ namespace TMNT.Models.ViewModels {
         public virtual List<PrepListItem> PrepListItems { get; set; }
 
         public virtual StockStandard StockStandard { get; set; }
-
-        [Required]
+        [Display(Name = "Amount Remaining")]
         public int Amount { get; set; }
 
         //inventory poperties

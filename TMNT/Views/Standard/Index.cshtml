@@ -137,7 +137,7 @@
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
+                    @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(itemItem => item.Unit.UnitShorthandName)
                 </td>
                 @*<td>
                         @foreach (var i in item.InventoryItems) {

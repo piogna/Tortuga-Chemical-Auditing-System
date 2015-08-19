@@ -27,6 +27,7 @@ namespace TMNT.Models.ViewModels {
         public string CatalogueCode { get; set; }
         [Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
+        [Display(Name = "Amount Remaining")]
         public int Amount { get; set; }
         public int Grade { get; set; }
         [Display(Name = "Case Number")]

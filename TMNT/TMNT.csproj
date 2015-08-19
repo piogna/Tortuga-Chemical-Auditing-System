@@ -420,6 +420,7 @@
     <Content Include="Scripts\CustomMaxxamJS\file-validation.js" />
     <Content Include="Scripts\CustomMaxxamJS\finalize-create-data-table.js" />
     <Content Include="Scripts\CustomMaxxamJS\form-validation.js" />
+    <Content Include="Scripts\CustomMaxxamJS\intermediate-standard-form-validation.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
