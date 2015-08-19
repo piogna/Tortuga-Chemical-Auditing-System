@@ -90,7 +90,7 @@
 </div>
 
 <p>
-    @Html.ActionLink("Back to List", "Index", "Reagent", htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Back to List", "Index", "Reagent", null, htmlAttributes: new { @class = "btn btn-default" })
     @if (@ViewBag.ReturnUrl != null) {
         <a href="@ViewBag.ReturnUrl" class="btn btn-default">Return to Intermediate Standard</a>
     }

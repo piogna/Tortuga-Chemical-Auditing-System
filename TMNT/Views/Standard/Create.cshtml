@@ -52,7 +52,7 @@
             margin-top: 4px;
         }
 </style>
-@*
+
     <script>
         $(function () {
             //fixing section 1 getting the appropriate classes
@@ -81,7 +81,7 @@
             var tabs = $('.tabs li');
         });
     </script>
-*@
+
 @using (Html.BeginForm("Create", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
@@ -100,7 +100,7 @@
         </div>
 
         <p>
-            @Html.ActionLink("Back to List", "Index", "Standard", htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink("Back to List", "Index", "Standard", null, htmlAttributes: new { @class = "btn btn-default" })
         </p>
 
         <section id="section-bar">
