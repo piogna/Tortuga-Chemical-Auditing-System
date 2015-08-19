@@ -10,6 +10,8 @@ $(function () {
     var dateInput = $('input[type=date]');
     var tabs = $('.tabs-style-bar > nav > ul > li');
 
+    var units = $("#Unit");
+
     //section selectors
     var sectionOne = $('#section-bar-1');
     var sectionTwo = $('#section-bar-2');
@@ -17,6 +19,9 @@ $(function () {
 
     //"disabling" next-section click until all required fields are clicked. this is very hacky.
     $('.btn-next').on('click', function () {
+        //re-instantiating these selectors on click because the number of required fields and types in the "Build Your Intermediate Standard" section can change after document.ready
+        requiredField = $('.required-field');
+
         var validForm = true;
         requiredField.each(function () {
             if (!$(this).val()) {
@@ -55,6 +60,14 @@ $(function () {
     //checking the date inputs. if they have a value on focusout, the border goes back to default.
     dateInput.on('change', function () {
         dateInput.each(function () {
+            if ($(this).val()) {
+                $(this).first().css("border", "1px solid #ccc");
+            }
+        });
+    });
+
+    units.on('change', function () {
+        units.each(function () {
             if ($(this).val()) {
                 $(this).first().css("border", "1px solid #ccc");
             }

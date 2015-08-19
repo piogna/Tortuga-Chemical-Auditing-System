@@ -4,111 +4,16 @@
     ViewBag.Title = "Create";
 }
 
-<style>
-    /* Summary Table CSS */
-    /* Universal Create */
-    table.table-bordered > thead > tr > th {
-        background: black;
-        color: #fff;
-        text-align: center;
-    }
-
-        table.table-bordered > thead > tr > th:first-child {
-            width: 25%;
-        }
-        
-    /* Universal Create */
-    input[type=text] {
-        width: 100%;
-    }
-    
-    /* Universal Create */
-    .next-section {
-        float: right;
-        bottom: 0;
-    }
-    
-    /* Universal Create */
-    .previous-section {
-        float: left;
-        bottom: 0;
-    }
-    
-    /* Universal Create */
-    #Unit {
-        border-radius: 0;
-        border-left: none;
-    }
-    
-    /* Universal Create */
-    .input-group-addon {
-        border-radius: 0 !important;
-    }
-    
-    /* Universal Create */
-    .no-border-radius {
-        border-radius: 0 !important;
-    }
-
-    .input-group-addon {
-        min-width: 28px;
-    }
-
-    /* Required Addon */
-    .addon-required {
-        color: red;
-        border-radius: 0;
-        font-size: 22px;
-        padding: 10px 9px 0 9px;
-    }
-
-        .addon-required:after {
-            content: "*";
-            margin-top: 4px;
-        }
-
-        
-
-    /* Just for Intermediate Standard */
-    #build-recipe {
-        height: 235px;
-        overflow-y: scroll;
-    }
-
-        #build-recipe > .row {
-            padding-left: 15px;
-            padding-right: 15px;
-        }
-</style>
+@Styles.Render("~/maxxam-forms")
 
 <script>
     $(function () {
-        //fixing section 1 getting the appropriate classes
-        $('#section-bar-1').addClass('section');
-
-        //filling summary table
-        var inputs = $('.input-summary');
-        var table = $('table.table-bordered > tbody');
-        var rowResizeFlag = true;
-
-        $('.btn-review').on('click', function (e) {
-            //absolutely prevent duplicate rows
-            if ($('table.table-bordered > tbody > tr').length > 0) {
-                table.find("tr").remove();
-            }
-            var row = "";
-            for (var i = 0; i < inputs.length; i++) {
-                row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
-                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
-                    "</tr>";
-            }
-            table.append(row);
-        });
+        /* all script code below is native only to Intermediate Standard */
+        var recipes = $('#build-recipe');
 
         //add another row
-        $('#build-recipe').on('click', '#another-item', function (e) {
+        recipes.on('click', '#another-item', function (e) {
             e.preventDefault();
-            var recipes = $('#build-recipe');
             var div = document.getElementById("build-recipe");
 
             var addRow =
@@ -116,9 +21,9 @@
                     "<div class='col-md-3'>" +
                         "<div class='form-group'>" +
                             "<div class='input-group'>" +
-                                "<div class='input-group-addon'></div>" +
-                                "<select name='Type' class='input-xlarge-fuid input-summary form-control valid no-border-radius'>" +
-                                       "<option>No Chemical Type Selected</option>" +
+                                "<div class='input-group-addon addon-required'></div>" +
+                                "<select name='Type' class='type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field'>" +
+                                       "<option value=''>No Chemical Type Selected</option>" +
                                            "<optgroup label='Item Type'>" +
                                            "<option value='Reagent'>" +
                                                "Reagent" +
@@ -136,22 +41,24 @@
                     "</div>" +
                 "<div class='col-md-3'>" +
                     "<div class='input-group'>" +
-                        "<div class='input-group-addon'></div>" +
-                        "<input name='Amount' type='text' class='input-summary form-control text-box single-line no-border-radius' placeholder='Amount' />" +
+                        "<div class='input-group-addon addon-required'></div>" +
+                        "<input name='Amount' type='text' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
                     "</div>" +
                 "</div>" +
                 "<div class='col-md-3'>" +
                     "<div class='input-group'>" +
-                    "<div class='input-group-addon'></div>" +
-                        "<input name='IdCode' type='text' class='input-summary form-control text-box single-line no-border-radius' placeholder='Lot #' />" +
+                    "<div class='input-group-addon addon-required'></div>" +
+                        "<input name='IdCode' type='text' class='input-summary form-control text-box single-line required-field no-border-radius' placeholder='Lot #' />" +
                     "</div>" +
                 "</div>" +
                 "<div class='col-md-3'>" +
                     "<a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a>" +
                 "</div>" +
-            "</div>";
+            "</div>"
             recipes.find('div[class=col-md-3]:last').remove("div[class=col-md-3]:last");
+            //recipes.find('.row:nth-last-child(1)').append("<div class='col-md-3'><a href='#' id='remove-item' class='btn btn-default'>Remove</a></div>");
             recipes.append(addRow);
+
             //scroll to make sure the most bottom row stays visible when adding new rows
             if (recipes.children("div[class=row]").length > 5) {
                 recipes.css('overflow-y', 'scroll');
@@ -160,10 +67,10 @@
         });
 
         //remove row
-        $('#build-recipe').on('click', '#remove-item', function (e) {
+        recipes.on('click', '#remove-item', function (e) {
             e.preventDefault();
-            var recipes = $('#build-recipe');
             if (recipes.children("div[class=row]").length > 1) {
+                //recipes.children("#remove-item").parent(".row").remove();
                 recipes.children("div[class=row]:last").remove();
                 recipes.children("div[class=row]:last").append("<div class='col-md-3'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
                 //ensuring we can never have 0 rows
@@ -171,6 +78,22 @@
                     $('#remove-item').attr('disabled', 'disabled');
                 }
             }
+        });
+
+        recipes.on('change', '.type-validation', function () {
+            $('.type-validation').each(function () {
+                if ($(this).val()) {
+                    $(this).css("border", "1px solid #ccc");
+                }
+            });
+        });
+
+        recipes.on('keyup', 'input.required-field', function () {
+            $('input.required-field').each(function () {
+                if ($(this).val()) {
+                    $(this).css("border", "1px solid #ccc");
+                }
+            });
         });
     });
 </script>
@@ -216,12 +139,12 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>No Chemical Type Selected</option>
+                                            <div class="input-group-addon addon-required"></div>
+                                            <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
+                                                <option value="">No Chemical Type Selected</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
-                                                        <option>
+                                                        <option value="@item">
                                                             @item
                                                         </option>
                                                     }
@@ -232,18 +155,22 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="Amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
+                                        <div class="input-group-addon addon-required"></div>
+                                        <input name="Amount" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
+                                        <div class="input-group-addon addon-required"></div>
+                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Lot #" />
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <a href="#" id="another-item" class="btn btn-default">Add</a>
+                                    <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
+                                </div>
                             </div>
-                            <div class="row" style="margin:0 !important">
+                            @*<div class="row" style="margin:0 !important">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <div class="input-group">
@@ -308,7 +235,7 @@
                                     <a href="#" id="another-item" class="btn btn-default">Add</a>
                                     <a href="#" id="remove-item" class="btn btn-default">Remove</a>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <!-- /End Recipe Section -->
                         <div class="col-md-12" style="background-color: lightgrey;">
@@ -339,7 +266,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.CaseNumber)
                                     </div>
                                 </div>
@@ -348,7 +275,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                 </div>
@@ -359,7 +286,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.CatalogueCode)
                                     </div>
                                 </div>
@@ -368,7 +295,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.InventoryItemName, new { htmlAttributes = new { @placeholder = "Inventory Item Name", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.InventoryItemName, new { htmlAttributes = new { @placeholder = "Inventory Item Name", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.InventoryItemName)
                                     </div>
                                 </div>
@@ -377,7 +304,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.TotalAmount)
                                     </div>
                                 </div>
@@ -386,7 +313,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.Grade)
                                     </div>
                                 </div>
@@ -397,7 +324,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.DateCreated)
                                         <div class="input-group-addon">Date Created</div>
                                     </div>
@@ -407,7 +334,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control"} })
+                                        @Html.EditorFor(model => model.DateModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.DateModified)
                                         <div class="input-group-addon">Date Modified</div>
                                     </div>
@@ -416,7 +343,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <a href='#section-bar-2' class="btn btn-default next-section btn-review">Review and Submit</a>
+                                <a href='#section-bar-2' class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
                             </div>
                         </div>
                     </section>
@@ -457,9 +384,8 @@
             </div><!-- /tabs -->
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
-
-        @section scripts
-            {
-            }
     </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

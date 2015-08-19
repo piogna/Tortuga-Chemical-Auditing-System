@@ -18,8 +18,9 @@ namespace TMNT
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         //required fields bundle
-                        "~/Scripts/form-validation.js",
-                        "~/Scripts/file-validation.js",
+                        "~/Scripts/CustomMaxxamJS/finalize-create-data-table.js",
+                        "~/Scripts/CustomMaxxamJS/form-validation.js",
+                        "~/Scripts/CustomMaxxamJS/file-validation.js",
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-sidemenu").Include(
                         "~/Scripts/jquery-sidemenu.js"));
@@ -43,6 +44,9 @@ namespace TMNT
                       "~/Content/sb-admin-2.css",
                       "~/Content/metisMenu.css")
                       .Include("~/Content/font-awesome/css/font-awesome-4.4.0.min.css", new CssRewriteUrlTransform()));
+            bundles.Add(new StyleBundle("~/maxxam-forms").Include(
+                "~/Content/maxxam-forms.css"
+            ));
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862

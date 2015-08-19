@@ -4,83 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<style>
-    /* Summary Table CSS */
-    table.table-bordered > thead > tr > th {
-        background: black;
-        color: #fff;
-        text-align: center;
-    }
-
-        table.table-bordered > thead > tr > th:first-child {
-            width: 25%;
-        }
-
-    input[type=text] {
-        width: 100%;
-    }
-
-    .next-section {
-        float: right;
-        bottom: 0;
-    }
-
-    .previous-section {
-        float: left;
-        bottom: 0;
-    }
-
-    .no-border-radius {
-        border-radius: 0 !important;
-    }
-
-    #Unit {
-        border-radius: 0;
-        border-left: none;
-    }
-
-    /* Required Addon */
-    .addon-required {
-        color: red;
-        border-radius: 0;
-        font-size: 22px;
-        padding: 10px 9px 0 9px;
-    }
-
-        .addon-required:after {
-            content: "*";
-            margin-top: 4px;
-        }
-</style>
-
-    <script>
-        $(function () {
-            //fixing section 1 getting the appropriate classes
-            $('#section-bar-1').addClass('section');
-
-            //filling summary table
-            var inputs = $('.input-summary');
-            var table = $('table.table-bordered > tbody');
-
-            $('.btn-review').on('click', function (e) {
-                //absolutely prevent duplicate rows
-                if ($('table.table-bordered > tbody > tr').length > 0) {
-                    table.find("tr").remove();
-                }
-                var row = "";
-                for (var i = 0; i < inputs.length; i++) {
-                    row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
-                        "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
-                        "</tr>";
-                }
-                table.append(row);
-            });
-            //validating first section
-            var nextButtons = $('.next-section');
-            var sectionOneInputs = $('#section-bar-1 .input-summary');
-            var tabs = $('.tabs li');
-        });
-    </script>
+@Styles.Render("~/maxxam-forms")
 
 @using (Html.BeginForm("Create", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -286,4 +210,7 @@
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
