@@ -4,6 +4,7 @@
 /// <reference path="custommaxxamjs/file-validation.js" />
 /// <reference path="custommaxxamjs/finalize-create-data-table.js" />
 /// <reference path="custommaxxamjs/form-validation.js" />
+/// <reference path="custommaxxamjs/intermediate-standard-form-validation.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-2.1.3.js" />
