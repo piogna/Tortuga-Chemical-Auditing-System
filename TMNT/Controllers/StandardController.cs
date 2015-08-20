@@ -203,7 +203,8 @@ namespace TMNT.Controllers {
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
                 Purity = stockstandard.Purity,
-                SolventUsed = stockstandard.SolventUsed
+                SolventUsed = stockstandard.SolventUsed,
+                CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockstandard.InventoryItems) {
@@ -226,22 +227,15 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StockStandardName,DateEntered,IdCode,Purity,SolventUsed,Size,Grade,CatalogueCode,CaseNumber,UsedFor")] 
-            StockStandardViewModel stockstandard) {
+        public ActionResult Edit([Bind(Include = "Amount,CertificateOfAnalysis")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 StockStandard standard = new StockStandard() {
                     IdCode = stockstandard.IdCode,
-                    Purity = stockstandard.Purity,
-                    InventoryItems = new List<InventoryItem>() {
-                        new InventoryItem() { 
-                            Grade = stockstandard.Grade, Amount = stockstandard.Amount, 
-                            CatalogueCode = stockstandard.CatalogueCode
-                        }
-                    }
+                    Purity = stockstandard.Purity
                 };
                 repoStandard.Update(standard);
-                return View("Confirmation", stockstandard);
+                return View();
             }
             return View(stockstandard);
         }

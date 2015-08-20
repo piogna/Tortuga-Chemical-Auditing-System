@@ -10,6 +10,7 @@ namespace TMNT.Models
         public string FileName { get; set; }
         [StringLength(100)]
         public string ContentType { get; set; }
+        [Display(Name = "Upload CofA")]
         public byte[] Content { get; set; }
         //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateAdded { get; set; }

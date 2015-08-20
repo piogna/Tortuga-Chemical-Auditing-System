@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class StockStandardViewModel {
-        //[Key]
+        public StockStandardViewModel() {
+            new List<InventoryItem>();
+        }
+
         public int StockStandardId { get; set; }
 
         //stock standard properties
