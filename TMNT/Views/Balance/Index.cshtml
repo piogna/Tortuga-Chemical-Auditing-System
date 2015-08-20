@@ -4,8 +4,9 @@
     ViewBag.Title = "Index";
 }
 
-<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+}
 
 <style>
     /*#region overriding data table css*/
@@ -160,11 +161,4 @@
         </tr>
     </tfoot>
 </table>
-
-<script>
-    $(function () {
-        $('#myTable').dataTable({
-            "pageLength": 50
-        });
-    });
-</script>
+@Scripts.Render("~/datatables")

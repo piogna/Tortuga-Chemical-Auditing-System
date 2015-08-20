@@ -4,87 +4,9 @@
     ViewBag.Title = "Create";
 }
 
-<style>
-    /* Summary Table CSS */
-    table.table-bordered > thead > tr > th {
-        background: black;
-        color: #fff;
-        text-align: center;
-    }
-
-    table.table-bordered > thead > tr > th:first-child {
-        width: 25%;
-    }
-
-    #page-wrapper {
-        min-height: 900px;
-    }
-
-    input[type=text] {
-        width: 100%;
-    }
-
-    .next-section {
-        float: right;
-        bottom: 0;
-    }
-
-    .previous-section {
-        float: left;
-        bottom: 0;
-    }
-
-    #Unit {
-        border-radius: 0;
-        border-left: none;
-    }
-
-    /* Asterisk Required */
-    .required {
-        content: " *";
-        color: red;
-    }
-
-    .input-group-addon {
-        border-radius: 0 !important;
-        min-width: 28px;
-    }
-
-    .no-border-radius {
-        border-radius: 0 !important;
-    }
-
-    .no-border {
-        border: none;
-        box-shadow: none;
-    }
-
-    .pass-or-fail {
-        padding-top: 15px;
-    }
-
-    /* Required Addon */
-    .addon-required {
-        color: red;
-        border-radius: 0;
-        font-size: 22px;
-        padding: 10px 9px 0 9px;
-    }
-
-        .addon-required:after {
-            content: "*";
-            margin-top: 4px;
-        }
-
-    .addon-weight {
-        min-width: 85px;
-        border-left: none;
-    }
-
-    #additional-weights {
-        display: none;
-    }
-</style>
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+}
 
 <script>
     $(function () {

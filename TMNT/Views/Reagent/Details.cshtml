@@ -4,8 +4,9 @@
     ViewBag.Title = "Details";
 }
 
-<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+}
 
 <style>
     /*#region overriding data table css*/
@@ -179,12 +180,5 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ReagentId })
-    @*@Html.ActionLink("Back to List", "Index")*@
 </p>
-<script>
-    $(function () {
-        $('#myTable').dataTable({
-            "pageLength": 50
-        });
-    });
-</script>
+@Scripts.Render("~/datatables")
