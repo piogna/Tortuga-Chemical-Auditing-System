@@ -9,7 +9,8 @@ namespace TMNT.Models.Repository {
         private ApplicationDbContext _db = DbContextSingleton.Instance;
 
         public void Create(CertificateOfAnalysis t) {
-            throw new NotImplementedException();
+            _db.CertificatesOfAnalysis.Add(t);
+            _db.SaveChanges();
         }
 
         public void Delete(int? i) {
@@ -21,7 +22,7 @@ namespace TMNT.Models.Repository {
         }
 
         public IEnumerable<CertificateOfAnalysis> Get() {
-            throw new NotImplementedException();
+            return _db.CertificatesOfAnalysis;
         }
 
         public CertificateOfAnalysis Get(int? i) {
@@ -38,7 +39,8 @@ namespace TMNT.Models.Repository {
         private ApplicationDbContext _db = DbContextSingleton.Instance;
 
         public void Create(MSDS t) {
-            throw new NotImplementedException();
+            _db.MSDS.Add(t);
+            _db.SaveChanges();
         }
 
         public void Delete(int? i) {
@@ -50,7 +52,7 @@ namespace TMNT.Models.Repository {
         }
 
         public IEnumerable<MSDS> Get() {
-            throw new NotImplementedException();
+            return _db.MSDS;
         }
 
         public MSDS Get(int? i) {
