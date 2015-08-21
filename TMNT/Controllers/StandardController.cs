@@ -199,12 +199,14 @@ namespace TMNT.Controllers {
             StockStandard stockstandard = repoStandard.Get(id);
 
             StockStandardViewModel model = new StockStandardViewModel() {
+                StockStandardId = stockstandard.StockStandardId,
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
                 Purity = stockstandard.Purity,
                 SolventUsed = stockstandard.SolventUsed,
-                CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First()
+                CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
+                MSDS = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockstandard.InventoryItems) {
@@ -227,15 +229,54 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Amount,CertificateOfAnalysis")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "Amount,StockStandardId")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+            //uploadCofA = Request.Files["uploadCofA"];
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                StockStandard standard = new StockStandard() {
-                    IdCode = stockstandard.IdCode,
-                    Purity = stockstandard.Purity
-                };
-                repoStandard.Update(standard);
-                return View();
+
+                InventoryItem invItem = new InventoryItemRepository().Get()
+                        .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
+                        .FirstOrDefault();
+
+                if (uploadCofA != null) {
+                    var cofa = new CertificateOfAnalysis() {
+                        FileName = uploadCofA.FileName,
+                        ContentType = uploadCofA.ContentType,
+                        DateAdded = DateTime.Now
+                    };
+
+                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                        cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
+                    }
+                    stockstandard.CertificateOfAnalysis = cofa;
+                    //update inventory item amount
+                    //add certificate analysis
+                    
+                    invItem.CertificatesOfAnalysis.Add(cofa);
+                }
+                if (uploadMSDS != null) {
+                    var msds = new MSDS() {
+                        FileName = uploadMSDS.FileName,
+                        ContentType = uploadMSDS.ContentType,
+                        DateAdded = DateTime.Now
+                    };
+                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                    }
+                    stockstandard.MSDS = msds;
+
+                    invItem.MSDS.Add(msds);
+                }
+
+                invItem.Amount = stockstandard.Amount;
+                new InventoryItemRepository().Update(invItem);
+
+                //StockStandard standard = new StockStandard() {
+                //    IdCode = stockstandard.IdCode,
+                //    Purity = stockstandard.Purity
+                //};
+                //repoStandard.Update(standard);
+                return View("Index");
             }
             return View(stockstandard);
         }

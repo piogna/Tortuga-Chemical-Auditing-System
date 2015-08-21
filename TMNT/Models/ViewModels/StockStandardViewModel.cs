@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class StockStandardViewModel {
-        public StockStandardViewModel() {
-            new List<InventoryItem>();
-        }
+        //public StockStandardViewModel() {
+        //    InventoryItems = new List<InventoryItem>();
+        //}
 
         public int StockStandardId { get; set; }
 
@@ -45,5 +45,7 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
+
+        //public virtual ICollection<InventoryItem> InventoryItems { get; set; }
     }
 }

@@ -1,11 +1,10 @@
-﻿using System;
-using TMNT.Models;
+﻿using TMNT.Models;
 
 namespace TMNT.Utils {
     public class DbContextSingleton {
 
         private static volatile ApplicationDbContext instance;
-        private static object syncRoot = new Object();
+        private static object syncRoot = new object();
 
         private DbContextSingleton() {  }
 

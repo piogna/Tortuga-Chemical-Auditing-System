@@ -25,7 +25,7 @@
     @Html.ActionLink("Back to List", "Index", "Standard", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Edit", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -49,9 +49,23 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">Replace CofA</label>
+            <label class="control-label col-md-3">Upload New CofA</label>
             <div class="col-md-4">
                 <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default no-border-radius" accept=".pdf" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Current MSDS</label>
+            <div class="col-md-4">
+                @Html.ActionLink(Model.StockStandardName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">Upload New MSDS</label>
+            <div class="col-md-4">
+                <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
             </div>
         </div>
 
