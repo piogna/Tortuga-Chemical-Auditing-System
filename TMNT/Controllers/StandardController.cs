@@ -270,13 +270,8 @@ namespace TMNT.Controllers {
 
                 invItem.Amount = stockstandard.Amount;
                 new InventoryItemRepository().Update(invItem);
-
-                //StockStandard standard = new StockStandard() {
-                //    IdCode = stockstandard.IdCode,
-                //    Purity = stockstandard.Purity
-                //};
-                //repoStandard.Update(standard);
-                return View("Index");
+                
+                return RedirectToAction("Index");
             }
             return View(stockstandard);
         }
