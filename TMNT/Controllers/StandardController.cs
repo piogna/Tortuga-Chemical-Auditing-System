@@ -64,7 +64,10 @@ namespace TMNT.Controllers {
         // GET: /Standard/Details/5
         [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
-            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+            if (Request.UrlReferrer == null) {
+                //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                ViewBag.ReturnUrl = "";
+            } else if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
                 ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             }
 
@@ -73,6 +76,10 @@ namespace TMNT.Controllers {
             }
 
             StockStandard standard = repoStandard.Get(id);
+            
+            if (standard == null) {
+                return HttpNotFound("The standard requested does not exist.");
+            }
 
             StockStandardViewModel vStandard = new StockStandardViewModel() {
                 StockStandardId = standard.StockStandardId,
@@ -89,17 +96,15 @@ namespace TMNT.Controllers {
                 if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
                     vStandard.Amount = invItem.Amount;
                     vStandard.CaseNumber = invItem.CaseNumber;
-                    vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
                     vStandard.Unit = invItem.Unit;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.Grade = invItem.Grade;
+                    vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                 }
-            }
-
-            if (standard == null) {
-                return HttpNotFound();
             }
             return View(vStandard);
         }

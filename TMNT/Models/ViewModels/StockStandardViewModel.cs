@@ -4,10 +4,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class StockStandardViewModel {
-        //public StockStandardViewModel() {
-        //    InventoryItems = new List<InventoryItem>();
-        //}
-
         public int StockStandardId { get; set; }
 
         //stock standard properties
@@ -46,6 +42,7 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
 
-        //public virtual ICollection<InventoryItem> InventoryItems { get; set; }
+        public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
+        public List<MSDS> AllMSDS { get; set; }
     }
 }
