@@ -31,23 +31,30 @@
         var weightTwo = $('.weight-two');
         var weightThree = $('.weight-three');
 
+        var message = $('#success-error-msg > ul');
+
         //weight must be within 2% of 0.5000 to pass. if not, two other inputs will apear to pass the verification.
         $(validateOne).on('click', function (e) {
             e.preventDefault();
+            weightOne.attr('readonly', 'readonly');
             var weightOneVal = parseFloat($('.weight-one').val());
+            $('#placeholder').text("");
+            message.parent().css('padding-left', '0');
+            validateOne.attr('disabled', 'disabled');
 
             if (weightOneVal > 0.4990 && weightOneVal < .5010) {
                 //pass
                 passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
-                weightOne.attr('readonly', 'readonly');
+                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
+                message.append(text);
             } else {
                 //fail
-                weightOne.attr('readonly', 'readonly');
-                validateOne.attr('disabled', 'disabled');
+                var text = "<li style='color:red'>The first measurement failed because it was off by more than the alloted 2% variance.</i>";
+                message.append(text);
+
                 passOrFailOne.first().text("Fail").css('color', 'red');
 
                 validateThree.attr('disabled', 'disabled');
-                //weightThree.attr('readonly', 'readonly');
 
                 $('#add-required-1').addClass('addon-required');
 
@@ -60,18 +67,24 @@
         //second verification if first fails
         $(validateTwo).on('click', function (e) {
             e.preventDefault();
+            weightTwo.attr('readonly', 'readonly');
+            validateTwo.attr('disabled', 'disabled');
+
             var weightTwoVal = parseFloat($('.weight-two').val());
 
-            if (weightTwoVal > 9.8000 && weightTwoVal < 10.2000) {
+            if (weightTwoVal > 9.7990 && weightTwoVal < 10.2001) {
                 //pass
+                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
+                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
+                message.append(text);
+
                 passOrFailTwo.first().text("Pass!").css('color', '#5cb85c');
-                weightTwo.attr('readonly', 'readonly');
                 validateThree.attr('disabled', 'disabled');
                 weightThree.attr('readonly', 'readonly');
             } else {
                 //fail
-                weightTwo.attr('readonly', 'readonly');
-                validateTwo.attr('disabled', 'disabled');
+                var text = "<li style='color:red'>The second measurement failed because it was off by more than the alloted 2% variance.</i>";
+                message.append(text);
 
                 validateThree.removeAttr('disabled');
                 weightThree.removeAttr('disabled');
@@ -84,7 +97,25 @@
 
         $(validateThree).on('click', function (e) {
             e.preventDefault();
-            console.log('clicked');
+
+            weightThree.attr('readonly', 'readonly');
+            validateThree.attr('disabled', 'disabled');
+
+            var weightThreeVal = parseFloat($('.weight-three').val());
+
+            if (weightThreeVal > 97.9990 && weightThreeVal < 102.0001) {
+                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
+                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
+                message.append(text);
+
+                passOrFailThree.first().text("Pass!").css('color', '#5cb85c');
+            } else {
+                var text = "<li style='color:red'>The third measurement failed because it was off by more than the alloted 2% variance." +
+                    "<span style='font-weight:bold;'>Due to all three weights failing, this balance <span style='text-decoration:underline;'>cannot be used</span> for any record keeping until further notice.</i>";
+                message.append(text);
+
+                passOrFailThree.first().text("Fail").css('color', 'red');
+            }
         });
     });
 </script>
@@ -138,7 +169,7 @@
                                     <div class="input-group-addon addon-required"></div>
                                     <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
                                         <option>No Location Selected</option>
-                                        <optgroup label="Item Type">
+                                        <optgroup label="Location">
                                             @foreach (var item in ViewBag.Locations) {
                                                 if (item == ViewBag.SelectedLocation) {
                                                     <option selected>
@@ -186,7 +217,7 @@
                                     @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one" } })
                                     @Html.ValidationMessageFor(model => model.WeightOne)
                                     <div class="input-group-addon addon-weight">0.5000</div>
-                                    <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                    <a href="#" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                 </div>
                                 <div class="input-group col-lg-9">
                                     <div class="checkbox">
@@ -205,7 +236,7 @@
                                         @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two" } })
                                         @Html.ValidationMessageFor(model => model.WeightTwo)
                                         <div class="input-group-addon addon-weight">10.0000</div>
-                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
@@ -223,7 +254,7 @@
                                         @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three" } })
                                         @Html.ValidationMessageFor(model => model.WeightThree)
                                         <div class="input-group-addon addon-weight">100.0000</div>
-                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                     </div>
                                     <div class="input-group col-lg-9">
                                         <div class="checkbox">
@@ -242,6 +273,12 @@
                                     <div class="input-group-addon"></div>
                                     @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { cols = 50, rows = 6, @placeholder = "Comments", @class = "input-summary form-control no-border-radius", @style = "resize:none;" } })
                                 </div>
+                            </div>
+                            <div style="font-size:14px;border:1px solid #ccc;min-height:134px;padding:6px 0 6px 6px" id="success-error-msg" class="col-lg-6">
+                                <div id="placeholder">Start taking measurements and your resulting messages will appear here to help guide you.</div>
+                                <ul>
+                                    <!--list items are added here dynamically-->
+                                </ul>
                             </div>
                         </div>
                         <div class="form-group">
