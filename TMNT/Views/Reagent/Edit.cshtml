@@ -1,65 +1,81 @@
-﻿@model TMNT.Models.StockReagent
+﻿@model TMNT.Models.ViewModels.StockReagentViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+}
 
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @Model.IdCode Standard Details
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Standard Details
+            </li>
+        </ol>
+    </div>
+</div>
 
-@using (Html.BeginForm())
-{
+<p>
+    @Html.ActionLink("Back to List", "Index", "Reagent", null, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+@using (Html.BeginForm("Edit", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>StockReagent</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.ReagentId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IdCode, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdCode)
-                @Html.ValidationMessageFor(model => model.IdCode)
+            @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-3" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
+                @Html.ValidationMessageFor(model => model.Amount)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateEntered, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateEntered)
-                @Html.ValidationMessageFor(model => model.DateEntered)
+            <label class="control-label col-md-3">Current CofA</label>
+            <div class="col-md-4">
+                @Html.ActionLink(Model.ReagentName + " - " + Model.CertificateOfAnalysis.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReagentName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReagentName)
-                @Html.ValidationMessageFor(model => model.ReagentName)
+            <label class="control-label col-md-3">Upload New CofA</label>
+            <div class="col-md-4">
+                <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default no-border-radius" accept=".pdf" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EnteredBy, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EnteredBy)
-                @Html.ValidationMessageFor(model => model.EnteredBy)
+            <label class="control-label col-md-3">Current MSDS</label>
+            <div class="col-md-4">
+                @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <label class="control-label col-md-3">Upload New MSDS</label>
+            <div class="col-md-4">
+                <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-4">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

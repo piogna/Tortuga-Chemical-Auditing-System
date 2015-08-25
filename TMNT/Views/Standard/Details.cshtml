@@ -29,73 +29,99 @@
     }
 </p>
 
-<div>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IdCode)
-        </dt>
+<hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.IdCode)
-        </dd>
+<div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Standard Information</h4>
+</div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StockStandardName)
-        </dt>
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StockStandardName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.IdCode)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DateEntered)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.StockStandardName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.DateEntered)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.StockStandardName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DateEntered)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Amount)@Html.DisplayFor(model => model.Unit.UnitShorthandName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DateEntered)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SolventUsed)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SolventUsed)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Amount)@Html.DisplayFor(model => model.Unit.UnitShorthandName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Purity)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.SolventUsed)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Purity)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.SolventUsed)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CertificateOfAnalysis)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.EnteredBy)
+            </dt>
 
-        <dd>
-            @Html.ActionLink("View Cerificate of Analysis", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.EnteredBy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MSDS)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CertificateOfAnalysis)
+            </dt>
 
-        <dd>
-            @Html.ActionLink("View MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
-        </dd>
-    </dl>
+            <dd>
+                @Html.ActionLink("View Cerificate of Analysis", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MSDS)
+            </dt>
+
+            <dd>
+                @Html.ActionLink("View MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModified)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastModified)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+        </dl>
+    </div>
 </div>
 
 <div class="col-md-12" style="background-color: lightgrey;">

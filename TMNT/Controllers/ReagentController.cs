@@ -103,7 +103,7 @@ namespace TMNT.Controllers {
             //    .ToList();
 
             /* CONSIDER STORED PROCEDURE HERE */
-            
+
             foreach (var invItem in reagent.InventoryItems) {
                 if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
                     vReagent.Amount = invItem.Amount;
@@ -114,6 +114,8 @@ namespace TMNT.Controllers {
                     vReagent.Unit = invItem.Unit;
                     vReagent.CatalogueCode = invItem.CatalogueCode;
                     vReagent.Grade = invItem.Grade;
+                    vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
                     //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                 }
@@ -142,7 +144,7 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
-            model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) 
+            model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -215,10 +217,29 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             StockReagent stockreagent = repo.Get(id);
+
             if (stockreagent == null) {
                 return HttpNotFound();
             }
-            return View(stockreagent);
+
+            StockReagentViewModel model = new StockReagentViewModel() {
+                ReagentId = stockreagent.ReagentId,
+                ReagentName = stockreagent.ReagentName,
+                DateEntered = stockreagent.DateEntered,
+                IdCode = stockreagent.IdCode,
+                EnteredBy = stockreagent.EnteredBy,
+                CertificateOfAnalysis = stockreagent.InventoryItems.Where(x => x.StockReagent.ReagentId == stockreagent.ReagentId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
+                MSDS = stockreagent.InventoryItems.Where(x => x.StockReagent.ReagentId == stockreagent.ReagentId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
+            };
+
+            foreach (var item in stockreagent.InventoryItems) {
+                model.Amount = item.Amount;
+                model.Grade = item.Grade;
+                model.CatalogueCode = item.CatalogueCode;
+                model.CaseNumber = item.CaseNumber;
+                model.UsedFor = item.UsedFor;
+            }
+            return View(model);
         }
 
         // POST: /Reagent/Edit/5
@@ -227,9 +248,54 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReagentId,IdCode,DateEntered,ReagentName,EnteredBy")] StockReagent stockreagent) {
+        public ActionResult Edit([Bind(Include = "Amount,ReagentId")] StockReagentViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                repo.Update(stockreagent);
+
+                InventoryItem invItem = new InventoryItemRepository().Get()
+                        .Where(item => item.StockStandard != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
+                        .FirstOrDefault();
+
+                StockReagent updateReagent = invItem.StockReagent;
+                updateReagent.LastModified = DateTime.Now;
+                updateReagent.LastModifiedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID";
+
+                new StockReagentRepository().Update(updateReagent);
+
+                if (uploadCofA != null) {
+                    var cofa = new CertificateOfAnalysis() {
+                        FileName = uploadCofA.FileName,
+                        ContentType = uploadCofA.ContentType,
+                        DateAdded = DateTime.Now
+                    };
+
+                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                        cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
+                    }
+                    stockreagent.CertificateOfAnalysis = cofa;
+                    //update inventory item amount
+                    //add certificate analysis
+
+                    invItem.CertificatesOfAnalysis.Add(cofa);
+                }
+                if (uploadMSDS != null) {
+                    var msds = new MSDS() {
+                        FileName = uploadMSDS.FileName,
+                        ContentType = uploadMSDS.ContentType,
+                        DateAdded = DateTime.Now
+                    };
+                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                    }
+                    stockreagent.MSDS = msds;
+
+                    invItem.MSDS.Add(msds);
+                }
+
+                invItem.Amount = stockreagent.Amount;
+                invItem.DateModified = DateTime.Now;
+                new InventoryItemRepository().Update(invItem);
+
                 return RedirectToAction("Index");
             }
             return View(stockreagent);

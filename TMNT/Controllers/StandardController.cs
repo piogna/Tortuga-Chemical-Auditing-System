@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
@@ -65,7 +66,6 @@ namespace TMNT.Controllers {
         [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (Request.UrlReferrer == null) {
-                //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                 ViewBag.ReturnUrl = "";
             } else if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
                 ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
@@ -76,7 +76,7 @@ namespace TMNT.Controllers {
             }
 
             StockStandard standard = repoStandard.Get(id);
-            
+
             if (standard == null) {
                 return HttpNotFound("The standard requested does not exist.");
             }
@@ -201,7 +201,12 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             StockStandard stockstandard = repoStandard.Get(id);
+
+            if (stockstandard == null) {
+                return HttpNotFound();
+            }
 
             StockStandardViewModel model = new StockStandardViewModel() {
                 StockStandardId = stockstandard.StockStandardId,
@@ -221,10 +226,6 @@ namespace TMNT.Controllers {
                 model.CaseNumber = item.CaseNumber;
                 model.UsedFor = item.UsedFor;
             }
-
-            if (stockstandard == null) {
-                return HttpNotFound();
-            }
             return View(model);
         }
 
@@ -235,13 +236,18 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Amount,StockStandardId")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            //uploadCofA = Request.Files["uploadCofA"];
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
 
                 InventoryItem invItem = new InventoryItemRepository().Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
                         .FirstOrDefault();
+
+                StockStandard updateStandard = invItem.StockStandard;
+                updateStandard.LastModified = DateTime.Now;
+                updateStandard.LastModifiedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID";
+
+                new StockStandardRepository().Update(updateStandard);
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -256,7 +262,7 @@ namespace TMNT.Controllers {
                     stockstandard.CertificateOfAnalysis = cofa;
                     //update inventory item amount
                     //add certificate analysis
-                    
+
                     invItem.CertificatesOfAnalysis.Add(cofa);
                 }
                 if (uploadMSDS != null) {
@@ -274,8 +280,9 @@ namespace TMNT.Controllers {
                 }
 
                 invItem.Amount = stockstandard.Amount;
+                invItem.DateModified = DateTime.Now;
                 new InventoryItemRepository().Update(invItem);
-                
+
                 return RedirectToAction("Index");
             }
             return View(stockstandard);

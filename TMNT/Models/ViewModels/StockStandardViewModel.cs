@@ -9,7 +9,7 @@ namespace TMNT.Models.ViewModels {
         //stock standard properties
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Display(Name = "Name")]
+        [Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Entered")]
         public DateTime DateEntered { get; set; }
@@ -39,6 +39,7 @@ namespace TMNT.Models.ViewModels {
         public MSDS MSDS { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
+        [Display(Name = "Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
 

@@ -19,9 +19,79 @@
 
 <p>
     @Html.ActionLink("Back to List", "Index", "IntermediateStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit " + @Model.IdCode, "Edit", new { id = Model.IntermediateStandardId }, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
+
+<div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Intermediate Standard Information</h4>
+</div>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        @if (Model.Replaces == null) {
+            <dt>
+                Replaces
+            </dt>
+
+            <dd>
+                N/A
+            </dd>
+        } else {
+            <dt>
+                @Html.DisplayNameFor(model => model.Replaces)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Replaces)
+            </dd>
+        }
+
+        @if (Model.Replaces == null) {
+            <dt>
+                Replaced By
+            </dt>
+
+            <dd>
+                N/A
+            </dd>
+        } else {
+            <dt>
+                @Html.DisplayNameFor(model => model.ReplacedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReplacedBy)
+            </dd>
+        }
+
+    </dl>
+</div>
 
 <div class="col-md-12" style="background-color: lightgrey;">
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Prep List Table</h4>
@@ -94,77 +164,3 @@
 
     </tfoot>
 </table>
-
-<div class="col-md-12" style="background-color: lightgrey;">
-    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Intermediate Standard Information</h4>
-</div>
-
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateCreated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount) Remaining
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-
-        @if (Model.Replaces == null) {
-            <dt>
-                Replaces
-            </dt>
-
-            <dd>
-                N/A
-            </dd>
-        } else {
-            <dt>
-                @Html.DisplayNameFor(model => model.Replaces)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Replaces)
-            </dd>
-        }
-
-        @if (Model.Replaces == null) {
-            <dt>
-                Replaced By
-            </dt>
-
-            <dd>
-                N/A
-            </dd>
-        } else {
-            <dt>
-                @Html.DisplayNameFor(model => model.ReplacedBy)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ReplacedBy)
-            </dd>
-        }
-
-    </dl>
-</div>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IntermediateStandardId })
-    @*@Html.ActionLink("Back to List", "Index")*@
-</p>

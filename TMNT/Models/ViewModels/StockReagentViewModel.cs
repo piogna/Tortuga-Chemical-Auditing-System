@@ -7,6 +7,7 @@ namespace TMNT.Models.ViewModels {
 
         //reagent properties
         public int ReagentId { get; set; }
+        [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Entered")]
         public DateTime DateEntered { get; set; }
@@ -34,12 +35,14 @@ namespace TMNT.Models.ViewModels {
         public int CaseNumber { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Display(Name="C of A")]
+        [Display(Name="Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public MSDS MSDS { get; set; }
         public Unit Unit { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
+        public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
+        public List<MSDS> AllMSDS { get; set; }
 
         //public List<object> ItemsWhereReagentUsed { get; set; }
     }
