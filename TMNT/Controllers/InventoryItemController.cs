@@ -50,7 +50,7 @@ namespace TMNT.Controllers {
         [Route("InventoryItem/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated,DateModified")] InventoryItem inventoryitem, HttpPostedFileBase upload)
+        public ActionResult Create([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid) {
                 if (upload != null)
@@ -96,7 +96,7 @@ namespace TMNT.Controllers {
         [Route("InventoryItem/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated,DateModified,CertificateOfAnalysis")] InventoryItem inventoryitem) {
+        public ActionResult Edit([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem) {
             if (ModelState.IsValid) {
                 //db.Entry(inventoryitem).State = EntityState.Modified;
                 //db.SaveChanges();

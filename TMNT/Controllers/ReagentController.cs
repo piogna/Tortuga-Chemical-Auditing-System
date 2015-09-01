@@ -141,7 +141,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,DateModified,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)

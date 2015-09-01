@@ -23,23 +23,6 @@
                 @Html.ValidationMessageFor(model => model.CatalogueCode)
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.InventoryItemName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.InventoryItemName)
-                @Html.ValidationMessageFor(model => model.InventoryItemName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Size, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Size)
-                @Html.ValidationMessageFor(model => model.Size)
-            </div>
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Grade, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -78,15 +61,7 @@
                 @Html.EditorFor(model => model.DateCreated)
                 @Html.ValidationMessageFor(model => model.DateCreated)
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateModified, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateModified)
-                @Html.ValidationMessageFor(model => model.DateModified)
-            </div>
-        </div>
+        </div>        
         @*
     <div class="form-group">
         @Html.LabelFor(model => model.CertificateOfAnalysis, new { @class = "control-label col-md-2" })
