@@ -23,6 +23,7 @@
 
 <p>
     @Html.ActionLink("Back to List", "Index", "Reagent", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("View " + Model.IdCode + " Details", "Details", new { id = Model.ReagentId }, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 @using (Html.BeginForm("Edit", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {

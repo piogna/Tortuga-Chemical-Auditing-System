@@ -1,27 +1,45 @@
-﻿@model TMNT.Models.IntermediateStandard
+﻿@model TMNT.Models.ViewModels.IntermediateStandardViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+}
 
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            @Model.IdCode Standard Details
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Standard Details
+            </li>
+        </ol>
+    </div>
+</div>
 
-@using (Html.BeginForm())
+<p>
+    @Html.ActionLink("Back to List", "Index", "IntermediateStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("View " + Model.IdCode + " Details", "Details", new { id = Model.IntermediateStandardId }, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+@using (Html.BeginForm("Edit", "IntermediateStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>IntermediateStandard</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.IntermediateStandardId)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DateCreated, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateCreated)
-                @Html.ValidationMessageFor(model => model.DateCreated)
+            @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-3" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
+                @Html.ValidationMessageFor(model => model.Amount)
             </div>
         </div>
 
@@ -48,7 +66,6 @@
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

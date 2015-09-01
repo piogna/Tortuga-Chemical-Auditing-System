@@ -201,13 +201,13 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            
             StockStandard stockstandard = repoStandard.Get(id);
 
             if (stockstandard == null) {
                 return HttpNotFound();
             }
-
+            
             StockStandardViewModel model = new StockStandardViewModel() {
                 StockStandardId = stockstandard.StockStandardId,
                 StockStandardName = stockstandard.StockStandardName,

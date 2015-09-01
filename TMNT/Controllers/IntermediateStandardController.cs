@@ -165,7 +165,17 @@ namespace TMNT.Controllers {
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
-            return View(intermediatestandard);
+
+            IntermediateStandardViewModel model = new IntermediateStandardViewModel() {
+                IntermediateStandardId = intermediatestandard.IntermediateStandardId,
+                DateCreated = intermediatestandard.DateCreated,
+                Replaces = intermediatestandard.Replaces,
+                ReplacedBy = intermediatestandard.ReplacedBy,
+                IdCode = intermediatestandard.IdCode,
+                Amount = intermediatestandard.Amount
+            };
+            
+            return View(model);
         }
 
         // POST: /IntermediateStandard/Edit/5
