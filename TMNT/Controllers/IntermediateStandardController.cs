@@ -8,6 +8,7 @@ using TMNT.Models.ViewModels;
 using TMNT.Utils;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class IntermediateStandardController : Controller {
         private IRepository<IntermediateStandard> repo;
 

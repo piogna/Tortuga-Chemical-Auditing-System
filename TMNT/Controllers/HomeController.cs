@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 
 namespace TMNT.Controllers {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller {
         [Route("")]
         public ActionResult Index() {

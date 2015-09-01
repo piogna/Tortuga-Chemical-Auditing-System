@@ -10,6 +10,7 @@ using TMNT.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class BalanceController : Controller {
 
         private IRepository<Device> repo;

@@ -22,6 +22,7 @@
 
 <p>
     @Html.ActionLink("Back to List", "Index", "Balance", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit " + Model.DeviceCode, "Edit", new { id = Model.BalanceId }, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
@@ -107,11 +108,5 @@
             @Html.DisplayFor(model => model.Department.DepartmentCode)
         </dd>
     </dl>
-
 </div>
-
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BalanceId })
-</p>
 @Scripts.Render("~/datatables")
