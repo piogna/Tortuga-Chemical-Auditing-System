@@ -7,7 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <style>
+        .modal-dialog {
+            width:900px !important;
+        }
+        .modal-body {
+            
+            max-height:900px !important;
+            overflow-y:scroll;
+        }
+    </style>
     <title>Maxxam Analytics - @ViewBag.Title</title>
 
     @Styles.Render("~/Content/css")
@@ -355,7 +364,8 @@
                             <a href="@Url.Action("Index", "Audit")"><i class="fa fa-fw fa-check"></i> Perform Audit</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-question-circle"></i> Help</a>
+                            @*<a href="@Url.Action("About", "Home")" onclick="window.open('@Url.Action("About", "Home")', 'newwindow', 'width=900, height=500'); return false;"><i class="fa fa-fw fa-question-circle"></i> Help</a>*@
+                            <a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw fa-question-circle"></i> Help</a>
                         </li>
                     </ul>
                 </div>
@@ -387,8 +397,91 @@
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="bootstrap-dialog type-primary modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Maxxam Help</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Welcome to the Maxxam Help section! Here you will find out how things work and, hopefully, answer any questions you may have.</p>
+                    <p>Please choose the topic you need help with:
+                        <select id="help-options">
+                            <option value="">Choose a topic..</option>
+                            <optgroup label="Reagent">
+                                <option value="RCreate">Create</option>
+                                <option value="RDetails">Details</option>
+                                <option value="REdit">Edit</option>
+                                <option value="RLandingPage">Landing Page</option>
+                            </optgroup>
+                            <optgroup label="Standard">
+                                <option value="SCreate">Create</option>
+                                <option value="SDetails">Details</option>
+                                <option value="SEdit">Edit</option>
+                                <option value="SLandingPage">Landing Page</option>
+                            </optgroup>
+                        </select>
+                    </p>
+                    <div id="help-notes">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    Okay? &nbsp;<button type="button" class="btn btn-primary" data-dismiss="modal">Yep, Got It!</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <script>
-        document.getElementById('date-today').innerHTML = new Date().getFullYear();
+        $(function() {
+            document.getElementById('date-today').innerHTML = new Date().getFullYear();
+
+            var options = $('#help-options');
+            var selectedOption = $('#help-options option:selected');
+            var notesSection = $('#help-notes');
+            var message = "";
+
+            options.on('change', function(e) {
+                var selectedOption = $('#help-options option:selected');
+                notesSection.text("");
+                if (selectedOption.val() === "") {
+                    message = "";
+                } else if (selectedOption.val() === "RCreate") {
+                    message = "When you go to the Create Reagent page, you will see a form which has mutliple sections to complete. Each section's required field must be completed to advance to the next segment. You may notice it looks very similar to the paper form you have been used to. This is because it's heavily influenced from it!" +
+                        "Below is an image of the form to create a new Reagent along with notes to help guide you:" +
+                        "<img src='../../Content/images/help-images/reagent-create-part1.PNG' style='width:100%;border:1px solid #ccc' alt=''/>" +
+                        "Some points about the form:" +
+                        "<ul>" +
+                            "<li>Any field with a red asterisk is a required field. If it is not completed, the form will not be able to progress</li>" +
+                            "<li>Please note the dropdown for 'Select Metric'. This supports both Volume and Weight, from Tera to Atto</li>" +
+                            "<li>To return to the list of all Reagents, click on 'Back to List' located at the top-left corner</li>" +
+                            "<li>If you ever get lost with where you are in the site, you can always refer to the breadcrumbs located at the top of the image</li>" +
+                        "</ul>" +
+                        "Once you have completed the form and clicked on 'Next', you will see the last portion of the form:" +
+                        "<img src='../../Content/images/help-images/reagent-create-part2.PNG'  style='width:100%;border:1px solid #ccc' alt=''/>" +
+                        "Here all you have to do is browse for the PDF copies of the Certificate of Analysis and the MSDS. This section also must be completed." +
+                        "Once completed, you will then be taken to a Summary page:" +
+                        "<img src='../../Content/images/help-images/reagent-create-part3.PNG'  style='width:100%;border:1px solid #ccc' alt=''/>" +
+                        "Some points about the summary:" +
+                        "<ul>" +
+                            "<li>Click on 'Cancel' to return to the previous section of the form</li>" +
+                            "<li>Click on 'Save' to create the Reagent and be taken back to the Landing Page of Reagents</li>" +
+                            "<li>Click on 'Save & New' to create the Reagent, and be given a new clean form to create another Reagent</li>" +
+                        "</ul>" +
+                        "Please note the Print Label checkbox currently is not functional." +
+                        "We hope you found this helpful! :)";
+                } else if (selectedOption.val() === "RDetails") {
+                    message = "Here we will talk you through how to View te Details of a Reagent";
+                } else if (selectedOption.val() == "REdit") {
+                    message = "Here we will talk you through how to Edit a Reagent";
+                } else if (selectedOption.val() === "RLandingPage") {
+                    message = "Here we will talk you through the Landing Page of Reagents";
+                }
+                notesSection.append(message);
+            });
+        });
     </script>
 </body>
 </html>
