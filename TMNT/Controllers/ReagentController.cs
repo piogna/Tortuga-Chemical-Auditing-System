@@ -253,7 +253,7 @@ namespace TMNT.Controllers {
             if (ModelState.IsValid) {
 
                 InventoryItem invItem = new InventoryItemRepository().Get()
-                        .Where(item => item.StockStandard != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
+                        .Where(item => item.StockReagent != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
                         .FirstOrDefault();
 
                 StockReagent updateReagent = invItem.StockReagent;
