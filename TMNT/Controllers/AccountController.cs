@@ -134,6 +134,7 @@ namespace TMNT.Controllers {
 
         //
         // GET: /Account/Register
+        [Route("Account/Register")]
         [AllowAnonymous]
         public ActionResult Register() {
             return View();
@@ -141,6 +142,7 @@ namespace TMNT.Controllers {
 
         //
         // POST: /Account/Register
+        [Route("Account/Register")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
