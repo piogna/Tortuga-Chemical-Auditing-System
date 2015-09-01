@@ -10,6 +10,7 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class StandardController : Controller {
 
         private IRepository<StockStandard> repoStandard;

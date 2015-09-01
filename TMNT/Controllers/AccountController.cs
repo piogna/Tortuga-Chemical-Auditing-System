@@ -42,7 +42,7 @@ namespace TMNT.Controllers {
 
         //
         // GET: /Account/Login
-        [Route("login")]
+        [Route("Account/Login")]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
             ViewBag.ReturnUrl = returnUrl;
@@ -53,13 +53,14 @@ namespace TMNT.Controllers {
             }
 
             ViewBag.Username = username;
+
             return View();
         }
 
         //
         // POST: /Account/Login
-        [Route("login")]
         [HttpPost]
+        [Route("Account/Login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) {
@@ -352,11 +353,12 @@ namespace TMNT.Controllers {
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        [Route("Account/LogOff")]
         public ActionResult LogOff() {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

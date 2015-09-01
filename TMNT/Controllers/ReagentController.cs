@@ -10,6 +10,7 @@ using TMNT.Models.ViewModels;
 using System.Collections.Generic;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class ReagentController : Controller {
         private IRepository<StockReagent> repo;
 
