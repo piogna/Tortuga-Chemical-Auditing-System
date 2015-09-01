@@ -37,7 +37,7 @@ $(function () {
             "<div class='col-md-3'>" +
                 "<div class='input-group'>" +
                     "<div class='input-group-addon addon-required'></div>" +
-                    "<input name='Amount' type='text' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
+                    "<input name='Amount' type='number' min='0' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
                 "</div>" +
             "</div>" +
             "<div class='col-md-3'>" +

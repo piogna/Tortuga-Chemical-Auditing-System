@@ -11,11 +11,11 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            @Model.IdCode Standard Details
+            Edit @Model.IdCode
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Standard Details
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-clipboard"></i> Edit @Model.IdCode
             </li>
         </ol>
     </div>
@@ -38,7 +38,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Amount, new { @class = "control-label col-md-3" })
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius", @min = "0" } })
                 @Html.ValidationMessageFor(model => model.Amount)
             </div>
         </div>
