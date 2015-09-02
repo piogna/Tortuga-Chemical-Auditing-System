@@ -16,3 +16,4 @@
 /// <reference path="modernizr-custom.js" />
 /// <reference path="respond.js" />
 /// <reference path="sb-admin-2.js" />
+/// <reference path="select2.min.js" />

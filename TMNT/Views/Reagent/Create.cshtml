@@ -4,6 +4,9 @@
     ViewBag.Title = "Create";
 }
 
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
 }
@@ -105,8 +108,41 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <input type="text" placeholder="Pipette ID" class="input-summary form-control" />
-                                        <input type="text" placeholder="Balance ID" class="input-summary form-control no-border-radius" />
+                                        @*<input type="text" placeholder="Pipette ID" class="input-summary form-control" />
+                                        <input type="text" placeholder="Balance ID" class="input-summary form-control no-border-radius" />*@
+                                        @*<input type="text" id="default" list="devices" placeholder="Pick Devices Used.." class="input-summary form-control">
+
+                                        <datalist id="devices">
+                                            <option value="HTML">
+                                            <option value="CSS">
+                                            <option value="JavaScript">
+                                            <option value="Java">
+                                            <option value="Ruby">
+                                            <option value="PHP">
+                                            <option value="Go">
+                                            <option value="Erlang">
+                                            <option value="Python">
+                                            <option value="C">
+                                            <option value="C#">
+                                            <option value="C++">
+                                        </datalist>*@
+                                        <select class="select2 form-control input-summary no-border-radius" multiple="multiple">
+                                            <optgroup label="Balance ID's">
+                                                <option>Balance 1</option>
+                                                <option>Balance 2</option>
+                                                <option>Balance 3</option>
+                                                <option>Balance 4</option>
+                                                <option>Balance 5</option>
+                                                <option>Balance 6</option>
+                                                <option>Balance 7</option>
+                                            </optgroup>
+                                            <optgroup label="Volumetric ID's">
+                                                <option>Volumetric 1</option>
+                                                <option>Volumetric 2</option>
+                                                <option>Volumetric 3</option>
+                                            </optgroup>
+                                        </select>
+
                                     </div>
                                 </div>
                             </div>
@@ -240,3 +276,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    $(".select2").select2({
+        placeholder: "Find a Device..",
+        allowClear: true
+    });
+</script>
