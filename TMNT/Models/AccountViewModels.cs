@@ -102,5 +102,6 @@ namespace TMNT.Models {
         [MinLength(6)]
         [Display(Name = "User Name")]
         public string UserName { get; set; }
+        public string Email { get; set; }
     }
 }
