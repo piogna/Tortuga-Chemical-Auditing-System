@@ -352,12 +352,10 @@
     <Compile Include="Utils\DbContextSingleton.cs" />
   </ItemGroup>
   <ItemGroup>
-  <!--
     <Content Include="App_Data\TMNT.mdf" />
     <Content Include="App_Data\TMNT_log.ldf">
       <DependentUpon>TMNT.mdf</DependentUpon>
     </Content>
-	-->
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
