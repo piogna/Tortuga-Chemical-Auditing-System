@@ -108,38 +108,20 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @*<input type="text" placeholder="Pipette ID" class="input-summary form-control" />
-                                        <input type="text" placeholder="Balance ID" class="input-summary form-control no-border-radius" />*@
-                                        @*<input type="text" id="default" list="devices" placeholder="Pick Devices Used.." class="input-summary form-control">
-
-                                        <datalist id="devices">
-                                            <option value="HTML">
-                                            <option value="CSS">
-                                            <option value="JavaScript">
-                                            <option value="Java">
-                                            <option value="Ruby">
-                                            <option value="PHP">
-                                            <option value="Go">
-                                            <option value="Erlang">
-                                            <option value="Python">
-                                            <option value="C">
-                                            <option value="C#">
-                                            <option value="C++">
-                                        </datalist>*@
                                         <select class="select2 form-control no-border-radius" multiple="multiple">
                                             <optgroup label="Balance ID's">
-                                                <option>Balance 1</option>
-                                                <option>Balance 2</option>
-                                                <option>Balance 3</option>
-                                                <option>Balance 4</option>
-                                                <option>Balance 5</option>
-                                                <option>Balance 6</option>
-                                                <option>Balance 7</option>
+                                                @foreach (var item in ViewBag.BalanceDevices) {
+                                                    <option value="@item.DeviceId">
+                                                        @item.DeviceCode
+                                                    </option>
+                                                }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
-                                                <option>Volumetric 1</option>
-                                                <option>Volumetric 2</option>
-                                                <option>Volumetric 3</option>
+                                                @foreach (var item in ViewBag.VolumeDevices) {
+                                                    <option value="@item.DeviceId">
+                                                        @item.DeviceCode
+                                                    </option>
+                                                }
                                             </optgroup>
                                         </select>
 
@@ -188,29 +170,6 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Created", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.DateEntered)
-                                        <div class="input-group-addon">Date Created</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.LastModified, new { htmlAttributes = new { @placeholder = "Date Modified", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.LastModified)
-                                        <div class="input-group-addon">Date Modified</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
                                 <a href='#section-bar-2' class="btn btn-default next-section btn-next">Next »</a>

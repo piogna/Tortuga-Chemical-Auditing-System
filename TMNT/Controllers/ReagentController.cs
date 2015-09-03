@@ -133,11 +133,19 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         public ActionResult Create() {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
+
             var volumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             var weightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
 
+            var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+
             ViewBag.WeightUnits = weightUnits;
             ViewBag.VolumeUnits = volumeUnits;
+
+            ViewBag.BalanceDevices = balanceDevices;
+            ViewBag.VolumeDevices = volumeDevices;
             return View();
         }
 
