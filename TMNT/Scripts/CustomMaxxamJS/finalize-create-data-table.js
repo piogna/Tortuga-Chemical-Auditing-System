@@ -13,9 +13,19 @@
         }
         var row = "";
         for (var i = 0; i < inputs.length; i++) {
-            row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
-                "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
-                "</tr>";
+            if (inputs[i].attributes.getNamedItem('name').textContent === "Devices") {
+                row += "<tr>" +
+                     "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>";
+                for (var z = 0; z < $('#device-selector').val().length; z++) {
+                    //console.log($('#device-selector').val()[z]);
+                    row += $('#device-selector').val()[z] + " ";
+                }
+                row += "</td></tr>";
+            } else {
+                row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
+                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
+                    "</tr>";
+            }
         }
         table.append(row);
     });

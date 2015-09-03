@@ -113,20 +113,21 @@
                                             </optgroup>
                                         </select>*@
 
-                                        <select id="device-selector" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
+                                        <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in ViewBag.BalanceDevices) {
-                                                    <option value="@item.DeviceId">
+                                                    <option value="@item.DeviceCode">
                                                         @item.DeviceCode
                                                     </option>
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
                                                 @foreach (var item in ViewBag.VolumeDevices) {
-                                                    <option value="@item.DeviceId">
+                                                    <option value="@item.DeviceCode">
                                                         @item.DeviceCode
                                                     </option>
                                                 }
+                                                <option value="VOL902-W">VOL902-W</option>
                                             </optgroup>
                                         </select>
                                     </div>
