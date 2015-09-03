@@ -4,6 +4,9 @@
     ViewBag.Title = "Create";
 }
 
+<script src="~/Scripts/select2.min.js"></script>
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
 }
@@ -93,8 +96,22 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <input type="text" placeholder="Pipette ID" class="input-summary form-control" />
-                                        <input type="text" placeholder="Balance ID" class="input-summary form-control no-border-radius" />
+                                        <select class="select2 form-control no-border-radius" multiple="multiple">
+                                            <optgroup label="Balance ID's">
+                                                <option>Balance 1</option>
+                                                <option>Balance 2</option>
+                                                <option>Balance 3</option>
+                                                <option>Balance 4</option>
+                                                <option>Balance 5</option>
+                                                <option>Balance 6</option>
+                                                <option>Balance 7</option>
+                                            </optgroup>
+                                            <optgroup label="Volumetric ID's">
+                                                <option>Volumetric 1</option>
+                                                <option>Volumetric 2</option>
+                                                <option>Volumetric 3</option>
+                                            </optgroup>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -225,3 +242,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    $(function () {
+        $(".select2").select2({
+            placeholder: "Devices Used..",
+            allowClear: true,
+            maximumSelectionLength: 2
+        });
+    });
+</script>

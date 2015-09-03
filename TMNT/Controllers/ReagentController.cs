@@ -4,17 +4,20 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using System.Collections.Generic;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
     public class ReagentController : Controller {
+
         private IRepository<StockReagent> repo;
 
-        public ReagentController() : this(new StockReagentRepository()) { }
+        public ReagentController() : this(new StockReagentRepository(DbContextSingleton.Instance)) { }
 
         public ReagentController(IRepository<StockReagent> repo) {
             this.repo = repo;
@@ -23,6 +26,7 @@ namespace TMNT.Controllers {
         [Route("Reagent")]
         public ActionResult Index() {
             var reagents = repo.Get();
+
             List<StockReagentViewModel> list = new List<StockReagentViewModel>();
 
             foreach (var item in reagents) {
@@ -128,8 +132,9 @@ namespace TMNT.Controllers {
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
         public ActionResult Create() {
-            var volumeUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Volume")).ToList();
-            var weightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).ToList();
+            var units = new UnitRepository(DbContextSingleton.Instance).Get();
+            var volumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            var weightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
 
             ViewBag.WeightUnits = weightUnits;
             ViewBag.VolumeUnits = volumeUnits;
@@ -142,12 +147,14 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,DateEntered,DateCreated,ReagentName,CaseNumber,Amount,Grade,UsedFor,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,ReagentName,Amount,Grade,UsedFor,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
-            model.Unit = new UnitRepository().Get(selectedValue);
+            model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name;
+
+            var user = User.Identity.GetUserId();
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
 
@@ -163,13 +170,14 @@ namespace TMNT.Controllers {
                     }
                     model.CertificateOfAnalysis = cofa;
                 }
+
                 if (uploadMSDS != null) {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
                         DateAdded = DateTime.Today
                     };
-                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                     }
                     model.MSDS = msds;
@@ -184,16 +192,18 @@ namespace TMNT.Controllers {
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
+                    Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Amount = model.Amount,
                     Grade = model.Grade,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
-                    CreatedBy = (User.Identity.GetUserId() != null) ? User.Identity.GetUserId() : "USERID",
+                    CreatedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                     Unit = model.Unit,
                     Type = model.GetType().Name
                 };
+
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
                 reagent.InventoryItems.Add(inventoryItem);
@@ -253,7 +263,7 @@ namespace TMNT.Controllers {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
 
-                InventoryItem invItem = new InventoryItemRepository().Get()
+                InventoryItem invItem = new InventoryItemRepository(DbContextSingleton.Instance).Get()
                         .Where(item => item.StockReagent != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
                         .FirstOrDefault();
 
@@ -261,7 +271,7 @@ namespace TMNT.Controllers {
                 updateReagent.LastModified = DateTime.Now;
                 updateReagent.LastModifiedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID";
 
-                new StockReagentRepository().Update(updateReagent);
+                repo.Update(updateReagent);
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -295,7 +305,7 @@ namespace TMNT.Controllers {
 
                 invItem.Amount = stockreagent.Amount;
                 invItem.DateModified = DateTime.Now;
-                new InventoryItemRepository().Update(invItem);
+                new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);
 
                 return RedirectToAction("Index");
             }

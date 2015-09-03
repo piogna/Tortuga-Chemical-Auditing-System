@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
+using System;
 
 namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
@@ -23,8 +24,12 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(StockReagent t) {
-            db.StockReagents.Add(t);
-            db.SaveChanges();
+            try {
+                db.StockReagents.Add(t);
+                db.SaveChanges();
+            } catch (Exception ex) {
+
+            }
         }
 
         public void Update(StockReagent reagent) {

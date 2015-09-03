@@ -126,7 +126,7 @@
                                             <option value="C#">
                                             <option value="C++">
                                         </datalist>*@
-                                        <select class="select2 form-control input-summary no-border-radius" multiple="multiple">
+                                        <select class="select2 form-control no-border-radius" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 <option>Balance 1</option>
                                                 <option>Balance 2</option>
@@ -277,8 +277,11 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <script>
-    $(".select2").select2({
-        placeholder: "Find a Device..",
-        allowClear: true
+    $(function () {
+        $(".select2").select2({
+            placeholder: "Devices Used..",
+            allowClear: true,
+            maximumSelectionLength: 2
+        });
     });
 </script>

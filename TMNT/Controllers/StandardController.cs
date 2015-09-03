@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -15,7 +16,7 @@ namespace TMNT.Controllers {
 
         private IRepository<StockStandard> repoStandard;
         public StandardController()
-            : this(new StockStandardRepository()) {
+            : this(new StockStandardRepository(DbContextSingleton.Instance)) {
         }
 
         public StandardController(IRepository<StockStandard> repoStandard) {
@@ -127,9 +128,11 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,CaseNumber,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
+
+            var user = User.Identity.GetUserId();
 
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
@@ -169,6 +172,7 @@ namespace TMNT.Controllers {
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
+                    Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Amount = model.Amount,
                     Grade = model.Grade,
                     CaseNumber = model.CaseNumber,
@@ -177,6 +181,7 @@ namespace TMNT.Controllers {
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                 };
+
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
                 standard.InventoryItems.Add(inventoryItem);
