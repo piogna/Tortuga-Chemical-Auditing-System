@@ -32,6 +32,52 @@
 <hr />
 
 <div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Location Information</h4>
+</div>
+<div>
+    <div class="container">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.LocationName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.LocationName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.Address), @Html.DisplayFor(model => model.Department.Location.PostalCode) <br />
+                    @Html.DisplayFor(model => model.Department.Location.City), @Html.DisplayFor(model => model.Department.Location.Province)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.FaxNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.FaxNumber)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DepartmentCode)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DepartmentCode)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="col-md-12" style="background-color: lightgrey;">
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Standard Information</h4>
 </div>
 

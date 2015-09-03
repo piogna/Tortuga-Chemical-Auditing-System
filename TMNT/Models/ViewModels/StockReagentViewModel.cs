@@ -39,6 +39,7 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public MSDS MSDS { get; set; }
         public Unit Unit { get; set; }
+        public Department Department { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }

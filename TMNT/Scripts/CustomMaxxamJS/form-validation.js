@@ -83,7 +83,7 @@ $(function () {
         devices.each(function () {
             if ($(this).val()) {
                 $('.select2-container--default').first().removeClass("required-field");
-                $('.select2-container--default').first().css("border", "1px solid #ccc");
+                $('.select2-container--default').first().css("border", "none");
             }
         });
     });

@@ -117,6 +117,7 @@ namespace TMNT.Controllers {
                     vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vReagent.UsedFor = invItem.UsedFor;
                     vReagent.Unit = invItem.Unit;
+                    vReagent.Department = invItem.Department;
                     vReagent.CatalogueCode = invItem.CatalogueCode;
                     vReagent.Grade = invItem.Grade;
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
@@ -277,7 +278,7 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LastModified = DateTime.Now;
-                updateReagent.LastModifiedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID";
+                updateReagent.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 
                 repo.Update(updateReagent);
 

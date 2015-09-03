@@ -102,6 +102,7 @@ namespace TMNT.Controllers {
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
                     vStandard.Unit = invItem.Unit;
+                    vStandard.Department = invItem.Department;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.Grade = invItem.Grade;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
@@ -114,11 +115,20 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var volumeUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Volume")).ToList();
-            var weightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).ToList();
+            var units = new UnitRepository(DbContextSingleton.Instance).Get();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
+
+            var volumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            var weightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+
+            var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
             ViewBag.WeightUnits = weightUnits;
             ViewBag.VolumeUnits = volumeUnits;
+
+            ViewBag.BalanceDevices = balanceDevices;
+            ViewBag.VolumeDevices = volumeDevices;
             return View();
         }
 
@@ -251,7 +261,7 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LastModified = DateTime.Now;
-                updateStandard.LastModifiedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID";
+                updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 
                 new StockStandardRepository().Update(updateStandard);
 

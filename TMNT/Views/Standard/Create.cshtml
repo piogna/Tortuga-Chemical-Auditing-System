@@ -96,7 +96,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <select class="select2 form-control no-border-radius" multiple="multiple">
+                                        @*<select class="select2 form-control no-border-radius" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 <option>Balance 1</option>
                                                 <option>Balance 2</option>
@@ -110,6 +110,23 @@
                                                 <option>Volumetric 1</option>
                                                 <option>Volumetric 2</option>
                                                 <option>Volumetric 3</option>
+                                            </optgroup>
+                                        </select>*@
+
+                                        <select id="device-selector" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
+                                            <optgroup label="Balance ID's">
+                                                @foreach (var item in ViewBag.BalanceDevices) {
+                                                    <option value="@item.DeviceId">
+                                                        @item.DeviceCode
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumetric ID's">
+                                                @foreach (var item in ViewBag.VolumeDevices) {
+                                                    <option value="@item.DeviceId">
+                                                        @item.DeviceCode
+                                                    </option>
+                                                }
                                             </optgroup>
                                         </select>
                                     </div>
