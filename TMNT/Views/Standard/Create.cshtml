@@ -96,23 +96,6 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @*<select class="select2 form-control no-border-radius" multiple="multiple">
-                                            <optgroup label="Balance ID's">
-                                                <option>Balance 1</option>
-                                                <option>Balance 2</option>
-                                                <option>Balance 3</option>
-                                                <option>Balance 4</option>
-                                                <option>Balance 5</option>
-                                                <option>Balance 6</option>
-                                                <option>Balance 7</option>
-                                            </optgroup>
-                                            <optgroup label="Volumetric ID's">
-                                                <option>Volumetric 1</option>
-                                                <option>Volumetric 2</option>
-                                                <option>Volumetric 3</option>
-                                            </optgroup>
-                                        </select>*@
-
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in ViewBag.BalanceDevices) {

@@ -91,7 +91,8 @@ namespace TMNT.Controllers {
                 StockStandardName = standard.StockStandardName,
                 LowAmountThreshHold = standard.LowAmountThreshHold,
                 LastModified = standard.LastModified,
-                LastModifiedBy = standard.LastModifiedBy
+                LastModifiedBy = standard.LastModifiedBy,
+                SolventUsed = standard.SolventUsed
             };
 
             foreach (var invItem in standard.InventoryItems) {
@@ -190,6 +191,8 @@ namespace TMNT.Controllers {
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
+                    Unit = model.Unit,
+                    Type = model.GetType().Name
                 };
 
                 inventoryItem.MSDS.Add(model.MSDS);
