@@ -10,7 +10,8 @@ $(function () {
     var dateInput = $('input[type=date]');
     var tabs = $('.tabs-style-bar > nav > ul > li');
 
-    var units = $("#Unit");
+    var units = $('#Unit');
+    var devices = $('#device-selector');
 
     //section selectors
     var sectionOne = $('#section-bar-1');
@@ -34,6 +35,10 @@ $(function () {
             tabs.eq(1).removeClass('tab-current');
             sectionOne.addClass("content-current");
             sectionTwo.removeClass("content-current");
+
+            if ($('#device-selector').val() === null) {
+                $('.select2-container--default').addClass('required-field');
+            }
 
             $(requiredField).each(function () {
                 if (!$(this).val()) {
@@ -70,6 +75,15 @@ $(function () {
         units.each(function () {
             if ($(this).val()) {
                 $(this).first().css("border", "1px solid #ccc");
+            }
+        });
+    });
+
+    devices.on('change', function () {
+        devices.each(function () {
+            if ($(this).val()) {
+                $('.select2-container--default').first().removeClass("required-field");
+                $('.select2-container--default').first().css("border", "1px solid #ccc");
             }
         });
     });

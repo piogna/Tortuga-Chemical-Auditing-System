@@ -108,7 +108,7 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <select class="select2 form-control no-border-radius" multiple="multiple">
+                                        <select id="device-selector" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in ViewBag.BalanceDevices) {
                                                     <option value="@item.DeviceId">
