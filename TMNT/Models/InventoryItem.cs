@@ -29,6 +29,8 @@ namespace TMNT.Models {
         public DateTime DateCreated { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
+        [Required, Display(Name = "Storage Req's")]
+        public string StorageRequirements { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
 

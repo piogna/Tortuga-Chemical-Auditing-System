@@ -135,8 +135,12 @@ namespace TMNT.Controllers {
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
+            var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
+
             ViewBag.WeightUnits = weightUnits;
             ViewBag.VolumeUnits = volumeUnits;
+
+            ViewBag.Storage = storageRequirements;
 
             ViewBag.BalanceDevices = balanceDevices;
             ViewBag.VolumeDevices = volumeDevices;
@@ -149,7 +153,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
@@ -206,7 +210,8 @@ namespace TMNT.Controllers {
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                     Unit = model.Unit,
-                    Type = model.GetType().Name
+                    Type = model.GetType().Name,
+                    StorageRequirements = model.StorageRequirements
                 };
 
                 inventoryItem.MSDS.Add(model.MSDS);

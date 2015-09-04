@@ -25,7 +25,9 @@ namespace TMNT.Models.ViewModels {
         public string LotNumber { get; set; }
 
 
-        //reagent poperties
+        //inventory poperties
+        [Display(Name = "Storage Req's")]
+        public string StorageRequirements { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string MSDSNotes { get; set; }
         [Display(Name = "SDS Expiry Date"), DataType(DataType.Date)]

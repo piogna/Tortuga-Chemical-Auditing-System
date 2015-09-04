@@ -145,8 +145,12 @@ namespace TMNT.Controllers {
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
+            var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
+
             ViewBag.WeightUnits = weightUnits;
             ViewBag.VolumeUnits = volumeUnits;
+
+            ViewBag.Storage = storageRequirements;
 
             ViewBag.BalanceDevices = balanceDevices;
             ViewBag.VolumeDevices = volumeDevices;
@@ -159,7 +163,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,MSDSExpiryDateReagentName,Amount,Grade,UsedFor,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,MSDSExpiryDateReagentName,StorageRequirements,Amount,Grade,UsedFor,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
@@ -216,7 +220,8 @@ namespace TMNT.Controllers {
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                     Unit = model.Unit,
-                    Type = model.GetType().Name
+                    Type = model.GetType().Name,
+                    StorageRequirements = model.StorageRequirements
                 };
 
                 inventoryItem.MSDS.Add(model.MSDS);

@@ -36,6 +36,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //inventory properties
+        [Required, Display(Name = "Storage Req's")]
+        public string StorageRequirements { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string MSDSNotes { get; set; }
         [Display(Name = "SDS Expiry Date"), DataType(DataType.Date)]
