@@ -262,11 +262,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            @*@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logout" })) {
-                                @Html.AntiForgeryToken()*@
-                                <a href='@Url.Action("LogOff", "Account")'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                                @*<a href="javascript:document.getElementById('logout').submit()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                            }*@
+                            <a href='@Url.Action("LogOff", "Account")'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -282,10 +278,27 @@
                             <a href='@Url.Action("Index", "Home")'><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "Reagent")"><i class="fa fa-fw fa-flask"></i> Reagents</a>
+                            <a href="#"><i class="fa fa-flask fa-fw"></i> Reagents<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("Index", "Reagent")"><i class="fa fa-fw fa-flask"></i> Stock Reagents</a>
+                                </li>
+                                <li>
+                                    <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Reagents</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Standards</a>
+                            <a href="#"><i class="fa fa-flask fa-fw"></i> Standards<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Stock Standards</a>
+                                </li>
+                                <li>
+                                    <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Standards</a>
+                                </li>
+                            </ul>
+                            @*<a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Standards</a>*@
                         </li>
                         <li>
                             <a href="@Url.Action("Index", "IntermediateStandard")"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>
@@ -293,12 +306,6 @@
                         <li>
                             <a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
                         </li>
-                        @*<li>
-                            <a href="@Url.Action("Index", "InventoryItem")"><i class="fa fa-fw fa-clipboard"></i> Inventory Manifest</a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("Index", "Supplier")"><i class="fa fa-fw fa-clipboard"></i> Supplier Manifest</a>
-                        </li>*@
                         <li>
                             <a href="#"><i class="fa fa-fw fa-file-text"></i> Reports<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -310,24 +317,6 @@
                                 </li>
                             </ul>
                         </li>
-                        @*<li>
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Device Test<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href='@Url.Action("Create", "ScaleTest")'>New Balance Test</a>
-                                    </li>
-                                    <li>
-                                        <a href='@Url.Action("Create", "SyringeTest")'>New Syringe Test</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">New Pipette Test</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">View Pending Tests</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>*@
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Devices<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -344,7 +333,6 @@
                             <a href="@Url.Action("Index", "Audit")"><i class="fa fa-fw fa-check"></i> Perform Audit</a>
                         </li>
                         <li>
-                            @*<a href="@Url.Action("About", "Home")" onclick="window.open('@Url.Action("About", "Home")', 'newwindow', 'width=900, height=500'); return false;"><i class="fa fa-fw fa-question-circle"></i> Help</a>*@
                             <a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw fa-question-circle"></i> Help</a>
                         </li>
                     </ul>
