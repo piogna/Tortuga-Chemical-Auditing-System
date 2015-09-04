@@ -116,6 +116,8 @@ namespace TMNT.Controllers {
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    vStandard.MSDSExpiryDate = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSExpiryDate;
+                    vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                 }
             }
             return View(vStandard);
@@ -147,7 +149,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
@@ -171,7 +173,9 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Now,
+                        MSDSExpiryDate = model.MSDSExpiryDate,
+                        MSDSNotes = model.MSDSNotes
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);

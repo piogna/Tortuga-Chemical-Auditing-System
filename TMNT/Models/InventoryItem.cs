@@ -29,10 +29,6 @@ namespace TMNT.Models {
         public DateTime DateCreated { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
-        [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
-        public string MSDSNotes { get; set; }
-        [Display(Name = "SDS Expiry Date")]
-        public DateTime MSDSExpiryDate { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
 

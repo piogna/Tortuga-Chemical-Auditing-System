@@ -43,6 +43,7 @@
                 </nav>
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
+                    <!-- REAGENT INFO -->
                     <section id="section-bar-1" class="section">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -54,17 +55,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            @*<div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.DateEntered, new { htmlAttributes = new { @placeholder = "Date Entered", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.DateEntered)
-                                        <div class="input-group-addon">Date Entered</div>
-                                    </div>
-                                </div>
-                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
@@ -74,15 +64,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0, @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.CaseNumber)
-                                    </div>
-                                </div>
-                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
@@ -144,8 +125,6 @@
                                         @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @placeholder = "Amount", @min = 0, @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.Amount)
                                         <div class="input-group-addon" style="padding:0; border:none; width:33%;">
-                                            @*@Html.DropDownListFor(model => model.Unit, new SelectList(ViewBag.Units as SelectList, "Value", "Text"), new { @class = "input-xlarge-fluid input-summary form-control required-field" })*@
-
                                             <select class="input-xlarge-fluid input-summary form-control required-field" id="Unit" name="Unit" aria-invalid="false">
                                                 <option value="">Select Metric</option>
                                                 <optgroup label="Weight">
@@ -163,8 +142,7 @@
                                                     }
                                                 </optgroup>
                                             </select>
-                                            @*@Html.ValidationMessageFor(model => model.Unit)*@
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -185,19 +163,49 @@
                             </div>
                         </div>
                     </section>
-                    <section id="section-bar-2" class="section">
-                        <div class="col-lg-6">
-                            @Html.Label("Upload C of A", new { @class = "control-label" })
-                            <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control" accept=".pdf" />
+                    <!-- UPLOADS -->
+                    <section id="section-bar-2">
+                        <div class="col-md-12" style="background-color: lightgrey;">
+                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Upload Certificate of Analysis and Safety Data Sheet</h4>
                         </div>
-                        <div class="col-lg-6">
-                            @Html.Label("Upload SDS", new { @class = "control-label" })
-                            <input type="file" id="MSDS" name="uploadMSDS" class="form-control" accept=".pdf" />
+                        <div class="col-md-12">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default" accept=".pdf" />
+                                    <div class="input-group-addon input-group-addon-md">Upload CofA</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default" accept=".pdf" />
+                                    <div class="input-group-addon input-group-addon-md">Upload SDS</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="background-color: lightgrey;">
+                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f;margin-top:45px;">Safety Data Sheet Information</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    @Html.EditorFor(model => model.MSDSExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
+                                    <div class="input-group-addon input-group-addon-md">SDS Expiry</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required"></div>
+                                    @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius", @maxlength = 50 } })
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
                                 <a href='#section-bar-4' class="btn btn-default next-section btn-review">Review and Submit</a>
-                                <a href='#section-bar-3' class="btn btn-default previous-section">« Previous</a>
+                                <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>
                     </section>
@@ -212,8 +220,7 @@
                                                 <th>Value</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                        </tbody>
+                                        <tbody></tbody>
                                         <tfoot>
                                         </tfoot>
                                     </table>
