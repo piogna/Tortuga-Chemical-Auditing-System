@@ -63,15 +63,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.CaseNumber)
-                                    </div>
-                                </div>
-                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
@@ -144,15 +135,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.Grade)
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <!-- SECTION TWO INPUTS -->
                         <div class="col-lg-6">
@@ -184,11 +166,11 @@
                     </section>
                     <section id="section-bar-2">
                         <div class="col-lg-6">
-                            @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
+                            @Html.Label("Upload CofA", new { @class = "control-label" })
                             <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default" accept=".pdf" />
                         </div>
                         <div class="col-lg-6">
-                            @Html.Label("MSDS", new { @class = "control-label" })
+                            @Html.Label("Upload SDS", new { @class = "control-label" })
                             <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default" accept=".pdf" />
                         </div>
                         <div class="form-group row">

@@ -30,12 +30,11 @@ namespace TMNT.Models.ViewModels {
         public string CatalogueCode { get; set; }
         [Display(Name = "Amount Remaining")]
         public int Amount { get; set; }
-        //[Required]
-        public int Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
+        [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }

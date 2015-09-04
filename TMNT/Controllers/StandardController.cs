@@ -56,7 +56,6 @@ namespace TMNT.Controllers {
                         list[counter].UsedFor = invItem.UsedFor;
                         list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
-                        list[counter].Grade = invItem.Grade;
                     }
                 }
                 counter++;
@@ -105,7 +104,6 @@ namespace TMNT.Controllers {
                     vStandard.Unit = invItem.Unit;
                     vStandard.Department = invItem.Department;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
-                    vStandard.Grade = invItem.Grade;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                 }
@@ -139,7 +137,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,Grade,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
 
@@ -185,7 +183,6 @@ namespace TMNT.Controllers {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Amount = model.Amount,
-                    Grade = model.Grade,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
@@ -240,7 +237,6 @@ namespace TMNT.Controllers {
 
             foreach (var item in stockstandard.InventoryItems) {
                 model.Amount = item.Amount;
-                model.Grade = item.Grade;
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
                 model.UsedFor = item.UsedFor;

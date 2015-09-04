@@ -282,6 +282,10 @@
     <Compile Include="Migrations\201508171910337_UnitShrthandNameAndFullName.Designer.cs">
       <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509041341466_GradeNotRequiredAndNullable.cs" />
+    <Compile Include="Migrations\201509041341466_GradeNotRequiredAndNullable.Designer.cs">
+      <DependentUpon>201509041341466_GradeNotRequiredAndNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -598,6 +602,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508171910337_UnitShrthandNameAndFullName.resx">
       <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509041341466_GradeNotRequiredAndNullable.resx">
+      <DependentUpon>201509041341466_GradeNotRequiredAndNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -34,8 +34,8 @@ namespace TMNT.Models.ViewModels {
         public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        //[Required]
-        //public byte[] MSDS { get; set; }
+        [Display(Name = "SDS")]
+        public MSDS MSDS { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]

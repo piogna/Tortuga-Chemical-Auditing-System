@@ -163,8 +163,8 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0, @class = "input-summary form-control required-field required-field" } })
+                                        <div class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0, @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.Grade)
                                     </div>
                                 </div>
@@ -178,11 +178,11 @@
                     </section>
                     <section id="section-bar-2" class="section">
                         <div class="col-lg-6">
-                            @Html.Label("Certificate Of Analysis", new { @class = "control-label" })
+                            @Html.Label("Upload C of A", new { @class = "control-label" })
                             <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control" accept=".pdf" />
                         </div>
                         <div class="col-lg-6">
-                            @Html.Label("MSDS", new { @class = "control-label" })
+                            @Html.Label("Upload SDS", new { @class = "control-label" })
                             <input type="file" id="MSDS" name="uploadMSDS" class="form-control" accept=".pdf" />
                         </div>
                         <div class="form-group row">

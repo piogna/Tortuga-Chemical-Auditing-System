@@ -30,13 +30,14 @@ namespace TMNT.Models.ViewModels {
         public string InventoryItemName { get; set; }
         [Display(Name = "Amount Remaining")]
         public int Amount { get; set; }
-        public int Grade { get; set; }
+        public int? Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         [Display(Name="Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
+        [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }

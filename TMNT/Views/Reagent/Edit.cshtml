@@ -57,14 +57,14 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">Current MSDS</label>
+            <label class="control-label col-md-3">Current SDS</label>
             <div class="col-md-4">
-                @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " MSDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+                @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
             </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-3">Upload New MSDS</label>
+            <label class="control-label col-md-3">Upload New SDS</label>
             <div class="col-md-4">
                 <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
             </div>
