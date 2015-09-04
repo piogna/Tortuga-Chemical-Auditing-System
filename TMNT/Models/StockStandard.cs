@@ -18,6 +18,8 @@ namespace TMNT.Models {
         public double LowAmountThreshHold { get; set; }
         [Required, DataType(DataType.Date), Display(Name="Date Entered")]
         public DateTime DateEntered { get; set; }
+        [Display(Name = "Date Opened")]
+        public DateTime? DateOpened { get; set; }
         [Required, Display(Name = "Solvent Used")]
         public string SolventUsed { get; set; }
         [Required]

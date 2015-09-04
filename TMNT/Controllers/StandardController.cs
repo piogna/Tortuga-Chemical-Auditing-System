@@ -34,6 +34,7 @@ namespace TMNT.Controllers {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
                     ExpiryDate = item.ExpiryDate,
+                    DateOpened = item.DateOpened,
                     StockStandardName = item.StockStandardName,
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
@@ -42,7 +43,11 @@ namespace TMNT.Controllers {
                     LastModifiedBy = item.LastModifiedBy,
                     LowAmountThreshHold = item.LowAmountThreshHold,
                     Purity = item.Purity,
-                    SolventUsed = item.SolventUsed
+                    SolventUsed = item.SolventUsed,
+                    //is the standard expired?
+                    IsExpired = item.ExpiryDate.Date >= DateTime.Now.Date,
+                    //has the standard been opened?
+                    IsOpened = item.DateOpened != null
                 });
             }
             //iterating through the associated InventoryItem and retrieving the appropriate data
@@ -90,6 +95,7 @@ namespace TMNT.Controllers {
                 ExpiryDate = standard.ExpiryDate,
                 IdCode = standard.IdCode,
                 DateEntered = standard.DateEntered,
+                DateOpened = standard.DateOpened,
                 EnteredBy = standard.EnteredBy,
                 StockStandardName = standard.StockStandardName,
                 LowAmountThreshHold = standard.LowAmountThreshHold,

@@ -38,6 +38,9 @@
                 @Html.DisplayNameFor(model => model.DateEntered)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DateOpened)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
@@ -69,6 +72,9 @@
                     @Html.DisplayFor(modelItem => item.DateEntered)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.DateOpened)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
                 <td>
@@ -83,6 +89,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EnteredBy)
                 </td>
+            </tr>
                 @*<td>
                         @foreach (var i in item.InventoryItems) {
                             foreach (var c in i.CertificatesOfAnalysis) {
@@ -92,7 +99,6 @@
                             }
                         }
                     </td>*@
-            </tr>
         }
     </tbody>
     <tfoot>
@@ -103,6 +109,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateEntered)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOpened)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LotNumber)

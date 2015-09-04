@@ -298,6 +298,10 @@
     <Compile Include="Migrations\201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.Designer.cs">
       <DependentUpon>201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509041819552_StandardDateOpened.cs" />
+    <Compile Include="Migrations\201509041819552_StandardDateOpened.Designer.cs">
+      <DependentUpon>201509041819552_StandardDateOpened.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -626,6 +630,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.resx">
       <DependentUpon>201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509041819552_StandardDateOpened.resx">
+      <DependentUpon>201509041819552_StandardDateOpened.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

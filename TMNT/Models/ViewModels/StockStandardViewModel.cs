@@ -13,6 +13,8 @@ namespace TMNT.Models.ViewModels {
         public string StockStandardName { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Entered")]
         public DateTime DateEntered { get; set; }
+        [Display(Name = "Date Opened")]
+        public DateTime? DateOpened { get; set; }
         [Display(Name ="Entered By")]
         public string EnteredBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
@@ -28,6 +30,10 @@ namespace TMNT.Models.ViewModels {
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+
+        //properties to help with views and have nothing to do with the db
+        public bool IsExpired { get; set; }
+        public bool IsOpened { get; set; }
 
         //inventory properties
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
