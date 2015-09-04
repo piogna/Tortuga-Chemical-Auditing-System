@@ -44,6 +44,9 @@
                 @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
                 Amount Remaining
             </th>
         </tr>
@@ -69,6 +72,9 @@
                     @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
                 </td>
             </tr>
@@ -88,6 +94,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LotNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
             </th>
             <th>
                 Amount Remaining
