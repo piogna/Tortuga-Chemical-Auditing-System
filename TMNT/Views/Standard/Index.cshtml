@@ -38,9 +38,6 @@
                 @Html.DisplayNameFor(model => model.DateEntered)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnteredBy)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
@@ -48,6 +45,12 @@
             </th>
             <th>
                 Amount Remaining
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnteredBy)
             </th>
         </tr>
     </thead>
@@ -66,9 +69,6 @@
                     @Html.DisplayFor(modelItem => item.DateEntered)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EnteredBy)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
                 <td>
@@ -76,6 +76,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(itemItem => item.Unit.UnitShorthandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnteredBy)
                 </td>
                 @*<td>
                         @foreach (var i in item.InventoryItems) {
@@ -99,9 +105,6 @@
                 @Html.DisplayNameFor(model => model.DateEntered)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnteredBy)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
@@ -109,6 +112,12 @@
             </th>
             <th>
                 Amount Remaining
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnteredBy)
             </th>
         </tr>
     </tfoot>

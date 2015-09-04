@@ -33,6 +33,7 @@ namespace TMNT.Controllers {
                 list.Add(new StockStandardViewModel() {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
+                    ExpiryDate = item.ExpiryDate,
                     StockStandardName = item.StockStandardName,
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
@@ -86,6 +87,7 @@ namespace TMNT.Controllers {
             StockStandardViewModel vStandard = new StockStandardViewModel() {
                 StockStandardId = standard.StockStandardId,
                 LotNumber = standard.LotNumber,
+                ExpiryDate = standard.ExpiryDate,
                 IdCode = standard.IdCode,
                 DateEntered = standard.DateEntered,
                 EnteredBy = standard.EnteredBy,
@@ -139,7 +141,8 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,LotNumber,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
+                    StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
 
@@ -173,6 +176,7 @@ namespace TMNT.Controllers {
                 StockStandard standard = new StockStandard() {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
+                    ExpiryDate = model.ExpiryDate,
                     StockStandardName = model.StockStandardName,
                     DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,
@@ -233,6 +237,7 @@ namespace TMNT.Controllers {
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
+                ExpiryDate = stockstandard.ExpiryDate,
                 Purity = stockstandard.Purity,
                 SolventUsed = stockstandard.SolventUsed,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
@@ -264,6 +269,7 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LotNumber = stockstandard.LotNumber;
+                updateStandard.ExpiryDate = stockstandard.ExpiryDate;
                 updateStandard.LastModified = DateTime.Now;
                 updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 

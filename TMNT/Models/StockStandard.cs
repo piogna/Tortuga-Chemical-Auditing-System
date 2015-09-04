@@ -28,6 +28,9 @@ namespace TMNT.Models {
         public DateTime? LastModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
+        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
+
 
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

@@ -18,6 +18,18 @@ input[type=text] {
     width: 100%;
 }
 
+.input-group-addon-sm {
+    width:15%;
+}
+
+.input-group-addon-md {
+    width:22%;
+}
+
+.input-group-addon-lg {
+    width:30%;
+}
+
 .next-section {
     float: right;
     bottom: 0;
