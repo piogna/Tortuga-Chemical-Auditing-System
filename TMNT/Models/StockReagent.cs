@@ -10,6 +10,8 @@ namespace TMNT.Models {
 
         [Key]
         public int ReagentId { get; set; }
+        [Required, Display(Name = "Lot No.")]
+        public string LotNumber { get; set; }
         [Required, Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Entered")]

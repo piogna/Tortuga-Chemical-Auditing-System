@@ -24,6 +24,8 @@ namespace TMNT.Models.ViewModels {
         //[Required]
         public double Purity { get; set; }
         public double LowAmountThreshHold { get; set; }
+        [Display(Name = "Lot No.")]
+        public string LotNumber { get; set; }
 
         //inventory properties
         [Display(Name = "Catalogue Code")]

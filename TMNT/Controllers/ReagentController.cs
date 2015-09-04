@@ -156,7 +156,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,ReagentName,Amount,Grade,UsedFor,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,ReagentName,Amount,Grade,UsedFor,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
@@ -194,6 +194,7 @@ namespace TMNT.Controllers {
 
                 StockReagent reagent = new StockReagent() {
                     IdCode = model.IdCode,
+                    LotNumber = model.LotNumber,
                     ReagentName = model.ReagentName,
                     DateEntered = DateTime.Today,
                     EnteredBy = model.EnteredBy
@@ -236,6 +237,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             StockReagent stockreagent = repo.Get(id);
 
             if (stockreagent == null) {
@@ -244,6 +246,7 @@ namespace TMNT.Controllers {
 
             StockReagentViewModel model = new StockReagentViewModel() {
                 ReagentId = stockreagent.ReagentId,
+                LotNumber = stockreagent.LotNumber,
                 ReagentName = stockreagent.ReagentName,
                 DateEntered = stockreagent.DateEntered,
                 IdCode = stockreagent.IdCode,
@@ -268,7 +271,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Amount,ReagentId")] StockReagentViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "ReagentId,LotNumber")] StockReagentViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
 
@@ -277,6 +280,7 @@ namespace TMNT.Controllers {
                         .FirstOrDefault();
 
                 StockReagent updateReagent = invItem.StockReagent;
+                updateReagent.LotNumber = stockreagent.LotNumber;
                 updateReagent.LastModified = DateTime.Now;
                 updateReagent.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 

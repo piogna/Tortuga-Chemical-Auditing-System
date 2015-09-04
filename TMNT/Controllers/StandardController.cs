@@ -32,6 +32,7 @@ namespace TMNT.Controllers {
             foreach (var item in standards) {
                 list.Add(new StockStandardViewModel() {
                     StockStandardId = item.StockStandardId,
+                    LotNumber = item.LotNumber,
                     StockStandardName = item.StockStandardName,
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
@@ -84,6 +85,7 @@ namespace TMNT.Controllers {
 
             StockStandardViewModel vStandard = new StockStandardViewModel() {
                 StockStandardId = standard.StockStandardId,
+                LotNumber = standard.LotNumber,
                 IdCode = standard.IdCode,
                 DateEntered = standard.DateEntered,
                 EnteredBy = standard.EnteredBy,
@@ -137,7 +139,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,LotNumber,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")] StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
 
@@ -226,6 +228,7 @@ namespace TMNT.Controllers {
             
             StockStandardViewModel model = new StockStandardViewModel() {
                 StockStandardId = stockstandard.StockStandardId,
+                LotNumber = stockstandard.LotNumber,
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
@@ -250,7 +253,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Amount,StockStandardId")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
 
@@ -259,6 +262,7 @@ namespace TMNT.Controllers {
                         .FirstOrDefault();
 
                 StockStandard updateStandard = invItem.StockStandard;
+                updateStandard.LotNumber = stockstandard.LotNumber;
                 updateStandard.LastModified = DateTime.Now;
                 updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 

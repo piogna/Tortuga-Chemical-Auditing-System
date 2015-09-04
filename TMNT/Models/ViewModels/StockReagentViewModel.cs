@@ -21,6 +21,8 @@ namespace TMNT.Models.ViewModels {
         public string LastModifiedBy { get; set; }
         [Display(Name ="Low Amount Threshold")]
         public double LowAmountThreshHold { get; set; }
+        [Display(Name = "Lot No.")]
+        public string LotNumber { get; set; }
 
 
         //standard poperties
