@@ -99,7 +99,16 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
+                                        @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
+                                        @Html.ValidationMessageFor(model => model.LotNumber)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.CatalogueCode)
                                     </div>
                                 </div>

@@ -172,6 +172,7 @@ namespace TMNT.Controllers {
 
                 StockStandard standard = new StockStandard() {
                     IdCode = model.IdCode,
+                    LotNumber = model.LotNumber,
                     StockStandardName = model.StockStandardName,
                     DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,

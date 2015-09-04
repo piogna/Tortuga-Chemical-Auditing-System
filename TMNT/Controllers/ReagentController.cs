@@ -32,6 +32,7 @@ namespace TMNT.Controllers {
             foreach (var item in reagents) {
                 list.Add(new StockReagentViewModel() {
                     ReagentId = item.ReagentId,
+                    LotNumber = item.LotNumber,
                     IdCode = item.IdCode,
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
