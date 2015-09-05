@@ -12,6 +12,7 @@ $(function () {
 
     var units = $('#Unit');
     var devices = $('#device-selector');
+    var storageLocations = $('#storage-locations');
 
     //section selectors
     var sectionOne = $('#section-bar-1');
@@ -73,6 +74,14 @@ $(function () {
 
     units.on('change', function () {
         units.each(function () {
+            if ($(this).val()) {
+                $(this).first().css("border", "1px solid #ccc");
+            }
+        });
+    });
+
+    storageLocations.on('change', function () {
+        storageLocations.each(function () {
             if ($(this).val()) {
                 $(this).first().css("border", "1px solid #ccc");
             }

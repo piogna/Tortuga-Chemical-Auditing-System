@@ -87,8 +87,8 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <select name="Storage" class="form-control no-border-radius required-field input-summary">
-                                            <option>Choose Storage Requirement..</option>
+                                        <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Choose Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
                                                 @foreach (var item in ViewBag.Storage) {
                                                     <option value="@item">
