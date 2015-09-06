@@ -33,8 +33,6 @@ namespace TMNT.Controllers {
                 list.Add(new StockStandardViewModel() {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
-                    ExpiryDate = item.ExpiryDate,
-                    DateOpened = item.DateOpened,
                     StockStandardName = item.StockStandardName,
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
@@ -43,11 +41,7 @@ namespace TMNT.Controllers {
                     LastModifiedBy = item.LastModifiedBy,
                     LowAmountThreshHold = item.LowAmountThreshHold,
                     Purity = item.Purity,
-                    SolventUsed = item.SolventUsed,
-                    //is the standard expired?
-                    IsExpired = item.ExpiryDate.Date >= DateTime.Now.Date,
-                    //has the standard been opened?
-                    IsOpened = item.DateOpened != null
+                    SolventUsed = item.SolventUsed
                 });
             }
             //iterating through the associated InventoryItem and retrieving the appropriate data
@@ -63,6 +57,10 @@ namespace TMNT.Controllers {
                         list[counter].UsedFor = invItem.UsedFor;
                         list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].ExpiryDate = invItem.ExpiryDate;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
+                        list[counter].DateOpened = invItem.DateOpened;
+                        list[counter].IsOpened = invItem.DateOpened != null;
                     }
                 }
                 counter++;
@@ -92,10 +90,8 @@ namespace TMNT.Controllers {
             StockStandardViewModel vStandard = new StockStandardViewModel() {
                 StockStandardId = standard.StockStandardId,
                 LotNumber = standard.LotNumber,
-                ExpiryDate = standard.ExpiryDate,
                 IdCode = standard.IdCode,
                 DateEntered = standard.DateEntered,
-                DateOpened = standard.DateOpened,
                 EnteredBy = standard.EnteredBy,
                 StockStandardName = standard.StockStandardName,
                 LowAmountThreshHold = standard.LowAmountThreshHold,
@@ -106,6 +102,8 @@ namespace TMNT.Controllers {
 
             foreach (var invItem in standard.InventoryItems) {
                 if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
+                    vStandard.ExpiryDate = invItem.ExpiryDate;
+                    vStandard.DateOpened = invItem.DateOpened;
                     vStandard.Amount = invItem.Amount;
                     vStandard.CaseNumber = invItem.CaseNumber;
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -190,7 +188,7 @@ namespace TMNT.Controllers {
                 StockStandard standard = new StockStandard() {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
-                    ExpiryDate = model.ExpiryDate,
+                    //ExpiryDate = model.ExpiryDate,
                     StockStandardName = model.StockStandardName,
                     DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,
@@ -204,6 +202,7 @@ namespace TMNT.Controllers {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Amount = model.Amount,
+                    ExpiryDate = model.ExpiryDate,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
@@ -252,7 +251,7 @@ namespace TMNT.Controllers {
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
-                ExpiryDate = stockstandard.ExpiryDate,
+                //ExpiryDate = stockstandard.ExpiryDate,
                 Purity = stockstandard.Purity,
                 SolventUsed = stockstandard.SolventUsed,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
@@ -263,6 +262,7 @@ namespace TMNT.Controllers {
                 model.Amount = item.Amount;
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
+                model.ExpiryDate = item.ExpiryDate;
                 model.UsedFor = item.UsedFor;
             }
             return View(model);
@@ -284,7 +284,7 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                updateStandard.ExpiryDate = stockstandard.ExpiryDate;
+                //updateStandard.ExpiryDate = stockstandard.ExpiryDate;
                 updateStandard.LastModified = DateTime.Now;
                 updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 
@@ -321,6 +321,7 @@ namespace TMNT.Controllers {
                 }
 
                 invItem.Amount = stockstandard.Amount;
+                invItem.ExpiryDate = stockstandard.ExpiryDate;
                 invItem.DateModified = DateTime.Now;
                 new InventoryItemRepository().Update(invItem);
 

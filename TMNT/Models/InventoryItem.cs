@@ -25,8 +25,12 @@ namespace TMNT.Models {
         public string Type { get; set; }
         [Required, Display(Name = "Created By")]
         public string CreatedBy { get; set; }
+        [Display(Name = "Date Opened")]
+        public DateTime? DateOpened { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
+        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
         public DateTime DateModified { get; set; }
         [Required, Display(Name = "Storage Req's")]

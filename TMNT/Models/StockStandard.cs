@@ -18,8 +18,6 @@ namespace TMNT.Models {
         public double LowAmountThreshHold { get; set; }
         [Required, DataType(DataType.Date), Display(Name="Date Entered")]
         public DateTime DateEntered { get; set; }
-        [Display(Name = "Date Opened")]
-        public DateTime? DateOpened { get; set; }
         [Required, Display(Name = "Solvent Used")]
         public string SolventUsed { get; set; }
         [Required]
@@ -30,8 +28,6 @@ namespace TMNT.Models {
         public DateTime? LastModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
-        public DateTime ExpiryDate { get; set; }
 
 
         //foreign keys
