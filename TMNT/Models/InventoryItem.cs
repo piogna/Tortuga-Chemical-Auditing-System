@@ -16,7 +16,7 @@ namespace TMNT.Models {
         [Required]
         public int Amount { get; set; }
         public double LowAmountThreshHold { get; set; }
-        public int? Grade { get; set; }
+        public string Grade { get; set; }
         [Required, Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For")]

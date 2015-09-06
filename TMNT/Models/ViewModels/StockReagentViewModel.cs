@@ -24,7 +24,6 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Lot No.")]
         public string LotNumber { get; set; }
 
-
         //inventory poperties
         [Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
@@ -38,7 +37,7 @@ namespace TMNT.Models.ViewModels {
         public string InventoryItemName { get; set; }
         [Display(Name = "Amount Remaining")]
         public int Amount { get; set; }
-        public int? Grade { get; set; }
+        public string Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]

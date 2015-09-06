@@ -17,7 +17,6 @@
         }
     </style>
     <title>Maxxam Analytics - @ViewBag.Title</title>
-
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -53,199 +52,9 @@
                 Demo - Version 0.2.3
             </div>
             <ul class="nav navbar-top-links navbar-right">
-                @*<li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>Read All Messages</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>*@
-                <!-- /.dropdown-messages -->
-                <!-- /.dropdown -->
-                @*<li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-tasks">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 1</strong>
-                                            <span class="pull-right text-muted">40% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                <span class="sr-only">40% Complete (success)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 2</strong>
-                                            <span class="pull-right text-muted">20% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 3</strong>
-                                            <span class="pull-right text-muted">60% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                <span class="sr-only">60% Complete (warning)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 4</strong>
-                                            <span class="pull-right text-muted">80% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                                <span class="sr-only">80% Complete (danger)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Tasks</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>*@
-                <!-- /.dropdown-tasks -->
-                <!-- /.dropdown -->
-                @*<li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-comment fa-fw"></i> New Comment
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                        <span class="pull-right text-muted small">12 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-tasks fa-fw"></i> New Task
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>*@
-                <!-- /.dropdown-alerts -->
-                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        @if (System.Web.HttpContext.Current.User.Identity.Name != null) {
+                        @if (HttpContext.Current.User.Identity.Name != null) {
                             @HttpContext.Current.User.Identity.Name
                         }
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -341,10 +150,12 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
+        <!---->
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/bootstrap")
         @Scripts.Render("~/bundles/js")
+        <script src="~/Scripts/CustomMaxxamJS/help-me.js"></script>
         @RenderSection("scripts", required: false)
         <div id="page-wrapper">
             <div class="container-fluid">
@@ -413,46 +224,46 @@
         $(function() {
             document.getElementById('date-today').innerHTML = new Date().getFullYear();
 
-            var options = $('#help-options');
-            var selectedOption = $('#help-options option:selected');
-            var notesSection = $('#help-notes');
-            var message = "";
+            //var options = $('#help-options');
+            //var selectedOption = $('#help-options option:selected');
+            //var notesSection = $('#help-notes');
+            //var message = "";
 
-            options.on('change', function(e) {
-                var selectedOption = $('#help-options option:selected');
-                notesSection.text("");
-                if (selectedOption.val() === "") {
-                    message = "";
-                } else if (selectedOption.val() === "RSCreate") {
-                    message = "<div style='height:40px;width:100%;background-color:#428ACA;padding:10px 0 10px 35px;margin-bottom:15px;color:#fff;font-size:16px;'>Reagent and Standard Create Help</div>" +
-                        "When you go to the Create Reagent or Create Standard page, you will see a form which has mutliple sections to complete. Each section's required field must be completed to advance to the next segment. You may notice it looks very similar to the paper forms you have been using. This is because it's heavily influenced from them!" +
-                        "Below is an image of the form to create a new Reagent or Standard along with notes to help guide you:" +
-                        "<img src='../../Content/images/help-images/reagent-create-part1.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
-                        "Some points about the form:" +
-                        "<ul>" +
-                            "<li>Any field with a red asterisk is a required field. If it is not completed, the form will not be able to progress</li>" +
-                            "<li>Please note the dropdown for 'Select Metric'. This supports both Volume and Weight, from Tera to Atto</li>" +
-                            "<li>To return to the list of all Reagents, click on 'Back to List' located at the top-left corner</li>" +
-                            "<li>If you ever get lost with where you are in the site, you can always refer to the breadcrumbs located at the top of the image</li>" +
-                        "</ul>" +
-                        "Once you have completed the form and clicked on 'Next', you will see the last portion of the form:" +
-                        "<img src='../../Content/images/help-images/reagent-create-part2.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
-                        "Here all you have to do is browse for the PDF copies of the Certificate of Analysis and the MSDS. This section also must be completed." +
-                        "Once completed, you will then be taken to a Summary page:" +
-                        "<img src='../../Content/images/help-images/reagent-create-part3.PNG'  style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
-                        "Some points about the summary:" +
-                        "<ul>" +
-                            "<li>Click on 'Cancel' to return to the previous section of the form</li>" +
-                            "<li>Click on 'Save' to create the Reagent and be taken back to the Landing Page of Reagents</li>" +
-                            "<li>Click on 'Save & New' to create the Reagent, and be given a new clean form to create another Reagent</li>" +
-                        "</ul>" +
-                        "Please note the Print Label checkbox currently is not functional." +
-                        "We hope you found this helpful! :)";
-                } else {
-                    message = "Not yet implemented at this time. :("
-                }
-                notesSection.append(message);
-            });
+            //options.on('change', function(e) {
+            //    var selectedOption = $('#help-options option:selected');
+            //    notesSection.text("");
+            //    if (selectedOption.val() === "") {
+            //        message = "";
+            //    } else if (selectedOption.val() === "RSCreate") {
+            //        message = "<div style='height:40px;width:100%;background-color:#428ACA;padding:10px 0 10px 35px;margin-bottom:15px;color:#fff;font-size:16px;'>Reagent and Standard Create Help</div>" +
+            //            "When you go to the Create Reagent or Create Standard page, you will see a form which has mutliple sections to complete. Each section's required field must be completed to advance to the next segment. You may notice it looks very similar to the paper forms you have been using. This is because it's heavily influenced from them!" +
+            //            "Below is an image of the form to create a new Reagent or Standard along with notes to help guide you:" +
+            //            "<img src='../../Content/images/help-images/reagent-create-part1.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
+            //            "Some points about the form:" +
+            //            "<ul>" +
+            //                "<li>Any field with a red asterisk is a required field. If it is not completed, the form will not be able to progress</li>" +
+            //                "<li>Please note the dropdown for 'Select Metric'. This supports both Volume and Weight, from Tera to Atto</li>" +
+            //                "<li>To return to the list of all Reagents, click on 'Back to List' located at the top-left corner</li>" +
+            //                "<li>If you ever get lost with where you are in the site, you can always refer to the breadcrumbs located at the top of the image</li>" +
+            //            "</ul>" +
+            //            "Once you have completed the form and clicked on 'Next', you will see the last portion of the form:" +
+            //            "<img src='../../Content/images/help-images/reagent-create-part2.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
+            //            "Here all you have to do is browse for the PDF copies of the Certificate of Analysis and the MSDS. This section also must be completed." +
+            //            "Once completed, you will then be taken to a Summary page:" +
+            //            "<img src='../../Content/images/help-images/reagent-create-part3.PNG'  style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
+            //            "Some points about the summary:" +
+            //            "<ul>" +
+            //                "<li>Click on 'Cancel' to return to the previous section of the form</li>" +
+            //                "<li>Click on 'Save' to create the Reagent and be taken back to the Landing Page of Reagents</li>" +
+            //                "<li>Click on 'Save & New' to create the Reagent, and be given a new clean form to create another Reagent</li>" +
+            //            "</ul>" +
+            //            "Please note the Print Label checkbox currently is not functional." +
+            //            "We hope you found this helpful! :)";
+            //    } else {
+            //        message = "Not yet implemented at this time. :("
+            //    }
+            //    notesSection.append(message);
+            //});
         });
     </script>
 </body>
