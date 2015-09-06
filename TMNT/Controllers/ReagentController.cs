@@ -144,7 +144,7 @@ namespace TMNT.Controllers {
 
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
-
+            
             var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
 
             ViewBag.WeightUnits = weightUnits;

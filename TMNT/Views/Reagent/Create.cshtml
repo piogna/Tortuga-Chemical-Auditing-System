@@ -117,9 +117,15 @@
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in ViewBag.BalanceDevices) {
-                                                    <option value="@item.DeviceCode">
-                                                        @item.DeviceCode
-                                                    </option>
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
