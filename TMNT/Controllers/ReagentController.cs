@@ -61,6 +61,7 @@ namespace TMNT.Controllers {
                         list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].SupplierName = invItem.SupplierName;
                         //list[counter].PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                     }
                 }
@@ -131,6 +132,7 @@ namespace TMNT.Controllers {
                     vReagent.MSDSExpiryDate = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSExpiryDate;
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Now.Date;
+                    vReagent.SupplierName = invItem.SupplierName;
                     //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
                     //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                 }
@@ -169,7 +171,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,MSDSExpiryDateReagentName,StorageRequirements,Amount,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,MSDSExpiryDateReagentName,StorageRequirements,Amount,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
@@ -228,7 +230,8 @@ namespace TMNT.Controllers {
                     DateModified = DateTime.Today,
                     Unit = model.Unit,
                     Type = model.GetType().Name,
-                    StorageRequirements = model.StorageRequirements
+                    StorageRequirements = model.StorageRequirements,
+                    SupplierName = model.SupplierName
                 };
 
                 inventoryItem.MSDS.Add(model.MSDS);
@@ -279,6 +282,7 @@ namespace TMNT.Controllers {
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
                 model.UsedFor = item.UsedFor;
+                model.SupplierName = item.SupplierName;
             }
             return View(model);
         }

@@ -33,6 +33,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //inventory poperties
+        [Required, Display(Name = "Supplier")]
+        public string SupplierName { get; set; }
         [Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]

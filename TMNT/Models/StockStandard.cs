@@ -20,6 +20,8 @@ namespace TMNT.Models {
         public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Solvent Used")]
         public string SolventUsed { get; set; }
+        [Required, Display(Name = "Solvent Supplier")]
+        public string SolventSupplierName { get; set; }
         [Required]
         public double Purity { get; set; }
         [Display(Name = "Entered By")]

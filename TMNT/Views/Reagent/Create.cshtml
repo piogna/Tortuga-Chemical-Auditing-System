@@ -172,6 +172,15 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier", @class = "input-summary form-control required-field" } })
+                                        @Html.ValidationMessageFor(model => model.SupplierName)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
                                         <div class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.Grade)

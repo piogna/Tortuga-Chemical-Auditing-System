@@ -61,6 +61,7 @@ namespace TMNT.Controllers {
                         list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].SupplierName = invItem.SupplierName;
                     }
                 }
                 counter++;
@@ -116,6 +117,8 @@ namespace TMNT.Controllers {
                     vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.MSDSExpiryDate = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSExpiryDate;
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
+                    vStandard.SolventSupplierName = invItem.SupplierName;
+                    vStandard.SupplierName = invItem.SupplierName;
                 }
             }
             return View(vStandard);
@@ -151,7 +154,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
             model.Unit = new UnitRepository().Get(selectedValue);
@@ -188,11 +191,11 @@ namespace TMNT.Controllers {
                 StockStandard standard = new StockStandard() {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
-                    //ExpiryDate = model.ExpiryDate,
                     StockStandardName = model.StockStandardName,
                     DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,
                     Purity = model.Purity,
+                    SolventSupplierName = model.SolventSupplierName,
                     EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name
@@ -210,7 +213,8 @@ namespace TMNT.Controllers {
                     DateModified = DateTime.Today,
                     Unit = model.Unit,
                     Type = model.GetType().Name,
-                    StorageRequirements = model.StorageRequirements
+                    StorageRequirements = model.StorageRequirements,
+                    SupplierName = model.SupplierName
                 };
 
                 inventoryItem.MSDS.Add(model.MSDS);
@@ -251,8 +255,8 @@ namespace TMNT.Controllers {
                 StockStandardName = stockstandard.StockStandardName,
                 DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
-                //ExpiryDate = stockstandard.ExpiryDate,
                 Purity = stockstandard.Purity,
+                SolventSupplierName = stockstandard.SolventSupplierName,
                 SolventUsed = stockstandard.SolventUsed,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
                 MSDS = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
@@ -263,6 +267,7 @@ namespace TMNT.Controllers {
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
                 model.ExpiryDate = item.ExpiryDate;
+                model.SupplierName = item.SupplierName;
                 model.UsedFor = item.UsedFor;
             }
             return View(model);

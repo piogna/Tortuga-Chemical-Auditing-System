@@ -21,8 +21,12 @@ namespace TMNT.Models.ViewModels {
         public DateTime? LastModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
-        [Display(Name = "Solvent Used")]
+        [Display(Name = "Solvent Used"), DataType(DataType.MultilineText)]
         public string SolventUsed { get; set; }
+        [Required, Display(Name = "Solvent Supplier")]
+        public string SolventSupplierName { get; set; }
+        [Display(Name = "Supplier")]
+        public string SupplierName { get; set; }
         //[Required]
         public double Purity { get; set; }
         public double LowAmountThreshHold { get; set; }
