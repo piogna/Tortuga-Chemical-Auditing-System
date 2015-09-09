@@ -61,7 +61,6 @@ namespace TMNT.Controllers {
                                         .First()
                 });
             }
-
             return View(viewModels);
         }
 

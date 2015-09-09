@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.Designer.cs">
       <DependentUpon>201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509091957333_DeviceTestPassOrFailField.cs" />
+    <Compile Include="Migrations\201509091957333_DeviceTestPassOrFailField.Designer.cs">
+      <DependentUpon>201509091957333_DeviceTestPassOrFailField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -664,6 +668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.resx">
       <DependentUpon>201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509091957333_DeviceTestPassOrFailField.resx">
+      <DependentUpon>201509091957333_DeviceTestPassOrFailField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

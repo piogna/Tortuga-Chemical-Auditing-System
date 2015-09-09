@@ -98,6 +98,14 @@
         background-repeat: no-repeat !important;
         background-position: center right !important;
     }
+
+    #section-2 {
+        display: none;
+    }
+
+    #section-3 {
+        display: none;
+    }
 </style>
 
 <nav class="navbar navbar-default">
@@ -114,24 +122,76 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-header" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Report <span class="caret"></span></a>
+                    <a href="#" class="dropdown-header" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Report - All Devices <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a id="all-devices" class="device-filter" href="#">All Devices</a></li>
-                        <li><a id="voluemtric-only" class="device-filter" href="#">Volumetric Devices Only</a></li>
+                        <li><a id="volumetric-only" class="device-filter" href="#">Volumetric Devices Only</a></li>
                         <li><a id="balance-only" class="device-filter" href="#">Balance Devices Only</a></li>
                     </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Today <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Last 7 Days</a></li>
-                <li><a href="#">This Current Month</a></li>
+                <li class="active"><a id="filter-today" href="#">Today <span class="sr-only">(current)</span></a></li>
+                <li><a id="filter-7-days" href="#">Last 7 Days</a></li>
+                <li><a id="filter-30-days" href="#">Last 30 Days</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->
 </nav>
-<div class="container">
-    <table id="myTable3" class="table table-bordered table-striped">
+<div id="section-1" class="container">
+    <table id="table-all" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
+                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+                <th>Device Verifications Count</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
+                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+                <th>Device Verifications Count</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div id="section-2" class="container">
+    <table id="table-volumetric" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
+                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+                <th>Device Verifications Count</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
+                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+                <th>Device Verifications Count</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div id="section-3" class="container">
+    <table id="table-balance" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
@@ -187,485 +247,17 @@
 
 <script>
     $(function () {
-        var data = [
-            { label: "Balances Pass Verification", data: 10 },
-            { label: "Balances Fail Verification", data: 30 },
-            { label: "Volumetric Pass Verification", data: 90 },
-            { label: "Volumetric Fail Verification", data: 70 }
-        ], series = 4;
-
-        var placeholder = $("#placeholder");
-
-        $("#default").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true
-                    }
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true",
-                "        }",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#no-legend").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#label-formatter").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 1,
-                            formatter: labelFormatter,
-                            background: {
-                                opacity: 0.8
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 1,",
-                "            label: {",
-                "                show: true,",
-                "                radius: 1,",
-                "                formatter: labelFormatter,",
-                "                background: {",
-                "                    opacity: 0.8",
-                "                }",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#label-radius").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 3 / 4,
-                            formatter: labelFormatter,
-                            background: {
-                                opacity: 0.5
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 1,",
-                "            label: {",
-                "                show: true,",
-                "                radius: 3/4,",
-                "                formatter: labelFormatter,",
-                "                background: {",
-                "                    opacity: 0.5",
-                "                }",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        //$("#label-styles-1").click(function () {
-
-        //    placeholder.unbind();
-
-        //    $.plot(placeholder, data, {
-        //        series: {
-        //            pie: {
-        //                show: true,
-        //                radius: 1,
-        //                label: {
-        //                    show: true,
-        //                    radius: 3 / 4,
-        //                    formatter: labelFormatter,
-        //                    background: {
-        //                        opacity: 0.5,
-        //                        color: "#000"
-        //                    }
-        //                }
-        //            }
-        //        },
-        //        legend: {
-        //            show: false
-        //        }
-        //    });
-
-        //    setCode([
-        //        "$.plot('#placeholder', data, {",
-        //        "    series: {",
-        //        "        pie: { ",
-        //        "            show: true,",
-        //        "            radius: 1,",
-        //        "            label: {",
-        //        "                show: true,",
-        //        "                radius: 3/4,",
-        //        "                formatter: labelFormatter,",
-        //        "                background: { ",
-        //        "                    opacity: 0.5,",
-        //        "                    color: '#000'",
-        //        "                }",
-        //        "            }",
-        //        "        }",
-        //        "    },",
-        //        "    legend: {",
-        //        "        show: false",
-        //        "    }",
-        //        "});"
-        //    ]);
-        //});
-
-        $("#label-styles-2").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 3 / 4,
-                        label: {
-                            show: true,
-                            radius: 3 / 4,
-                            formatter: labelFormatter,
-                            background: {
-                                opacity: 0.5,
-                                color: "#000"
-                            }
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 3/4,",
-                "            label: {",
-                "                show: true,",
-                "                radius: 3/4,",
-                "                formatter: labelFormatter,",
-                "                background: {",
-                "                    opacity: 0.5,",
-                "                    color: '#000'",
-                "                }",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#hidden-labels").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        label: {
-                            show: true,
-                            radius: 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 1,",
-                "            label: {",
-                "                show: true,",
-                "                radius: 2/3,",
-                "                formatter: labelFormatter,",
-                "                threshold: 0.1",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#combined-slice").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        combine: {
-                            color: "#999",
-                            threshold: 0.05
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            combine: {",
-                "                color: '#999',",
-                "                threshold: 0.1",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#rectangular-pie").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 500,
-                        label: {
-                            show: true,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 500,",
-                "            label: {",
-                "                show: true,",
-                "                formatter: labelFormatter,",
-                "                threshold: 0.1",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});"
-            ]);
-        });
-
-        $("#example-10").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        tilt: 0.5,
-                        label: {
-                            show: true,
-                            radius: 1,
-                            formatter: labelFormatter,
-                            background: {
-                                opacity: 0.8
-                            }
-                        },
-                        combine: {
-                            color: "#999",
-                            threshold: 0.1
-                        }
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            show: true,",
-                "            radius: 1,",
-                "            tilt: 0.5,",
-                "            label: {",
-                "                show: true,",
-                "                radius: 1,",
-                "                formatter: labelFormatter,",
-                "                background: {",
-                "                    opacity: 0.8",
-                "                }",
-                "            },",
-                "            combine: {",
-                "                color: '#999',",
-                "                threshold: 0.1",
-                "            }",
-                "        }",
-                "    },",
-                "    legend: {",
-                "        show: false",
-                "    }",
-                "});",
-            ]);
-        });
-
-        $("#donut").click(function () {
-
-            placeholder.unbind();
-
-            $.plot(placeholder, data, {
-                series: {
-                    pie: {
-                        innerRadius: 0.5,
-                        show: true
-                    }
-                }
-            });
-
-            setCode([
-                "$.plot('#placeholder', data, {",
-                "    series: {",
-                "        pie: {",
-                "            innerRadius: 0.5,",
-                "            show: true",
-                "        }",
-                "    }",
-                "});"
-            ]);
-        });
-
-        // Show the initial default chart
-
-        $("#default").click();
-    });
-    // A custom label formatter used by several of the plots
-
-    function labelFormatter(label, series) {
-        return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
-    }
-
-    function setCode(lines) {
-        $("#code").text(lines.join("\n"));
-    }
-</script>
-<script>
-    $(function () {
         var json;
-        var table = $('#myTable3');
+        var tableAll = $('#table-all');
+        var tableVolumetric = $('#table-volumetric');
+        var tableBalance = $('#table-balance');
+
+        var balances = [], volumes = [];
 
         //on success, set table to show all data
         function onDataReceived(data) {
             json = data;
-
+            //filling all table
             var text = "";
             $.each(json, function (i, row) {
                 text += "<tr>" +
@@ -677,7 +269,41 @@
                             "<td>" + row.Status + "</td>" +
                         "</tr>";
             });
-            table.append(text);
+            tableAll.append(text);
+
+            //filling volumetric table
+            var text = "";
+            $.each(json, function (i, row) {
+                if (row.DeviceType === "Volumetric") {
+                    text += "<tr>" +
+                                "<td>" + row.DeviceType + "</td>" +
+                                "<td>" + row.DeviceCode + "</td>" +
+                                "<td>" + row.Department.DepartmentCode + "</td>" +
+                                "<td>" + row.IsVerified + "</td>" +
+                                "<td>" + row.DeviceVerifications.length + "</td>" +
+                                "<td>" + row.Status + "</td>" +
+                            "</tr>";
+                    volumes.push(row);
+                }
+            });
+            tableVolumetric.append(text);
+
+            //filling balance table
+            var text = "";
+            $.each(json, function (i, row) {
+                if (row.DeviceType === "Balance") {
+                    text += "<tr>" +
+                                "<td>" + row.DeviceType + "</td>" +
+                                "<td>" + row.DeviceCode + "</td>" +
+                                "<td>" + row.Department.DepartmentCode + "</td>" +
+                                "<td>" + row.IsVerified + "</td>" +
+                                "<td>" + row.DeviceVerifications.length + "</td>" +
+                                "<td>" + row.Status + "</td>" +
+                            "</tr>";
+                    balances.push(row);
+                }
+            });
+            tableBalance.append(text);
         }
 
         //ajax call
@@ -690,53 +316,597 @@
 
         //promise - once data is laoded, load datatables
         $.when(test).done(function (x) {
-            for (var i = 0; i < json.length; i++) {
-                $('#myTable3').dataTable({
-                    "pageLength": 10,
-                    "order": [[0, "asc"]],
-                    "columns": [
-                        { "fields": "Type" },
-                        { "fields": "DeviceCode" },
-                        { "fields": "DepartmentCode" },
-                        { "fields": "IsVerified" },
-                        { "fields": "Device Verification Count" },
-                        { "fields": "Status" }
-                    ],
-                    "aoColumnDefs": [
-                        { 'bSortable': true, 'aTargets': [0] }
-                    ]
-                });
-            }
+            //all data
+            $('#table-all').dataTable({
+                "pageLength": 10,
+                "order": [[0, "asc"]],
+                "columns": [
+                    { "fields": "Type" },
+                    { "fields": "DeviceCode" },
+                    { "fields": "DepartmentCode" },
+                    { "fields": "IsVerified" },
+                    { "fields": "Device Verification Count" },
+                    { "fields": "Status" }
+                ],
+                "aoColumnDefs": [
+                    { 'bSortable': true, 'aTargets': [0] }
+                ]
+            });
+
+            //volemtric table only
+            $('#table-volumetric').dataTable({
+                "pageLength": 10,
+                "order": [[0, "asc"]],
+                "columns": [
+                    { "fields": "Type" },
+                    { "fields": "DeviceCode" },
+                    { "fields": "DepartmentCode" },
+                    { "fields": "IsVerified" },
+                    { "fields": "Device Verification Count" },
+                    { "fields": "Status" }
+                ],
+                "aoColumnDefs": [
+                    { 'bSortable': true, 'aTargets': [0] }
+                ]
+            });
+
+            //volemtric table only
+            $('#table-balance').dataTable({
+                "pageLength": 10,
+                "order": [[0, "asc"]],
+                "columns": [
+                    { "fields": "Type" },
+                    { "fields": "DeviceCode" },
+                    { "fields": "DepartmentCode" },
+                    { "fields": "IsVerified" },
+                    { "fields": "Device Verification Count" },
+                    { "fields": "Status" }
+                ],
+                "aoColumnDefs": [
+                    { 'bSortable': true, 'aTargets': [0] }
+                ]
+            });
         });
 
         //showing all devices
         $('#all-devices').on('click', function (e) {
             e.preventDefault();
-            
-            var text = "";
-            $('#myTable3 tbody tr').remove();
+            $('#section-1').css('display', 'block');
+            $('#section-2').css('display', 'none');
+            $('#section-3').css('display', 'none');
 
-            $.each(json, function (i, row) {
-                text += "<tr>" +
-                            "<td>" + row.DeviceType + "</td>" +
-                            "<td>" + row.DeviceCode + "</td>" +
-                            "<td>" + row.Department.DepartmentCode + "</td>" +
-                            "<td>" + row.IsVerified + "</td>" +
-                            "<td>" + row.DeviceVerifications.length + "</td>" +
-                            "<td>" + row.Status + "</td>" +
-                        "</tr>";
-            });
-            table.append(text);
+            var header = $('.dropdown-header');
+            header.text("Filter results - All Devices ");
+            header.append("<span class='caret'></span>");
         });
 
         //showing all volumetric devices only
         $('#volumetric-only').on('click', function (e) {
             e.preventDefault();
+            $('#section-1').css('display', 'none');
+            $('#section-2').css('display', 'block');
+            $('#section-3').css('display', 'none');
+
+            var header = $('.dropdown-header');
+            header.text("Filter results - Vol. Devices ");
+            header.append("<span class='caret'></span>");
         });
 
         //showing all balances only
         $('#balance-only').on('click', function (e) {
             e.preventDefault();
+            $('#section-1').css('display', 'none');
+            $('#section-2').css('display', 'none');
+            $('#section-3').css('display', 'block');
+
+            var header = $('.dropdown-header');
+            header.text("Filter results - Bal. Devices ");
+            header.append("<span class='caret'></span>");
         });
+
+        $('#filter-today').on('click', function (e) {
+            e.preventDefault();
+        });
+
+        $('#filter-7-days').on('click', function (e) {
+            e.preventDefault();
+        });
+
+        $('#filter-30-days').on('click', function (e) {
+            e.preventDefault();
+        });
+
+        var data = [], series;
+        $.when(test).done(function (x) {
+            //getting all device verification data
+            var balancePass = 0, balanceFail = 0, volumePass = 0, volumeFail = 0;
+            for (var i = 0; i < json.length; i++) {
+                var item = json[i];
+                if (item.DeviceVerifications.length > 0) {
+                    for (var z = 0; z < item.DeviceVerifications.length; z++) {
+                        if (item.DeviceType === "Balance" && item.DeviceVerifications[z].DidTestPass) {
+                            balancePass++;
+                        } else if (item.DeviceType === "Balance" && !item.DeviceVerifications[z].DidTestPass) {
+                            balanceFail++;
+                        } else if (item.DeviceType === "Volumetric" && item.DeviceVerifications[z].DidTestPass) {
+                            volumePass++;
+                        } else if (item.DeviceType === "Volumetric" && !item.DeviceVerifications[z].DidTestPass) {
+                            volumeFail++;
+                        }
+                    }
+                }
+            }
+
+            data = [
+                { label: "Balances Pass Verification", data: balancePass },
+                { label: "Balances Fail Verification", data: balanceFail },
+                { label: "Volumetric Pass Verification", data: volumePass },
+                { label: "Volumetric Fail Verification", data: volumeFail }
+            ], series = data.length;
+
+            var placeholder = $("#placeholder");
+
+            $("#default").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true",
+                    "        }",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#no-legend").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#label-formatter").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            label: {
+                                show: true,
+                                radius: 1,
+                                formatter: labelFormatter,
+                                background: {
+                                    opacity: 0.8
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 1,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 1,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.8",
+                    "                }",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#label-radius").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            label: {
+                                show: true,
+                                radius: 3 / 4,
+                                formatter: labelFormatter,
+                                background: {
+                                    opacity: 0.5
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 1,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 3/4,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.5",
+                    "                }",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            //$("#label-styles-1").click(function () {
+
+            //    placeholder.unbind();
+
+            //    $.plot(placeholder, data, {
+            //        series: {
+            //            pie: {
+            //                show: true,
+            //                radius: 1,
+            //                label: {
+            //                    show: true,
+            //                    radius: 3 / 4,
+            //                    formatter: labelFormatter,
+            //                    background: {
+            //                        opacity: 0.5,
+            //                        color: "#000"
+            //                    }
+            //                }
+            //            }
+            //        },
+            //        legend: {
+            //            show: false
+            //        }
+            //    });
+
+            //    setCode([
+            //        "$.plot('#placeholder', data, {",
+            //        "    series: {",
+            //        "        pie: { ",
+            //        "            show: true,",
+            //        "            radius: 1,",
+            //        "            label: {",
+            //        "                show: true,",
+            //        "                radius: 3/4,",
+            //        "                formatter: labelFormatter,",
+            //        "                background: { ",
+            //        "                    opacity: 0.5,",
+            //        "                    color: '#000'",
+            //        "                }",
+            //        "            }",
+            //        "        }",
+            //        "    },",
+            //        "    legend: {",
+            //        "        show: false",
+            //        "    }",
+            //        "});"
+            //    ]);
+            //});
+
+            $("#label-styles-2").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 3 / 4,
+                            label: {
+                                show: true,
+                                radius: 3 / 4,
+                                formatter: labelFormatter,
+                                background: {
+                                    opacity: 0.5,
+                                    color: "#000"
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 3/4,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 3/4,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.5,",
+                    "                    color: '#000'",
+                    "                }",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#hidden-labels").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            label: {
+                                show: true,
+                                radius: 2 / 3,
+                                formatter: labelFormatter,
+                                threshold: 0.1
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 1,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 2/3,",
+                    "                formatter: labelFormatter,",
+                    "                threshold: 0.1",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#combined-slice").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            combine: {
+                                color: "#999",
+                                threshold: 0.05
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            combine: {",
+                    "                color: '#999',",
+                    "                threshold: 0.1",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#rectangular-pie").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 500,
+                            label: {
+                                show: true,
+                                formatter: labelFormatter,
+                                threshold: 0.1
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 500,",
+                    "            label: {",
+                    "                show: true,",
+                    "                formatter: labelFormatter,",
+                    "                threshold: 0.1",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            $("#example-10").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 1,
+                            tilt: 0.5,
+                            label: {
+                                show: true,
+                                radius: 1,
+                                formatter: labelFormatter,
+                                background: {
+                                    opacity: 0.8
+                                }
+                            },
+                            combine: {
+                                color: "#999",
+                                threshold: 0.1
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 1,",
+                    "            tilt: 0.5,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 1,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.8",
+                    "                }",
+                    "            },",
+                    "            combine: {",
+                    "                color: '#999',",
+                    "                threshold: 0.1",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});",
+                ]);
+            });
+
+            $("#donut").click(function () {
+
+                placeholder.unbind();
+
+                $.plot(placeholder, data, {
+                    series: {
+                        pie: {
+                            innerRadius: 0.5,
+                            show: true
+                        }
+                    }
+                });
+
+                setCode([
+                    "$.plot('#placeholder', data, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            innerRadius: 0.5,",
+                    "            show: true",
+                    "        }",
+                    "    }",
+                    "});"
+                ]);
+            });
+
+            // Show the initial default chart
+
+            $("#default").click();
+        });
+
     });
+
+    // A custom label formatter used by several of the plots
+
+    function labelFormatter(label, series) {
+        return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+    }
+
+    function setCode(lines) {
+        $("#code").text(lines.join("\n"));
+    }
 </script>
