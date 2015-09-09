@@ -10,7 +10,7 @@ namespace TMNT.Models.Repository {
             throw new NotImplementedException();
         }
 
-        public StockStandard Get(string idCode) {
+        public StockStandard Get(int? idCode) {
             return db.StockStandards.Where(s => s.IdCode == idCode.ToString()).OrderByDescending(s => s.DateEntered).First();
         }
 

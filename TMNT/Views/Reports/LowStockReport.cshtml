@@ -1,224 +1,224 @@
 ﻿@model IEnumerable<TMNT.Models.InventoryItem>
 
-    @{
-        ViewBag.Title = "Maxxam - Low Stock Report";
+@{
+    ViewBag.Title = "Maxxam - Low Stock Report";
+}
+
+<style>
+    #code-search {
+        font-size: 18px !important;
+        width: 30%;
     }
 
-    <style>
-        #code-search {
-            font-size: 18px !important;
-            width: 30%;
-        }
+    body {
+        /* fixes a rendering issue */
+        overflow-x: hidden;
+    }
+</style>
 
-        body {
-            /* fixes a rendering issue */
-            overflow-x: hidden;
-        }
-    </style>
-
-    <!-- Page Heading -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">
-                Low Stock Report
-            </h1>
-            <ol class="breadcrumb">
-                <li class="active">
-                    <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-fw fa-file-text"></i> Low Stock Reports
-                </li>
-            </ol>
-        </div>
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Low Stock Report
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-fw fa-file-text"></i> Low Stock Reports
+            </li>
+        </ol>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-fw fa-file-text"></i> Low Stock</h3>
-                </div>
-                <div class="panel-body">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-fw fa-file-text"></i> Low Stock</h3>
+            </div>
+            <div class="panel-body">
 
-                    <div class="form-inline">
-                        <div class="form-group col-lg-12 col-lg-offset-1">
-                            <input type="text" class="text-box" id="code-search" style="margin:5px 0 20px 0;" placeholder="Search ID Code">
-                            <div class="checkbox" style="padding-left:20px;">
-                                <label style="font-size:16px;font-weight:bold;">
-                                    <input type="checkbox" id="critical"> View Only Critical Inventory
-                                </label>
-                            </div>
+                <div class="form-inline">
+                    <div class="form-group col-lg-12 col-lg-offset-1">
+                        <input type="text" class="text-box" id="code-search" style="margin:5px 0 20px 0;" placeholder="Search ID Code">
+                        <div class="checkbox" style="padding-left:20px;">
+                            <label style="font-size:16px;font-weight:bold;">
+                                <input type="checkbox" id="critical"> View Only Critical Inventory
+                            </label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Supplier Name <span class="fa fa-arrow-down"></span></th>
-                                    <th>Quantity <span class="fa fa-arrow-down"></span></th>
-                                    <th>Item Type <span class="fa fa-arrow-down"></span></th>
-                                    <th>ID Code <span class="fa fa-arrow-down"></span></th>
-                                    <th>Department <span class="fa fa-arrow-down"></span></th>
-                                    <th>Last Order Date <span class="fa fa-arrow-down"></span></th>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Supplier Name <span class="fa fa-arrow-down"></span></th>
+                                <th>Quantity <span class="fa fa-arrow-down"></span></th>
+                                <th>Item Type <span class="fa fa-arrow-down"></span></th>
+                                <th>ID Code <span class="fa fa-arrow-down"></span></th>
+                                <th>Department <span class="fa fa-arrow-down"></span></th>
+                                <th>Last Order Date <span class="fa fa-arrow-down"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*<tr style="color:red;">
+                                    <td>Supplier One</td>
+                                    <td class="quantity">30 mL</td>
+                                    <td>Reagent</td>
+                                    <td>05/10/2014</td>
+                                    <td>BB-CRM-NT-001</td>
+                                    <td>65</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @*<tr style="color:red;">
-                                        <td>Supplier One</td>
-                                        <td class="quantity">30 mL</td>
-                                        <td>Reagent</td>
-                                        <td>05/10/2014</td>
-                                        <td>BB-CRM-NT-001</td>
-                                        <td>65</td>
-                                    </tr>
-                                    <tr style="color:red;">
-                                        <td>Supplier One</td>
-                                        <td class="quantity">40 mL</td>
-                                        <td>Reagent</td>
-                                        <td>02/08/2014</td>
-                                        <td>BB-CRM-NT-003</td>
-                                        <td>42</td>
-                                    </tr>
-                                    <tr style="color:red;">
-                                        <td>Supplier Two</td>
-                                        <td class="quantity">42 mL</td>
-                                        <td>Reagent</td>
-                                        <td>08/08/2014</td>
-                                        <td>BB-CRM-NT-004</td>
-                                        <td>78</td>
-                                    </tr>
-                                    <tr style="color:red;">
-                                        <td>Supplier Three</td>
-                                        <td class="quantity">75 mL</td>
-                                        <td>Standard</td>
-                                        <td>01/02/2015</td>
-                                        <td>BB-CRM-NT-006</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr style="color:red;">
-                                        <td>Supplier Two</td>
-                                        <td class="quantity">90 ml</td>
-                                        <td>Reagent</td>
-                                        <td>04/07/2014</td>
-                                        <td>BB-IS-ME-004</td>
-                                        <td>1</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Supplier Four</td>
-                                        <td class="quantity">95 mL</td>
-                                        <td>Reagent</td>
-                                        <td>12/08/2014</td>
-                                        <td>BB-IS-ME-006</td>
-                                        <td>90</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Supplier Five</td>
-                                        <td class="quantity">120 mL</td>
-                                        <td>Standard</td>
-                                        <td>02/04/2015</td>
-                                        <td>BB-IS-ME-007</td>
-                                        <td>74</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Supplier Two</td>
-                                        <td class="quantity">180 mL</td>
-                                        <td>Standard</td>
-                                        <td>05/01/2014</td>
-                                        <td>BB-IS-ME-009</td>
-                                        <td>81</td>
-                                    </tr>*@
-                                @foreach (var item in Model) {
-                                    <tr>
-                                        <td>@item.Supplier.Name</td>
-                                        <td class="quantity">@item.Amount @item.Unit.UnitName</td>
-                                        @if (item.StockStandard != null) {
-                                            <td>@item.StockStandard.StockStandardName</td>
-                                            <td>@item.StockStandard.IdCode</td>
-                                        } else if (item.StockReagent != null) {
-                                            <td>@item.StockReagent.ReagentName</td>
-                                            <td>@item.StockReagent.IdCode</td>
-                                        }
-                                        <td>@item.Department.DepartmentCode</td>
-                                        <td>@item.DateCreated.ToString().Split(' ')[0]</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-right">
-                        <a href="#">View All Stock <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
+                                <tr style="color:red;">
+                                    <td>Supplier One</td>
+                                    <td class="quantity">40 mL</td>
+                                    <td>Reagent</td>
+                                    <td>02/08/2014</td>
+                                    <td>BB-CRM-NT-003</td>
+                                    <td>42</td>
+                                </tr>
+                                <tr style="color:red;">
+                                    <td>Supplier Two</td>
+                                    <td class="quantity">42 mL</td>
+                                    <td>Reagent</td>
+                                    <td>08/08/2014</td>
+                                    <td>BB-CRM-NT-004</td>
+                                    <td>78</td>
+                                </tr>
+                                <tr style="color:red;">
+                                    <td>Supplier Three</td>
+                                    <td class="quantity">75 mL</td>
+                                    <td>Standard</td>
+                                    <td>01/02/2015</td>
+                                    <td>BB-CRM-NT-006</td>
+                                    <td>3</td>
+                                </tr>
+                                <tr style="color:red;">
+                                    <td>Supplier Two</td>
+                                    <td class="quantity">90 ml</td>
+                                    <td>Reagent</td>
+                                    <td>04/07/2014</td>
+                                    <td>BB-IS-ME-004</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>Supplier Four</td>
+                                    <td class="quantity">95 mL</td>
+                                    <td>Reagent</td>
+                                    <td>12/08/2014</td>
+                                    <td>BB-IS-ME-006</td>
+                                    <td>90</td>
+                                </tr>
+                                <tr>
+                                    <td>Supplier Five</td>
+                                    <td class="quantity">120 mL</td>
+                                    <td>Standard</td>
+                                    <td>02/04/2015</td>
+                                    <td>BB-IS-ME-007</td>
+                                    <td>74</td>
+                                </tr>
+                                <tr>
+                                    <td>Supplier Two</td>
+                                    <td class="quantity">180 mL</td>
+                                    <td>Standard</td>
+                                    <td>05/01/2014</td>
+                                    <td>BB-IS-ME-009</td>
+                                    <td>81</td>
+                                </tr>*@
+                            @foreach (var item in Model) {
+                                <tr>
+                                    @*<td>@item.Supplier.Name</td>*@
+                                    <td class="quantity">@item.Amount @item.Unit.UnitShorthandName</td>
+                                    @if (item.StockStandard != null) {
+                                        <td>@item.StockStandard.StockStandardName</td>
+                                        <td>@item.StockStandard.IdCode</td>
+                                    } else if (item.StockReagent != null) {
+                                        <td>@item.StockReagent.ReagentName</td>
+                                        <td>@item.StockReagent.IdCode</td>
+                                    }
+                                    @*<td>@item.Department.DepartmentCode</td>*@
+                                    <td>@item.DateCreated.ToString().Split(' ')[0]</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-right">
+                    <a href="#">View All Stock <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        @Html.ActionLink("« Back to Dashboard", "Index", new { @controller = "Home" }, new { @class = "btn btn-default" })
-    </div>
-    @*<script src="../../Scripts/jquery-2.1.3.min.js"></script>*@
-    <script>
-        $(function () {
-            var quantities = document.getElementsByClassName('quantity');
+</div>
+<div class="row">
+    @Html.ActionLink("« Back to Dashboard", "Index", new { @controller = "Home" }, new { @class = "btn btn-default" })
+</div>
+@*<script src="../../Scripts/jquery-2.1.3.min.js"></script>*@
+<script>
+    $(function () {
+        var quantities = document.getElementsByClassName('quantity');
 
-            for (var i = 0; i < quantities.length; i++) {
-                var quantity = parseInt(quantities[i].innerHTML.split(' ')[0]);
-                if (quantity < 90) {
-                    quantities[i].closest('tr').style.color = "red";
-                }
-                console.log();
+        for (var i = 0; i < quantities.length; i++) {
+            var quantity = parseInt(quantities[i].innerHTML.split(' ')[0]);
+            if (quantity < 90) {
+                quantities[i].closest('tr').style.color = "red";
             }
+            console.log();
+        }
 
-            $('#critical').on('click', function () {
-                var rows = document.getElementsByTagName('tr');
+        $('#critical').on('click', function () {
+            var rows = document.getElementsByTagName('tr');
 
-                if (document.getElementById('critical').checked) {
-                    for (var i = 0; i < quantities.length; i++) {
-                        var quantity = parseInt(quantities[i].innerHTML.split(' ')[0]);
-                        if (quantity > 90) {
-                            rows[i + 1].style.display = "none";
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < rows.length; i++) {
-                        rows[i].style.display = "table-row";
+            if (document.getElementById('critical').checked) {
+                for (var i = 0; i < quantities.length; i++) {
+                    var quantity = parseInt(quantities[i].innerHTML.split(' ')[0]);
+                    if (quantity > 90) {
+                        rows[i + 1].style.display = "none";
                     }
                 }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            $("#code-search").keyup(function () {
-                //split the current value of searchInput
-                var data = this.value;
-                //create a jquery object of the rows
-                var jo = $("tbody > tr");
-                if (this.value === "") {
-                    jo.show();
-                    return;
+            } else {
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].style.display = "table-row";
                 }
-                //hide all the rows
-                jo.hide();
-
-                //Recusively filter the jquery object to get results.
-                jo.filter(function (i, v) {
-                    var $t = $(this);
-                    var firstTdText = $t.find('td:eq(3)').text().toLowerCase();
-                    if (firstTdText.indexOf(data.toLowerCase()) > -1) {
-                        return true;
-                    }
-                    return false;
-                })
-                //show the rows that match.
-                .show();
-            }).focus(function () {
-                this.value = "";
-                $(this).css({
-                    "color": "black"
-                });
-                $(this).unbind('focus');
-            }).css({
-                "color": "#C0C0C0"
-            });
+            }
         });
-    </script>
-    <!-- /.row -->
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#code-search").keyup(function () {
+            //split the current value of searchInput
+            var data = this.value;
+            //create a jquery object of the rows
+            var jo = $("tbody > tr");
+            if (this.value === "") {
+                jo.show();
+                return;
+            }
+            //hide all the rows
+            jo.hide();
+
+            //Recusively filter the jquery object to get results.
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                var firstTdText = $t.find('td:eq(3)').text().toLowerCase();
+                if (firstTdText.indexOf(data.toLowerCase()) > -1) {
+                    return true;
+                }
+                return false;
+            })
+            //show the rows that match.
+            .show();
+        }).focus(function () {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+    });
+</script>
+<!-- /.row -->

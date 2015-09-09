@@ -167,6 +167,7 @@
   <ItemGroup>
     <Compile Include="Api\ExpiringStockApiController.cs" />
     <Compile Include="Api\LowStockApiController.cs" />
+    <Compile Include="Api\ReportsDevicesApiController.cs" />
     <Compile Include="Api\StandardApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -565,6 +566,7 @@
     <Content Include="Views\AdminController\Index.cshtml" />
     <Content Include="Views\Balance\Verification.cshtml" />
     <Content Include="Views\PDFViewer\ViewPDF.cshtml" />
+    <Content Include="Views\Reports\DeviceVerificationReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506171724071_Init.resx">

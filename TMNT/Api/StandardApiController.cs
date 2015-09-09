@@ -7,13 +7,10 @@ using System.Web.Http;
 using TMNT.Models;
 using TMNT.Models.Repository;
 
-namespace TMNT.Api
-{
-    public class StandardApiController : ApiController
-    {
+namespace TMNT.Api {
+    public class StandardApiController : ApiController {
         private IApiRepository<StockStandard> repoStandard;
-        public StandardApiController(IApiRepository<StockStandard> repo) 
-        {
+        public StandardApiController(IApiRepository<StockStandard> repo) {
             repoStandard = repo;
         }
 
@@ -21,11 +18,9 @@ namespace TMNT.Api
             : this(new StockStandardApiRepository()) {
         }
 
-        public IHttpActionResult Get(string idCode)
-        {
-            StockStandard standard = repoStandard.Get(idCode.ToString());
-            if (standard == null)
-            {
+        public IHttpActionResult Get(int? idCode) {
+            StockStandard standard = repoStandard.Get(idCode);
+            if (standard == null) {
                 return NotFound();
             }
             return Ok(standard);

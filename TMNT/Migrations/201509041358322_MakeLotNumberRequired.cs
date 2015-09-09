@@ -7,8 +7,8 @@ namespace TMNT.Migrations
     {
         public override void Up()
         {
-            AlterColumn("dbo.StockReagents", "LotNumber", c => c.String(nullable: false));
-            AlterColumn("dbo.StockStandards", "LotNumber", c => c.String(nullable: false));
+            AlterColumn("dbo.StockReagents", "LotNumber", c => c.String(nullable: true));
+            AlterColumn("dbo.StockStandards", "LotNumber", c => c.String(nullable: true));
         }
         
         public override void Down()

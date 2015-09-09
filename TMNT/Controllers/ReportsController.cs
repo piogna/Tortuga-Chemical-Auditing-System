@@ -30,5 +30,10 @@ namespace TMNT.Controllers {
         public ActionResult CalibrationReport() {
             return View("CalibrationReport");
         }
+
+        [Route("Report/DeviceVerificationReport")]
+        public ActionResult DeviceVerificationReport() {
+            return View(new DeviceRepository().Get().ToList());
+        }
     }
 }
