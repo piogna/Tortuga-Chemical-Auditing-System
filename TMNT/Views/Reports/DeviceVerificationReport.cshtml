@@ -13,9 +13,16 @@
 
 <link href="http://www.flotcharts.org/flot/examples/examples.css" rel="stylesheet" type="text/css">
 <style type="text/css">
+    #content {
+        margin:0;
+        width:550px;
+    }
+
     .demo-container {
         position: relative;
         height: 400px;
+        margin:0;
+        width:575px;
     }
 
     #placeholder {
@@ -109,7 +116,7 @@
 </style>
 
 <nav class="navbar navbar-default">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
@@ -220,7 +227,7 @@
     <div id="content">
         <div class="demo-container">
             <div id="placeholder" class="demo-placeholder"></div>
-            <div id="menu">
+            @*<div id="menu">
                 <button id="default">Default Options</button>
                 <button id="no-legend">Without Legend</button>
                 <button id="label-formatter">Label Formatter</button>
@@ -230,7 +237,7 @@
                 <button id="combined-slice">Combined Slice</button>
                 <button id="rectangular-pie">Rectangular Pie</button>
                 <button id="donut">Donut</button>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -909,7 +916,7 @@
 
             // Show the initial default chart
 
-            $("#default").click();
+            $("#label-styles-2").click();
         });
 
     });
