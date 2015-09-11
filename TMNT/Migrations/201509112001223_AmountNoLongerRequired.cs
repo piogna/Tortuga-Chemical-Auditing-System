@@ -1,0 +1,20 @@
+namespace TMNT.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class AmountNoLongerRequired : DbMigration
+    {
+        public override void Up()
+        {
+            AlterColumn("dbo.InventoryItems", "Amount", c => c.Int());
+            AlterColumn("dbo.IntermediateStandards", "Amount", c => c.Int());
+        }
+        
+        public override void Down()
+        {
+            AlterColumn("dbo.IntermediateStandards", "Amount", c => c.Int(nullable: false));
+            AlterColumn("dbo.InventoryItems", "Amount", c => c.Int(nullable: false));
+        }
+    }
+}

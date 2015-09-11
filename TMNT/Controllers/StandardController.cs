@@ -39,7 +39,7 @@ namespace TMNT.Controllers {
                     IdCode = item.IdCode,
                     LastModified = item.LastModified,
                     LastModifiedBy = item.LastModifiedBy,
-                    LowAmountThreshHold = item.LowAmountThreshHold,
+                    //LowAmountThreshHold = item.LowAmountThreshHold,
                     Purity = item.Purity,
                     SolventUsed = item.SolventUsed
                 });
@@ -50,7 +50,7 @@ namespace TMNT.Controllers {
             foreach (var standard in standards) {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-                        list[counter].Amount = invItem.Amount;
+                        //list[counter].Amount = invItem.Amount;
                         list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -95,7 +95,7 @@ namespace TMNT.Controllers {
                 DateEntered = standard.DateEntered,
                 EnteredBy = standard.EnteredBy,
                 StockStandardName = standard.StockStandardName,
-                LowAmountThreshHold = standard.LowAmountThreshHold,
+                //LowAmountThreshHold = standard.LowAmountThreshHold,
                 LastModified = standard.LastModified,
                 LastModifiedBy = standard.LastModifiedBy,
                 SolventUsed = standard.SolventUsed
@@ -105,7 +105,7 @@ namespace TMNT.Controllers {
                 if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
                     vStandard.ExpiryDate = invItem.ExpiryDate;
                     vStandard.DateOpened = invItem.DateOpened;
-                    vStandard.Amount = invItem.Amount;
+                    //vStandard.Amount = invItem.Amount;
                     vStandard.CaseNumber = invItem.CaseNumber;
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -154,10 +154,10 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,Amount,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
-            model.Unit = new UnitRepository().Get(selectedValue);
+            //int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
+            //model.Unit = new UnitRepository().Get(selectedValue);
 
             var user = User.Identity.GetUserId();
 
@@ -204,14 +204,14 @@ namespace TMNT.Controllers {
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
-                    Amount = model.Amount,
+                    //Amount = model.Amount,
                     ExpiryDate = model.ExpiryDate,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
-                    Unit = model.Unit,
+                    //Unit = model.Unit,
                     Type = model.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
@@ -263,7 +263,7 @@ namespace TMNT.Controllers {
             };
 
             foreach (var item in stockstandard.InventoryItems) {
-                model.Amount = item.Amount;
+                //model.Amount = item.Amount;
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
                 model.ExpiryDate = item.ExpiryDate;
@@ -325,7 +325,7 @@ namespace TMNT.Controllers {
                     invItem.MSDS.Add(msds);
                 }
 
-                invItem.Amount = stockstandard.Amount;
+                //invItem.Amount = stockstandard.Amount;
                 invItem.ExpiryDate = stockstandard.ExpiryDate;
                 invItem.DateModified = DateTime.Now;
                 new InventoryItemRepository().Update(invItem);

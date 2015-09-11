@@ -43,9 +43,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Amount) Remaining
-            </th>
+            </th>*@
         </tr>
     </thead>
     <tbody>
@@ -67,9 +67,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReplacedBy)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>
@@ -88,9 +88,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Amount) Remaining
-            </th>
+            </th>*@
         </tr>
     </tfoot>
 </table>

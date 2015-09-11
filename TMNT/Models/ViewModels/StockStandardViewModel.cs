@@ -29,7 +29,7 @@ namespace TMNT.Models.ViewModels {
         public string SupplierName { get; set; }
         //[Required]
         public double Purity { get; set; }
-        public double LowAmountThreshHold { get; set; }
+        //public double LowAmountThreshHold { get; set; }
         [Display(Name = "Lot No.")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
@@ -48,8 +48,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime MSDSExpiryDate { get; set; }
         [Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
-        [Display(Name = "Amount Remaining")]
-        public int Amount { get; set; }
+        //[Display(Name = "Amount Remaining")]
+        //public int Amount { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]

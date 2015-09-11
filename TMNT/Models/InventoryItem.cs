@@ -13,8 +13,8 @@ namespace TMNT.Models {
         public int InventoryItemId { get; set; }
         [Required, Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
-        [Required]
-        public int Amount { get; set; }
+        //[Required]
+        public int? Amount { get; set; }
         public double LowAmountThreshHold { get; set; }
         public string Grade { get; set; }
         [Required, Display(Name = "Case Number")]

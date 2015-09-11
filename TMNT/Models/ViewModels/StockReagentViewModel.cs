@@ -21,8 +21,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime? LastModified { get; set; }
         [Display(Name ="Last Modified By")]
         public string LastModifiedBy { get; set; }
-        [Display(Name ="Low Amount Threshold")]
-        public double LowAmountThreshHold { get; set; }
+        //[Display(Name ="Low Amount Threshold")]
+        //public double LowAmountThreshHold { get; set; }
         [Display(Name = "Lot No.")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
@@ -45,8 +45,8 @@ namespace TMNT.Models.ViewModels {
         public string CatalogueCode { get; set; }
         [Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
-        [Display(Name = "Amount Remaining")]
-        public int Amount { get; set; }
+        //[Display(Name = "Amount Remaining")]
+        //public int Amount { get; set; }
         public string Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }

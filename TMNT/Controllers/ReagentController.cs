@@ -37,7 +37,7 @@ namespace TMNT.Controllers {
                     DateEntered = item.DateEntered,
                     EnteredBy = item.EnteredBy,
                     ReagentName = item.ReagentName,
-                    LowAmountThreshHold = item.LowAmountThreshHold,
+                    //LowAmountThreshHold = item.LowAmountThreshHold,
                     LastModified = item.LastModified,
                     LastModifiedBy = item.LastModifiedBy
                 });
@@ -49,7 +49,7 @@ namespace TMNT.Controllers {
             foreach (var reagent in reagents) {
                 foreach (var invItem in reagent.InventoryItems) {
                     if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                        list[counter].Amount = invItem.Amount;
+                        //list[counter].Amount = invItem.Amount;
                         list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -95,7 +95,7 @@ namespace TMNT.Controllers {
                 DateEntered = reagent.DateEntered,
                 EnteredBy = reagent.EnteredBy,
                 ReagentName = reagent.ReagentName,
-                LowAmountThreshHold = reagent.LowAmountThreshHold,
+                //LowAmountThreshHold = reagent.LowAmountThreshHold,
                 LastModified = reagent.LastModified,
                 LastModifiedBy = reagent.LastModifiedBy
             };
@@ -117,7 +117,7 @@ namespace TMNT.Controllers {
 
             foreach (var invItem in reagent.InventoryItems) {
                 if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                    vReagent.Amount = invItem.Amount;
+                    //vReagent.Amount = invItem.Amount;
                     vReagent.CaseNumber = invItem.CaseNumber;
                     vReagent.ExpiryDate = invItem.ExpiryDate;
                     vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -171,9 +171,9 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,MSDSExpiryDateReagentName,StorageRequirements,Amount,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
-            model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,MSDSExpiryDateReagentName,StorageRequirements,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+            //int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
+            //model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
             model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name;
@@ -220,7 +220,7 @@ namespace TMNT.Controllers {
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
-                    Amount = model.Amount,
+                    //Amount = model.Amount,
                     Grade = model.Grade,
                     ExpiryDate = model.ExpiryDate,
                     CaseNumber = model.CaseNumber,
@@ -228,7 +228,7 @@ namespace TMNT.Controllers {
                     CreatedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
-                    Unit = model.Unit,
+                    //Unit = model.Unit,
                     Type = model.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
@@ -276,7 +276,7 @@ namespace TMNT.Controllers {
             };
 
             foreach (var item in stockreagent.InventoryItems) {
-                model.Amount = item.Amount;
+                //model.Amount = item.Amount;
                 model.Grade = item.Grade;
                 model.ExpiryDate = item.ExpiryDate;
                 model.CatalogueCode = item.CatalogueCode;
@@ -338,7 +338,7 @@ namespace TMNT.Controllers {
                     invItem.MSDS.Add(msds);
                 }
 
-                invItem.Amount = stockreagent.Amount;
+                //invItem.Amount = stockreagent.Amount;
                 invItem.DateModified = DateTime.Now;
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
                 new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);

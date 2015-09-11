@@ -41,7 +41,7 @@ namespace TMNT.Controllers {
             var viewModel = new IntermediateStandardViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 DateCreated = intermediatestandard.DateCreated,
-                Amount = intermediatestandard.Amount,
+                //Amount = intermediatestandard.Amount,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
                 PrepList = intermediatestandard.PrepList,
@@ -174,7 +174,7 @@ namespace TMNT.Controllers {
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
                 IdCode = intermediatestandard.IdCode,
-                Amount = intermediatestandard.Amount
+                //Amount = intermediatestandard.Amount
             };
             
             return View(model);

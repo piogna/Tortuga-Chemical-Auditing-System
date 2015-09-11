@@ -12,7 +12,7 @@ namespace TMNT.Models {
         public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
         public string ReplacedBy { get; set; }
-        public int Amount { get; set; }
+        public int? Amount { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [Display(Name = "Last Modified By")]

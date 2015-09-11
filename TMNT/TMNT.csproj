@@ -335,6 +335,10 @@
     <Compile Include="Migrations\201509111935510_AddedUnitToPrepListItem.Designer.cs">
       <DependentUpon>201509111935510_AddedUnitToPrepListItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509112001223_AmountNoLongerRequired.cs" />
+    <Compile Include="Migrations\201509112001223_AmountNoLongerRequired.Designer.cs">
+      <DependentUpon>201509112001223_AmountNoLongerRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -538,7 +542,6 @@
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Mobile\Index.cshtml" />
-    <Content Include="Views\Reagent\Confirmation.cshtml" />
     <Content Include="Views\Reagent\Create.cshtml" />
     <Content Include="Views\Reagent\Delete.cshtml" />
     <Content Include="Views\Reagent\Details.cshtml" />
@@ -546,7 +549,6 @@
     <Content Include="Views\Reagent\Index.cshtml" />
     <Content Include="Views\Reports\CalibrationReport.cshtml" />
     <Content Include="Views\Reports\LowStockReport.cshtml" />
-    <Content Include="Views\Balance\Confirmation.cshtml" />
     <Content Include="Views\Balance\Create.cshtml" />
     <Content Include="Views\Balance\Delete.cshtml" />
     <Content Include="Views\Balance\Details.cshtml" />
@@ -557,7 +559,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SectionsPartial.cshtml" />
-    <Content Include="Views\Standard\Confirmation.cshtml" />
     <Content Include="Views\Standard\Create.cshtml" />
     <Content Include="Views\Standard\Delete.cshtml" />
     <Content Include="Views\Standard\Details.cshtml" />
@@ -688,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509111935510_AddedUnitToPrepListItem.resx">
       <DependentUpon>201509111935510_AddedUnitToPrepListItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509112001223_AmountNoLongerRequired.resx">
+      <DependentUpon>201509112001223_AmountNoLongerRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
