@@ -7,6 +7,7 @@ $(function () {
     var nextButtons = $('.next-section');
     var sectionOneInputs = $('#section-bar-1 .input-summary');
     var requiredField = $('.required-field');
+    var requiredFieldSectionTwo = $('.required-field-s2');
     var dateInput = $('input[type=date]');
     var tabs = $('.tabs-style-bar > nav > ul > li');
 
@@ -93,6 +94,45 @@ $(function () {
             if ($(this).val()) {
                 $('.select2-container--default').first().removeClass("required-field");
                 $('.select2-container--default').first().css("border", "none");
+            }
+        });
+    });
+
+    //review button click
+    $('.btn-review').on('click', function (e) {
+        var validForm = true;
+
+        requiredFieldSectionTwo.each(function () {
+            if (!$(this).val()) {
+                validForm = false;
+            }
+        });
+
+        if (!validForm) {
+            tabs.eq(1).addClass('tab-current');
+            tabs.eq(2).removeClass('tab-current');
+            sectionTwo.addClass("content-current");
+            sectionThree.removeClass("content-current");
+
+            $(requiredFieldSectionTwo).each(function () {
+                if (!$(this).val()) {
+                    $(this).css("border", "1px solid red");
+                } else {
+                    $(this).css("border", "1px solid #ccc");
+                }
+            });
+        } else {
+            tabs.eq(1).removeClass('tab-current');
+            tabs.eq(2).addClass('tab-current');
+            sectionTwo.removeClass("content-current");
+            sectionThree.addClass("content-current");
+        }
+    });
+    //checking the required fields. if they have a value, the border goes back to default.
+    requiredFieldSectionTwo.on('keyup', function () {
+        requiredFieldSectionTwo.each(function () {
+            if ($(this).is(':focus') && $(this).val()) {
+                $(this).first().css("border", "1px solid #ccc");
             }
         });
     });
