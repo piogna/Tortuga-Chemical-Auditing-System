@@ -17,6 +17,7 @@ namespace TMNT.Models {
         public string CreatedBy { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
+        public virtual Unit Unit { get; set; }
         //foreign keys
         [Required]
         public virtual PrepList PrepList { get; set; }

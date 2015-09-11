@@ -47,7 +47,8 @@ namespace TMNT.Controllers {
                 PrepList = intermediatestandard.PrepList,
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
                 CreatedBy = intermediatestandard.CreatedBy,
-                IdCode = intermediatestandard.IdCode
+                IdCode = intermediatestandard.IdCode,
+                Unit = intermediatestandard.Unit
             };
 
             return View(viewModel);

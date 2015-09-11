@@ -34,6 +34,7 @@ namespace TMNT.Models.ViewModels {
         public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
+        public Unit Unit { get; set; }
         [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
         [Display(Name = "Created By")]

@@ -68,7 +68,7 @@
                     @Html.DisplayFor(modelItem => item.ReplacedBy)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
+                    @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
                 </td>
             </tr>
         }
