@@ -18,9 +18,9 @@ namespace TMNT
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         //required fields bundle
-                        "~/Scripts/CustomMaxxamJS/finalize-create-data-table.js",
                         "~/Scripts/CustomMaxxamJS/form-validation.js",
                         "~/Scripts/CustomMaxxamJS/file-validation.js",
+                        "~/Scripts/CustomMaxxamJS/finalize-create-data-table.js",
                         "~/Scripts/jquery.validate*"));
             bundles.Add(new ScriptBundle("~/bundles/jquery-sidemenu").Include(
                         "~/Scripts/jquery-sidemenu.js"));

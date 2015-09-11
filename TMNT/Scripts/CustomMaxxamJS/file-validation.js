@@ -6,6 +6,7 @@
 $(function () {
     //selectors
     var fileInput = $('input[type=file]');
+    var requiredFieldSectionTwo = $('.required-field-s2');
     var tabs = $('.tabs-style-bar > nav > ul > li');
     var sectionTwo = $('#section-bar-2');
     var sectionThree = $('#section-bar-3');
@@ -13,6 +14,22 @@ $(function () {
     //file validator script
     $('.btn-review').on('click', function () {
         fileInput.each(function () {
+            if (!$(this).val()) {
+                tabs.eq(1).addClass('tab-current');
+                tabs.eq(2).removeClass('tab-current');
+                sectionTwo.addClass("content-current");
+                sectionThree.removeClass("content-current");
+                $(this).css("border", "1px solid red");
+                return false;
+            } else {
+                tabs.eq(1).removeClass('tab-current');
+                tabs.eq(2).addClass('tab-current');
+                sectionTwo.removeClass("content-current");
+                sectionThree.addClass("content-current");
+            }
+        });
+
+        requiredFieldSectionTwo.each(function () {
             if (!$(this).val()) {
                 tabs.eq(1).addClass('tab-current');
                 tabs.eq(2).removeClass('tab-current');

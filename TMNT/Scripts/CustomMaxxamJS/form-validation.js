@@ -99,20 +99,18 @@ $(function () {
     });
 
     //review button click
-    $('.btn-review').on('click', function (e) {
+    $('#btn-review').on('click', function (e) {
+        requiredFieldSectionTwo = $('.required-field-s2');
+        sectionThree = $('#section-bar-3');
         var validForm = true;
 
         requiredFieldSectionTwo.each(function () {
-            if (!$(this).val()) {
+            if (!$(this).val() || !$(this).text()) {
                 validForm = false;
             }
         });
 
         if (!validForm) {
-            tabs.eq(1).addClass('tab-current');
-            tabs.eq(2).removeClass('tab-current');
-            sectionTwo.addClass("content-current");
-            sectionThree.removeClass("content-current");
 
             $(requiredFieldSectionTwo).each(function () {
                 if (!$(this).val()) {
@@ -121,11 +119,15 @@ $(function () {
                     $(this).css("border", "1px solid #ccc");
                 }
             });
+            tabs.eq(1).addClass('tab-current');
+            tabs.eq(2).removeClass('tab-current');
+            sectionThree.removeClass("content-current");
+            sectionTwo.addClass("content-current");
         } else {
             tabs.eq(1).removeClass('tab-current');
             tabs.eq(2).addClass('tab-current');
-            sectionTwo.removeClass("content-current");
-            sectionThree.addClass("content-current");
+            sectionTwo.addClass("content-current");
+            sectionThree.removeClass("content-current");
         }
     });
     //checking the required fields. if they have a value, the border goes back to default.
