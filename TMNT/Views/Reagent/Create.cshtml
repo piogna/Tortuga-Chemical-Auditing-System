@@ -203,14 +203,14 @@
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default" accept=".pdf" />
+                                    <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default required-field-s2" accept=".pdf" />
                                     <div class="input-group-addon input-group-addon-md">Upload CofA</div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default" accept=".pdf" />
+                                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default required-field-s2" accept=".pdf" />
                                     <div class="input-group-addon input-group-addon-md">Upload SDS</div>
                                 </div>
                             </div>
@@ -219,23 +219,23 @@
                             <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f;margin-top:45px;">Safety Data Sheet Information</h4>
                         </div>
                         <div class="col-md-12">
-                            <div class="col-lg-6">
+                            @*<div class="col-lg-6">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
                                     @Html.EditorFor(model => model.MSDSExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
                                     <div class="input-group-addon input-group-addon-md">SDS Expiry</div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="col-lg-6">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required"></div>
-                                    @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius", @maxlength = 50 } })
+                                    @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-4' class="btn btn-default next-section btn-review">Review and Submit</a>
+                                <a href='#section-bar-3' id="btn-review" class="btn btn-default next-section btn-review">Review and Submit</a>
                                 <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
                             </div>
                         </div>

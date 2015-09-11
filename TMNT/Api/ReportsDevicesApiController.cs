@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TMNT.Models;
 using TMNT.Models.Repository;
-using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Api {
     public class ReportsDevicesApiController : ApiController {
-        ApplicationDbContext db = ApplicationDbContext.Create();
+        //ApplicationDbContext db = ApplicationDbContext.Create();
+        private IRepository<Device> _repo;
         //public ReportsDevicesApiController() { }
 
-        //private IApiRepository<Device> _repo;
-        //public ReportsDevicesApiController(IApiRepository<Device> repo) {
-        //    _repo = repo;
-        //}
+        public ReportsDevicesApiController() : this(new DeviceRepository(DbContextSingleton.Instance)) { }
+
+        public ReportsDevicesApiController(IRepository<Device> repo) {
+            _repo = repo;
+        }
 
         //GET: All
         [ResponseType(typeof(Device))]
         public IHttpActionResult GetDevices() {
-            List<Device> devices = db.Devices.ToList();
+            List<Device> devices = _repo.Get().ToList();
             //List<Device> deviceDataToSend = new List<Device>();
 
             //foreach (var item in devices) {

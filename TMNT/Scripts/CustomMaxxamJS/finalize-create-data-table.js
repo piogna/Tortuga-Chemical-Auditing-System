@@ -1,6 +1,6 @@
 ﻿$(function () {
     //fixing section 1 getting the appropriate classes
-    $('#section-bar-1').addClass('section');
+    //$('#section-bar-1').addClass('section');
 
     //filling summary table
     var inputs = $('.input-summary');
