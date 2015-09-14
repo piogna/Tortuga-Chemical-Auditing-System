@@ -175,6 +175,12 @@
     </div><!--/.container-fluid -->
 </nav>
 
+<div class="container loading">
+    <div class="text-center">
+        <h2>Loading the report, please wait..</h2>
+    </div>
+</div>
+
 <div id="section-1" class="container">
     <div class="col-md-12" style="background-color: lightgrey;">
         <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Devices</h4>
@@ -204,7 +210,7 @@
     </table>
 </div>
 
-<div id="section-2" class="container">
+@*<div id="section-2" class="container">
     <table id="table-volumetric" class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -242,7 +248,6 @@
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
             </tr>
         </thead>
-
         <tfoot>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
@@ -254,7 +259,7 @@
             </tr>
         </tfoot>
     </table>
-</div>
+</div>*@
 
 <div class="container">
     <div class="col-md-6">
@@ -264,6 +269,7 @@
         <div id="content">
             <div class="demo-container">
                 <div id="placeholder" class="demo-placeholder">Balance Verifications Last 30 Days</div>
+                <img src="~/Content/Images/bluespinner.gif" alt="" class="loading"  style="margin-top:-200px;margin-left:175px;"  />
             </div>
         </div>
     </div>
@@ -274,6 +280,7 @@
         <div id="content2">
             <div class="demo-container">
                 <div id="placeholder2" class="demo-placeholder">Volumetric Verifications Last 30 Days</div>
+                <img src="~/Content/Images/bluespinner.gif" alt="" class="loading" style="margin-top:-200px;margin-left:175px;" />
             </div>
         </div>
     </div>
@@ -364,14 +371,24 @@
                 }
             });
             tableBalance.append(text);
+            return true;
         }
 
         //ajax call
         var getAjaxData = $.ajax({
-            url: "http://localhost:1413/api/reportsdevicesapi",
             type: "GET",
+            url: "http://localhost:1413/api/reportsdevicesapi",
             dataType: "json",
-            success: onDataReceived
+            beforeSend: function () {
+                $('.loading').show();
+            },
+            complete: function () {
+                $('.loading').hide();
+            },
+            success: onDataReceived,
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
         });
 
         //promise - once data is laoded, load datatables
@@ -394,87 +411,87 @@
             });
 
             //volemtric table only
-            $('#table-volumetric').dataTable({
-                "pageLength": 10,
-                "order": [[0, "asc"]],
-                "columns": [
-                    { "fields": "Type" },
-                    { "fields": "DeviceCode" },
-                    { "fields": "DepartmentCode" },
-                    { "fields": "IsVerified" },
-                    { "fields": "Device Verification Count" },
-                    { "fields": "Status" }
-                ],
-                "aoColumnDefs": [
-                    { 'bSortable': true, 'aTargets': [0] }
-                ]
-            });
+            //$('#table-volumetric').dataTable({
+            //    "pageLength": 10,
+            //    "order": [[0, "asc"]],
+            //    "columns": [
+            //        { "fields": "Type" },
+            //        { "fields": "DeviceCode" },
+            //        { "fields": "DepartmentCode" },
+            //        { "fields": "IsVerified" },
+            //        { "fields": "Device Verification Count" },
+            //        { "fields": "Status" }
+            //    ],
+            //    "aoColumnDefs": [
+            //        { 'bSortable': true, 'aTargets': [0] }
+            //    ]
+            //});
 
-            //volemtric table only
-            $('#table-balance').dataTable({
-                "pageLength": 10,
-                "order": [[0, "asc"]],
-                "columns": [
-                    { "fields": "Type" },
-                    { "fields": "DeviceCode" },
-                    { "fields": "DepartmentCode" },
-                    { "fields": "IsVerified" },
-                    { "fields": "Device Verification Count" },
-                    { "fields": "Status" }
-                ],
-                "aoColumnDefs": [
-                    { 'bSortable': true, 'aTargets': [0] }
-                ]
-            });
+            ////volemtric table only
+            //$('#table-balance').dataTable({
+            //    "pageLength": 10,
+            //    "order": [[0, "asc"]],
+            //    "columns": [
+            //        { "fields": "Type" },
+            //        { "fields": "DeviceCode" },
+            //        { "fields": "DepartmentCode" },
+            //        { "fields": "IsVerified" },
+            //        { "fields": "Device Verification Count" },
+            //        { "fields": "Status" }
+            //    ],
+            //    "aoColumnDefs": [
+            //        { 'bSortable': true, 'aTargets': [0] }
+            //    ]
+            //});
         });
 
         //showing all devices
-        $('#all-devices').on('click', function (e) {
-            e.preventDefault();
-            $('#section-1').css('display', 'block');
-            $('#section-2').css('display', 'none');
-            $('#section-3').css('display', 'none');
+        //$('#all-devices').on('click', function (e) {
+        //    e.preventDefault();
+        //    $('#section-1').css('display', 'block');
+        //    $('#section-2').css('display', 'none');
+        //    $('#section-3').css('display', 'none');
 
-            var header = $('.dropdown-header');
-            header.text("Filter results - All Devices ");
-            header.append("<span class='caret'></span>");
-        });
+        //    var header = $('.dropdown-header');
+        //    header.text("Filter results - All Devices ");
+        //    header.append("<span class='caret'></span>");
+        //});
 
-        //showing all volumetric devices only
-        $('#volumetric-only').on('click', function (e) {
-            e.preventDefault();
-            $('#section-1').css('display', 'none');
-            $('#section-2').css('display', 'block');
-            $('#section-3').css('display', 'none');
+        ////showing all volumetric devices only
+        //$('#volumetric-only').on('click', function (e) {
+        //    e.preventDefault();
+        //    $('#section-1').css('display', 'none');
+        //    $('#section-2').css('display', 'block');
+        //    $('#section-3').css('display', 'none');
 
-            var header = $('.dropdown-header');
-            header.text("Filter results - Vol. Devices ");
-            header.append("<span class='caret'></span>");
-        });
+        //    var header = $('.dropdown-header');
+        //    header.text("Filter results - Vol. Devices ");
+        //    header.append("<span class='caret'></span>");
+        //});
 
-        //showing all balances only
-        $('#balance-only').on('click', function (e) {
-            e.preventDefault();
-            $('#section-1').css('display', 'none');
-            $('#section-2').css('display', 'none');
-            $('#section-3').css('display', 'block');
+        ////showing all balances only
+        //$('#balance-only').on('click', function (e) {
+        //    e.preventDefault();
+        //    $('#section-1').css('display', 'none');
+        //    $('#section-2').css('display', 'none');
+        //    $('#section-3').css('display', 'block');
 
-            var header = $('.dropdown-header');
-            header.text("Filter results - Bal. Devices ");
-            header.append("<span class='caret'></span>");
-        });
+        //    var header = $('.dropdown-header');
+        //    header.text("Filter results - Bal. Devices ");
+        //    header.append("<span class='caret'></span>");
+        //});
 
-        $('#filter-today').on('click', function (e) {
-            e.preventDefault();
-        });
+        //$('#filter-today').on('click', function (e) {
+        //    e.preventDefault();
+        //});
 
-        $('#filter-7-days').on('click', function (e) {
-            e.preventDefault();
-        });
+        //$('#filter-7-days').on('click', function (e) {
+        //    e.preventDefault();
+        //});
 
-        $('#filter-30-days').on('click', function (e) {
-            e.preventDefault();
-        });
+        //$('#filter-30-days').on('click', function (e) {
+        //    e.preventDefault();
+        //});
 
 
         var data = [], data2 = [], series;
@@ -485,6 +502,7 @@
             var balancePass = 0, balanceFail = 0, volumePass = 0, volumeFail = 0;
             for (var i = 0; i < json.length; i++) {
                 var item = json[i];
+                //console.log(item);
                 if (item.DeviceVerifications.length > 0) {
                     for (var z = 0; z < item.DeviceVerifications.length; z++) {
                         var dateVerified = new Date(item.DeviceVerifications[z].VerifiedOn);

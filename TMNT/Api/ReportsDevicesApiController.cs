@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -8,20 +9,30 @@ using TMNT.Utils;
 
 namespace TMNT.Api {
     public class ReportsDevicesApiController : ApiController {
-        //ApplicationDbContext db = ApplicationDbContext.Create();
-        private IRepository<Device> _repo;
-        //public ReportsDevicesApiController() { }
-
-        public ReportsDevicesApiController() : this(new DeviceRepository(DbContextSingleton.Instance)) { }
-
-        public ReportsDevicesApiController(IRepository<Device> repo) {
-            _repo = repo;
+        ApplicationDbContext db = DbContextSingleton.Instance;//ApplicationDbContext.Create();
+        //private IRepository<Device> _repo;
+        public ReportsDevicesApiController() {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
         }
+
+        //public ReportsDevicesApiController() : this(new DeviceRepository(DbContextSingleton.Instance)) { }
+
+        //public ReportsDevicesApiController(IRepository<Device> repo) {
+        //    _repo = repo;
+        //}
 
         //GET: All
         [ResponseType(typeof(Device))]
         public IHttpActionResult GetDevices() {
-            List<Device> devices = _repo.Get().ToList();
+            List<Device> devices = db.Devices.ToList();
+            List<Department> departments = db.Departments.ToList();
+            foreach (var device in devices) {
+                device.DeviceVerifications = db.DeviceVerifications.Where(item => item.Device.DeviceId == device.DeviceId).ToList();
+                foreach (var department in departments) {
+                    device.Department = db.Departments.Where(item => item.DepartmentId == department.DepartmentId).First();
+                }
+            }
             //List<Device> deviceDataToSend = new List<Device>();
 
             //foreach (var item in devices) {
@@ -38,8 +49,12 @@ namespace TMNT.Api {
             if (devices == null) {
                 return NotFound();
             }
+            try {
+                return Ok(devices);
+            } catch (Exception ex) {
 
-            return Ok(devices);
+            }
+            return null;
         }
 
         // GET: api/ReportsDevicesApi/5
