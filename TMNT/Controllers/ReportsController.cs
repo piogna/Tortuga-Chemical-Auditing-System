@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Web.Mvc;
 using TMNT.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
@@ -33,6 +35,9 @@ namespace TMNT.Controllers {
 
         [Route("Report/DeviceVerificationReport")]
         public ActionResult DeviceVerificationReport() {
+            string currentUserId = User.Identity.GetUserId();
+            var user = new ApplicationDbContext().Users.FirstOrDefault(x => x.Id == currentUserId);
+            ViewBag.User = user.FirstName + " " + user.LastName;
             return View(new DeviceRepository().Get().ToList());
         }
     }

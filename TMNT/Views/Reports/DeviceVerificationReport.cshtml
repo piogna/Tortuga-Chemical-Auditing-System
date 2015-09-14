@@ -13,34 +13,42 @@
 
 <link href="http://www.flotcharts.org/flot/examples/examples.css" rel="stylesheet" type="text/css">
 <style type="text/css">
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+    }
+
     #content {
-        margin:0;
-        width:450px;
-        height:325px;
+        margin: 0;
+        width: 450px;
+        height: 325px;
     }
 
     #content2 {
-        margin:0;
-        width:450px;
-        height:325px;
-        padding:10px;
+        margin: 0;
+        width: 450px;
+        height: 325px;
+        padding: 10px;
     }
 
     .demo-container {
         position: relative;
         height: 300px;
-        margin:0;
-        background:#fff;
-        border:none;
-        box-shadow:none;
-        width:475px;
+        margin: 0;
+        background: #fff;
+        border: none;
+        box-shadow: none;
+        width: 475px;
     }
 
     #placeholder {
         width: 450px;
     }
 
-     #placeholder2 {
+    #placeholder2 {
         width: 450px;
     }
 
@@ -139,28 +147,38 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Device Verification Report</a>
+            @*<a class="navbar-brand" href="#">Device Verification Report</a>*@
+            <img src="~/Content/Images/maxxam2.png" style="height:60px;width:177px;margin-left:15px;" />
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-header" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Report - All Devices <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a id="all-devices" class="device-filter" href="#">All Devices</a></li>
-                        <li><a id="volumetric-only" class="device-filter" href="#">Volumetric Devices Only</a></li>
-                        <li><a id="balance-only" class="device-filter" href="#">Balance Devices Only</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a id="filter-today" href="#">Today <span class="sr-only">(current)</span></a></li>
-                <li><a id="filter-7-days" href="#">Last 7 Days</a></li>
-                <li><a id="filter-30-days" href="#">Last 30 Days</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
+        <div class="text-right container">
+            <h2>
+                Device Verification Report
+            </h2>
+        </div>
+        @*<div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-header" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter Report - All Devices <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a id="all-devices" class="device-filter" href="#">All Devices</a></li>
+                            <li><a id="volumetric-only" class="device-filter" href="#">Volumetric Devices Only</a></li>
+                            <li><a id="balance-only" class="device-filter" href="#">Balance Devices Only</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a id="filter-today" href="#">Today <span class="sr-only">(current)</span></a></li>
+                    <li><a id="filter-7-days" href="#">Last 7 Days</a></li>
+                    <li><a id="filter-30-days" href="#">Last 30 Days</a></li>
+                </ul>
+            </div>*@<!--/.nav-collapse -->
     </div><!--/.container-fluid -->
 </nav>
+
 <div id="section-1" class="container">
+    <div class="col-md-12" style="background-color: lightgrey;">
+        <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Devices</h4>
+    </div>
     <table id="table-all" class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -240,6 +258,9 @@
 
 <div class="container">
     <div class="col-md-6">
+        <div class="col-md-12" style="background-color: lightgrey;">
+            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Balances Dashboard</h4>
+        </div>
         <div id="content">
             <div class="demo-container">
                 <div id="placeholder" class="demo-placeholder">Balance Verifications Last 30 Days</div>
@@ -247,6 +268,9 @@
         </div>
     </div>
     <div class="col-md-6">
+        <div class="col-md-12" style="background-color: lightgrey;">
+            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Volumetrics Dashboard</h4>
+        </div>
         <div id="content2">
             <div class="demo-container">
                 <div id="placeholder2" class="demo-placeholder">Volumetric Verifications Last 30 Days</div>
@@ -255,16 +279,16 @@
     </div>
 </div>
 
-@*<div class="footer" style="position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #f5f5f5;">
+<div class="footer" style="position:relative;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;">
     <div class="container">
-        <p class="text-muted col-md-9"></p>
-        <p class="text-muted col-md-3">Requested on <span id="date"></span></p>
+        <p class="text-muted col-md-9"><span>Requested by: @ViewBag.User</span></p>
+        <p class="text-muted col-md-3">Requested on: <span id="date"></span></p>
     </div>
-</div>*@
+</div>
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
@@ -279,7 +303,9 @@
 <script>
     $(function () {
         var date = new Date();
-        $('#date').text(date.getFullYear() + "-" + date.getDay() + "-" + date.getMonth());
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        $('#date').text(date.getFullYear() + "-" + ('0' + date.getDate()).slice(-2) + "-" + ('0' + month).slice(-2));
 
         var json;
         var tableAll = $('#table-all');
@@ -341,7 +367,7 @@
         }
 
         //ajax call
-        var test = $.ajax({
+        var getAjaxData = $.ajax({
             url: "http://localhost:1413/api/reportsdevicesapi",
             type: "GET",
             dataType: "json",
@@ -349,7 +375,7 @@
         });
 
         //promise - once data is laoded, load datatables
-        $.when(test).done(function (x) {
+        $.when(getAjaxData).done(function (x) {
             //all data
             $('#table-all').dataTable({
                 "pageLength": 10,
@@ -450,11 +476,11 @@
             e.preventDefault();
         });
 
-        
+
         var data = [], data2 = [], series;
         var thirtydaysAgo = new Date(new Date().setDate(date.getDate() - 30));
 
-        $.when(test).done(function (x) {
+        $.when(getAjaxData).done(function (x) {
             //getting all device verification data
             var balancePass = 0, balanceFail = 0, volumePass = 0, volumeFail = 0;
             for (var i = 0; i < json.length; i++) {
@@ -499,50 +525,73 @@
             var placeholder = $("#placeholder");
             var placeholder2 = $("#placeholder2");
 
-                $.plot(placeholder, data, {
-                    series: {
-                        pie: {
+            $.plot(placeholder, data, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 3 / 4,
+                        label: {
                             show: true,
                             radius: 3 / 4,
-                            label: {
-                                show: true,
-                                radius: 3 / 4,
-                                formatter: labelFormatter,
-                                background: {
-                                    opacity: 0.5,
-                                    color: "#000"
-                                }
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.5,
+                                color: "#000"
                             }
                         }
-                    },
-                    legend: {
-                        show: false
                     }
-                });
+                },
+                legend: {
+                    show: false
+                }
+            });
 
-                $.plot(placeholder2, data2, {
-                    series: {
-                        pie: {
+            $.plot(placeholder2, data2, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 3 / 4,
+                        label: {
                             show: true,
                             radius: 3 / 4,
-                            label: {
-                                show: true,
-                                radius: 3 / 4,
-                                formatter: labelFormatter,
-                                background: {
-                                    opacity: 0.5,
-                                    color: "#000"
-                                }
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.5,
+                                color: "#000"
                             }
                         }
-                    },
-                    legend: {
-                        show: false
                     }
-                });
+                },
+                legend: {
+                    show: false
+                }
+            });
 
-                setCode([
-                    "$.plot('#placeholder', data, {",
+            setCode([
+                "$.plot('#placeholder', data, {",
+                "    series: {",
+                "        pie: {",
+                "            show: true,",
+                "            radius: 3/4,",
+                "            label: {",
+                "                show: true,",
+                "                radius: 3/4,",
+                "                formatter: labelFormatter,",
+                "                background: {",
+                "                    opacity: 0.5,",
+                "                    color: '#000'",
+                "                }",
+                "            }",
+                "        }",
+                "    },",
+                "    legend: {",
+                "        show: false",
+                "    }",
+                "});"
+            ]);
+
+            setCode([
+                    "$.plot('#placeholder2', data2, {",
                     "    series: {",
                     "        pie: {",
                     "            show: true,",
@@ -562,30 +611,7 @@
                     "        show: false",
                     "    }",
                     "});"
-                ]);
-
-                setCode([
-                        "$.plot('#placeholder2', data2, {",
-                        "    series: {",
-                        "        pie: {",
-                        "            show: true,",
-                        "            radius: 3/4,",
-                        "            label: {",
-                        "                show: true,",
-                        "                radius: 3/4,",
-                        "                formatter: labelFormatter,",
-                        "                background: {",
-                        "                    opacity: 0.5,",
-                        "                    color: '#000'",
-                        "                }",
-                        "            }",
-                        "        }",
-                        "    },",
-                        "    legend: {",
-                        "        show: false",
-                        "    }",
-                        "});"
-                ]);
+            ]);
         });
 
     });
