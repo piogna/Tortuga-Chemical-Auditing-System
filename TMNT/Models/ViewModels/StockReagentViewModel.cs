@@ -11,7 +11,7 @@ namespace TMNT.Models.ViewModels {
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        [Display(Name = "Date Opened")]
+        [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
@@ -37,8 +37,6 @@ namespace TMNT.Models.ViewModels {
         public string StorageRequirements { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string MSDSNotes { get; set; }
-        [Display(Name = "SDS Expiry Date"), DataType(DataType.Date)]
-        public DateTime MSDSExpiryDate { get; set; }
         [Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
         [Display(Name = "Inventory Item Name")]

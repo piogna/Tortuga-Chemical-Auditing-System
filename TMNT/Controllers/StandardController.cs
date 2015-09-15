@@ -46,7 +46,6 @@ namespace TMNT.Controllers {
             foreach (var standard in standards) {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-                        list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
@@ -102,7 +101,6 @@ namespace TMNT.Controllers {
                     vStandard.DateCreated = invItem.DateCreated;
                     vStandard.CreatedBy = invItem.CreatedBy;
                     vStandard.DateModified = invItem.DateModified;
-                    vStandard.CaseNumber = invItem.CaseNumber;
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
@@ -111,7 +109,6 @@ namespace TMNT.Controllers {
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
-                    vStandard.MSDSExpiryDate = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSExpiryDate;
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vStandard.SolventSupplierName = invItem.SupplierName;
                     vStandard.SupplierName = invItem.SupplierName;
@@ -173,7 +170,6 @@ namespace TMNT.Controllers {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
                         DateAdded = DateTime.Now,
-                        MSDSExpiryDate = model.MSDSExpiryDate,
                         MSDSNotes = model.MSDSNotes
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
@@ -196,7 +192,6 @@ namespace TMNT.Controllers {
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     
                     ExpiryDate = model.ExpiryDate,
-                    CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
@@ -251,7 +246,6 @@ namespace TMNT.Controllers {
             foreach (var item in stockstandard.InventoryItems) {
                 model.DateCreated = item.DateCreated;
                 model.CatalogueCode = item.CatalogueCode;
-                model.CaseNumber = item.CaseNumber;
                 model.ExpiryDate = item.ExpiryDate;
                 model.SupplierName = item.SupplierName;
                 model.UsedFor = item.UsedFor;

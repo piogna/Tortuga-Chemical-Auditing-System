@@ -14,8 +14,6 @@ namespace TMNT.Models
         public DateTime DateAdded { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string MSDSNotes { get; set; }
-        [Display(Name = "SDS Expiry Date")]
-        public DateTime MSDSExpiryDate { get; set; }
 
         //Foreign Key
         public virtual InventoryItem InventoryItem { get; set; }

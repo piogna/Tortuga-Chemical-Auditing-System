@@ -45,7 +45,6 @@ namespace TMNT.Controllers {
             foreach (var reagent in reagents) {
                 foreach (var invItem in reagent.InventoryItems) {
                     if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                        list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
@@ -53,7 +52,7 @@ namespace TMNT.Controllers {
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now;
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
@@ -114,7 +113,6 @@ namespace TMNT.Controllers {
                     vReagent.DateCreated = invItem.DateCreated;
                     vReagent.DateModified = invItem.DateModified;
                     vReagent.CreatedBy = invItem.CreatedBy;
-                    vReagent.CaseNumber = invItem.CaseNumber;
                     vReagent.ExpiryDate = invItem.ExpiryDate;
                     vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -125,9 +123,8 @@ namespace TMNT.Controllers {
                     vReagent.Grade = invItem.Grade;
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
-                    vReagent.MSDSExpiryDate = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSExpiryDate;
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
-                    vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Now.Date;
+                    vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Now;
                     vReagent.SupplierName = invItem.SupplierName;
                     //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
                     //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
@@ -148,7 +145,7 @@ namespace TMNT.Controllers {
 
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
-            
+
             var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
 
             ViewBag.WeightUnits = weightUnits;
@@ -167,7 +164,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,MSDSExpiryDateReagentName,StorageRequirements,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var user = User.Identity.GetUserId();
 
@@ -178,7 +175,7 @@ namespace TMNT.Controllers {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Today
+                        DateAdded = DateTime.Now
                     };
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
                         cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
@@ -190,8 +187,7 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Today,
-                        MSDSExpiryDate = model.MSDSExpiryDate,
+                        DateAdded = DateTime.Now,
                         MSDSNotes = model.MSDSNotes
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
@@ -204,20 +200,23 @@ namespace TMNT.Controllers {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
                     ReagentName = model.ReagentName
-            };
+                };
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Grade = model.Grade,
-                    ExpiryDate = model.ExpiryDate,
-                    CaseNumber = model.CaseNumber,
+                    ExpiryDate = DateTime.Now,
+                    DateOpened = DateTime.Now,
+                    DateModified = DateTime.Now,
+                    DateCreated = DateTime.Now,
+                    //ExpiryDate = DateTime.Today,
+                    //DateOpened = DateTime.Now,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name,
-                DateCreated = DateTime.Today,
-                    DateModified = DateTime.Today,
+                    //DateModified = DateTime.Today,
                     Type = reagent.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
@@ -268,7 +267,6 @@ namespace TMNT.Controllers {
                 model.CreatedBy = item.CreatedBy;
                 model.ExpiryDate = item.ExpiryDate;
                 model.CatalogueCode = item.CatalogueCode;
-                model.CaseNumber = item.CaseNumber;
                 model.UsedFor = item.UsedFor;
                 model.SupplierName = item.SupplierName;
             }
@@ -323,7 +321,7 @@ namespace TMNT.Controllers {
 
                     invItem.MSDS.Add(msds);
                 }
-                
+
                 invItem.DateModified = DateTime.Now;
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
                 new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);

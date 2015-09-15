@@ -11,27 +11,25 @@ namespace TMNT.Models {
 
         [Key]
         public int InventoryItemId { get; set; }
-        [Required, Display(Name = "Catalogue Code")]
+        //[Required]
         public string CatalogueCode { get; set; }
         public double LowAmountThreshHold { get; set; }
         public string Grade { get; set; }
-        [Required, Display(Name = "Case Number")]
-        public int CaseNumber { get; set; }
-        [Required, Display(Name = "Used For")]
+        //[Required]
         public string UsedFor { get; set; }
         public string Type { get; set; }
         public string SupplierName { get; set; }
-        [Required, Display(Name = "Created By")]
+        //[Required]
         public string CreatedBy { get; set; }
-        [Display(Name = "Date Opened")]
+        [DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Date Created")]
+        [DataType(DataType.Date)]//[Required]
         public DateTime DateCreated { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
+        [DataType(DataType.Date)]//[Required]
         public DateTime ExpiryDate { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Date Modified")]
-        public DateTime DateModified { get; set; }
-        [Required, Display(Name = "Storage Req's")]
+        [DataType(DataType.Date)]//[Required]
+        public DateTime? DateModified { get; set; }
+        //[Required]
         public string StorageRequirements { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }

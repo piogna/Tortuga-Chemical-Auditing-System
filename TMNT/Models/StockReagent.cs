@@ -10,14 +10,13 @@ namespace TMNT.Models {
 
         [Key]
         public int ReagentId { get; set; }
-        [Required, Display(Name = "Lot No.")]
+        //[Required]
         public string LotNumber { get; set; }
-        [Required, Display(Name = "ID Code")]
+        //[Required]
         public string IdCode { get; set; }
-        [Required, Display(Name = "Reagent Name")]
+        //[Required]
         public string ReagentName { get; set; }
         public double LowAmountThreshHold { get; set; }
-        [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
 
         //foreign keys
