@@ -24,12 +24,8 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(StockReagent t) {
-          //  try {
-                db.StockReagents.Add(t);
-                db.SaveChanges();
-            //} catch (Exception ex) {
-
-            //}
+            db.StockReagents.Add(t);
+            db.SaveChanges();
         }
 
         public void Update(StockReagent reagent) {

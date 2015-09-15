@@ -73,6 +73,7 @@ namespace TMNT.Controllers {
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result) {
                 case SignInStatus.Success:
+                    //ViewBag.User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department;
                     //setting the "Remember Me?" checkbox
                     if (model.RememberMe) {
                         // is authenticated so save cookie
