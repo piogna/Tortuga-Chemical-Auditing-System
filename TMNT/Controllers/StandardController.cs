@@ -52,7 +52,7 @@ namespace TMNT.Controllers {
                         list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
@@ -147,7 +147,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var user = User.Identity.GetUserId();
@@ -157,7 +157,7 @@ namespace TMNT.Controllers {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
 
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
@@ -169,7 +169,7 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Now,
+                        DateAdded = DateTime.Today,
                         MSDSNotes = model.MSDSNotes
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
@@ -277,7 +277,7 @@ namespace TMNT.Controllers {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
 
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
@@ -293,7 +293,7 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
@@ -304,7 +304,7 @@ namespace TMNT.Controllers {
                 }
                 
                 invItem.ExpiryDate = stockstandard.ExpiryDate;
-                invItem.DateModified = DateTime.Now;
+                invItem.DateModified = DateTime.Today;
                 new InventoryItemRepository().Update(invItem);
 
                 return RedirectToAction("Index");

@@ -52,7 +52,7 @@ namespace TMNT.Controllers {
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
@@ -124,7 +124,7 @@ namespace TMNT.Controllers {
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
-                    vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Now;
+                    vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Today;
                     vReagent.SupplierName = invItem.SupplierName;
                     //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
                     //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
@@ -175,7 +175,7 @@ namespace TMNT.Controllers {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
                         cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
@@ -187,7 +187,7 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Now,
+                        DateAdded = DateTime.Today,
                         MSDSNotes = model.MSDSNotes
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
@@ -206,17 +206,14 @@ namespace TMNT.Controllers {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
                     Grade = model.Grade,
-                    ExpiryDate = DateTime.Now,
-                    DateOpened = DateTime.Now,
-                    DateModified = DateTime.Now,
-                    DateCreated = DateTime.Now,
-                    //ExpiryDate = DateTime.Today,
-                    //DateOpened = DateTime.Now,
+                    ExpiryDate = DateTime.Today,
+                    DateOpened = null,
+                    DateModified = null,
+                    DateCreated = DateTime.Today,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
                                 ? "USERID"
                                 : System.Web.HttpContext.Current.User.Identity.Name,
-                    //DateModified = DateTime.Today,
                     Type = reagent.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
@@ -297,7 +294,7 @@ namespace TMNT.Controllers {
                     var cofa = new CertificateOfAnalysis() {
                         FileName = uploadCofA.FileName,
                         ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
 
                     using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
@@ -312,7 +309,7 @@ namespace TMNT.Controllers {
                     var msds = new MSDS() {
                         FileName = uploadMSDS.FileName,
                         ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Now
+                        DateAdded = DateTime.Today
                     };
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
@@ -322,7 +319,7 @@ namespace TMNT.Controllers {
                     invItem.MSDS.Add(msds);
                 }
 
-                invItem.DateModified = DateTime.Now;
+                invItem.DateModified = DateTime.Today;
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
                 new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);
 
