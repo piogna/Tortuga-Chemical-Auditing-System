@@ -1,7 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Linq;
-using TMNT.Utils;
-using Microsoft.AspNet.Identity;
 
 namespace TMNT.Controllers {
     [Authorize]

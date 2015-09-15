@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -369,6 +370,15 @@ namespace TMNT.Controllers {
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure() {
             return View();
+        }
+
+        //
+        // GET: /Account/ViewProfile
+        [AllowAnonymous]
+        [Route("Account/ViewProfile/{id}")]
+        public ActionResult ViewProfile(string id) {
+            var user = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.UserName == id);
+            return View(user);
         }
 
         protected override void Dispose(bool disposing) {

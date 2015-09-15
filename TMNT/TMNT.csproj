@@ -468,6 +468,7 @@
     <Content Include="Views\Balance\Verification.cshtml" />
     <Content Include="Views\PDFViewer\ViewPDF.cshtml" />
     <Content Include="Views\Reports\DeviceVerificationReport.cshtml" />
+    <Content Include="Views\Account\ViewProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
