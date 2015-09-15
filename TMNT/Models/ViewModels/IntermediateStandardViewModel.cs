@@ -18,10 +18,16 @@ namespace TMNT.Models.ViewModels {
         public virtual List<PrepListItem> PrepListItems { get; set; }
 
         public virtual StockStandard StockStandard { get; set; }
-        //[Display(Name = "Amount Remaining")]
-        //public int Amount { get; set; }
+
+        //properties to help with views and have nothing to do with the db
+        public bool IsExpired { get; set; }
+        public bool IsOpened { get; set; }
 
         //inventory poperties
+        [Display(Name = "Date Opened")]
+        public DateTime? DateOpened { get; set; }
+        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
+        public DateTime ExpiryDate { get; set; }
         [Required, Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
         [Required, Display(Name = "Inventory Item Name")]
@@ -30,8 +36,6 @@ namespace TMNT.Models.ViewModels {
         public int TotalAmount { get; set; }
         [Required]
         public int Grade { get; set; }
-        [Required, Display(Name = "Case Number")]
-        public int CaseNumber { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         public Unit Unit { get; set; }
@@ -42,6 +46,6 @@ namespace TMNT.Models.ViewModels {
         [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
-        public DateTime DateModified { get; set; }
+        public DateTime? DateModified { get; set; }
     }
 }

@@ -13,8 +13,6 @@ namespace TMNT.Models {
         public int InventoryItemId { get; set; }
         [Required, Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
-        //[Required]
-        public int? Amount { get; set; }
         public double LowAmountThreshHold { get; set; }
         public string Grade { get; set; }
         [Required, Display(Name = "Case Number")]
@@ -49,5 +47,6 @@ namespace TMNT.Models {
         public virtual Unit Unit { get; set; }
         public virtual StockStandard StockStandard { get; set; }
         public virtual StockReagent StockReagent { get; set; }
+        public virtual IntermediateStandard IntermediateStandard { get; set; }
     }
 }

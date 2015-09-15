@@ -196,149 +196,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Helpers.cs" />
-    <Compile Include="Migrations\201506171724071_Init.cs" />
-    <Compile Include="Migrations\201506171724071_Init.Designer.cs">
-      <DependentUpon>201506171724071_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs" />
+    <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.Designer.cs">
+      <DependentUpon>201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201507241821528_FixDb.cs" />
-    <Compile Include="Migrations\201507241821528_FixDb.Designer.cs">
-      <DependentUpon>201507241821528_FixDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507261718433_IntermediateStandardAddPropAmount.cs" />
-    <Compile Include="Migrations\201507261718433_IntermediateStandardAddPropAmount.Designer.cs">
-      <DependentUpon>201507261718433_IntermediateStandardAddPropAmount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.cs" />
-    <Compile Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.Designer.cs">
-      <DependentUpon>201507271931529_EnteredByAndLastModifiedBy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507281344350_ReagentAndStandardLastModifiedDateFields.cs" />
-    <Compile Include="Migrations\201507281344350_ReagentAndStandardLastModifiedDateFields.Designer.cs">
-      <DependentUpon>201507281344350_ReagentAndStandardLastModifiedDateFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507281412191_FixChanges.cs" />
-    <Compile Include="Migrations\201507281412191_FixChanges.Designer.cs">
-      <DependentUpon>201507281412191_FixChanges.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507311711291_DeviceColumnsAdded.cs" />
-    <Compile Include="Migrations\201507311711291_DeviceColumnsAdded.Designer.cs">
-      <DependentUpon>201507311711291_DeviceColumnsAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507311743050_DeviceTypeColumn.cs" />
-    <Compile Include="Migrations\201507311743050_DeviceTypeColumn.Designer.cs">
-      <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508011419403_AddedStatusToDevice.cs" />
-    <Compile Include="Migrations\201508011419403_AddedStatusToDevice.Designer.cs">
-      <DependentUpon>201508011419403_AddedStatusToDevice.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508011914249_DeviceCode.cs" />
-    <Compile Include="Migrations\201508011914249_DeviceCode.Designer.cs">
-      <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508021916280_FixingDeviceVerifications.cs" />
-    <Compile Include="Migrations\201508021916280_FixingDeviceVerifications.Designer.cs">
-      <DependentUpon>201508021916280_FixingDeviceVerifications.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508021952167_MinorBalanceChange.cs" />
-    <Compile Include="Migrations\201508021952167_MinorBalanceChange.Designer.cs">
-      <DependentUpon>201508021952167_MinorBalanceChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508022012102_FixBalanceOne.cs" />
-    <Compile Include="Migrations\201508022012102_FixBalanceOne.Designer.cs">
-      <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508092034315_AddedTypeToInventoryItem.cs" />
-    <Compile Include="Migrations\201508092034315_AddedTypeToInventoryItem.Designer.cs">
-      <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs" />
-    <Compile Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.Designer.cs">
-      <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508121747107_Bum.cs" />
-    <Compile Include="Migrations\201508121747107_Bum.Designer.cs">
-      <DependentUpon>201508121747107_Bum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508131741037_TrackingAmountsTaken.cs" />
-    <Compile Include="Migrations\201508131741037_TrackingAmountsTaken.Designer.cs">
-      <DependentUpon>201508131741037_TrackingAmountsTaken.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.cs" />
-    <Compile Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.Designer.cs">
-      <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508162025072_notsure.cs" />
-    <Compile Include="Migrations\201508162025072_notsure.Designer.cs">
-      <DependentUpon>201508162025072_notsure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508171855315_UnitType.cs" />
-    <Compile Include="Migrations\201508171855315_UnitType.Designer.cs">
-      <DependentUpon>201508171855315_UnitType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508171910337_UnitShrthandNameAndFullName.cs" />
-    <Compile Include="Migrations\201508171910337_UnitShrthandNameAndFullName.Designer.cs">
-      <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041341466_GradeNotRequiredAndNullable.cs" />
-    <Compile Include="Migrations\201509041341466_GradeNotRequiredAndNullable.Designer.cs">
-      <DependentUpon>201509041341466_GradeNotRequiredAndNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041356415_AddLotNumberFieldStandardReagent.cs" />
-    <Compile Include="Migrations\201509041356415_AddLotNumberFieldStandardReagent.Designer.cs">
-      <DependentUpon>201509041356415_AddLotNumberFieldStandardReagent.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041358322_MakeLotNumberRequired.cs" />
-    <Compile Include="Migrations\201509041358322_MakeLotNumberRequired.Designer.cs">
-      <DependentUpon>201509041358322_MakeLotNumberRequired.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.cs" />
-    <Compile Include="Migrations\201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.Designer.cs">
-      <DependentUpon>201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041819552_StandardDateOpened.cs" />
-    <Compile Include="Migrations\201509041819552_StandardDateOpened.Designer.cs">
-      <DependentUpon>201509041819552_StandardDateOpened.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041914370_MoveMSDSNotesAndExpiryDateToMSDSObject.cs" />
-    <Compile Include="Migrations\201509041914370_MoveMSDSNotesAndExpiryDateToMSDSObject.Designer.cs">
-      <DependentUpon>201509041914370_MoveMSDSNotesAndExpiryDateToMSDSObject.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041938455_StorageRequirements.cs" />
-    <Compile Include="Migrations\201509041938455_StorageRequirements.Designer.cs">
-      <DependentUpon>201509041938455_StorageRequirements.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509061412280_ChangeGradeFromIntToString.cs" />
-    <Compile Include="Migrations\201509061412280_ChangeGradeFromIntToString.Designer.cs">
-      <DependentUpon>201509061412280_ChangeGradeFromIntToString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509061522520_MoveExpiryDateFromStandardToInventoryItem.cs" />
-    <Compile Include="Migrations\201509061522520_MoveExpiryDateFromStandardToInventoryItem.Designer.cs">
-      <DependentUpon>201509061522520_MoveExpiryDateFromStandardToInventoryItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509061556279_DateOpenedToInventoryItem.cs" />
-    <Compile Include="Migrations\201509061556279_DateOpenedToInventoryItem.Designer.cs">
-      <DependentUpon>201509061556279_DateOpenedToInventoryItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.cs" />
-    <Compile Include="Migrations\201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.Designer.cs">
-      <DependentUpon>201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509091957333_DeviceTestPassOrFailField.cs" />
-    <Compile Include="Migrations\201509091957333_DeviceTestPassOrFailField.Designer.cs">
-      <DependentUpon>201509091957333_DeviceTestPassOrFailField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509101933023_UnitsToIntermediateStandard.cs" />
-    <Compile Include="Migrations\201509101933023_UnitsToIntermediateStandard.Designer.cs">
-      <DependentUpon>201509101933023_UnitsToIntermediateStandard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509111935510_AddedUnitToPrepListItem.cs" />
-    <Compile Include="Migrations\201509111935510_AddedUnitToPrepListItem.Designer.cs">
-      <DependentUpon>201509111935510_AddedUnitToPrepListItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509112001223_AmountNoLongerRequired.cs" />
-    <Compile Include="Migrations\201509112001223_AmountNoLongerRequired.Designer.cs">
-      <DependentUpon>201509112001223_AmountNoLongerRequired.cs</DependentUpon>
+    <Compile Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs" />
+    <Compile Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.Designer.cs">
+      <DependentUpon>201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -586,116 +450,6 @@
     <Content Include="Views\Reports\DeviceVerificationReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201506171724071_Init.resx">
-      <DependentUpon>201506171724071_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507241821528_FixDb.resx">
-      <DependentUpon>201507241821528_FixDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507261718433_IntermediateStandardAddPropAmount.resx">
-      <DependentUpon>201507261718433_IntermediateStandardAddPropAmount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507271931529_EnteredByAndLastModifiedBy.resx">
-      <DependentUpon>201507271931529_EnteredByAndLastModifiedBy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507281344350_ReagentAndStandardLastModifiedDateFields.resx">
-      <DependentUpon>201507281344350_ReagentAndStandardLastModifiedDateFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507281412191_FixChanges.resx">
-      <DependentUpon>201507281412191_FixChanges.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507311711291_DeviceColumnsAdded.resx">
-      <DependentUpon>201507311711291_DeviceColumnsAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507311743050_DeviceTypeColumn.resx">
-      <DependentUpon>201507311743050_DeviceTypeColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508011419403_AddedStatusToDevice.resx">
-      <DependentUpon>201508011419403_AddedStatusToDevice.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508011914249_DeviceCode.resx">
-      <DependentUpon>201508011914249_DeviceCode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508021916280_FixingDeviceVerifications.resx">
-      <DependentUpon>201508021916280_FixingDeviceVerifications.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508021952167_MinorBalanceChange.resx">
-      <DependentUpon>201508021952167_MinorBalanceChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508022012102_FixBalanceOne.resx">
-      <DependentUpon>201508022012102_FixBalanceOne.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508092034315_AddedTypeToInventoryItem.resx">
-      <DependentUpon>201508092034315_AddedTypeToInventoryItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508092043003_AddedLowAmountThresholdToStandReagInvItem.resx">
-      <DependentUpon>201508092043003_AddedLowAmountThresholdToStandReagInvItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508121747107_Bum.resx">
-      <DependentUpon>201508121747107_Bum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508131741037_TrackingAmountsTaken.resx">
-      <DependentUpon>201508131741037_TrackingAmountsTaken.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508131858207_RemoveRequiredInventoryItemProp.resx">
-      <DependentUpon>201508131858207_RemoveRequiredInventoryItemProp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508162025072_notsure.resx">
-      <DependentUpon>201508162025072_notsure.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508171855315_UnitType.resx">
-      <DependentUpon>201508171855315_UnitType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508171910337_UnitShrthandNameAndFullName.resx">
-      <DependentUpon>201508171910337_UnitShrthandNameAndFullName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041341466_GradeNotRequiredAndNullable.resx">
-      <DependentUpon>201509041341466_GradeNotRequiredAndNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041356415_AddLotNumberFieldStandardReagent.resx">
-      <DependentUpon>201509041356415_AddLotNumberFieldStandardReagent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041358322_MakeLotNumberRequired.resx">
-      <DependentUpon>201509041358322_MakeLotNumberRequired.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.resx">
-      <DependentUpon>201509041457066_StandardExpiryDateAndMSDSNotesAndMSDSExpiryDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041819552_StandardDateOpened.resx">
-      <DependentUpon>201509041819552_StandardDateOpened.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041914370_MoveMSDSNotesAndExpiryDateToMSDSObject.resx">
-      <DependentUpon>201509041914370_MoveMSDSNotesAndExpiryDateToMSDSObject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041938455_StorageRequirements.resx">
-      <DependentUpon>201509041938455_StorageRequirements.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509061412280_ChangeGradeFromIntToString.resx">
-      <DependentUpon>201509061412280_ChangeGradeFromIntToString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509061522520_MoveExpiryDateFromStandardToInventoryItem.resx">
-      <DependentUpon>201509061522520_MoveExpiryDateFromStandardToInventoryItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509061556279_DateOpenedToInventoryItem.resx">
-      <DependentUpon>201509061556279_DateOpenedToInventoryItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.resx">
-      <DependentUpon>201509081421397_AddedSupplierFieldsToTempReplaceSupplierObject.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509091957333_DeviceTestPassOrFailField.resx">
-      <DependentUpon>201509091957333_DeviceTestPassOrFailField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509101933023_UnitsToIntermediateStandard.resx">
-      <DependentUpon>201509101933023_UnitsToIntermediateStandard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509111935510_AddedUnitToPrepListItem.resx">
-      <DependentUpon>201509111935510_AddedUnitToPrepListItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509112001223_AmountNoLongerRequired.resx">
-      <DependentUpon>201509112001223_AmountNoLongerRequired.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
@@ -703,7 +457,14 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.resx">
+      <DependentUpon>201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.resx">
+      <DependentUpon>201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

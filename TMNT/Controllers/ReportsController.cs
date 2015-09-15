@@ -20,13 +20,14 @@ namespace TMNT.Controllers {
 
         [Route("Report/LowStockReport")]
         public ActionResult LowStockReport() {
-            List<InventoryItem> items = new InventoryItemRepository()
-                .Get()
-                .Where(item => item.StockReagent != null || item.StockStandard != null)
-                .OrderBy(item => item.Amount)
-                .ToList();
+            //List<InventoryItem> items = new InventoryItemRepository()
+            //    .Get()
+            //    .Where(item => item.StockReagent != null || item.StockStandard != null)
+            //    .OrderBy(item => item.Amount)
+            //    .ToList();
 
-            return View("LowStockReport", items);
+            //return View("LowStockReport", items);
+            return View();
         }
 
         [Route("Report/CalibrationReport")]

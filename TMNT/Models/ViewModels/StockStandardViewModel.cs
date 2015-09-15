@@ -11,14 +11,12 @@ namespace TMNT.Models.ViewModels {
         public string IdCode { get; set; }
         [Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
-        [DataType(DataType.Date), Display(Name = "Date Entered")]
-        public DateTime DateEntered { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
-        [Display(Name ="Entered By")]
-        public string EnteredBy { get; set; }
+        [Display(Name ="Created By")]
+        public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
-        public DateTime? LastModified { get; set; }
+        public DateTime? DateModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
         [Display(Name = "Solvent Used"), DataType(DataType.MultilineText)]

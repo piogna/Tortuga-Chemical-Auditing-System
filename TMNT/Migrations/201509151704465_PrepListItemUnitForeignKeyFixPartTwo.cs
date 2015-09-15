@@ -3,7 +3,7 @@ namespace TMNT.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class AddedUnitToPrepListItem : DbMigration
+    public partial class PrepListItemUnitForeignKeyFixPartTwo : DbMigration
     {
         public override void Up()
         {

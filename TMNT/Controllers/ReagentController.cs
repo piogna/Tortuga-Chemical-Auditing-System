@@ -34,11 +34,7 @@ namespace TMNT.Controllers {
                     ReagentId = item.ReagentId,
                     LotNumber = item.LotNumber,
                     IdCode = item.IdCode,
-                    DateEntered = item.DateEntered,
-                    EnteredBy = item.EnteredBy,
                     ReagentName = item.ReagentName,
-                    //LowAmountThreshHold = item.LowAmountThreshHold,
-                    LastModified = item.LastModified,
                     LastModifiedBy = item.LastModifiedBy
                 });
             }
@@ -49,7 +45,6 @@ namespace TMNT.Controllers {
             foreach (var reagent in reagents) {
                 foreach (var invItem in reagent.InventoryItems) {
                     if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                        //list[counter].Amount = invItem.Amount;
                         list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -62,6 +57,9 @@ namespace TMNT.Controllers {
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
+                        list[counter].DateCreated = invItem.DateCreated;
+                        list[counter].CreatedBy = invItem.CreatedBy;
+                        list[counter].DateModified = invItem.DateModified;
                         //list[counter].PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                     }
                 }
@@ -92,11 +90,7 @@ namespace TMNT.Controllers {
             var vReagent = new StockReagentViewModel() {
                 ReagentId = reagent.ReagentId,
                 IdCode = reagent.IdCode,
-                DateEntered = reagent.DateEntered,
-                EnteredBy = reagent.EnteredBy,
                 ReagentName = reagent.ReagentName,
-                //LowAmountThreshHold = reagent.LowAmountThreshHold,
-                LastModified = reagent.LastModified,
                 LastModifiedBy = reagent.LastModifiedBy
             };
 
@@ -117,7 +111,9 @@ namespace TMNT.Controllers {
 
             foreach (var invItem in reagent.InventoryItems) {
                 if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                    //vReagent.Amount = invItem.Amount;
+                    vReagent.DateCreated = invItem.DateCreated;
+                    vReagent.DateModified = invItem.DateModified;
+                    vReagent.CreatedBy = invItem.CreatedBy;
                     vReagent.CaseNumber = invItem.CaseNumber;
                     vReagent.ExpiryDate = invItem.ExpiryDate;
                     vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -172,11 +168,6 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,MSDSExpiryDateReagentName,StorageRequirements,Grade,UsedFor,ExpiryDate,LotNumber,InventoryItemName,DateModified")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            //int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
-            //model.Unit = new UnitRepository(DbContextSingleton.Instance).Get(selectedValue);
-            model.EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
-                                ? "USERID"
-                                : System.Web.HttpContext.Current.User.Identity.Name;
 
             var user = User.Identity.GetUserId();
 
@@ -212,24 +203,22 @@ namespace TMNT.Controllers {
                 StockReagent reagent = new StockReagent() {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
-                    ReagentName = model.ReagentName,
-                    DateEntered = DateTime.Today,
-                    EnteredBy = model.EnteredBy
-                };
+                    ReagentName = model.ReagentName
+            };
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
-                    //Amount = model.Amount,
                     Grade = model.Grade,
                     ExpiryDate = model.ExpiryDate,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
-                    CreatedBy = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : "USERID",
-                    DateCreated = DateTime.Today,
+                    CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
+                                ? "USERID"
+                                : System.Web.HttpContext.Current.User.Identity.Name,
+                DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
-                    //Unit = model.Unit,
-                    Type = model.GetType().Name,
+                    Type = reagent.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
                 };
@@ -268,16 +257,15 @@ namespace TMNT.Controllers {
                 ReagentId = stockreagent.ReagentId,
                 LotNumber = stockreagent.LotNumber,
                 ReagentName = stockreagent.ReagentName,
-                DateEntered = stockreagent.DateEntered,
                 IdCode = stockreagent.IdCode,
-                EnteredBy = stockreagent.EnteredBy,
                 CertificateOfAnalysis = stockreagent.InventoryItems.Where(x => x.StockReagent.ReagentId == stockreagent.ReagentId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
                 MSDS = stockreagent.InventoryItems.Where(x => x.StockReagent.ReagentId == stockreagent.ReagentId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockreagent.InventoryItems) {
-                //model.Amount = item.Amount;
                 model.Grade = item.Grade;
+                model.DateCreated = item.DateCreated;
+                model.CreatedBy = item.CreatedBy;
                 model.ExpiryDate = item.ExpiryDate;
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
@@ -303,7 +291,6 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModified = DateTime.Now;
                 updateReagent.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 
                 repo.Update(updateReagent);
@@ -319,9 +306,8 @@ namespace TMNT.Controllers {
                         cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
                     }
                     stockreagent.CertificateOfAnalysis = cofa;
-                    //update inventory item amount
-                    //add certificate analysis
 
+                    //add certificate analysis
                     invItem.CertificatesOfAnalysis.Add(cofa);
                 }
                 if (uploadMSDS != null) {
@@ -337,8 +323,7 @@ namespace TMNT.Controllers {
 
                     invItem.MSDS.Add(msds);
                 }
-
-                //invItem.Amount = stockreagent.Amount;
+                
                 invItem.DateModified = DateTime.Now;
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
                 new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);

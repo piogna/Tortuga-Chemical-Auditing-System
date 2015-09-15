@@ -7,13 +7,13 @@ namespace TMNT.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DeviceColumnsAdded : IMigrationMetadata
+    public sealed partial class PrepListItemUnitForeignKeyFixPartTwo : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DeviceColumnsAdded));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PrepListItemUnitForeignKeyFixPartTwo));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507311711291_DeviceColumnsAdded"; }
+            get { return "201509151704465_PrepListItemUnitForeignKeyFixPartTwo"; }
         }
         
         string IMigrationMetadata.Source

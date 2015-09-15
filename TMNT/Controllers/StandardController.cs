@@ -34,12 +34,8 @@ namespace TMNT.Controllers {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
                     StockStandardName = item.StockStandardName,
-                    DateEntered = item.DateEntered,
-                    EnteredBy = item.EnteredBy,
                     IdCode = item.IdCode,
-                    LastModified = item.LastModified,
                     LastModifiedBy = item.LastModifiedBy,
-                    //LowAmountThreshHold = item.LowAmountThreshHold,
                     Purity = item.Purity,
                     SolventUsed = item.SolventUsed
                 });
@@ -50,7 +46,6 @@ namespace TMNT.Controllers {
             foreach (var standard in standards) {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-                        //list[counter].Amount = invItem.Amount;
                         list[counter].CaseNumber = invItem.CaseNumber;
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -62,6 +57,9 @@ namespace TMNT.Controllers {
                         list[counter].DateOpened = invItem.DateOpened;
                         list[counter].IsOpened = invItem.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
+                        list[counter].DateCreated = invItem.DateCreated;
+                        list[counter].CreatedBy = invItem.CreatedBy;
+                        list[counter].DateModified = invItem.DateModified;
                     }
                 }
                 counter++;
@@ -72,11 +70,11 @@ namespace TMNT.Controllers {
         // GET: /Standard/Details/5
         [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
-            if (Request.UrlReferrer == null) {
-                ViewBag.ReturnUrl = "";
-            } else if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
-                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
-            }
+            //if (Request.UrlReferrer == null) {
+            //    ViewBag.ReturnUrl = "";
+            //} else if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+            //    ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            //}
 
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -92,11 +90,7 @@ namespace TMNT.Controllers {
                 StockStandardId = standard.StockStandardId,
                 LotNumber = standard.LotNumber,
                 IdCode = standard.IdCode,
-                DateEntered = standard.DateEntered,
-                EnteredBy = standard.EnteredBy,
                 StockStandardName = standard.StockStandardName,
-                //LowAmountThreshHold = standard.LowAmountThreshHold,
-                LastModified = standard.LastModified,
                 LastModifiedBy = standard.LastModifiedBy,
                 SolventUsed = standard.SolventUsed
             };
@@ -105,7 +99,9 @@ namespace TMNT.Controllers {
                 if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
                     vStandard.ExpiryDate = invItem.ExpiryDate;
                     vStandard.DateOpened = invItem.DateOpened;
-                    //vStandard.Amount = invItem.Amount;
+                    vStandard.DateCreated = invItem.DateCreated;
+                    vStandard.CreatedBy = invItem.CreatedBy;
+                    vStandard.DateModified = invItem.DateModified;
                     vStandard.CaseNumber = invItem.CaseNumber;
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
@@ -156,8 +152,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSExpiryDate,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,MSDSExpiryDate,InventoryItemName,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            //int? selectedValue = Convert.ToInt32(Request.Form["Unit"]);
-            //model.Unit = new UnitRepository().Get(selectedValue);
 
             var user = User.Identity.GetUserId();
 
@@ -192,27 +186,22 @@ namespace TMNT.Controllers {
                     IdCode = model.IdCode,
                     LotNumber = model.LotNumber,
                     StockStandardName = model.StockStandardName,
-                    DateEntered = DateTime.Today,
                     SolventUsed = model.SolventUsed,
                     Purity = model.Purity,
-                    SolventSupplierName = model.SolventSupplierName,
-                    EnteredBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
-                                ? "USERID"
-                                : System.Web.HttpContext.Current.User.Identity.Name
+                    SolventSupplierName = model.SolventSupplierName
                 };
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
                     Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
-                    //Amount = model.Amount,
+                    
                     ExpiryDate = model.ExpiryDate,
                     CaseNumber = model.CaseNumber,
                     UsedFor = model.UsedFor,
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
-                    //Unit = model.Unit,
-                    Type = model.GetType().Name,
+                    Type = standard.GetType().Name,
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
                 };
@@ -237,8 +226,6 @@ namespace TMNT.Controllers {
         // GET: /Standard/Edit/5
         [Route("Standard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
-            //hard-coded right now for prototype purposes
-            //id = 1;
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -253,7 +240,6 @@ namespace TMNT.Controllers {
                 StockStandardId = stockstandard.StockStandardId,
                 LotNumber = stockstandard.LotNumber,
                 StockStandardName = stockstandard.StockStandardName,
-                DateEntered = stockstandard.DateEntered,
                 IdCode = stockstandard.IdCode,
                 Purity = stockstandard.Purity,
                 SolventSupplierName = stockstandard.SolventSupplierName,
@@ -263,7 +249,7 @@ namespace TMNT.Controllers {
             };
 
             foreach (var item in stockstandard.InventoryItems) {
-                //model.Amount = item.Amount;
+                model.DateCreated = item.DateCreated;
                 model.CatalogueCode = item.CatalogueCode;
                 model.CaseNumber = item.CaseNumber;
                 model.ExpiryDate = item.ExpiryDate;
@@ -289,8 +275,6 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                //updateStandard.ExpiryDate = stockstandard.ExpiryDate;
-                updateStandard.LastModified = DateTime.Now;
                 updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
 
                 new StockStandardRepository().Update(updateStandard);
@@ -324,8 +308,7 @@ namespace TMNT.Controllers {
 
                     invItem.MSDS.Add(msds);
                 }
-
-                //invItem.Amount = stockstandard.Amount;
+                
                 invItem.ExpiryDate = stockstandard.ExpiryDate;
                 invItem.DateModified = DateTime.Now;
                 new InventoryItemRepository().Update(invItem);

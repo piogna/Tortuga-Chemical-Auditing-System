@@ -102,11 +102,11 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.DateEntered)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.DateEntered)
+                @Html.DisplayFor(model => model.DateCreated)
             </dd>
 
             <dt>
@@ -134,11 +134,11 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.EnteredBy)
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.EnteredBy)
+                @Html.DisplayFor(model => model.CreatedBy)
             </dd>
 
             <dt>
@@ -169,11 +169,11 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.LastModified)
+                @Html.DisplayNameFor(model => model.DateModified)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.LastModified)
+                @Html.DisplayFor(model => model.DateModified)
             </dd>
 
             <dt>
@@ -215,7 +215,7 @@
                     @item.DateAdded.ToString().Split(' ')[0]
                 </td>
                 <td>
-                    @item.InventoryItem.StockStandard.EnteredBy
+                    @item.InventoryItem.CreatedBy
                 </td>
             </tr>
         }
@@ -269,7 +269,7 @@
                     @item.MSDSExpiryDate
                 </td>
                 <td>
-                    @item.InventoryItem.StockStandard.EnteredBy
+                    @item.InventoryItem.CreatedBy
                 </td>
             </tr>
         }

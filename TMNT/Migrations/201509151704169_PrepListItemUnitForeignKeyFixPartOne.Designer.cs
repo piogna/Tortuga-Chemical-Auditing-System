@@ -7,13 +7,13 @@ namespace TMNT.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ReagentAndStandardLastModifiedDateFields : IMigrationMetadata
+    public sealed partial class PrepListItemUnitForeignKeyFixPartOne : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ReagentAndStandardLastModifiedDateFields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PrepListItemUnitForeignKeyFixPartOne));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507281344350_ReagentAndStandardLastModifiedDateFields"; }
+            get { return "201509151704169_PrepListItemUnitForeignKeyFixPartOne"; }
         }
         
         string IMigrationMetadata.Source

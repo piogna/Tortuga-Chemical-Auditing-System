@@ -14,15 +14,9 @@ namespace TMNT.Models {
         public string LotNumber { get; set; }
         [Required, Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Date Entered")]
-        public DateTime DateEntered { get; set; }
         [Required, Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
         public double LowAmountThreshHold { get; set; }
-        [Display(Name = "Entered By")]
-        public string EnteredBy { get; set; }
-        [Display(Name = "Last Modified")]
-        public DateTime? LastModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
 

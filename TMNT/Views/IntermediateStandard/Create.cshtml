@@ -172,7 +172,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
@@ -180,7 +180,7 @@
                                         @Html.ValidationMessageFor(model => model.CaseNumber)
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
@@ -190,9 +190,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Choose Storage Requirement..</option>
+                                            <optgroup label="Storage Req's'">
+                                                @foreach (var item in ViewBag.Storage) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
@@ -209,7 +226,7 @@
                                         @Html.ValidationMessageFor(model => model.InventoryItemName)
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
@@ -230,7 +247,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
@@ -249,7 +266,7 @@
                                         <div class="input-group-addon">Date Modified</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">

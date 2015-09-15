@@ -11,7 +11,7 @@ namespace TMNT.Models.Repository {
         }
 
         public StockStandard Get(int? idCode) {
-            return db.StockStandards.Where(s => s.IdCode == idCode.ToString()).OrderByDescending(s => s.DateEntered).First();
+            throw new NotImplementedException();
         }
 
         public void Create(StockStandard t) {

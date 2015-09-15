@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TMNT.Models.IntermediateStandard>
+﻿@model IEnumerable<TMNT.Models.ViewModels.IntermediateStandardViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -43,9 +43,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Amount) Remaining
-            </th>*@
         </tr>
     </thead>
     <tbody>
@@ -67,9 +64,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReplacedBy)
                 </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
-                </td>*@
             </tr>
         }
     </tbody>
@@ -88,9 +82,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.Amount) Remaining
-            </th>*@
         </tr>
     </tfoot>
 </table>

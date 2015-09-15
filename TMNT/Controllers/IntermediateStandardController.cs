@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -23,7 +24,38 @@ namespace TMNT.Controllers {
         // GET: /IntermediateStandard/
         [Route("IntermediateStandard")]
         public ActionResult Index() {
-            return View(repo.Get());
+            var intermediatestandards = repo.Get();
+            var list = new List<IntermediateStandardViewModel>();
+
+            foreach (var item in intermediatestandards) {
+                list.Add(new IntermediateStandardViewModel() {
+                    IntermediateStandardId = item.IntermediateStandardId,
+                    IdCode = item.IdCode
+                });
+            }
+            //iterating through the associated InventoryItem and retrieving the appropriate data
+            //this is faster than LINQ
+            int counter = 0;
+            foreach (var standard in intermediatestandards) {
+                foreach (var invItem in standard.InventoryItems) {
+                    if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
+                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].UsedFor = invItem.UsedFor;
+                        list[counter].Unit = invItem.Unit;
+                        list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].ExpiryDate = invItem.ExpiryDate;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Now.Date;
+                        list[counter].DateOpened = invItem.DateOpened;
+                        list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].DateCreated = invItem.DateCreated;
+                        list[counter].CreatedBy = invItem.CreatedBy;
+                        list[counter].DateModified = invItem.DateModified;
+                    }
+                }
+                counter++;
+            }
+            
+            return View(list);
         }
 
         // GET: /IntermediateStandard/Details/5
@@ -32,33 +64,45 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             IntermediateStandard intermediatestandard = repo.Get(id);
 
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
 
-            var viewModel = new IntermediateStandardViewModel() {
+            var vIntermediateStandard = new IntermediateStandardViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
-                DateCreated = intermediatestandard.DateCreated,
-                //Amount = intermediatestandard.Amount,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
                 PrepList = intermediatestandard.PrepList,
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
-                CreatedBy = intermediatestandard.CreatedBy,
                 IdCode = intermediatestandard.IdCode,
-                Unit = intermediatestandard.Unit
             };
 
-            return View(viewModel);
+            foreach (var invItem in intermediatestandard.InventoryItems) {
+                if (invItem.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId) {
+                    vIntermediateStandard.ExpiryDate = invItem.ExpiryDate;
+                    vIntermediateStandard.DateOpened = invItem.DateOpened;
+                    vIntermediateStandard.DateCreated = invItem.DateCreated;
+                    vIntermediateStandard.CreatedBy = invItem.CreatedBy;
+                    vIntermediateStandard.DateModified = invItem.DateModified;
+                    //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vIntermediateStandard.UsedFor = invItem.UsedFor;
+                    //vIntermediateStandard.Unit = invItem.Unit;
+                    //vIntermediateStandard.Department = invItem.Department;
+                    vIntermediateStandard.CatalogueCode = invItem.CatalogueCode;
+                }
+            }
+
+            return View(vIntermediateStandard);
         }
 
         [Route("IntermediateStandard/Create")]
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
-            var units = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
-            ViewBag.Types = units;
+            ViewBag.Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
+            ViewBag.Types = new List<string>() { "Reagent", "Standard", "Intermediate Standard" }; ;
             return View();
         }
 
@@ -68,7 +112,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,InventoryItemName,TotalAmount,UsedFor,CatalogueCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,InventoryItemName,TotalVolume,UsedFor,CatalogueCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
             //retrieving all rows from recipe builder - replace with view model in the future
             List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
             List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
@@ -134,13 +178,13 @@ namespace TMNT.Controllers {
                 if (reagentAndStandardContainer != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics(reagentAndStandardContainer, amounts); }
                 //building the intermediate standard
                 IntermediateStandard standard = new IntermediateStandard() {
-                    Amount = intermediatestandard.TotalAmount,
-                    DateCreated = intermediatestandard.DateCreated,
+                    TotalVolume = intermediatestandard.TotalAmount,
+                    //DateCreated = intermediatestandard.DateCreated,
                     IdCode = intermediatestandard.CatalogueCode,
                     PrepList = intermediatestandard.PrepList,
                     Replaces = string.IsNullOrEmpty(intermediatestandard.Replaces) ? "N/A" : intermediatestandard.Replaces,
-                    ReplacedBy = string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? "N/A" : intermediatestandard.ReplacedBy,
-                    CreatedBy = intermediatestandard.CreatedBy
+                    ReplacedBy = string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? "N/A" : intermediatestandard.ReplacedBy
+                    //CreatedBy = intermediatestandard.CreatedBy
                 };
                 //creating the prep list and the intermediate standard
                 new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
@@ -170,7 +214,7 @@ namespace TMNT.Controllers {
 
             IntermediateStandardViewModel model = new IntermediateStandardViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
-                DateCreated = intermediatestandard.DateCreated,
+                //DateCreated = intermediatestandard.DateCreated,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
                 IdCode = intermediatestandard.IdCode,

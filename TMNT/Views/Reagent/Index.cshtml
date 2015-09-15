@@ -35,7 +35,7 @@
                 @Html.DisplayNameFor(model => model.ReagentName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateEntered)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOpened)
@@ -46,14 +46,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
             </th>
-            @*<th>
-                Amount Remaining
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ExpiryDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnteredBy)
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </thead>
@@ -69,7 +66,7 @@
                     @Html.DisplayFor(modelItem => item.ReagentName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateEntered)
+                    @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateOpened)
@@ -80,14 +77,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.Amount)@Html.DisplayFor(modelItem => item.Unit.UnitShorthandName)
-                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.ExpiryDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EnteredBy)
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
             </tr>
         }
@@ -99,7 +93,7 @@
                 @Html.DisplayNameFor(model => model.ReagentName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateEntered)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOpened)
@@ -110,14 +104,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
             </th>
-            @*<th>
-                Amount Remaining
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ExpiryDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EnteredBy)
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </tfoot>

@@ -9,20 +9,18 @@ namespace TMNT.Models.ViewModels {
         public int ReagentId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [DataType(DataType.Date), Display(Name = "Date Entered")]
-        public DateTime DateEntered { get; set; }
+        [DataType(DataType.Date), Display(Name = "Date Created")]
+        public DateTime DateCreated { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
-        [Display(Name = "Entered By")]
-        public string EnteredBy { get; set; }
+        [Display(Name = "Created By")]
+        public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
-        public DateTime? LastModified { get; set; }
+        public DateTime? DateModified { get; set; }
         [Display(Name ="Last Modified By")]
         public string LastModifiedBy { get; set; }
-        //[Display(Name ="Low Amount Threshold")]
-        //public double LowAmountThreshHold { get; set; }
         [Display(Name = "Lot No.")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
@@ -45,8 +43,6 @@ namespace TMNT.Models.ViewModels {
         public string CatalogueCode { get; set; }
         [Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
-        //[Display(Name = "Amount Remaining")]
-        //public int Amount { get; set; }
         public string Grade { get; set; }
         [Display(Name = "Case Number")]
         public int CaseNumber { get; set; }
