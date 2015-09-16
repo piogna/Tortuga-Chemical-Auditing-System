@@ -1,0 +1,56 @@
+﻿@model TMNT.Models.MaxxamMadeReagent
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MaxxamMadeReagent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxxamMadeReagentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedBy)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

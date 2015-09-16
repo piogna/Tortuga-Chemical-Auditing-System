@@ -9,23 +9,14 @@ namespace TMNT.Models {
         }
         [Key]
         public int StockStandardId { get; set; }
-        [Required, Display(Name = "Lot No.")]
         public string LotNumber { get; set; }
-        [Required, Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Required, Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
-        public double LowAmountThreshHold { get; set; }
-        [Required, Display(Name = "Solvent Used")]
         public string SolventUsed { get; set; }
-        [Required, Display(Name = "Solvent Supplier")]
         public string SolventSupplierName { get; set; }
-        [Required]
         public double Purity { get; set; }
-        [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
-
-
+        
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }
     }

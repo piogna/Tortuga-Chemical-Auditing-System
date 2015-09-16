@@ -1,0 +1,74 @@
+﻿@model TMNT.Models.MaxxamMadeStandard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MaxxamMadeStandard</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxxamMadeStandardName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SolventUsed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SolventUsed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SolventSupplierName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SolventSupplierName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Purity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Purity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaxxamMadeStandardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

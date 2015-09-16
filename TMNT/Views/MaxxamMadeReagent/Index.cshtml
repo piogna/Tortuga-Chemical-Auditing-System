@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TMNT.Models.MaxxamMadeReagent>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModifiedBy)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LotNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxxamMadeReagentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastModifiedBy)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaxxamMadeReagentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaxxamMadeReagentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaxxamMadeReagentId })
+        </td>
+    </tr>
+}
+
+</table>

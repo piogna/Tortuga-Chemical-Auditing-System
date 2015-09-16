@@ -1,0 +1,50 @@
+﻿@model TMNT.Models.MaxxamMadeReagent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MaxxamMadeReagent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LotNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LotNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxxamMadeReagentName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModifiedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModifiedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaxxamMadeReagentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
