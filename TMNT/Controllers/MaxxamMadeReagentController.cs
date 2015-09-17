@@ -7,15 +7,66 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
+using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class MaxxamMadeReagentController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+
+        private IRepository<MaxxamMadeReagent> repo;
+
+        public MaxxamMadeReagentController() : this(new MaxxamMadeReagentRepository(DbContextSingleton.Instance)) { }
+
+        public MaxxamMadeReagentController(IRepository<MaxxamMadeReagent> repo) {
+            this.repo = repo;
+        }
 
         // GET: MaxxamMadeReagents
         [Route("InHouseReagent")]
         public ActionResult Index() {
-            return View(db.MaxxamMadeReagent.ToList());
+            var reagents = repo.Get();
+
+            List<MaxxamMadeReagentViewModel> list = new List<MaxxamMadeReagentViewModel>();
+
+            foreach (var item in reagents) {
+                list.Add(new MaxxamMadeReagentViewModel() {
+                    MaxxamMadeReagentId = item.MaxxamMadeReagentId,
+                    MaxxamId = item.MaxxamId,
+                    IdCode = item.IdCode,
+                    MaxxamMadeReagentName = item.MaxxamMadeReagentName,
+                    LastModifiedBy = item.LastModifiedBy
+                });
+            }
+
+            //iterating through the associated InventoryItem and retrieving the appropriate data
+            //this is faster than LINQ
+            int counter = 0;
+            foreach (var reagent in reagents) {
+                foreach (var invItem in reagent.InventoryItems) {
+                    if (reagent.MaxxamMadeReagentId == invItem.MaxxamMadeReagent.MaxxamMadeReagentId) {
+                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].UsedFor = invItem.UsedFor;
+                        list[counter].Unit = invItem.Unit;
+                        list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].Grade = invItem.Grade;
+                        list[counter].ExpiryDate = invItem.ExpiryDate;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
+                        list[counter].DateOpened = invItem.DateOpened;
+                        list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].SupplierName = invItem.SupplierName;
+                        list[counter].DateCreated = invItem.DateCreated;
+                        list[counter].CreatedBy = invItem.CreatedBy;
+                        list[counter].DateModified = invItem.DateModified;
+                    }
+                }
+                counter++;
+            }
+            return View(list);
         }
 
         // GET: MaxxamMadeReagents/Details/5

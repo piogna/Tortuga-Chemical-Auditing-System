@@ -45,6 +45,8 @@ namespace TMNT.Models {
         public virtual Unit Unit { get; set; }
         public virtual StockStandard StockStandard { get; set; }
         public virtual StockReagent StockReagent { get; set; }
+        public virtual MaxxamMadeReagent MaxxamMadeReagent { get; set; }
+        public virtual MaxxamMadeStandard MaxxamMadeStandard { get; set; }
         public virtual IntermediateStandard IntermediateStandard { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace TMNT.Models {
         }
         [Key]
         public int MaxxamMadeReagentId { get; set; }
-        public string LotNumber { get; set; }
+        public string MaxxamId { get; set; }
         public string IdCode { get; set; }
         public string MaxxamMadeReagentName { get; set; }
         public string LastModifiedBy { get; set; }
