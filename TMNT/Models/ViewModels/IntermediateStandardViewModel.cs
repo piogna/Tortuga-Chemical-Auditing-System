@@ -11,6 +11,12 @@ namespace TMNT.Models.ViewModels {
         public string ReplacedBy { get; set; }
         [Display(Name="ID Code")]
         public string IdCode { get; set; }
+        [Display(Name = "Final Concentration")]
+        public int FinalConcentration { get; set; }
+        [Display(Name = "Final Volume")]
+        public int FinalVolume { get; set; }
+        [Display(Name = "Maxxam Id")]
+        public string MaxxamId { get; set; }
 
         //foreign keys
         public virtual PrepList PrepList { get; set; }
@@ -24,6 +30,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //inventory poperties
+        [Display(Name = "Storage Req's")]
+        public string StorageRequirements { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]

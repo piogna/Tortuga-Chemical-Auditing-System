@@ -245,6 +245,33 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.MaxxamId, new { htmlAttributes = new { @placeholder = "Maxxam ID", @class = "input-summary form-control required-field" } })
+                                        @Html.ValidationMessageFor(model => model.MaxxamId)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field" } })
+                                        @Html.ValidationMessageFor(model => model.FinalConcentration)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field" } })
+                                        @Html.ValidationMessageFor(model => model.FinalVolume)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-6">
                             @*<div class="form-group">

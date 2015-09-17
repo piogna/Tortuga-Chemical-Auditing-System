@@ -89,12 +89,9 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.DateModified = invItem.DateModified;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
-                    //vIntermediateStandard.Unit = invItem.Unit;
-                    //vIntermediateStandard.Department = invItem.Department;
                     vIntermediateStandard.CatalogueCode = invItem.CatalogueCode;
                 }
             }
-
             return View(vIntermediateStandard);
         }
 
@@ -128,19 +125,19 @@ namespace TMNT.Controllers {
                         var add = new StockReagentRepository(DbContextSingleton.Instance)
                             .Get()
                             .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault<StockReagent>();
+                            .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type == "Standard") {
                         var add = new StockStandardRepository(DbContextSingleton.Instance)
                             .Get()
                             .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault<StockStandard>();
+                            .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type == "Intermediate Standard") {
                         var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
                             .Get()
                             .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault<IntermediateStandard>();
+                            .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }
                 }
@@ -152,12 +149,10 @@ namespace TMNT.Controllers {
                 if (item is StockReagent) {
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
-                        //StockReagentAmountTaken = double.Parse(amounts[counter])
                     });
                 } else if (item is StockStandard) {
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
-                        //StockStandardAmountTaken = double.Parse(amounts[counter])
                     });
                 }
                 counter++;
@@ -179,12 +174,13 @@ namespace TMNT.Controllers {
                 //building the intermediate standard
                 IntermediateStandard standard = new IntermediateStandard() {
                     TotalVolume = intermediatestandard.TotalAmount,
-                    //DateCreated = intermediatestandard.DateCreated,
+                    FinalConcentration = intermediatestandard.FinalConcentration,
+                    FinalVolume = intermediatestandard.FinalVolume,
+                    MaxxamId = intermediatestandard.MaxxamId,
                     IdCode = intermediatestandard.CatalogueCode,
                     PrepList = intermediatestandard.PrepList,
                     Replaces = string.IsNullOrEmpty(intermediatestandard.Replaces) ? "N/A" : intermediatestandard.Replaces,
                     ReplacedBy = string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? "N/A" : intermediatestandard.ReplacedBy
-                    //CreatedBy = intermediatestandard.CreatedBy
                 };
                 //creating the prep list and the intermediate standard
                 new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
@@ -214,11 +210,9 @@ namespace TMNT.Controllers {
 
             IntermediateStandardViewModel model = new IntermediateStandardViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
-                //DateCreated = intermediatestandard.DateCreated,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
-                IdCode = intermediatestandard.IdCode,
-                //Amount = intermediatestandard.Amount
+                IdCode = intermediatestandard.IdCode
             };
             
             return View(model);
