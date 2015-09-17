@@ -1,69 +1,116 @@
-﻿@model IEnumerable<TMNT.Models.MaxxamMadeStandard>
+﻿@model IEnumerable<TMNT.Models.ViewModels.MaxxamMadeStandardViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LotNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SolventUsed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SolventSupplierName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Purity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastModifiedBy)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LotNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxxamMadeStandardName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SolventUsed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SolventSupplierName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Purity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastModifiedBy)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaxxamMadeStandardId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaxxamMadeStandardId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaxxamMadeStandardId })
-        </td>
-    </tr>
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
 }
 
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Stock Standards
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards
+            </li>
+        </ol>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("New Standard", "Create", "Standard", null, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+<hr />
+
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOpened)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxxamId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MaxxamMadeStandardId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MaxxamMadeStandardId }) |
+                    <a href="#">Print Label</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxxamMadeStandardName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOpened)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxxamId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Action</th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOpened)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxxamId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+        </tr>
+    </tfoot>
 </table>
+@Scripts.Render("~/datatables")

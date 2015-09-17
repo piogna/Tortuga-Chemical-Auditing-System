@@ -7,15 +7,65 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
+using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
+    [Authorize]
     public class MaxxamMadeStandardController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        private IRepository<MaxxamMadeStandard> repoStandard;
+        public MaxxamMadeStandardController()
+            : this(new MaxxamMadeStandardRepository(DbContextSingleton.Instance)) {
+        }
+
+        public MaxxamMadeStandardController(IRepository<MaxxamMadeStandard> repoStandard) {
+            this.repoStandard = repoStandard;
+        }
 
         // GET: MaxxamMadeStandards
         [Route("InHouseStandard")]
         public ActionResult Index() {
-            return View(db.MaxxamMadeStandard.ToList());
+            var standards = repoStandard.Get();
+            List<MaxxamMadeStandardViewModel> list = new List<MaxxamMadeStandardViewModel>();
+
+            foreach (var item in standards) {
+                list.Add(new MaxxamMadeStandardViewModel() {
+                    MaxxamMadeStandardId = item.MaxxamMadeStandardId,
+                    MaxxamId = item.MaxxamId,
+                    MaxxamMadeStandardName = item.MaxxamMadeStandardName,
+                    IdCode = item.IdCode,
+                    LastModifiedBy = item.LastModifiedBy,
+                    Purity = item.Purity,
+                    SolventUsed = item.SolventUsed
+                });
+            }
+            //iterating through the associated InventoryItem and retrieving the appropriate data
+            //this is faster than LINQ
+            int counter = 0;
+            foreach (var standard in standards) {
+                foreach (var invItem in standard.InventoryItems) {
+                    if (standard.MaxxamMadeStandardId == invItem.MaxxamMadeStandard.MaxxamMadeStandardId) {
+                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        list[counter].UsedFor = invItem.UsedFor;
+                        list[counter].Unit = invItem.Unit;
+                        list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].ExpiryDate = invItem.ExpiryDate;
+                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
+                        list[counter].DateOpened = invItem.DateOpened;
+                        list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].SupplierName = invItem.SupplierName;
+                        list[counter].DateCreated = invItem.DateCreated;
+                        list[counter].CreatedBy = invItem.CreatedBy;
+                        list[counter].DateModified = invItem.DateModified;
+                    }
+                }
+                counter++;
+            }
+            return View(list);
         }
 
         // GET: MaxxamMadeStandards/Details/5

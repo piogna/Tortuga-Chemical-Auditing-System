@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace TMNT.Models {
     public class MaxxamMadeStandard {
@@ -11,7 +8,7 @@ namespace TMNT.Models {
         }
         [Key]
         public int MaxxamMadeStandardId { get; set; }
-        public string LotNumber { get; set; }
+        public string MaxxamId { get; set; }
         public string IdCode { get; set; }
         public string MaxxamMadeStandardName { get; set; }
         public string SolventUsed { get; set; }
