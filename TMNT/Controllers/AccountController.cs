@@ -95,8 +95,6 @@ namespace TMNT.Controllers {
                         // remove cookie by forcing it to expire immediately
                         Response.Cookies["Username"].Expires = DateTime.Now.AddDays(-1);
                     }
-
-                    Session["Department"] = UserManager.FindByName(model.UserName).Department;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -379,6 +377,7 @@ namespace TMNT.Controllers {
         //[ValidateAntiForgeryToken]
         [Route("Account/LogOff")]
         public ActionResult LogOff() {
+            Session.Abandon();
             AuthenticationManager.SignOut();
             return RedirectToAction("Login", "Account");
         }
