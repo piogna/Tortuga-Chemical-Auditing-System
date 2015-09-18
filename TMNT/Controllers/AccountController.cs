@@ -71,7 +71,18 @@ namespace TMNT.Controllers {
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
+            UserManager.MaxFailedAccessAttemptsBeforeLockout = 3;
+
+            var user = UserManager.FindByName(model.UserName);
+
+            if (user == null) {
+                ModelState.AddModelError("", "The username entered does not exist");
+                return View(model);
+            }
+
+            int count = await UserManager.GetAccessFailedCountAsync(user.Id);
+
             switch (result) {
                 case SignInStatus.Success:
                     //ViewBag.User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department;
@@ -90,8 +101,13 @@ namespace TMNT.Controllers {
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
+                    if (count == UserManager.MaxFailedAccessAttemptsBeforeLockout) {
+                        await UserManager.SetLockoutEnabledAsync(user.Id, true);
+                    }
+                    ModelState.AddModelError("", "Your username or password was incorrect");
+                    return View(model);
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Your username or password was incorrect");
                     return View(model);
             }
         }

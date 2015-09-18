@@ -59,8 +59,8 @@
                         <div class="input-group">
                             <span class="input-group-addon no-border-radius"><i class="fa fa-user fa-fw"></i></span>
                             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Enter Your Username", @Value = @ViewBag.Username })
-                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -68,8 +68,8 @@
                         <div class="input-group">
                             <span class="input-group-addon no-border-radius"><i class="fa fa-key fa-fw"></i></span>
                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Your Password" })
-                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "" })
                     </div>
                 </div>
                 <div class="form-group">

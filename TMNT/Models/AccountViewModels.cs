@@ -42,13 +42,14 @@ namespace TMNT.Models {
 
     public class LoginViewModel {
         [Required]
-        [MinLength(6)]
-        [Display(Name = "User Name")]
+        [MinLength(6, ErrorMessage = "{0} must be at least 6 characters long.")]
+        [Display(Name = "Username")]
         public string UserName { get; set; }
 
         [Required]
+        [MinLength(8, ErrorMessage = "Your {0} must be at least 8 characters long.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "password")]
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
