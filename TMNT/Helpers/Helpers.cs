@@ -6,11 +6,11 @@ using TMNT.Utils;
 
 namespace TMNT.Helpers {
     public class Helpers {
-        public static string GetDepartmentCode() {
+        public static Department GetUserDepartment() {
             ApplicationDbContext db = DbContextSingleton.Instance;
             UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = manager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            return (user.Department != null) ? user.Department.DepartmentCode : "No Department";
+            return user.Department != null ? user.Department : null;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace TMNT.Controllers {
 
             ViewBag.PendingVerificationCount = new DeviceRepository().Get().Where(item => !item.IsVerified).Count();
 
-            ViewBag.Department = Helpers.Helpers.GetDepartmentCode();
+            ViewBag.Department = Helpers.Helpers.GetUserDepartment().DepartmentCode;
 
             return View();
         }
