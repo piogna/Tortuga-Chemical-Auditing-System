@@ -152,7 +152,7 @@
         </div>
         <div class="text-right container">
             <h2>
-                Device Verification Report
+                Device Verification Report - Last 30 Days
             </h2>
         </div>
         @*<div id="navbar" class="navbar-collapse collapse">
@@ -386,9 +386,14 @@
                 $('.loading').hide();
             },
             success: onDataReceived,
-            error: function (xhr, status, error) {
-                alert(xhr.responseText);
-            }
+            error:
+                function (xhr, status, error) {
+                    //$('.loading').show()//.text("Error loading the report. Please try again shortly.")
+                    alert("There was an error while retrieving the report. Please try again shortly.")
+                }
+            //    function (xhr, status, error) {
+            //    alert(xhr.responseText);
+            //}
         });
 
         //promise - once data is laoded, load datatables
