@@ -11,35 +11,6 @@
     @Styles.Render("~/maxxam-forms")
 }
 
-@*<style>
-    .field-validation-error {
-        display: inline-block;
-        position: relative;
-        background: red;
-        color: #FFF;
-        text-decoration: none;
-        padding: 2px;
-        width:100%;
-        text-align:center;
-        border-radius:2px;
-        top: 10px;
-    }
-
-        .field-validation-error:after {
-            content: '';
-            /*display: block;*/
-            position: absolute;
-            left: 50%;
-            bottom: 100%;
-            width: 0;
-            height: 0;
-            border-bottom: 10px solid red;
-            border-top: 10px solid transparent;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-        }
-</style>*@
-
 @using (Html.BeginForm("Create", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
@@ -89,8 +60,8 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         @Html.EditorFor(model => model.ReagentName, new { htmlAttributes = new { @placeholder = "Reagent Name", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.ReagentName)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.ReagentName)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -98,15 +69,15 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @style = "resize:none;", @rows = 6, @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.UsedFor)
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field input-summary">
+                                        <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Choose Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
                                                 @foreach (var item in ViewBag.Storage) {
@@ -117,6 +88,7 @@
                                             </optgroup>
                                         </select>
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.StorageRequirements)
                                 </div>
                             </div>
                         </div>
@@ -126,8 +98,8 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.LotNumber)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.LotNumber)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -135,8 +107,8 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.CatalogueCode)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.CatalogueCode)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -203,8 +175,8 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier", @class = "input-summary form-control required-field" } })
-                                        @Html.ValidationMessageFor(model => model.SupplierName)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.SupplierName)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -212,8 +184,8 @@
                                     <div class="input-group">
                                         <div class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Grade)
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.Grade)
                                 </div>
                             </div>
                         </div>
@@ -260,6 +232,7 @@
                                     <div class="input-group-addon addon-required"></div>
                                     @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
                                 </div>
+                                @Html.ValidationMessageFor(model => model.MSDSNotes)
                             </div>
                         </div>
                         <div class="form-group row">
