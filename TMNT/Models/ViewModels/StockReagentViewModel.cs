@@ -7,7 +7,7 @@ namespace TMNT.Models.ViewModels {
 
         //reagent properties
         public int ReagentId { get; set; }
-        [Display(Name = "ID Code")]
+        [Required(ErrorMessage = "Id Code is Required"), Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
