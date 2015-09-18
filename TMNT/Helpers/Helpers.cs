@@ -5,7 +5,7 @@ using TMNT.Utils;
 
 
 namespace TMNT.Helpers {
-    public class Helpers {
+    public static class Helpers {
         public static Department GetUserDepartment() {
             ApplicationDbContext db = DbContextSingleton.Instance;
             UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));

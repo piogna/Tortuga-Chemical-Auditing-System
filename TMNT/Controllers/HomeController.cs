@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using TMNT.Models;
 using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
@@ -12,6 +13,8 @@ namespace TMNT.Controllers {
             var reagents = new StockReagentRepository().Get().ToList();
             var standards = new StockStandardRepository().Get().ToList();
 
+            Department userDepartment = Helpers.Helpers.GetUserDepartment();
+
             var expiringItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today));
             var expiredItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today);
 
@@ -20,7 +23,8 @@ namespace TMNT.Controllers {
 
             ViewBag.PendingVerificationCount = new DeviceRepository().Get().Where(item => !item.IsVerified).Count();
 
-            ViewBag.Department = Helpers.Helpers.GetUserDepartment().DepartmentCode;
+            ViewBag.Department = userDepartment.DepartmentCode;
+            ViewBag.LocationName = userDepartment.Location.LocationName;
 
             return View();
         }
