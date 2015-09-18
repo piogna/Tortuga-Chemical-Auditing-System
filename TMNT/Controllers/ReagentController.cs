@@ -59,6 +59,7 @@ namespace TMNT.Controllers {
                         list[counter].DateCreated = invItem.DateCreated;
                         list[counter].CreatedBy = invItem.CreatedBy;
                         list[counter].DateModified = invItem.DateModified;
+                        list[counter].DateCreated = invItem.DateCreated;
                         //list[counter].PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                     }
                 }
