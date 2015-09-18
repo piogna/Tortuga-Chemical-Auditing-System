@@ -131,9 +131,15 @@
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
                                                 @foreach (var item in ViewBag.VolumeDevices) {
-                                                    <option value="@item.DeviceCode">
-                                                        @item.DeviceCode
-                                                    </option>
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
                                                 }
                                                 <option value="VOL902-W">VOL902-W</option>
                                             </optgroup>

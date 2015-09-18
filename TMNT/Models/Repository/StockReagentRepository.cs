@@ -15,8 +15,7 @@ namespace TMNT.Models.Repository {
         }
 
         public IEnumerable<StockReagent> Get() {
-            var list = db.StockReagents.ToList();
-            return list;
+            return db.StockReagents.ToList();
         }
 
         public StockReagent Get(int? i) {

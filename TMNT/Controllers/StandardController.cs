@@ -151,9 +151,7 @@ namespace TMNT.Controllers {
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var user = User.Identity.GetUserId();
-
-
-
+            
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
