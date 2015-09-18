@@ -152,6 +152,8 @@ namespace TMNT.Controllers {
 
             var user = User.Identity.GetUserId();
 
+
+
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {

@@ -22,9 +22,15 @@
                 }
                 row += "</td></tr>";
             } else {
-                row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
-                    "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
+                if (inputs[i].attributes.getNamedItem('name').textContent === "MSDSNotes") {
+                    row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
+                    "<td>SDS Notes</td><td>" + inputs[i].value + "</td>" +
                     "</tr>";
+                } else {
+                    row += "<tr>" +//drilling into each element and retrieving the value of each "name" attribute
+                        "<td>" + inputs[i].attributes.getNamedItem('name').textContent.replace(/([A-Z])/g, ' $1').trim() + "</td><td>" + inputs[i].value + "</td>" +
+                        "</tr>";
+                }
             }
         }
         table.append(row);

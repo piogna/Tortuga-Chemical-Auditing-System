@@ -138,4 +138,11 @@ $(function () {
             }
         });
     });
+
+    $('.previous-section').on('click', function () {
+        tabs.eq(0).addClass('tab-current');
+        tabs.eq(1).removeClass('tab-current');
+        sectionTwo.removeClass("content-current");
+        sectionOne.addClass("content-current");
+    });
 });
