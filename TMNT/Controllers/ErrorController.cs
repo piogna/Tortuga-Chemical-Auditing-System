@@ -18,5 +18,11 @@ namespace TMNT.Controllers {
         public ActionResult UnderConstruction() {
             return View();
         }
+
+        [Route("Error/CustomError")]
+        public ActionResult CustomError()
+        {
+            return View();
+        }
     }
 }

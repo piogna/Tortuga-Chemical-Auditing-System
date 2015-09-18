@@ -507,6 +507,7 @@
     <Content Include="Views\MaxxamMadeStandard\Details.cshtml" />
     <Content Include="Views\MaxxamMadeStandard\Edit.cshtml" />
     <Content Include="Views\MaxxamMadeStandard\Index.cshtml" />
+    <Content Include="Views\Error\CustomError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
