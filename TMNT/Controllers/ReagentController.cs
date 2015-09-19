@@ -205,7 +205,7 @@ namespace TMNT.Controllers {
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
-                    Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
+                    Department = HelperMethods.GetUserDepartment(),
                     Grade = model.Grade,
                     ExpiryDate = DateTime.Today,
                     DateOpened = null,
@@ -280,14 +280,15 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate")] StockReagentViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
+                var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
 
-                InventoryItem invItem = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+                InventoryItem invItem = invRepo.Get()
                         .Where(item => item.StockReagent != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
                         .FirstOrDefault();
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
+                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)? System.Web.HttpContext.Current.User.Identity.Name : "USERID";
 
                 repo.Update(updateReagent);
 
@@ -322,8 +323,8 @@ namespace TMNT.Controllers {
 
                 invItem.DateModified = DateTime.Today;
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
-                new InventoryItemRepository(DbContextSingleton.Instance).Update(invItem);
-
+                invRepo.Update(invItem);
+                
                 return RedirectToAction("Index");
             }
             return View(stockreagent);

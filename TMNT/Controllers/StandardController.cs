@@ -9,6 +9,7 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
+using TMNT.Helpers;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -189,11 +190,10 @@ namespace TMNT.Controllers {
 
                 InventoryItem inventoryItem = new InventoryItem() {
                     CatalogueCode = model.CatalogueCode,
-                    Department = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department,
-                    
+                    Department = HelperMethods.GetUserDepartment(),
                     ExpiryDate = model.ExpiryDate,
                     UsedFor = model.UsedFor,
-                    CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
+                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                     Type = "Standard",
@@ -269,7 +269,7 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                updateStandard.LastModifiedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? "USERID" : System.Web.HttpContext.Current.User.Identity.Name;
+                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID";
 
                 new StockStandardRepository().Update(updateStandard);
 
