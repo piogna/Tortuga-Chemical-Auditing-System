@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
@@ -163,9 +164,7 @@ namespace TMNT.Controllers {
             };
 
             intermediatestandard.PrepList = prepList;
-            intermediatestandard.CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
-                                ? "USERID"
-                                : System.Web.HttpContext.Current.User.Identity.Name;
+            intermediatestandard.CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
             if (ModelState.IsValid) {
@@ -179,8 +178,8 @@ namespace TMNT.Controllers {
                     MaxxamId = intermediatestandard.MaxxamId,
                     IdCode = intermediatestandard.CatalogueCode,
                     PrepList = intermediatestandard.PrepList,
-                    Replaces = string.IsNullOrEmpty(intermediatestandard.Replaces) ? "N/A" : intermediatestandard.Replaces,
-                    ReplacedBy = string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? "N/A" : intermediatestandard.ReplacedBy
+                    Replaces = !string.IsNullOrEmpty(intermediatestandard.Replaces) ? intermediatestandard.Replaces : "N/A",
+                    ReplacedBy = !string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? intermediatestandard.ReplacedBy : "N/A"
                 };
                 //creating the prep list and the intermediate standard
                 new PrepListRepository(DbContextSingleton.Instance).Create(prepList);

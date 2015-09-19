@@ -213,7 +213,7 @@ namespace TMNT.Controllers {
                     DateCreated = DateTime.Today,
                     UsedFor = model.UsedFor,
                     CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)
-                                ? System.Web.HttpContext.Current.User.Identity.Name
+                                ? HelperMethods.GetCurrentUser().UserName
                                 : "USERID",
                     Type = "Reagent",
                     StorageRequirements = model.StorageRequirements,
@@ -288,7 +288,7 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)? System.Web.HttpContext.Current.User.Identity.Name : "USERID";
+                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)? HelperMethods.GetCurrentUser().UserName : "USERID";
 
                 repo.Update(updateReagent);
 

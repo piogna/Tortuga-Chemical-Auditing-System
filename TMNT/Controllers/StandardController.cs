@@ -193,7 +193,7 @@ namespace TMNT.Controllers {
                     Department = HelperMethods.GetUserDepartment(),
                     ExpiryDate = model.ExpiryDate,
                     UsedFor = model.UsedFor,
-                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
+                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
                     Type = "Standard",
@@ -269,7 +269,7 @@ namespace TMNT.Controllers {
 
                 StockStandard updateStandard = invItem.StockStandard;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID";
+                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
                 new StockStandardRepository().Update(updateStandard);
 
