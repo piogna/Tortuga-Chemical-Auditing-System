@@ -196,7 +196,7 @@ namespace TMNT.Controllers {
                     CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name) ? System.Web.HttpContext.Current.User.Identity.Name : "USERID",
                     DateCreated = DateTime.Today,
                     DateModified = DateTime.Today,
-                    Type = standard.GetType().Name,
+                    Type = "Standard",
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
                 };

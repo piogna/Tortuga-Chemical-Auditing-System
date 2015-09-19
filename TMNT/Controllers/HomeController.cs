@@ -13,7 +13,7 @@ namespace TMNT.Controllers {
             var reagents = new StockReagentRepository().Get().ToList();
             var standards = new StockStandardRepository().Get().ToList();
 
-            Department userDepartment = Helpers.Helpers.GetUserDepartment();
+            Department userDepartment = Helpers.HelperMethods.GetUserDepartment();
 
             var expiringItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment);
             var expiredItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment);

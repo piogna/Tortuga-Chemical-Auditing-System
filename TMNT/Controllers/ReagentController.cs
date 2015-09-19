@@ -4,12 +4,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using System.Collections.Generic;
 using TMNT.Utils;
+using TMNT.Helpers;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -212,10 +212,10 @@ namespace TMNT.Controllers {
                     DateModified = null,
                     DateCreated = DateTime.Today,
                     UsedFor = model.UsedFor,
-                    CreatedBy = string.IsNullOrEmpty(System.Web.HttpContext.Current.User.Identity.Name)
-                                ? "USERID"
-                                : System.Web.HttpContext.Current.User.Identity.Name,
-                    Type = reagent.GetType().Name,
+                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)
+                                ? System.Web.HttpContext.Current.User.Identity.Name
+                                : "USERID",
+                    Type = "Reagent",
                     StorageRequirements = model.StorageRequirements,
                     SupplierName = model.SupplierName
                 };

@@ -197,7 +197,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Helpers.cs" />
+    <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs" />
     <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.Designer.cs">
       <DependentUpon>201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs</DependentUpon>
