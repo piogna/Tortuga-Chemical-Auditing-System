@@ -15,13 +15,15 @@ namespace TMNT.Controllers {
 
             Department userDepartment = Helpers.Helpers.GetUserDepartment();
 
-            var expiringItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today));
-            var expiredItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today);
+            var expiringItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment);
+            var expiredItems = new InventoryItemRepository().Get().Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment);
+            var cofas = new InventoryItemRepository().Get().Select(item => item.CertificatesOfAnalysis).ToList();
 
             ViewBag.ExpiringItems = expiringItems.Count();
             ViewBag.ExpiredItems = expiredItems;
+            ViewBag.Certificates = cofas.Count;
 
-            ViewBag.PendingVerificationCount = new DeviceRepository().Get().Where(item => !item.IsVerified).Count();
+            ViewBag.PendingVerificationCount = new DeviceRepository().Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count();
 
             ViewBag.Department = userDepartment.DepartmentCode;
             ViewBag.LocationName = userDepartment.Location.LocationName;
