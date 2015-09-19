@@ -8,6 +8,7 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using Microsoft.AspNet.Identity;
+using TMNT.Helpers;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -25,7 +26,7 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("Balances")]
         public ActionResult Index() {
-            var balances = repo.Get().Where(item => item.DeviceType == "Balance");
+            var balances = repo.Get().Where(item => item.DeviceType == "Balance" && item.Department == HelperMethods.GetUserDepartment());
             var viewModels = new List<BalanceViewModel>();
 
             foreach (var item in balances) {

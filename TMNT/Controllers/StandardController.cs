@@ -150,8 +150,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
                     StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-
-            var user = User.Identity.GetUserId();
             
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {

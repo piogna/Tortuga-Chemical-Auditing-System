@@ -167,8 +167,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
-            var user = User.Identity.GetUserId();
-
             var errors = ModelState.Where(item => item.Value.Errors.Any());
 
             if (ModelState.IsValid) {

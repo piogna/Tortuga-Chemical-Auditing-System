@@ -11,26 +11,24 @@ namespace TMNT.Models {
 
         [Key]
         public int InventoryItemId { get; set; }
-        //[Required]
         public string CatalogueCode { get; set; }
         public double LowAmountThreshHold { get; set; }
         public string Grade { get; set; }
-        //[Required]
         public string UsedFor { get; set; }
         public string Type { get; set; }
         public string SupplierName { get; set; }
-        //[Required]
         public string CreatedBy { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
-        [DataType(DataType.Date)]//[Required]
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
-        [DataType(DataType.Date)]//[Required]
+        [DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
-        [DataType(DataType.Date)]//[Required]
+        [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
-        //[Required]
         public string StorageRequirements { get; set; }
+        public string DevicesUsed { get; set; }
+
 
         public virtual ICollection<Location> Locations { get; set; }
 

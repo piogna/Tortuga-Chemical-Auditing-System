@@ -55,7 +55,7 @@ namespace TMNT.Controllers {
                 }
                 counter++;
             }
-            
+
             return View(list);
         }
 
@@ -110,66 +110,73 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,DateCreated,InventoryItemName,TotalVolume,UsedFor,CatalogueCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
-            //retrieving all rows from recipe builder - replace with view model in the future
-            List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
-            List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
-            List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("No Chemical Type Selected")).ToList();
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate")] IntermediateStandardViewModel intermediatestandard, string submit) {
+            var errors = ModelState.Where(item => item.Value.Errors.Any());
+            if (ModelState.IsValid) {            
+                //retrieving all rows from recipe builder - replace with view model in the future
+                List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
+                List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
+                List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("No Chemical Type Selected")).ToList();
 
-            List<object> reagentAndStandardContainer = new List<object>();
-            List<PrepListItem> prepItems = new List<PrepListItem>();
+                List<object> reagentAndStandardContainer = new List<object>();
+                List<PrepListItem> prepItems = new List<PrepListItem>();
 
-            //go through all types and sort out what they are, instantiate, and build list of objects
-            foreach (var idcode in idcodes) {
-                foreach (var type in types) {
-                    if (type == "Reagent") {
-                        var add = new StockReagentRepository(DbContextSingleton.Instance)
-                            .Get()
-                            .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault();
-                        if (add != null) { reagentAndStandardContainer.Add(add); break; }
-                    } else if (type == "Standard") {
-                        var add = new StockStandardRepository(DbContextSingleton.Instance)
-                            .Get()
-                            .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault();
-                        if (add != null) { reagentAndStandardContainer.Add(add); break; }
-                    } else if (type == "Intermediate Standard") {
-                        var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
-                            .Get()
-                            .Where(x => x.IdCode == idcode)
-                            .FirstOrDefault();
-                        if (add != null) { reagentAndStandardContainer.Add(add); break; }
+                //go through all types and sort out what they are, instantiate, and build list of objects
+                foreach (var idcode in idcodes) {
+                    foreach (var type in types) {
+                        if (type == "Reagent") {
+                            var add = new StockReagentRepository(DbContextSingleton.Instance)
+                                .Get()
+                                .Where(x => x.IdCode == idcode)
+                                .FirstOrDefault();
+                            if (add != null) { reagentAndStandardContainer.Add(add); break; }
+                        } else if (type == "Standard") {
+                            var add = new StockStandardRepository(DbContextSingleton.Instance)
+                                .Get()
+                                .Where(x => x.IdCode == idcode)
+                                .FirstOrDefault();
+                            if (add != null) { reagentAndStandardContainer.Add(add); break; }
+                        } else if (type == "Intermediate Standard") {
+                            var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
+                                .Get()
+                                .Where(x => x.IdCode == idcode)
+                                .FirstOrDefault();
+                            if (add != null) { reagentAndStandardContainer.Add(add); break; }
+                        }
                     }
                 }
-            }
 
-            //building the prep list with the desired prep list items
-            int counter = 0;
-            foreach (var item in reagentAndStandardContainer) {
-                if (item is StockReagent) {
-                    prepItems.Add(new PrepListItem() {
-                        StockReagent = item as StockReagent,
-                    });
-                } else if (item is StockStandard) {
-                    prepItems.Add(new PrepListItem() {
-                        StockStandard = item as StockStandard,
-                    });
+                //building the prep list with the desired prep list items
+                int counter = 0;
+                foreach (var item in reagentAndStandardContainer) {
+                    if (item is StockReagent) {
+                        prepItems.Add(new PrepListItem() {
+                            StockReagent = item as StockReagent,
+                            Amount = Convert.ToInt32(amounts[counter])
+                        });
+                    } else if (item is StockStandard) {
+                        prepItems.Add(new PrepListItem() {
+                            StockStandard = item as StockStandard,
+                            Amount = Convert.ToInt32(amounts[counter])
+                        });
+                    } else if (item is IntermediateStandard) {
+                        prepItems.Add(new PrepListItem() {
+                            IntermediateStandard = item as IntermediateStandard,
+                            Amount = Convert.ToInt32(amounts[counter])
+                        });
+                    }
+                    counter++;
                 }
-                counter++;
-            }
 
-            PrepList prepList = new PrepList() {
-                PrepListItems = prepItems
-            };
+                PrepList prepList = new PrepList() {
+                    PrepListItems = prepItems
+                };
 
-            intermediatestandard.PrepList = prepList;
-            intermediatestandard.CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
+                intermediatestandard.PrepList = prepList;
+                //intermediatestandard.CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
-            var errors = ModelState.Where(item => item.Value.Errors.Any());
-            if (ModelState.IsValid) {
                 //update amounts of reagents, standards, or intermediate standards in the database
-                if (reagentAndStandardContainer != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics(reagentAndStandardContainer, amounts); }
+                //if (reagentAndStandardContainer != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics(reagentAndStandardContainer, amounts); }
                 //building the intermediate standard
                 IntermediateStandard standard = new IntermediateStandard() {
                     TotalVolume = intermediatestandard.TotalAmount,
@@ -181,8 +188,20 @@ namespace TMNT.Controllers {
                     Replaces = !string.IsNullOrEmpty(intermediatestandard.Replaces) ? intermediatestandard.Replaces : "N/A",
                     ReplacedBy = !string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? intermediatestandard.ReplacedBy : "N/A"
                 };
+
+                InventoryItem inventoryItem = new InventoryItem() {
+                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
+                    DateCreated = DateTime.Today,
+                    Department = HelperMethods.GetUserDepartment(),
+                    Type = "Intermediate Standard",
+                    StorageRequirements = intermediatestandard.StorageRequirements,
+                    UsedFor = intermediatestandard.UsedFor,
+                    ExpiryDate = intermediatestandard.ExpiryDate
+                };
+
                 //creating the prep list and the intermediate standard
                 new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
+                new InventoryItemRepository(DbContextSingleton.Instance).Create(inventoryItem);
                 repo.Create(standard);
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
@@ -213,7 +232,7 @@ namespace TMNT.Controllers {
                 ReplacedBy = intermediatestandard.ReplacedBy,
                 IdCode = intermediatestandard.IdCode
             };
-            
+
             return View(model);
         }
 

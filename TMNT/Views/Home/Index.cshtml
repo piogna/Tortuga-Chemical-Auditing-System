@@ -153,7 +153,7 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-8" style="height:615px;">
+    <div class="col-lg-8" style="min-height:615px;">
         <div class="panel panel-primary match-parent-height">
             <div class="panel-heading">
                 <h3 class="panel-title">Expired Stock in @ViewBag.Department</h3>
@@ -164,9 +164,10 @@
                         <thead>
                             <tr>
                                 <th>Item Type</th>
-                                <th>Lot Number</th>
+                                <th>Created By</th>
                                 <th>Supplier</th>
                                 <th>Date Expired</th>
+                                <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -184,15 +185,25 @@
                                     <td>
                                         @item.ExpiryDate.ToString().Split(' ')[0]
                                     </td>
+                                    <td>
+                                        <a href="#">
+                                            <div class="">
+                                                <span class="pull-left">View Details</span>
+                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>Item Type</th>
-                                <th>Lot Number</th>
+                                <th>Created By</th>
                                 <th>Supplier</th>
                                 <th>Date Expired</th>
+                                <th>Details</th>
                             </tr>
                         </tfoot>
                     </table>

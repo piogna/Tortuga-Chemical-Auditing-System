@@ -34,16 +34,13 @@ namespace TMNT.Models.ViewModels {
         public string StorageRequirements { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
-        [Required, DataType(DataType.Date), Display(Name = "Expiry Date")]
+        [DataType(DataType.Date), Display(Name = "Expiry Date")]
         public DateTime ExpiryDate { get; set; }
-        [Required, Display(Name = "Catalogue Code")]
+        [Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
-        [Required, Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
         [Required]
         public int TotalAmount { get; set; }
-        [Required]
-        public int Grade { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         public Unit Unit { get; set; }
@@ -51,9 +48,9 @@ namespace TMNT.Models.ViewModels {
         public MSDS MSDS { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        [Required, DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
         public DateTime? DateModified { get; set; }
     }
 }
