@@ -189,7 +189,17 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })
+                                        @*@Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @class = "input-summary form-control" } })*@
+                                        <select id="storage-locations" name="Grade" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Choose Grade..</option>
+                                            <optgroup label="Grades'">
+                                                @foreach (var item in ViewBag.Grades) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Grade)
                                 </div>

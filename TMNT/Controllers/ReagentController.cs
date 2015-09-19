@@ -141,21 +141,13 @@ namespace TMNT.Controllers {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
 
-            var volumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
-            var weightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+            ViewBag.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+            ViewBag.VolumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            ViewBag.Grades = new List<string>() { "A.C.S.", "Reagent", "U.S.P.", "N.F.", "Lab", "Purified", "Technical" };
+            ViewBag.Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
 
-            var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
-            var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
-
-            var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
-
-            ViewBag.WeightUnits = weightUnits;
-            ViewBag.VolumeUnits = volumeUnits;
-
-            ViewBag.Storage = storageRequirements;
-
-            ViewBag.BalanceDevices = balanceDevices;
-            ViewBag.VolumeDevices = volumeDevices;
+            ViewBag.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList(); ;
+            ViewBag.VolumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
             return View();
         }
 
