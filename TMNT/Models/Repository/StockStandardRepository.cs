@@ -39,7 +39,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Dispose() {
-            db.Dispose();
+            
         }
     }
 }

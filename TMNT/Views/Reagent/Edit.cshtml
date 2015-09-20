@@ -26,53 +26,103 @@
     @Html.ActionLink("View " + Model.IdCode + " Details", "Details", new { id = Model.ReagentId }, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
+<hr />
+
+<div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Information</h4>
+</div>
+
 @using (Html.BeginForm("Edit", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ReagentId)
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.ReagentId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LotNumber, new { @class = "control-label col-md-3" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @class = "input-summary form-control no-border-radius" } })
+    <div class="container">
+        <div class="col-md-5">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.IdCode, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.IdCode)
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.LotNumber, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
                 @Html.ValidationMessageFor(model => model.LotNumber)
             </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-3">Current CofA</label>
-            <div class="col-md-4">
-                @Html.ActionLink(Model.ReagentName + " - " + Model.CertificateOfAnalysis.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.SupplierName, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.SupplierName)
             </div>
         </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-3">Upload New CofA</label>
-            <div class="col-md-4">
-                <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default no-border-radius" accept=".pdf" />
+        <div class="col-md-5">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.ReagentName, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-lg" })
+                    @Html.EditorFor(model => model.ReagentName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ReagentName)
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-lg" })
+                    @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.Grade)
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-lg">Grade Notes</label>
+                    @Html.EditorFor(model => model.GradeAdditionalNotes, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.GradeAdditionalNotes)
             </div>
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-3">Current SDS</label>
-            <div class="col-md-4">
-                @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+    <div class="col-md-12" style="background-color: lightgrey;">
+        <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Certificate of Analysis and SDS</h4>
+    </div>
+
+    <div class="container">
+        <div class="col-md-5">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label class="control-label input-group-addon input-group-addon-md">Current CofA</label>
+                    @Html.ActionLink(Model.ReagentName + " - " + Model.CertificateOfAnalysis.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label class="control-label input-group-addon input-group-addon-lg">Upload New CofA</label>
+                    <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default no-border-radius" accept=".pdf" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label class="control-label input-group-addon input-group-addon-lg">Upload New SDS</label>
+                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label class="control-label col-md-3">Upload New SDS</label>
-            <div class="col-md-4">
-                <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-3 col-md-4">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-md">Current SDS</label>
+                    @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius" })
+                </div>
             </div>
         </div>
     </div>

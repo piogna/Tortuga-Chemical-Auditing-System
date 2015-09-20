@@ -67,3 +67,9 @@ textarea {
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
     }
+
+.section-headers {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #00000f;
+}
