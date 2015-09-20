@@ -23,6 +23,8 @@ input[type=text] {
     border-radius:0;
 }
 
+
+
 .input-group-addon-sm {
     width:15%;
 }
@@ -33,6 +35,10 @@ input[type=text] {
 
 .input-group-addon-lg {
     width:30%;
+}
+
+.input-half-width {
+    width:50% !important;
 }
 
 .next-section {

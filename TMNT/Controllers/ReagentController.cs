@@ -157,7 +157,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
 
@@ -197,6 +197,7 @@ namespace TMNT.Controllers {
                     CatalogueCode = model.CatalogueCode,
                     Department = HelperMethods.GetUserDepartment(),
                     Grade = model.Grade,
+                    GradeAdditionalNotes = model.GradeAdditionalNotes,
                     ExpiryDate = DateTime.Today,
                     DateOpened = null,
                     DateModified = null,

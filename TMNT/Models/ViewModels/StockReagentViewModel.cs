@@ -42,13 +42,15 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
         public string Grade { get; set; }
+        [Display(Name = "Grade Additional Notes")]
+        public string GradeAdditionalNotes { get; set; }
         //[Display(Name = "Case Number")]
         //public int CaseNumber { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name="Certificate of Analysis")]
+        [Display(Name="Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS")]
+        [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }

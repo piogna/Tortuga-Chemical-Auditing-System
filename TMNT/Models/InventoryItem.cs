@@ -14,6 +14,7 @@ namespace TMNT.Models {
         public string CatalogueCode { get; set; }
         public double LowAmountThreshHold { get; set; }
         public string Grade { get; set; }
+        public string GradeAdditionalNotes { get; set; }
         public string UsedFor { get; set; }
         public string Type { get; set; }
         public string SupplierName { get; set; }
