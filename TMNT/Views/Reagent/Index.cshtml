@@ -26,8 +26,7 @@
 </p>
 
 <hr />
-
-<table id="myTable" class="table table-bordered table-striped">
+<table id="myTable" class="table table-bordered table-striped table-index">
     <thead>
         <tr>
             <th>Action</th>
@@ -35,13 +34,13 @@
                 @Html.DisplayNameFor(model => model.ReagentName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.LotNumber)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOpened)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
@@ -66,13 +65,13 @@
                     @Html.DisplayFor(modelItem => item.ReagentName)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.LotNumber)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateOpened)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
@@ -96,10 +95,10 @@
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateOpened)
+                @Html.DisplayNameFor(model => model.LotNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LotNumber)
+                @Html.DisplayNameFor(model => model.DateOpened)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)

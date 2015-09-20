@@ -40,7 +40,7 @@ namespace TMNT.Controllers {
             foreach (var standard in intermediatestandards) {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
-                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                        //list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
                         list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;

@@ -27,21 +27,30 @@
 
 <hr />
 
-<table id="myTable" class="table table-bordered table-striped">
+<table id="myTable" class="table table-bordered table-striped table-index">
     <thead>
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCode)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                @Html.DisplayNameFor(model => model.MaxxamId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Replaces)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </thead>
@@ -50,19 +59,29 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.IntermediateStandardId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdCode)
+                    @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId }) |
+                    <a href="#">Print Label</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaxxamId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Replaces)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReplacedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiryDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
             </tr>
         }
@@ -71,16 +90,25 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.IdCode)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                @Html.DisplayNameFor(model => model.MaxxamId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Replaces)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReplacedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </tfoot>
