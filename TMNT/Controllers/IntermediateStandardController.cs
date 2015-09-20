@@ -31,7 +31,8 @@ namespace TMNT.Controllers {
             foreach (var item in intermediatestandards) {
                 list.Add(new IntermediateStandardViewModel() {
                     IntermediateStandardId = item.IntermediateStandardId,
-                    IdCode = item.IdCode
+                    IdCode = item.IdCode,
+                    MaxxamId = item.MaxxamId
                 });
             }
             //iterating through the associated InventoryItem and retrieving the appropriate data
@@ -43,7 +44,6 @@ namespace TMNT.Controllers {
                         //list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
                         list[counter].Unit = invItem.Unit;
-                        list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
                         list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
@@ -90,7 +90,6 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.DateModified = invItem.DateModified;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
-                    vIntermediateStandard.CatalogueCode = invItem.CatalogueCode;
                 }
             }
             return View(vIntermediateStandard);
@@ -110,7 +109,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate")] IntermediateStandardViewModel intermediatestandard, string submit) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
             var errors = ModelState.Where(item => item.Value.Errors.Any());
             if (ModelState.IsValid) {            
                 //retrieving all rows from recipe builder - replace with view model in the future
@@ -183,7 +182,7 @@ namespace TMNT.Controllers {
                     FinalConcentration = intermediatestandard.FinalConcentration,
                     FinalVolume = intermediatestandard.FinalVolume,
                     MaxxamId = intermediatestandard.MaxxamId,
-                    IdCode = intermediatestandard.CatalogueCode,
+                    IdCode = intermediatestandard.IdCode,
                     PrepList = intermediatestandard.PrepList,
                     Replaces = !string.IsNullOrEmpty(intermediatestandard.Replaces) ? intermediatestandard.Replaces : "N/A",
                     ReplacedBy = !string.IsNullOrEmpty(intermediatestandard.ReplacedBy) ? intermediatestandard.ReplacedBy : "N/A"

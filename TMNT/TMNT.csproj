@@ -341,7 +341,6 @@
     <Content Include="Content\Images\stroke7pixeden.svg" />
     <Content Include="Content\Images\underConstruction.jpg" />
     <Content Include="Content\maxxam-forms.css" />
-    <Content Include="Content\maxxam-media-query-styling.css" />
     <Content Include="Content\metisMenu.css" />
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="Content\sb-admin.css" />

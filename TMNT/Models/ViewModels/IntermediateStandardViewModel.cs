@@ -36,8 +36,6 @@ namespace TMNT.Models.ViewModels {
         public DateTime? DateOpened { get; set; }
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
         public DateTime ExpiryDate { get; set; }
-        [Display(Name = "Catalogue Code")]
-        public string CatalogueCode { get; set; }
         public string InventoryItemName { get; set; }
         [Required]
         public int TotalAmount { get; set; }
