@@ -180,6 +180,26 @@
 </div>
 
 <div class="col-md-12" style="background-color: lightgrey;">
+    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">History of Devices Used</h4>
+</div>
+
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DevicesUsed)
+            </dt>
+
+            @foreach (var item in Model.DevicesUsed) {
+                <dd>
+                    @item.DeviceCode @Html.ActionLink(@item.DeviceCode + " Details", "Details", "Balance", new { id = @item.DeviceId }, null)
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<div class="col-md-12" style="background-color: lightgrey;">
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Certificates of Analysis for @Model.IdCode</h4>
 </div>
 

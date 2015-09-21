@@ -97,7 +97,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
-                                            <option value="">Choose Storage Requirement..</option>
+                                            <option value="">Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
                                                 @foreach (var item in ViewBag.Storage) {
                                                     <option value="@item">
@@ -149,11 +149,16 @@
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
                                                 @foreach (var item in ViewBag.VolumeDevices) {
-                                                    <option value="@item.DeviceCode">
-                                                        @item.DeviceCode
-                                                    </option>
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
                                                 }
-                                                <option value="VOL902-W">VOL902-W</option>
                                             </optgroup>
                                         </select>
                                     </div>

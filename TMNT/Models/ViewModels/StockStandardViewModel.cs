@@ -38,6 +38,7 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //inventory properties
+        public List<Device> DevicesUsed { get; set; }
         [Required(ErrorMessage = "Storage Requirements is Required"), Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
@@ -46,11 +47,11 @@ namespace TMNT.Models.ViewModels {
         public string CatalogueCode { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS")]
+        [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Certificate of Analysis")]
+        [Display(Name = "Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }
