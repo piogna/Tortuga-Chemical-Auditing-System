@@ -19,6 +19,12 @@ namespace TMNT.Controllers {
             return View();
         }
 
+        [Route("Error/Forbidden")]
+        public ActionResult Forbidden()
+        {
+            return View();
+        }
+
         [Route("Error/CustomError")]
         public ActionResult CustomError()
         {

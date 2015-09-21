@@ -87,6 +87,11 @@ namespace TMNT {
                 action = "Forbidden";
                 statusCode = 403;
             }
+            else
+            {
+                action = "CustomError";
+                statusCode = 403;
+            }
 
             httpContext.ClearError();
             httpContext.Response.Clear();
@@ -95,7 +100,7 @@ namespace TMNT {
             routeData.Values["controller"] = "Error";
             routeData.Values["action"] = action;
 
-            controller.ViewData.Model = new HandleErrorInfo(ex, currentController, currentAction);
+            //controller.ViewData.Model = new HandleErrorInfo(ex, currentController, currentAction);
             ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
 
         }

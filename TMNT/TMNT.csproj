@@ -180,6 +180,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CofAController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IntermediateStandardController.cs" />
     <Compile Include="Controllers\InventoryItemController.cs" />
@@ -517,6 +518,8 @@
     <Content Include="Views\MaxxamMadeStandard\Edit.cshtml" />
     <Content Include="Views\MaxxamMadeStandard\Index.cshtml" />
     <Content Include="Views\Error\CustomError.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Exception\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -570,6 +573,7 @@
       <DependentUpon>201509200126572_GradeAdditionalNotes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
