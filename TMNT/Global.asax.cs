@@ -18,91 +18,37 @@ namespace TMNT {
         }
 
         protected void Application_Error(object sender, EventArgs e) {
-            System.Diagnostics.Trace.WriteLine("Enter - Application_Error");
+            var exception = Server.GetLastError();
+            Server.ClearError();
+            var httpException = exception as HttpException;
 
-            var httpContext = ((MvcApplication)sender).Context;
+            //Logging goes here
 
-            var currentRouteData = RouteTable.Routes.GetRouteData(new HttpContextWrapper(httpContext));
-            var currentController = " ";
-            var currentAction = " ";
-
-            if (currentRouteData != null) {
-                if (currentRouteData.Values["controller"] != null &&
-                    !string.IsNullOrEmpty(currentRouteData.Values["controller"].ToString())) {
-                    currentController = currentRouteData.Values["controller"].ToString();
-                }
-
-                if (currentRouteData.Values["action"] != null &&
-                    !string.IsNullOrEmpty(currentRouteData.Values["action"].ToString())) {
-                    currentAction = currentRouteData.Values["action"].ToString();
-                }
-            }
-
-            var ex = Server.GetLastError();
-
-            if (ex != null) {
-                System.Diagnostics.Trace.WriteLine(ex.Message);
-
-                if (ex.InnerException != null) {
-                    System.Diagnostics.Trace.WriteLine(ex.InnerException);
-                    System.Diagnostics.Trace.WriteLine(ex.InnerException.Message);
-                }
-            }
-
-            var controller = new ErrorController();
             var routeData = new RouteData();
-            var action = "CustomError";
-            var statusCode = 500;
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Error";
 
-            if (ex is HttpException) {
-                var httpEx = ex as HttpException;
-                statusCode = httpEx.GetHttpCode();
-
-                switch (httpEx.GetHttpCode()) {
-                    case 400:
-                        action = "BadRequest";
-                        break;
-
-                    case 401:
-                        action = "Unauthorized";
-                        break;
-
-                    case 403:
-                        action = "Forbidden";
-                        break;
-
-                    case 404:
-                        action = "NotFound";
-                        break;
-
-                    case 500:
-                        action = "CustomError";
-                        break;
-
-                    default:
-                        action = "CustomError";
-                        break;
+            if (httpException != null)
+            {
+                if (httpException.GetHttpCode() == 404)
+                {
+                    routeData.Values["action"] = "NotFound";
                 }
-            } else if (ex is AuthenticationException) {
-                action = "Forbidden";
-                statusCode = 403;
+                Response.StatusCode = httpException.GetHttpCode();
             }
             else
             {
-                action = "CustomError";
-                statusCode = 403;
+                Response.StatusCode = 500;
             }
 
-            httpContext.ClearError();
-            httpContext.Response.Clear();
-            httpContext.Response.StatusCode = statusCode;
-            httpContext.Response.TrySkipIisCustomErrors = true;
-            routeData.Values["controller"] = "Error";
-            routeData.Values["action"] = action;
+            // Avoid IIS7 getting involved
+            Response.TrySkipIisCustomErrors = true;
 
-            //controller.ViewData.Model = new HandleErrorInfo(ex, currentController, currentAction);
-            ((IController)controller).Execute(new RequestContext(new HttpContextWrapper(httpContext), routeData));
-
+            // Execute the error controller
+            IController errorsController = new ErrorController();
+            HttpContextWrapper wrapper = new HttpContextWrapper(Context);
+            var rc = new RequestContext(wrapper, routeData);
+            errorsController.Execute(rc);
         }
     }
 }
