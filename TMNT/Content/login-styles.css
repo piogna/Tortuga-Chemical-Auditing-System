@@ -1,0 +1,55 @@
+﻿input[type=submit] {
+    border-radius: 0;
+}
+
+.navbar {
+    display: none;
+}
+
+#wrapper {
+    padding: 0;
+    margin-top: 0;
+}
+
+#page-wrapper {
+    background-color: transparent;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.form-control {
+    border-radius: 0 !important;
+}
+
+.footer {
+    display: none;
+}
+
+.no-border-radius {
+    border-radius: 0;
+}
+
+@media (min-width:993px) {
+    body {
+        overflow-x: hidden;
+        background-image: url(../Content/Images/chemistry-woman.jpg);
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-color: #000000;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    input[type=submit] {
+        width: 35%;
+    }
+}
+
+@media (max-width: 993px) {
+    input[type=submit] {
+        width:100%;
+    }
+    #login-title {
+        text-align:center;
+    }
+}

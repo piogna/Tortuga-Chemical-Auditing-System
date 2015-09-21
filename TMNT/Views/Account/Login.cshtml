@@ -4,49 +4,16 @@
     ViewBag.Title = "Login";
 }
 
+@section AddToHead {
+    <link href="~/Content/login-styles.css" rel="stylesheet" />
+}
+
 <style>
-    .navbar {
-        display: none;
-    }
+    
 
-    #wrapper {
-        padding: 0;
-        margin-top: 0;
-    }
-
-    body {
-        overflow-x:hidden;
-        background-image:url(../Content/Images/chemistry-woman.jpg);
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-        background-color: #000000;
-        background-attachment: fixed;
-        background-size: cover;
-    }
-
-    #page-wrapper {
-        background-color:transparent;
-        border: none !important;
-        margin: 0 !important;
-    }
-
-    .form-control {
-        border-radius:0 !important;
-    }
-
-    .footer {
-        display:none;
-    }
-    input[type=submit] {
-        border-radius:0;
-        width:35%;
-    }
-    .no-border-radius {
-        border-radius:0;
-    }
 </style>
 
-<h2>Maxxam Login</h2>
+<h2 id="login-title">Maxxam Login</h2>
 <div class="row">
     <div class="col-md-4">
         <hr />

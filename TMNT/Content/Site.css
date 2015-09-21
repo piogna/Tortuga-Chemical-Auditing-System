@@ -23,8 +23,11 @@ textarea {
     max-width: 280px;
 }*/
 
+
+
+
 /* Maxxam Media Queries */
-@media (max-width: 992px) {
+@media (max-width: 993px) {
     .table-index tr td:not(:nth-of-type(-n+3)) {
         display: none;
     }
