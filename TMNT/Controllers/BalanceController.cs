@@ -7,7 +7,6 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
-using Microsoft.AspNet.Identity;
 using TMNT.Helpers;
 
 namespace TMNT.Controllers {
@@ -34,8 +33,6 @@ namespace TMNT.Controllers {
                 viewModels.Add(new BalanceViewModel() { 
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
-                    Location = item.Department.Location,
-                    Status = item.Status,
                     IsVerified = item.IsVerified,
                     Department = item.Department,
                     LastVerified = item.DeviceVerifications
@@ -49,7 +46,7 @@ namespace TMNT.Controllers {
                                         .OrderBy(x => x.VerifiedOn)
                                         .Select(x => x.VerifiedOn)
                                         .First(),
-                    User = item.DeviceVerifications
+                    User = item.DeviceVerifications//last verified by
                                 .Where(x => x.Device == item)
                                 .OrderByDescending(x => x.VerifiedOn)
                                 .Select(x => x.User)

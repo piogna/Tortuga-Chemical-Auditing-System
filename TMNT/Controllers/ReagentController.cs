@@ -34,8 +34,7 @@ namespace TMNT.Controllers {
                     ReagentId = item.ReagentId,
                     LotNumber = item.LotNumber,
                     IdCode = item.IdCode,
-                    ReagentName = item.ReagentName,
-                    LastModifiedBy = item.LastModifiedBy
+                    ReagentName = item.ReagentName
                 });
             }
 
@@ -45,22 +44,10 @@ namespace TMNT.Controllers {
             foreach (var reagent in reagents) {
                 foreach (var invItem in reagent.InventoryItems) {
                     if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
-                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
-                        list[counter].UsedFor = invItem.UsedFor;
-                        list[counter].Unit = invItem.Unit;
-                        list[counter].CatalogueCode = invItem.CatalogueCode;
-                        list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
-                        list[counter].IsOpened = invItem.DateOpened != null;
-                        list[counter].SupplierName = invItem.SupplierName;
                         list[counter].DateCreated = invItem.DateCreated;
                         list[counter].CreatedBy = invItem.CreatedBy;
-                        list[counter].DateModified = invItem.DateModified;
-                        list[counter].DateCreated = invItem.DateCreated;
-                        //list[counter].PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                     }
                 }
                 counter++;
