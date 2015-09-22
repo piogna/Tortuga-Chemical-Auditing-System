@@ -2,6 +2,10 @@
     CSS for all forms
 */
 
+body {
+    overflow-x:hidden;
+}
+
 /* Summary Table CSS */
 table.table-bordered > thead > tr > th {
     background: black;
@@ -49,11 +53,6 @@ input[type=text] {
 
 .next-section {
     float: right;
-    bottom: 0;
-}
-
-.previous-section {
-    float: left;
     bottom: 0;
 }
 

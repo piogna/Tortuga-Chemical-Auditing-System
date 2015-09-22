@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
+        <h1>
             Stock Standards
         </h1>
         <ol class="breadcrumb">
@@ -84,15 +84,15 @@
                     @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
             </tr>
-                @*<td>
-                        @foreach (var i in item.InventoryItems) {
-                            foreach (var c in i.CertificatesOfAnalysis) {
-                                //Html.ActionLink("CofA", "Get", "CofA", new { id = c.CertificateOfAnalysisId }, null);
-                                var id = c.CertificateOfAnalysisId;
-                                <a href="/CofA/Get/@id">CofA</a>
-                            }
+            @*<td>
+                    @foreach (var i in item.InventoryItems) {
+                        foreach (var c in i.CertificatesOfAnalysis) {
+                            //Html.ActionLink("CofA", "Get", "CofA", new { id = c.CertificateOfAnalysisId }, null);
+                            var id = c.CertificateOfAnalysisId;
+                            <a href="/CofA/Get/@id">CofA</a>
                         }
-                    </td>*@
+                    }
+                </td>*@
         }
     </tbody>
     <tfoot>
