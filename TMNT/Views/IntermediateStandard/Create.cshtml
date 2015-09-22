@@ -63,12 +63,35 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2-5">
+                                <div class="col-md-3">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
+                                        <div class="input-group-btn">
+                                            <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
+                                                <option value="">Units</option>
+                                                <optgroup label="Weights">
+                                                    @foreach (var item in ViewBag.WeightUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Volumes">
+                                                    @foreach (var item in ViewBag.VolumeUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="col-md-2-5 input-no-left-padding">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
@@ -80,72 +103,6 @@
                                     <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
                                 </div>
                             </div>
-                            @*<div class="row" style="margin:0 !important">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>No Chemical Type Selected</option>
-                                                <optgroup label="Item Type">
-                                                    @foreach (var item in ViewBag.Types) {
-                                                        <option value="@item">
-                                                            @item
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="Amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="margin:0 !important">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                                <option>No Chemical Type Selected</option>
-                                                <optgroup label="Item Type">
-                                                    @foreach (var item in ViewBag.Types) {
-                                                        <option value="@item">
-                                                            @item
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="Amount" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Amount" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="Lot #" />
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#" id="another-item" class="btn btn-default">Add</a>
-                                    <a href="#" id="remove-item" class="btn btn-default">Remove</a>
-                                </div>
-                            </div>*@
                         </div>
                         <!-- /End Recipe Section -->
                         <div class="col-md-12" style="background-color: lightgrey;">

@@ -15,6 +15,7 @@ namespace TMNT.Models {
         public int FinalConcentration { get; set; }
         public string LastModifiedBy { get; set; }
         //foreign keys
+        [Required]
         public virtual PrepList PrepList { get; set; }
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }
     }

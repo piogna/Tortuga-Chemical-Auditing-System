@@ -93,8 +93,14 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
+            var units = new UnitRepository().Get();
+
             ViewBag.Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
-            ViewBag.Types = new List<string>() { "Reagent", "Standard", "Intermediate Standard" }; ;
+            ViewBag.Types = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
+            ViewBag.WeightUnits = units.Where(item => item.UnitType == "Weight").ToList();
+            ViewBag.VolumeUnits = units.Where(item => item.UnitType == "Volume").ToList();
+            ViewBag.OtherUnit = units.Where(item => item.UnitType == "Other").First();
+
             return View();
         }
 
@@ -110,7 +116,8 @@ namespace TMNT.Controllers {
                 //retrieving all rows from recipe builder - replace with view model in the future
                 List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
                 List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
-                List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("No Chemical Type Selected")).ToList();
+                List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("Choose Chemical Type")).ToList();
+                List<string> units = Request.Form.GetValues("Unit").Where(item => !string.IsNullOrEmpty(item)).ToList();
 
                 List<object> reagentAndStandardContainer = new List<object>();
                 List<PrepListItem> prepItems = new List<PrepListItem>();

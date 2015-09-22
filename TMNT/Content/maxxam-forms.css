@@ -35,6 +35,10 @@ input[type=text] {
     width:30%;
 }
 
+.input-group-addon-elg {
+    width:31%;
+}
+
 .input-half-width {
     width:50% !important;
 }
