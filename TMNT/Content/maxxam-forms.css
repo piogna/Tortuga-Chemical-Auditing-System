@@ -53,6 +53,10 @@ input[type=text] {
     bottom: 0;
 }
 
+.input-no-left-padding {
+    padding-left:0;
+}
+
 #Unit {
     border-radius: 0;
     border-left: none;

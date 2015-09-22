@@ -46,12 +46,12 @@
                         </div>
                         <div id="build-recipe">
                             <div class="row" style="margin:0 !important">
-                                <div class="col-md-3">
+                                <div class="col-md-2-5">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required"></div>
                                             <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
-                                                <option value="">No Chemical Type Selected</option>
+                                                <option value="">Choose Chemical Type</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
                                                         <option value="@item">
@@ -63,19 +63,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2-5">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2-5 input-no-left-padding">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Lot #" />
+                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2-5 input-no-left-padding">
                                     <a href="#" id="another-item" class="btn btn-default">Add</a>
                                     <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
                                 </div>
