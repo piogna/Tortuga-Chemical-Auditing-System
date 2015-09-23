@@ -49,7 +49,7 @@
                                 <div class="col-md-2-5">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon addon-required"></div>
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
                                             <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
                                                 <option value="">Choose Chemical Type</option>
                                                 <optgroup label="Item Type">
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
                                         <div class="input-group-btn">
                                             <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
@@ -94,7 +94,7 @@
 
                                 <div class="col-md-2-5 input-no-left-padding">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
@@ -140,7 +140,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
@@ -159,7 +159,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.TotalAmount)
                                     </div>
@@ -168,7 +168,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control required-field" } })
                                         <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
@@ -178,7 +178,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.MaxxamId, new { htmlAttributes = new { @placeholder = "Maxxam ID", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.MaxxamId)
                                     </div>
@@ -187,7 +187,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.IdCode)
                                     </div>
@@ -196,7 +196,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.FinalConcentration)
                                     </div>
@@ -205,7 +205,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.FinalVolume)
                                     </div>

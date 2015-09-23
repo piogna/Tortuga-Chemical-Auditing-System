@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.IdCode)
@@ -64,7 +64,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.ReagentName, new { htmlAttributes = new { @placeholder = "Reagent Name", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ReagentName)
@@ -73,7 +73,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @style = "resize:none;", @rows = 6, @class = "input-summary form-control required-field no-border-radius" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.UsedFor)
@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
@@ -102,7 +102,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.LotNumber)
@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CatalogueCode)
@@ -120,7 +120,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in ViewBag.BalanceDevices) {
@@ -156,8 +156,8 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier", @class = "input-summary form-control required-field" } })
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier Name", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SupplierName)
                                 </div>
@@ -195,14 +195,14 @@
                         <div class="col-md-12">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default required-field-s2" accept=".pdf" />
                                     <div class="input-group-addon input-group-addon-md">Upload CofA</div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default required-field-s2" accept=".pdf" />
                                     <div class="input-group-addon input-group-addon-md">Upload SDS</div>
                                 </div>
@@ -214,7 +214,7 @@
                         <div class="col-md-12">
                             <div class="col-lg-6">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
                                 </div>
                                 @Html.ValidationMessageFor(model => model.MSDSNotes)

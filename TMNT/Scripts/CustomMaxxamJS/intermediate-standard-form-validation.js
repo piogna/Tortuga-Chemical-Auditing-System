@@ -16,7 +16,7 @@ $(function () {
                 "<div class='col-md-2-5'>" +
                     "<div class='form-group'>" +
                         "<div class='input-group'>" +
-                            "<div class='input-group-addon addon-required'></div>" +
+                            "<div class='input-group-addon addon-required title='Required Field''></div>" +
                             "<select name='Type' class='type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field'>" +
                                    "<option value=''>Choose Chemical Type</option>" +
                                        "<optgroup label='Item Type'>" +
@@ -36,13 +36,13 @@ $(function () {
                 "</div>" +
             "<div class='col-md-2-5'>" +
                 "<div class='input-group'>" +
-                    "<div class='input-group-addon addon-required'></div>" +
+                    "<div class='input-group-addon addon-required' title='Required Field'></div>" +
                     "<input name='Amount' type='number' min='0' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
                 "</div>" +
             "</div>" +
             "<div class='col-md-2-5'>" +
                 "<div class='input-group'>" +
-                "<div class='input-group-addon addon-required'></div>" +
+                "<div class='input-group-addon addon-required' title='Required Field'></div>" +
                     "<input name='IdCode' type='text' class='input-summary form-control text-box single-line required-field no-border-radius' placeholder='ID Code' />" +
                 "</div>" +
             "</div>" +
