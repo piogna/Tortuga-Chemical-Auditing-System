@@ -7,7 +7,6 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
-using Microsoft.AspNet.Identity;
 using TMNT.Helpers;
 
 namespace TMNT.Controllers {
@@ -34,8 +33,6 @@ namespace TMNT.Controllers {
                 viewModels.Add(new BalanceViewModel() { 
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
-                    Location = item.Department.Location,
-                    Status = item.Status,
                     IsVerified = item.IsVerified,
                     Department = item.Department,
                     LastVerified = item.DeviceVerifications
@@ -49,7 +46,7 @@ namespace TMNT.Controllers {
                                         .OrderBy(x => x.VerifiedOn)
                                         .Select(x => x.VerifiedOn)
                                         .First(),
-                    User = item.DeviceVerifications
+                    User = item.DeviceVerifications//last verified by
                                 .Where(x => x.Device == item)
                                 .OrderByDescending(x => x.VerifiedOn)
                                 .Select(x => x.User)
@@ -144,13 +141,11 @@ namespace TMNT.Controllers {
         public ActionResult CreateVerification([Bind(Include = "BalanceId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
             string selectedValue = Request.Form["Type"];
             balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode == balancetest.DeviceCode).Select(item => item.DeviceId).First();
-            //var user = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
             
             if (!User.Identity.IsAuthenticated || User == null) {
                 return RedirectToAction("Login", "Account");
             }
-            var user = User.Identity.GetUserId();
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
                 var balance = repo.Get(balancetest.BalanceId);
@@ -162,8 +157,7 @@ namespace TMNT.Controllers {
                     WeightTwo = balancetest.WeightTwo,
                     WeightThree = balancetest.WeightThree,
                     Device = repo.Get(balancetest.BalanceId),
-                    //as of right now we HAVE to get the user like this, which is garbage
-                    User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user)
+                    User = HelperMethods.GetCurrentUser()
                 };
 
                 new DeviceVerificationRepostory().Create(verification);

@@ -2,6 +2,10 @@
     CSS for all forms
 */
 
+body {
+    overflow-x:hidden;
+}
+
 /* Summary Table CSS */
 table.table-bordered > thead > tr > th {
     background: black;
@@ -35,6 +39,10 @@ input[type=text] {
     width:30%;
 }
 
+.input-group-addon-elg {
+    width:31%;
+}
+
 .input-half-width {
     width:50% !important;
 }
@@ -48,9 +56,8 @@ input[type=text] {
     bottom: 0;
 }
 
-.previous-section {
-    float: left;
-    bottom: 0;
+.input-no-left-padding {
+    padding-left:0;
 }
 
 #Unit {

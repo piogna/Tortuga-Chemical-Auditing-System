@@ -76,6 +76,7 @@
     #loginForm {
         padding-left: 15px;
         padding-right: 15px;
+        height:180px;
     }
 
     #page-wrapper {
@@ -102,7 +103,7 @@
 
     #header-container {
         background:#005497;
-        padding:0 !important;
+        padding:1px;
         margin:0;
         width:100%;
         max-width:100%;
@@ -123,12 +124,20 @@
         display:block;
         color:#fff;
         text-align:center;
+        padding:1px;
     }
 
     #login-footer h2 {
         margin-top:10px;
         margin-bottom:10px;
         font-size:26px;
+    }
+
+    input[type=submit] {
+        background:#005497;
+        color:#fff;
+        border:1px solid #008997;
+        letter-spacing:1px;
     }
 }
 
@@ -152,6 +161,7 @@
     #loginForm {
         padding-left: 15px;
         padding-right: 15px;
+        height:235px;
     }
 
     #page-wrapper {
@@ -178,7 +188,7 @@
 
     #header-container {
         background:#005497;
-        padding:0 !important;
+        padding:1px;
         margin:0;
         width:100%;
         max-width:100%;
@@ -197,5 +207,13 @@
         display:block;
         color:#fff;
         text-align:center;
+        padding:1px;
+    }
+    
+    input[type=submit] {
+        background:#005497;
+        color:#fff;
+        border:1px solid #008997;
+        letter-spacing:1px;
     }
 }

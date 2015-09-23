@@ -127,7 +127,7 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">
+                <h1>
                     New Daily Balance Verification
                 </h1>
                 <ol class="breadcrumb">
@@ -158,14 +158,14 @@
                         <div class="form-group">
                             <div class="col-md-4">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
                                     @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
                                         <option>No Location Selected</option>
                                         <optgroup label="Location">
@@ -186,7 +186,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     <select name="WorkStation" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
                                         <option>No Workstation Selected</option>
                                         <optgroup label="Work Station">
@@ -200,7 +200,7 @@
                         <div class="form-group">
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     <input type="text" class="input-summary form-control no-border-radius" placeholder="Weight ID" />
                                 </div>
                             </div>
@@ -212,7 +212,7 @@
                             <!-- Weight One -->
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
                                     @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one" } })
                                     @Html.ValidationMessageFor(model => model.WeightOne)
                                     <div class="input-group-addon addon-weight">0.5000</div>

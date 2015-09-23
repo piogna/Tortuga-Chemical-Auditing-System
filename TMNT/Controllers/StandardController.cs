@@ -35,10 +35,7 @@ namespace TMNT.Controllers {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
                     StockStandardName = item.StockStandardName,
-                    IdCode = item.IdCode,
-                    LastModifiedBy = item.LastModifiedBy,
-                    Purity = item.Purity,
-                    SolventUsed = item.SolventUsed
+                    IdCode = item.IdCode
                 });
             }
             //iterating through the associated InventoryItem and retrieving the appropriate data
@@ -47,16 +44,8 @@ namespace TMNT.Controllers {
             foreach (var standard in standards) {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-                        list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
-                        list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
-                        list[counter].UsedFor = invItem.UsedFor;
-                        list[counter].Unit = invItem.Unit;
-                        list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
-                        list[counter].IsOpened = invItem.DateOpened != null;
-                        list[counter].SupplierName = invItem.SupplierName;
                         list[counter].DateCreated = invItem.DateCreated;
                         list[counter].CreatedBy = invItem.CreatedBy;
                         list[counter].DateModified = invItem.DateModified;
@@ -70,12 +59,6 @@ namespace TMNT.Controllers {
         // GET: /Standard/Details/5
         [Route("Standard/Details/{id?}")]
         public ActionResult Details(int? id) {
-            //if (Request.UrlReferrer == null) {
-            //    ViewBag.ReturnUrl = "";
-            //} else if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
-            //    ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
-            //}
-
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -121,19 +104,13 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
-
-            var volumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
-            var weightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
 
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
             var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
 
-            ViewBag.WeightUnits = weightUnits;
-            ViewBag.VolumeUnits = volumeUnits;
 
             ViewBag.Storage = storageRequirements;
 

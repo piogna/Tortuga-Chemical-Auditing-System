@@ -13,12 +13,12 @@ $(function () {
 
         var addRow =
             "<div class='row' style='margin:0 !important'>" +
-                "<div class='col-md-3'>" +
+                "<div class='col-md-2-5'>" +
                     "<div class='form-group'>" +
                         "<div class='input-group'>" +
-                            "<div class='input-group-addon addon-required'></div>" +
+                            "<div class='input-group-addon addon-required title='Required Field''></div>" +
                             "<select name='Type' class='type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field'>" +
-                                   "<option value=''>No Chemical Type Selected</option>" +
+                                   "<option value=''>Choose Chemical Type</option>" +
                                        "<optgroup label='Item Type'>" +
                                        "<option value='Reagent'>" +
                                            "Reagent" +
@@ -34,23 +34,23 @@ $(function () {
                         "</div>" +
                     "</div>" +
                 "</div>" +
-            "<div class='col-md-3'>" +
+            "<div class='col-md-2-5'>" +
                 "<div class='input-group'>" +
-                    "<div class='input-group-addon addon-required'></div>" +
+                    "<div class='input-group-addon addon-required' title='Required Field'></div>" +
                     "<input name='Amount' type='number' min='0' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
                 "</div>" +
             "</div>" +
-            "<div class='col-md-3'>" +
+            "<div class='col-md-2-5'>" +
                 "<div class='input-group'>" +
-                "<div class='input-group-addon addon-required'></div>" +
-                    "<input name='IdCode' type='text' class='input-summary form-control text-box single-line required-field no-border-radius' placeholder='Lot #' />" +
+                "<div class='input-group-addon addon-required' title='Required Field'></div>" +
+                    "<input name='IdCode' type='text' class='input-summary form-control text-box single-line required-field no-border-radius' placeholder='ID Code' />" +
                 "</div>" +
             "</div>" +
-            "<div class='col-md-3'>" +
+            "<div class='col-md-2-5'>" +
                 "<a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a>" +
             "</div>" +
         "</div>"
-        recipes.find('div[class=col-md-3]:last').remove("div[class=col-md-3]:last");
+        recipes.find('div[class=col-md-2]:last').remove("div[class=col-md-2]:last");
         //recipes.find('.row:nth-last-child(1)').append("<div class='col-md-3'><a href='#' id='remove-item' class='btn btn-default'>Remove</a></div>");
         recipes.append(addRow);
 
@@ -67,7 +67,7 @@ $(function () {
         if (recipes.children("div[class=row]").length > 1) {
             //recipes.children("#remove-item").parent(".row").remove();
             recipes.children("div[class=row]:last").remove();
-            recipes.children("div[class=row]:last").append("<div class='col-md-3'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
+            recipes.children("div[class=row]:last").append("<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
             //ensuring we can never have 0 rows
             if (recipes.children("div[class=row]").length == 1) {
                 $('#remove-item').attr('disabled', 'disabled');

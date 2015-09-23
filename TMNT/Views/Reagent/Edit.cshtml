@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
+        <h1>
             Edit @Model.IdCode
         </h1>
         <ol class="breadcrumb">
@@ -94,19 +94,19 @@
         <div class="col-md-5">
             <div class="form-group">
                 <div class="input-group input-full-width">
-                    <label class="control-label input-group-addon input-group-addon-md">Current CofA</label>
-                    @Html.ActionLink(Model.ReagentName + " - " + Model.CertificateOfAnalysis.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius" })
+                    <label class="control-label input-group-addon input-group-addon-elg">Current CofA</label>
+                    @Html.ActionLink(Model.ReagentName + " - " + Model.CertificateOfAnalysis.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius input-full-width" })
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-group input-full-width">
-                    <label class="control-label input-group-addon input-group-addon-lg">Upload New CofA</label>
+                    <label class="control-label input-group-addon input-group-addon-elg">Upload New CofA</label>
                     <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default no-border-radius" accept=".pdf" />
                 </div>
             </div>
             <div class="form-group">
                 <div class="input-group input-full-width">
-                    <label class="control-label input-group-addon input-group-addon-lg">Upload New SDS</label>
+                    <label class="control-label input-group-addon input-group-addon-elg">Upload New SDS</label>
                     <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
                 </div>
             </div>
@@ -117,11 +117,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="form-group">
                 <div class="input-group input-full-width">
-                    <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-md">Current SDS</label>
-                    @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius" })
+                    <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-elg">Current SDS</label>
+                    @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius input-full-width" })
                 </div>
             </div>
         </div>

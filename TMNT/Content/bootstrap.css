@@ -823,6 +823,7 @@ pre code {
 .col-sm-12,
 .col-md-1,
 .col-md-2,
+.col-md-2-5,
 .col-md-3,
 .col-md-4,
 .col-md-5,
@@ -1073,6 +1074,7 @@ pre code {
   }
   .col-md-1,
   .col-md-2,
+  .col-md-2-5,
   .col-md-3,
   .col-md-4,
   .col-md-5,
@@ -1089,6 +1091,9 @@ pre code {
   }
   .col-md-2 {
     width: 16.666666666666664%;
+  }
+  .col-md-2-5 {
+      width:21.66666666666667%;
   }
   .col-md-3 {
     width: 25%;
@@ -1194,6 +1199,9 @@ pre code {
   }
   .col-md-offset-0 {
     margin-left: 0;
+  }
+  .col-md-offset-0-5 {
+      margin-left:4.5%;
   }
   .col-md-offset-1 {
     margin-left: 8.333333333333332%;
