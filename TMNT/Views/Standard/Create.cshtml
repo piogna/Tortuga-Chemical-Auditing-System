@@ -99,7 +99,7 @@
                                         <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
-                                                @foreach (var item in ViewBag.Storage) {
+                                                @foreach (var item in Model.Storage) {
                                                     <option value="@item">
                                                         @item
                                                     </option>
@@ -135,7 +135,7 @@
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
-                                                @foreach (var item in ViewBag.BalanceDevices) {
+                                                @foreach (var item in Model.BalanceDevices) {
                                                     if (@item.IsVerified) {
                                                         <option value="@item.DeviceCode">
                                                             @item.DeviceCode
@@ -148,7 +148,7 @@
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
-                                                @foreach (var item in ViewBag.VolumeDevices) {
+                                                @foreach (var item in Model.VolumeDevices) {
                                                     if (@item.IsVerified) {
                                                         <option value="@item.DeviceCode">
                                                             @item.DeviceCode

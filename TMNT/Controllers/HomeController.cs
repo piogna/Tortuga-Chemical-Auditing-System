@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using TMNT.Models;
 using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
 using TMNT.Utils;
 
 namespace TMNT.Controllers {
@@ -11,6 +12,7 @@ namespace TMNT.Controllers {
 
         [Route("")]
         public ActionResult Index() {
+            var model = new DashboardViewModel();
             var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
 
             var reagents = new StockReagentRepository(DbContextSingleton.Instance).Get().ToList();
@@ -18,20 +20,20 @@ namespace TMNT.Controllers {
 
             Department userDepartment = Helpers.HelperMethods.GetUserDepartment();
 
-            var expiringItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment);
+            var expiringItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment).Count();
             var expiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment);
             var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Count();
 
-            ViewBag.ExpiringItems = expiringItems.Count();
-            ViewBag.ExpiredItems = expiredItems;
-            ViewBag.Certificates = cofas;
+            model.ExpiringItemsCount = expiringItems;
+            model.ExpiredItems = expiredItems;
+            model.CertificatesCount = cofas;
 
-            ViewBag.PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count();
+            model.PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count();
 
-            ViewBag.Department = userDepartment.DepartmentCode;
-            ViewBag.LocationName = userDepartment.Location.LocationName;
+            model.Department = userDepartment.DepartmentCode;
+            model.LocationName = userDepartment.Location.LocationName;
 
-            return View();
+            return View(model);
         }
 
         [Route("Home/About")]

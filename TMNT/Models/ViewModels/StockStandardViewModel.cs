@@ -58,5 +58,10 @@ namespace TMNT.Models.ViewModels {
 
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
         public List<MSDS> AllMSDS { get; set; }
+
+        //View Model data fields
+        public List<String> Storage { get; set; }
+        public IEnumerable<Device> BalanceDevices { get; set; }
+        public IEnumerable<Device> VolumeDevices { get; set;}
     }
 }
