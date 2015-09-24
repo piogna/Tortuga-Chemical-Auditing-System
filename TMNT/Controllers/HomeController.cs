@@ -12,26 +12,23 @@ namespace TMNT.Controllers {
 
         [Route("")]
         public ActionResult Index() {
-            var model = new DashboardViewModel();
             var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
 
-            var reagents = new StockReagentRepository(DbContextSingleton.Instance).Get().ToList();
-            var standards = new StockStandardRepository(DbContextSingleton.Instance).Get().ToList();
+            //var reagents = new StockReagentRepository(DbContextSingleton.Instance).Get().ToList();
+            //var standards = new StockStandardRepository(DbContextSingleton.Instance).Get().ToList();
 
             Department userDepartment = Helpers.HelperMethods.GetUserDepartment();
-
-            var expiringItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment).Count();
-            var expiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment);
+            
             var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Count();
-
-            model.ExpiringItemsCount = expiringItems;
-            model.ExpiredItems = expiredItems;
-            model.CertificatesCount = cofas;
-
-            model.PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count();
-
-            model.Department = userDepartment.DepartmentCode;
-            model.LocationName = userDepartment.Location.LocationName;
+            
+            var model = new DashboardViewModel() {
+                ExpiringItemsCount = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment).Count(),
+                ExpiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment),
+                CertificatesCount = cofas,
+                PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count(),
+                Department = userDepartment.DepartmentCode,
+                LocationName = userDepartment.Location.LocationName
+            };
 
             return View(model);
         }
