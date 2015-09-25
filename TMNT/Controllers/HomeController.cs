@@ -5,6 +5,7 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
+using TMNT.Helpers;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -17,7 +18,7 @@ namespace TMNT.Controllers {
             //var reagents = new StockReagentRepository(DbContextSingleton.Instance).Get().ToList();
             //var standards = new StockStandardRepository(DbContextSingleton.Instance).Get().ToList();
 
-            Department userDepartment = Helpers.HelperMethods.GetUserDepartment();
+            Department userDepartment = HelperMethods.GetUserDepartment();
             
             var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Count();
             
@@ -27,6 +28,7 @@ namespace TMNT.Controllers {
                 CertificatesCount = cofas,
                 PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count(),
                 Department = userDepartment.DepartmentCode,
+                Role = HelperMethods.GetUserRoles().First(),
                 LocationName = userDepartment.Location.LocationName
             };
 

@@ -13,5 +13,6 @@ namespace TMNT.Models.ViewModels
         public int PendingVerificationCount { get; set; }
         public string Department { get; set; }
         public string LocationName { get; set; }
+        public string  Role { get; set; }
     }
 }
