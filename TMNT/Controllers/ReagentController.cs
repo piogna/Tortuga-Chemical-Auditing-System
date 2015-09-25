@@ -27,10 +27,10 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var reagents = repo.Get();
 
-            List<StockReagentViewModel> list = new List<StockReagentViewModel>();
+            List<StockReagentIndexViewModel> list = new List<StockReagentIndexViewModel>();
 
             foreach (var item in reagents) {
-                list.Add(new StockReagentViewModel() {
+                list.Add(new StockReagentIndexViewModel() {
                     ReagentId = item.ReagentId,
                     LotNumber = item.LotNumber,
                     IdCode = item.IdCode,
@@ -74,27 +74,12 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            var vReagent = new StockReagentViewModel() {
+            var vReagent = new StockReagentDetailsViewModel() {
                 ReagentId = reagent.ReagentId,
                 IdCode = reagent.IdCode,
                 ReagentName = reagent.ReagentName,
                 LastModifiedBy = reagent.LastModifiedBy
             };
-
-            //var itemsWhereReagentWasUsed = new PrepListItemRepository().Get().ToList()
-            //    .Join(new IntermediateStandardRepository().Get(),
-            //        prepListItem => prepListItem.PrepList.PrepListId,
-            //        intStandard => intStandard.PrepList.PrepListId,
-            //        (prepListItem, intStandard) => new { prepListItem.PrepList, intStandard.PrepList.PrepListId })
-            //    .Where(x => x.PrepList.PrepListId == x.PrepListId)
-            //    //.Join(new StockReagentRepository().Get(),
-            //    //    prepListItem => prepListItem.PrepList.PrepListId,
-            //    //    linqReagent => linqReagent.)
-            //    .GroupBy(x => x.PrepList.IntermediateStandards)
-            //    .Select(x => x as IntermediateStandard)
-            //    .ToList();
-
-            /* CONSIDER STORED PROCEDURE HERE */
 
             foreach (var invItem in reagent.InventoryItems) {
                 if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
@@ -109,16 +94,14 @@ namespace TMNT.Controllers {
                     vReagent.Department = invItem.Department;
                     vReagent.CatalogueCode = invItem.CatalogueCode;
                     vReagent.Grade = invItem.Grade;
+                    vReagent.GradeAdditionalNotes = invItem.GradeAdditionalNotes;
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Today;
                     vReagent.SupplierName = invItem.SupplierName;
-                    //vReagent.ItemsWhereReagentUsed = itemsWhereReagentWasUsed;
-                    //vReagent.PrepListItems = new PrepListItemRepository().Get().Where(x => x.StockReagent != null && x.StockReagent.ReagentId == reagent.ReagentId).ToList();
                 }
             }
-
             return View(vReagent);
         }
 
@@ -144,7 +127,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
 
@@ -228,7 +211,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            StockReagentViewModel model = new StockReagentViewModel() {
+            StockReagentEditViewModel model = new StockReagentEditViewModel() {
                 ReagentId = stockreagent.ReagentId,
                 LotNumber = stockreagent.LotNumber,
                 ReagentName = stockreagent.ReagentName,
@@ -239,11 +222,12 @@ namespace TMNT.Controllers {
 
             foreach (var item in stockreagent.InventoryItems) {
                 model.Grade = item.Grade;
-                model.DateCreated = item.DateCreated;
-                model.CreatedBy = item.CreatedBy;
+                model.GradeAdditionalNotes = item.GradeAdditionalNotes;
+                //model.DateCreated = item.DateCreated;
+                //model.CreatedBy = item.CreatedBy;
                 model.ExpiryDate = item.ExpiryDate;
-                model.CatalogueCode = item.CatalogueCode;
-                model.UsedFor = item.UsedFor;
+                //model.CatalogueCode = item.CatalogueCode;
+                //model.UsedFor = item.UsedFor;
                 model.SupplierName = item.SupplierName;
             }
             return View(model);
