@@ -194,7 +194,7 @@ namespace TMNT.Controllers {
                 user.NextRequiredPasswordChange = DateTime.Today.AddYears(1);
 
                 var updateResult = await UserManager.UpdateAsync(user);
-                if (result.Succeeded) {
+                if (updateResult.Succeeded) {
                     if (user != null) {
                         await SignInAsync(user, isPersistent: false);
                     }
