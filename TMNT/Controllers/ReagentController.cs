@@ -255,7 +255,9 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate")] StockReagentViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+
+
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
@@ -295,12 +297,13 @@ namespace TMNT.Controllers {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                     }
                     stockreagent.MSDS = msds;
-
                     invItem.MSDS.Add(msds);
                 }
 
                 invItem.DateModified = DateTime.Today;
-                invItem.ExpiryDate = stockreagent.ExpiryDate;
+                invItem.Grade = stockreagent.Grade;
+                invItem.GradeAdditionalNotes = stockreagent.GradeAdditionalNotes;
+                //invItem.ExpiryDate = stockreagent.ExpiryDate;
                 invRepo.Update(invItem);
                 
                 return RedirectToAction("Index");
