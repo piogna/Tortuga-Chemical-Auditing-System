@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
 using TMNT.Utils;
+using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -166,9 +167,23 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model) {
             if (ModelState.IsValid) {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var locationRepo = new LocationRepository();
+
+                var locationId = locationRepo.Get()
+                    .Where(item => item.LocationName == model.LocationName)
+                    .Select(item => item.LocationId)
+                    .First();
+
+                Department department = locationRepo.Get(locationId).Departments
+                    .Where(item => item.DepartmentCode == model.DepartmentCode)
+                    .First();
+
+                //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded) {
+                    //UserManager.AddToRole(model.UserName, model.Role);//breaking the application
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
