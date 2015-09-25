@@ -1,6 +1,11 @@
 ﻿@model TMNT.Models.ViewModels.DashboardViewModel
 @{
-    ViewBag.Title = "Maxxam - Dashboard" + @ViewBag.Role;
+    ViewBag.Title = "Maxxam - Dashboard";
+    //if (Model.Role.Equals("Administrator")) {
+    //    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+    //} else {
+    //    Layout = "~/Views/Shared/_Layout.cshtml";
+    //}
 }
 
 @section AddToHead {
@@ -22,8 +27,6 @@
             }
 
         #content {
-            /*margin: 0 auto;*/
-            /*padding: 10px;*/
             height: 100%;
             overflow: hidden;
         }
@@ -40,7 +43,6 @@
             box-sizing: border-box;
             width: 650px;
             height: 450px;
-            /*padding: 20px 15px 15px 15px;*/
             margin: 15px auto 30px -65px;
             background: #fff;
         }
@@ -75,7 +77,6 @@
         </ol>
     </div>
 </div>
-
 <div class="row">
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary">

@@ -15,9 +15,6 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
 
-            //var reagents = new StockReagentRepository(DbContextSingleton.Instance).Get().ToList();
-            //var standards = new StockStandardRepository(DbContextSingleton.Instance).Get().ToList();
-
             Department userDepartment = HelperMethods.GetUserDepartment();
             
             var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Count();
@@ -31,6 +28,10 @@ namespace TMNT.Controllers {
                 Role = HelperMethods.GetUserRoles().First(),
                 LocationName = userDepartment.Location.LocationName
             };
+
+            if (model.Role.Equals("Administrator")) {
+                return View("AdminIndex", model);
+            }
 
             return View(model);
         }

@@ -1,0 +1,151 @@
+﻿@model TMNT.Models.ViewModels.DashboardViewModel
+@{
+    ViewBag.Title = "Maxxam - Dashboard";
+    Layout = "~/Views/Shared/_AdministratorLayout.cshtml";
+}
+
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+    <style type="text/css">
+        #header {
+            position: relative;
+            width: 900px;
+            margin: auto;
+        }
+
+            #header h2 {
+                margin-left: 10px;
+                vertical-align: middle;
+                font-size: 42px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #000;
+            }
+
+        #content {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #footer {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .demo-container {
+            box-sizing: border-box;
+            width: 650px;
+            height: 450px;
+            margin: 15px auto 30px -65px;
+            background: #fff;
+        }
+
+        .demo-placeholder {
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            line-height: 1.2em;
+        }
+
+        .legend table {
+            border-spacing: 5px;
+        }
+
+        .match-parent-height {
+            height: 100%;
+        }
+    </style>
+}
+
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            Dashboard <small>Welcome!</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i> Dashboard
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-info-circle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.CertificatesCount</div>
+                        <div>Certificates of Analysis</div>
+                    </div>
+                </div>
+            </div>
+            <a href='@Url.Action("Index", "InventoryItem")'>
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-exclamation-triangle fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.ExpiringItemsCount</div>
+                        <div>Expiring Items</div>
+                    </div>
+                </div>
+            </div>
+            <a href='@Url.Action("Index", "InventoryItem")'>
+                <div class="panel-footer">
+                    <span class="pull-left">View Details</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+        <div class="panel panel-yellow">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="fa fa-forward fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge">@Model.PendingVerificationCount</div>
+                        <div>Pending Device Verifications</div>
+                    </div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Balance")">
+                <div class="panel-footer">
+                    <span class="pull-left">View Pending Balance Verifications</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+            <a href="#">
+                <div class="panel-footer">
+                    <span class="pull-left">View Pending Volume Verifications</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
