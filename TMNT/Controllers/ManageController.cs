@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TMNT.Models;
+using System;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -171,6 +172,7 @@ namespace TMNT.Controllers {
 
         //
         // GET: /Manage/ChangePassword
+        [Route("Manage/ChangePassword")]
         public ActionResult ChangePassword() {
             return View();
         }
@@ -179,17 +181,25 @@ namespace TMNT.Controllers {
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model) {
+        [Route("Manage/ChangePassword")]
+        public async Task<ActionResult> ChangePassword(ProfileViewModel model) {//ChangePasswordViewModel model) {
             if (!ModelState.IsValid) {
                 return View(model);
             }
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded) {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null) {
-                    await SignInAsync(user, isPersistent: false);
+
+                user.LastPasswordChange = DateTime.Today;
+                user.NextRequiredPasswordChange = DateTime.Today.AddYears(1);
+
+                var updateResult = await UserManager.UpdateAsync(user);
+                if (result.Succeeded) {
+                    if (user != null) {
+                        await SignInAsync(user, isPersistent: false);
+                    }
+                    return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });//, new { Message = ManageMessageId.ChangePasswordSuccess, Model = model });
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
             return View(model);

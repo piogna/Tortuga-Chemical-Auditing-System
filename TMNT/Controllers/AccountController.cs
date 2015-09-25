@@ -409,8 +409,22 @@ namespace TMNT.Controllers {
         [AllowAnonymous]
         [Route("Account/ViewProfile/{id}")]
         public ActionResult ViewProfile(string id) {
-            var user = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.UserName == id);
-            return View(user);
+            var user = Helpers.HelperMethods.GetCurrentUser();
+            ProfileViewModel model = new ProfileViewModel() {
+                Department = user.Department,
+                Location = user.Department.Location,
+                Username = user.UserName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Name = user.FirstName + " " + user.LastName,
+                Role = Helpers.HelperMethods.GetUserRoles().First(),
+                Biography = user.Biography,
+                LastPasswordChange = user.LastPasswordChange,
+                NextRequiredPasswordChange = user.NextRequiredPasswordChange
+            };
+
+            model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - model.LastPasswordChange.Value).Days - 1;
+            return View(model);
         }
 
         protected override void Dispose(bool disposing) {

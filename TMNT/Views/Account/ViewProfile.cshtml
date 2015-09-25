@@ -1,7 +1,119 @@
-﻿
+﻿@model TMNT.Models.ProfileViewModel
+
 @{
     ViewBag.Title = "ViewProfile";
+    if (Model.Role == "Administrator") {
+        Layout = "../Shared/_AdministratorLayout.cshtml";
+    } else {
+        Layout = "../Shared/_Layout.cshtml";
+    }
 }
 
-<h2>ViewProfile</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            Profile
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-user"></i> Profile
+            </li>
+        </ol>
+    </div>
+</div>
 
+<div class="container">
+    <section style="padding-bottom: 50px; padding-top: 50px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <div class="container">
+                        <div class="col-md-10">
+                            <h2>@Html.DisplayFor(model => model.Name)'s Bio: </h2>
+                            <p>
+                                @Html.DisplayFor(model => model.Biography)
+                            </p>
+                        </div>                        
+                        <div class="col-md-2">
+                            <div class="pull-right" style="margin-bottom:0">
+                                <a href="#" class="btn btn-warning">Update Biography</a>
+                                @*<input type="submit" value="Update Biography" class="btn btn-warning" />*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-success">
+                    <h4>User Information</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.PhoneNumber)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="alert alert-success">
+                    <h4>Location Information</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Location.LocationName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Location.LocationName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Department.DepartmentCode)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Department.DepartmentCode)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="alert alert-warning">
+                    <h4>Next Password Change</h4>
+                    <hr />
+                    <p>
+                        <h3 class="text-center">@Html.DisplayFor(model => model.DaysUntilNextPasswordChange)</h3>
+                        days before a password change will be required. You will be notified 14 days in advance.
+                    </p>
+                </div>
+                <div class="alert alert-info">
+                    <h4>Your Role</h4>
+                    <hr />
+                    <p>
+                        You are currently assigned as: @Html.DisplayFor(model => model.Role)
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="alert alert-success" style="height:343px;">
+                    @Html.Partial("_ChangePasswordPartial", Model)
+                </div>
+            </div>
+        </div>
+        <!-- ROW END -->
+
+
+    </section>
+    <!-- SECTION END -->
+</div>
+<!-- CONATINER END -->
