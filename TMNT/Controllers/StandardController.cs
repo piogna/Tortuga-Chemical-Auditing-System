@@ -28,10 +28,10 @@ namespace TMNT.Controllers {
         // GET: /Standard/
         public ActionResult Index() {
             var standards = repoStandard.Get();
-            List<StockStandardViewModel> list = new List<StockStandardViewModel>();
+            List<StockStandardIndexViewModel> list = new List<StockStandardIndexViewModel>();
 
             foreach (var item in standards) {
-                list.Add(new StockStandardViewModel() {
+                list.Add(new StockStandardIndexViewModel() {
                     StockStandardId = item.StockStandardId,
                     LotNumber = item.LotNumber,
                     StockStandardName = item.StockStandardName,
@@ -69,7 +69,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound("The standard requested does not exist.");
             }
 
-            StockStandardViewModel vStandard = new StockStandardViewModel() {
+            StockStandardDetailsViewModel vStandard = new StockStandardDetailsViewModel() {
                 StockStandardId = standard.StockStandardId,
                 LotNumber = standard.LotNumber,
                 IdCode = standard.IdCode,
@@ -104,7 +104,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var model = new StockStandardViewModel();
+            var model = new StockStandardCreateViewModel();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
 
             var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance"));
@@ -127,7 +127,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
-                    StockStandardViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+                    StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
@@ -207,24 +207,24 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
             
-            StockStandardViewModel model = new StockStandardViewModel() {
+            StockStandardEditViewModel model = new StockStandardEditViewModel() {
                 StockStandardId = stockstandard.StockStandardId,
                 LotNumber = stockstandard.LotNumber,
                 StockStandardName = stockstandard.StockStandardName,
                 IdCode = stockstandard.IdCode,
-                Purity = stockstandard.Purity,
-                SolventSupplierName = stockstandard.SolventSupplierName,
-                SolventUsed = stockstandard.SolventUsed,
+                //Purity = stockstandard.Purity,
+                //SolventSupplierName = stockstandard.SolventSupplierName,
+                //SolventUsed = stockstandard.SolventUsed,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
                 MSDS = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockstandard.InventoryItems) {
                 model.DateCreated = item.DateCreated;
-                model.CatalogueCode = item.CatalogueCode;
-                model.ExpiryDate = item.ExpiryDate;
+                //model.CatalogueCode = item.CatalogueCode;
+                //model.ExpiryDate = item.ExpiryDate;
                 model.SupplierName = item.SupplierName;
-                model.UsedFor = item.UsedFor;
+                //model.UsedFor = item.UsedFor;
             }
             return View(model);
         }

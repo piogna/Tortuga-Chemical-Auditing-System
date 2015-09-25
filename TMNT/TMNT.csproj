@@ -318,7 +318,6 @@
     <Compile Include="Models\ViewModels\MaxxamMadeStandardViewModel.cs" />
     <Compile Include="Models\ViewModels\StockReagentEditViewModel.cs" />
     <Compile Include="Models\ViewModels\StockReagentViewModel.cs" />
-    <Compile Include="Models\ViewModels\StockStandardEditViewModel.cs" />
     <Compile Include="Models\ViewModels\StockStandardViewModel.cs" />
     <Compile Include="Models\ViewModels\WorkingStandardViewModel.cs" />
     <Compile Include="Models\WorkingStandard.cs" />
