@@ -235,19 +235,22 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId")] StockStandardViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId,IdCode,SupplierName,StockStandardName")] StockStandardEditViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
+                InventoryItemRepository inventoryRepo = new InventoryItemRepository();
 
-                InventoryItem invItem = new InventoryItemRepository().Get()
+                InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
                         .FirstOrDefault();
 
                 StockStandard updateStandard = invItem.StockStandard;
+                updateStandard.StockStandardName = stockstandard.StockStandardName;
+                updateStandard.IdCode = stockstandard.IdCode;
                 updateStandard.LotNumber = stockstandard.LotNumber;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
-
-                new StockStandardRepository().Update(updateStandard);
+                
+                repoStandard.Update(updateStandard);
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -279,9 +282,10 @@ namespace TMNT.Controllers {
                     invItem.MSDS.Add(msds);
                 }
                 
-                invItem.ExpiryDate = stockstandard.ExpiryDate;
                 invItem.DateModified = DateTime.Today;
-                new InventoryItemRepository().Update(invItem);
+                invItem.SupplierName = stockstandard.SupplierName;
+
+                inventoryRepo.Update(invItem);
 
                 return RedirectToAction("Index");
             }

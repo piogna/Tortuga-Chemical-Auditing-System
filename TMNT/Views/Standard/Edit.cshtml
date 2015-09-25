@@ -32,7 +32,7 @@
     <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Information</h4>
 </div>
 
-@using (Html.BeginForm("Edit", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+@using (Html.BeginForm("Edit", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.StockStandardId)
