@@ -182,15 +182,37 @@
                                     <td>
                                         @item.ExpiryDate.ToString().Split(' ')[0]
                                     </td>
-                                    <td>
-                                        <a href="#">
-                                            <div class="">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
-                                    </td>
+                                    @if (@item.StockReagent != null) {
+                                        <td>
+                                            <a href="@Url.Action("Details", "Reagent", new { id = item.StockReagent.ReagentId })">
+                                                <div class="">
+                                                    <span class="pull-left">View Details</span>
+                                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    } else if (@item.StockStandard != null) {
+                                        <td>
+                                            <a href="@Url.Action("Details", "Standard", new { id = item.StockStandard.StockStandardId })">
+                                                <div class="">
+                                                    <span class="pull-left">View Details</span>
+                                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    } else if (@item.IntermediateStandard != null) {
+                                        <td>
+                                            <a href="@Url.Action("Details", "IntermediateStandard", new { id = item.IntermediateStandard.IntermediateStandardId })" >
+                                                <div class="">
+                                                    <span class="pull-left">View Details</span>
+                                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                            </a>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>

@@ -7,7 +7,6 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
-using TMNT.Utils;
 using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
@@ -179,7 +178,7 @@ namespace TMNT.Controllers {
                     .First();
 
                 //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1) };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded) {

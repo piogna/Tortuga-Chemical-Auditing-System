@@ -16,6 +16,10 @@ namespace TMNT.Controllers {
             var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
 
             Department userDepartment = HelperMethods.GetUserDepartment();
+
+            if (userDepartment == null) {
+                ModelState.AddModelError("", "User is not designated a department");
+            }
             
             var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Count();
             
