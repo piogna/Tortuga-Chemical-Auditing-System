@@ -110,7 +110,7 @@ input[type=text] {
 
 /* Intermediate Standard CSS */
 #build-recipe {
-    height: 235px;
+    height: 400px;
     overflow-y: scroll;
 }
 

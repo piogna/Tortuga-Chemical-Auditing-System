@@ -45,12 +45,12 @@
                             <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Build Your Intermediate Standard</h4>
                         </div>
                         <div id="build-recipe">
-                            <div class="row" style="margin:0 !important">
-                                <div class="col-md-2-5">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
+                                            <select name="Type" id="ChemicalType" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
                                                 <option value="">Choose Chemical Type</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in ViewBag.Types) {
@@ -62,47 +62,130 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
-                                        <div class="input-group-btn">
-                                            <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
-                                                <option value="">Units</option>
-                                                <optgroup label="Weights">
-                                                    @foreach (var item in ViewBag.WeightUnits) {
-                                                        <option value="@item.UnitId">
-                                                            @item.UnitShorthandName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                                <optgroup label="Volumes">
-                                                    @foreach (var item in ViewBag.VolumeUnits) {
-                                                        <option value="@item.UnitId">
-                                                            @item.UnitShorthandName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                                <optgroup label="Other">
-                                                    <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
-                                                </optgroup>
-                                            </select>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "input-summary form-control text-box single-line no-border-radius required-field", @placeholder = "ID Code" } })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            <input name="Amount" id="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
+                                            <div class="input-group-btn">
+                                                <select name="Unit" id="Units" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:120px;">
+                                                    <option value="">Units</option>
+                                                    <optgroup label="Weights">
+                                                        @foreach (var item in ViewBag.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in ViewBag.VolumeUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="">
+                                            <a href="#" id="another-item" class="btn btn-primary">Add Item</a>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6" style="height:100%;">
+                                <div class="alert alert-info test">
+                                    <h4 class="text-center">Output</h4>
+                                    <hr />
+                                    <div style="font-size:14px;">
+                                        <table id="recipe=table" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item #</th>
+                                                    <th>Chemical Type</th>
+                                                    <th>ID Code</th>
+                                                    <th>Amount</th>
+                                                    <th>Remove Item</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recipe-tbody">
 
-                                <div class="col-md-2-5 input-no-left-padding">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                                <div class="col-md-2-5 input-no-left-padding">
-                                    <a href="#" id="another-item" class="btn btn-default">Add</a>
-                                    <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
-                                </div>
                             </div>
+                            @*<div class="row" style="margin:0 !important">
+                                    <div class="col-md-2-5">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon addon-required" title="Required Field"></div>
+                                                <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
+                                                    <option value="">Choose Chemical Type</option>
+                                                    <optgroup label="Item Type">
+                                                        @foreach (var item in ViewBag.Types) {
+                                                            <option value="@item">
+                                                                @item
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
+                                            <div class="input-group-btn">
+                                                <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
+                                                    <option value="">Units</option>
+                                                    <optgroup label="Weights">
+                                                        @foreach (var item in ViewBag.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in ViewBag.VolumeUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2-5 input-no-left-padding">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2-5 input-no-left-padding">
+                                        <a href="#" id="another-item" class="btn btn-default">Add</a>
+                                        <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
+                                    </div>
+                                </div>*@
+
+
+
                         </div>
                         <!-- /End Recipe Section -->
                         <div class="col-md-12" style="background-color: lightgrey;">
@@ -256,5 +339,42 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
+    <script>
+        $(function () {
+            var ChemicalType = $('#ChemicalType');
+            var IdCode = $('#IdCode');
+            var Amount = $('#Amount');
+            var Units = $('#Units');
+            //var SelectedUnit = $('#Units option:selected');
+
+            var Recipes = $('#build-recipe');
+            var RecipeTable = $('#recipe-tbody');
+            var AddItem = $('#another-item');
+
+            var ItemCount = 1;
+            var Append;
+
+
+
+            Recipes.on('click', '#another-item', function (e) {
+                e.preventDefault();
+                Append = "";
+                Append += "<tr><td>" + ItemCount + "</td>" +
+                        "<td>" + ChemicalType.val() + "</td>" +
+                        "<td>" + IdCode.val() + "</td>" +
+                        "<td>" + Amount.val() + Units.find("option:selected").text() + "</td>" +
+                        "<td><a href='#'><i class='fa fa-close'></i>&nbsp;&nbsp;Remove</a></td></tr>";
+                RecipeTable.append(Append);
+
+                //clear inputs
+                ChemicalType.val("");
+                IdCode.val("");
+                Amount.val("");
+                Units.val("");
+
+                ItemCount++;
+            });
+        });
+    </script>
+    @*<script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>*@
 }
