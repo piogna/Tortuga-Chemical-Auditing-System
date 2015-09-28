@@ -7,17 +7,27 @@ body {
 }
 
 /* Summary Table CSS */
-table.table-bordered > thead > tr > th {
+table.summary-table > thead > tr > th {
     background: black;
     color: #fff;
     text-align: center;
 }
 
-    table.table-bordered > thead > tr > th:first-child {
+    table.summary-table > thead > tr > th:first-child {
         width: 25%;
     }
 
-    table.table-boredered tr {
+    table.summary-table tr {
+        word-wrap: break-word;
+    }
+
+table#recipe-table > thead > tr > th {
+    background: #9bcf7d;
+    color: #fff;
+    text-align: center;
+}
+
+table#recipe-table tr {
         word-wrap: break-word;
     }
 

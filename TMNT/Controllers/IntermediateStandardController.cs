@@ -83,6 +83,7 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.DateCreated = invItem.DateCreated;
                     vIntermediateStandard.CreatedBy = invItem.CreatedBy;
                     vIntermediateStandard.DateModified = invItem.DateModified;
+                    vIntermediateStandard.Unit = invItem.Unit;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
                 }
