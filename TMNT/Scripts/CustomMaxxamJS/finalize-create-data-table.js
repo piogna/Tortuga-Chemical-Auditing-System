@@ -4,11 +4,11 @@
 
     //filling summary table
     var inputs = $('.input-summary');
-    var table = $('table.table-bordered > tbody');
+    var table = $('table.summary-table > tbody');
 
     $('.btn-review').on('click', function (e) {
         //absolutely prevent duplicate rows
-        if ($('table.table-bordered > tbody > tr').length > 0) {
+        if ($('table.summary-table > tbody > tr').length > 0) {
             table.find("tr").remove();
         }
         var row = "";

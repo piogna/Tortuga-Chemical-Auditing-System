@@ -113,19 +113,30 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
             var errors = ModelState.Where(item => item.Value.Errors.Any());
-            if (ModelState.IsValid) {            
-                //retrieving all rows from recipe builder - replace with view model in the future
-                List<string> amounts = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToList();
-                List<string> idcodes = Request.Form.GetValues("IdCode").Where(item => !string.IsNullOrEmpty(item)).ToList();
-                List<string> types = Request.Form.GetValues("Type").Where(item => !item.Equals("Choose Chemical Type")).ToList();
-                List<string> units = Request.Form.GetValues("Unit").Where(item => !string.IsNullOrEmpty(item)).ToList();
+            if (ModelState.IsValid) {
+                //retrieving all table rows from recipe builder - replace with view model in the future
+                IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
+                    AmountsWithUnits = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToArray()
+                };
+
+                prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[0]).ToArray();
+                prepListViewModel.Units = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[1]).ToArray();
+                prepListViewModel.IdCodes = Request.Form.GetValues("IdCodes").Where(item => !string.IsNullOrEmpty(item)).ToArray();
+                prepListViewModel.Types = Request.Form.GetValues("Type").Where(item => !item.Equals("Choose Chemical Type")).ToArray();
+
+                //string[] amountsWithUnits = Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToArray();
+                //string[] amounts = amountsWithUnits.Select(item => item.Split(' ')[0]).ToArray();
+                //string[] idcodes = Request.Form.GetValues("IdCodes").Where(item => !string.IsNullOrEmpty(item)).ToArray();
+                //string[] types = Request.Form.GetValues("Type").Where(item => !item.Equals("Choose Chemical Type")).ToArray();
+                //List<string> units = Request.Form.GetValues("Unit").Where(item => !string.IsNullOrEmpty(item)).ToList();
+                //string[] units = amountsWithUnits.Select(item => item.Split(' ')[1]).ToArray();
 
                 List<object> reagentAndStandardContainer = new List<object>();
                 List<PrepListItem> prepItems = new List<PrepListItem>();
 
                 //go through all types and sort out what they are, instantiate, and build list of objects
-                foreach (var idcode in idcodes) {
-                    foreach (var type in types) {
+                foreach (var idcode in prepListViewModel.IdCodes) {
+                    foreach (var type in prepListViewModel.Types) {
                         if (type == "Reagent") {
                             var add = new StockReagentRepository(DbContextSingleton.Instance)
                                 .Get()
@@ -149,22 +160,26 @@ namespace TMNT.Controllers {
                 }
 
                 //building the prep list with the desired prep list items
+                UnitRepository unitRepo = new UnitRepository();
                 int counter = 0;
                 foreach (var item in reagentAndStandardContainer) {
                     if (item is StockReagent) {
                         prepItems.Add(new PrepListItem() {
                             StockReagent = item as StockReagent,
-                            Amount = Convert.ToInt32(amounts[counter])
+                            Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                            Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
                         });
                     } else if (item is StockStandard) {
                         prepItems.Add(new PrepListItem() {
                             StockStandard = item as StockStandard,
-                            Amount = Convert.ToInt32(amounts[counter])
+                            Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                            Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
                         });
                     } else if (item is IntermediateStandard) {
                         prepItems.Add(new PrepListItem() {
                             IntermediateStandard = item as IntermediateStandard,
-                            Amount = Convert.ToInt32(amounts[counter])
+                            Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                            Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
                         });
                     }
                     counter++;
@@ -195,6 +210,7 @@ namespace TMNT.Controllers {
                     CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
                     DateCreated = DateTime.Today,
                     Department = HelperMethods.GetUserDepartment(),
+                    IntermediateStandard = standard,
                     Type = "Intermediate Standard",
                     StorageRequirements = intermediatestandard.StorageRequirements,
                     UsedFor = intermediatestandard.UsedFor,
@@ -203,8 +219,8 @@ namespace TMNT.Controllers {
 
                 //creating the prep list and the intermediate standard
                 new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
-                new InventoryItemRepository(DbContextSingleton.Instance).Create(inventoryItem);
                 repo.Create(standard);
+                new InventoryItemRepository(DbContextSingleton.Instance).Create(inventoryItem);
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                     //save pressed

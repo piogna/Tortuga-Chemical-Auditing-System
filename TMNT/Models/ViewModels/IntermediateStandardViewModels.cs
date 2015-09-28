@@ -51,4 +51,12 @@ namespace TMNT.Models.ViewModels {
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
         public DateTime? DateModified { get; set; }
     }
+
+    public class IntermediateStandardPrepListItemsViewModel {
+        public string[] AmountsWithUnits { get; set; }
+        public string[] Amounts { get; set; }
+        public string[] IdCodes { get; set; }
+        public string[] Types { get; set; }
+        public string[] Units { get; set; }
+    }
 }

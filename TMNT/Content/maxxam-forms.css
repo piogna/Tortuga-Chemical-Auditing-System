@@ -120,11 +120,16 @@ input[type=text] {
 
 /* Intermediate Standard CSS */
 #build-recipe {
-    height: 400px;
+    height: 325px;
     overflow-y: scroll;
 }
 
     #build-recipe > .row {
         padding-left: 15px;
         padding-right: 15px;
+    }
+
+    .zero-left-right-margin {
+        margin-left:0 !important;
+        margin-right:0 !important;
     }
