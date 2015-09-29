@@ -266,6 +266,7 @@
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceTest.cs" />
     <Compile Include="Models\DeviceVerification.cs" />
+    <Compile Include="Models\Enums\CheckModelState.cs" />
     <Compile Include="Models\FakeModels\FakeDeviceTest.cs" />
     <Compile Include="Models\FakeModels\FakeExpiringStandards.cs" />
     <Compile Include="Models\FakeModels\FakeInventoryItem.cs" />

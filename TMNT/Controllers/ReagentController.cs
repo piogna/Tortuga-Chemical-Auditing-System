@@ -10,6 +10,7 @@ using TMNT.Models.ViewModels;
 using System.Collections.Generic;
 using TMNT.Utils;
 using TMNT.Helpers;
+using TMNT.Models.Enums;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -123,7 +124,7 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
-            
+
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -177,7 +178,17 @@ namespace TMNT.Controllers {
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
                 reagent.InventoryItems.Add(inventoryItem);
-                repo.Create(reagent);
+                //repo.Create(reagent);
+
+                var result = CreateR(reagent);
+
+                switch (result) {
+                    case CheckModelState.Valid:
+                        break;
+                    case CheckModelState.Invalid:
+                        break;
+
+                }
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                     //save pressed
@@ -187,6 +198,7 @@ namespace TMNT.Controllers {
                     return RedirectToAction("Create");
                 }
             }
+            
             ModelState.AddModelError("", "Could not write to database.");
             SetStockReagent(model);
             return View(model);
@@ -318,10 +330,17 @@ namespace TMNT.Controllers {
 
             return model;
         }
-    }
 
-    public enum CheckModelState {
-        Valid = 0,
-        Invalid = 1
+        public CheckModelState CreateR(StockReagent t) {
+            try {
+                DbContextSingleton.Instance.StockReagents.Add(t);
+                if(DbContextSingleton.Instance.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
+        }
     }
 }
