@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
 using System;
+using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
@@ -22,9 +23,16 @@ namespace TMNT.Models.Repository {
             return db.StockReagents.Find(i);
         }
 
-        public void Create(StockReagent t) {
-            db.StockReagents.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(StockReagent t) {
+            try {
+                db.StockReagents.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(StockReagent reagent) {

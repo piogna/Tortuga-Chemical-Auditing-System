@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -8,9 +9,16 @@ namespace TMNT.Models.Repository {
 
         private ApplicationDbContext _db = DbContextSingleton.Instance;
 
-        public void Create(CertificateOfAnalysis t) {
-            _db.CertificatesOfAnalysis.Add(t);
-            _db.SaveChanges();
+        public CheckModelState Create(CertificateOfAnalysis t) {
+            try {
+                _db.CertificatesOfAnalysis.Add(t);
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Delete(int? i) {
@@ -38,9 +46,16 @@ namespace TMNT.Models.Repository {
 
         private ApplicationDbContext _db = DbContextSingleton.Instance;
 
-        public void Create(MSDS t) {
-            _db.MSDS.Add(t);
-            _db.SaveChanges();
+        public CheckModelState Create(MSDS t) {
+            try {
+                _db.MSDS.Add(t);
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Delete(int? i) {

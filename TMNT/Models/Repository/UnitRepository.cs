@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -21,10 +22,10 @@ namespace TMNT.Models.Repository {
         public Unit Get(int? i) {
             return _db.Units
                 .Where(item => item.UnitId == i)
-                .FirstOrDefault<Unit>();
+                .FirstOrDefault();
         }
 
-        public void Create(Unit t) {
+        public CheckModelState Create(Unit t) {
             throw new NotImplementedException();
         }
 

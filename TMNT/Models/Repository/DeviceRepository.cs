@@ -3,6 +3,7 @@ using System.Linq;
 using TMNT.Utils;
 using System.Data.Entity;
 using System;
+using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
@@ -22,9 +23,16 @@ namespace TMNT.Models.Repository {
             return db.Devices.Find(i);
         }
 
-        public void Create(Device t) {
-            db.Devices.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(Device t) {
+            try {
+                db.Devices.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(Device t) {

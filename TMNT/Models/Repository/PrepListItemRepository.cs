@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -13,9 +14,16 @@ namespace TMNT.Models.Repository {
             this._db = db;
         }
 
-        public void Create(PrepListItem t) {
-            _db.PrepListItems.Add(t);
-            _db.SaveChanges();
+        public CheckModelState Create(PrepListItem t) {
+            try {
+                _db.PrepListItems.Add(t);
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Delete(int? i) {

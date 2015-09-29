@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
+using TMNT.Models.Enums;
+using System;
 
 namespace TMNT.Models.Repository {
     public class SupplierRepository : IRepository<Supplier> {
@@ -21,9 +23,16 @@ namespace TMNT.Models.Repository {
             return db.Suppliers.Find(i);
         }
 
-        public void Create(Supplier t) {
-            db.Suppliers.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(Supplier t) {
+            try {
+                db.Suppliers.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(Supplier t) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -22,9 +23,16 @@ namespace TMNT.Models.Repository {
             return _db.PrepLists.Find(i);
         }
 
-        public void Create(PrepList t) {
-            _db.PrepLists.Add(t);
-            _db.SaveChanges();
+        public CheckModelState Create(PrepList t) {
+            try {
+                _db.PrepLists.Add(t);
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(PrepList t) {

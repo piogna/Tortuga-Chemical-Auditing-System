@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -17,7 +16,7 @@ namespace TMNT.Models.Repository {
             throw new NotImplementedException();
         }
 
-        public void Create(InventoryItem t) {
+        public CheckModelState Create(InventoryItem t) {
             throw new NotImplementedException();
         }
 

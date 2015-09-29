@@ -2,6 +2,8 @@
 using System.Linq;
 using TMNT.Utils;
 using System.Data.Entity;
+using TMNT.Models.Enums;
+using System;
 
 namespace TMNT.Models.Repository {
     public class LocationRepository : IRepository<Location> {
@@ -21,9 +23,18 @@ namespace TMNT.Models.Repository {
             return db.Locations.Find(i);
         }
 
-        public void Create(Location t) {
+        public CheckModelState Create(Location t) {
             db.Locations.Add(t);
             db.SaveChanges();
+            try {
+                db.Locations.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(Location t) {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMNT.Utils;
 using System.Data.Entity;
+using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {
     public class MaxxamMadeStandardRepository : IRepository<MaxxamMadeStandard> {
@@ -21,9 +22,16 @@ namespace TMNT.Models.Repository {
             return db.MaxxamMadeStandard.Find(i);
         }
 
-        public void Create(MaxxamMadeStandard t) {
-            db.MaxxamMadeStandard.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(MaxxamMadeStandard t) {
+            try {
+                db.MaxxamMadeStandard.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(MaxxamMadeStandard t) {

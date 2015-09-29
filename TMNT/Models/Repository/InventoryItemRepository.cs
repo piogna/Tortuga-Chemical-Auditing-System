@@ -3,6 +3,7 @@ using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
 using System;
+using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
@@ -23,9 +24,16 @@ namespace TMNT.Models.Repository {
             return db.InventoryItems.Find(i);
         }
 
-        public void Create(InventoryItem t) {
-            db.InventoryItems.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(InventoryItem t) {
+            try {
+                db.InventoryItems.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(InventoryItem t) {

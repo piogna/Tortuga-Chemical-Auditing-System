@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
+using TMNT.Models.Enums;
+using System;
 
 namespace TMNT.Models.Repository {
     public class IntermediateStandardRepository : IRepository<IntermediateStandard> {
@@ -21,9 +23,16 @@ namespace TMNT.Models.Repository {
             return _db.IntermediateStandards.Find(i);
         }
 
-        public void Create(IntermediateStandard t) {
-            _db.IntermediateStandards.Add(t);
-            _db.SaveChanges();
+        public CheckModelState Create(IntermediateStandard t) {
+            try {
+                _db.IntermediateStandards.Add(t);
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(IntermediateStandard t) {

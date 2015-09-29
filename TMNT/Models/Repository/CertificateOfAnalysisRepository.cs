@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -19,7 +20,7 @@ namespace TMNT.Models.Repository {
         public CertificateOfAnalysis Get(int? i) {
             return db.CertificatesOfAnalysis.Find(i);
         }
-        public void Create(CertificateOfAnalysis t) {
+        public CheckModelState Create(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
 

@@ -178,28 +178,33 @@ namespace TMNT.Controllers {
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
                 reagent.InventoryItems.Add(inventoryItem);
-                //repo.Create(reagent);
-
-                var result = CreateR(reagent);
+                var result = repo.Create(reagent);
 
                 switch (result) {
                     case CheckModelState.Valid:
-                        break;
+                        if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                            //save pressed
+                            return RedirectToAction("Index");
+                        } else {
+                            //save & new pressed
+                            return RedirectToAction("Create");
+                        }
                     case CheckModelState.Invalid:
-                        break;
-
+                        ModelState.AddModelError("", "There was an error. Please try again.");
+                        SetStockReagent(model);
+                        return View(model);
                 }
 
-                if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
-                    //save pressed
-                    return RedirectToAction("Index");
-                } else {
-                    //save & new pressed
-                    return RedirectToAction("Create");
-                }
+                //if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                //    //save pressed
+                //    return RedirectToAction("Index");
+                //} else {
+                //    //save & new pressed
+                //    return RedirectToAction("Create");
+                //}
             }
             
-            ModelState.AddModelError("", "Could not write to database.");
+            ModelState.AddModelError("", "There was an error. Please try again.");
             SetStockReagent(model);
             return View(model);
         }
@@ -329,18 +334,6 @@ namespace TMNT.Controllers {
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
             return model;
-        }
-
-        public CheckModelState CreateR(StockReagent t) {
-            try {
-                DbContextSingleton.Instance.StockReagents.Add(t);
-                if(DbContextSingleton.Instance.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (Exception ex) {
-
-            }
-            return CheckModelState.Invalid;
         }
     }
 }

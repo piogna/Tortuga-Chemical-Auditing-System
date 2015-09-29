@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Data.Entity;
 using TMNT.Utils;
+using TMNT.Models.Enums;
+using System;
 
 namespace TMNT.Models.Repository {
     public class WorkingStandardRepository : IRepository<WorkingStandard> {
@@ -25,9 +27,16 @@ namespace TMNT.Models.Repository {
             return db.WorkingStandards.Find(i);
         }
 
-        public void Create(WorkingStandard t) {
-            db.WorkingStandards.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(WorkingStandard t) {
+            try {
+                db.WorkingStandards.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(WorkingStandard t) {

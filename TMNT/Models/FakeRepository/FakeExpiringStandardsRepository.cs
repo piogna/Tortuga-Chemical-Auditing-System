@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using TMNT.Models.Enums;
 using TMNT.Models.Repository;
 
 namespace TMNT.Models.FakeRepository {
@@ -20,7 +21,7 @@ namespace TMNT.Models.FakeRepository {
             throw new NotImplementedException();
         }
 
-        public void Create(FakeExpiringStandards t) {
+        public CheckModelState Create(FakeExpiringStandards t) {
             throw new NotImplementedException();
         }
 

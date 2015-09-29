@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMNT.Models.Enums;
 using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
@@ -21,9 +22,16 @@ namespace TMNT.Models.Repository {
             return db.DeviceVerifications.Find(i);
         }
 
-        public void Create(DeviceVerification t) {
-            db.DeviceVerifications.Add(t);
-            db.SaveChanges();
+        public CheckModelState Create(DeviceVerification t) {
+            try {
+                db.DeviceVerifications.Add(t);
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (Exception ex) {
+
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Update(DeviceVerification t) {
