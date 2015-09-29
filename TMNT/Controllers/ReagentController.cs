@@ -108,17 +108,10 @@ namespace TMNT.Controllers {
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
         public ActionResult Create() {
-            var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
+            var model = new StockReagentCreateViewModel();
+            SetStockReagent(model);
 
-            ViewBag.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
-            ViewBag.VolumeUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
-            ViewBag.Grades = new List<string>() { "A.C.S.", "Reagent", "U.S.P.", "N.F.", "Lab", "Purified", "Technical" };
-            ViewBag.Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
-
-            ViewBag.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList(); ;
-            ViewBag.VolumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
-            return View();
+            return View(model);
         }
 
         // POST: /Reagent/Create
@@ -130,7 +123,7 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
 
             var errors = ModelState.Where(item => item.Value.Errors.Any());
-
+            
             if (ModelState.IsValid) {
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -184,7 +177,6 @@ namespace TMNT.Controllers {
                 inventoryItem.MSDS.Add(model.MSDS);
                 inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
                 reagent.InventoryItems.Add(inventoryItem);
-
                 repo.Create(reagent);
 
                 if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
@@ -195,6 +187,8 @@ namespace TMNT.Controllers {
                     return RedirectToAction("Create");
                 }
             }
+            ModelState.AddModelError("", "Could not write to database.");
+            SetStockReagent(model);
             return View(model);
         }
 
@@ -223,11 +217,7 @@ namespace TMNT.Controllers {
             foreach (var item in stockreagent.InventoryItems) {
                 model.Grade = item.Grade;
                 model.GradeAdditionalNotes = item.GradeAdditionalNotes;
-                //model.DateCreated = item.DateCreated;
-                //model.CreatedBy = item.CreatedBy;
                 model.ExpiryDate = item.ExpiryDate;
-                //model.CatalogueCode = item.CatalogueCode;
-                //model.UsedFor = item.UsedFor;
                 model.SupplierName = item.SupplierName;
             }
             return View(model);
@@ -316,5 +306,22 @@ namespace TMNT.Controllers {
             repo.Delete(id);
             return RedirectToAction("Index");
         }
+
+        public StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
+            var units = new UnitRepository(DbContextSingleton.Instance).Get();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+
+            model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+            model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+
+            return model;
+        }
+    }
+
+    public enum CheckModelState {
+        Valid = 0,
+        Invalid = 1
     }
 }

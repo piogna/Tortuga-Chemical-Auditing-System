@@ -47,7 +47,7 @@
                         <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="content-wrap">
                     <!-- REAGENT INFO -->
                     <section id="section-bar-1" class="section">
@@ -86,7 +86,7 @@
                                         <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Storage Requirement..</option>
                                             <optgroup label="Storage Req's'">
-                                                @foreach (var item in ViewBag.Storage) {
+                                                @foreach (var item in Model.Storage) {
                                                     <option value="@item">
                                                         @item
                                                     </option>
@@ -123,7 +123,7 @@
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
-                                                @foreach (var item in ViewBag.BalanceDevices) {
+                                                @foreach (var item in Model.BalanceDevices) {
                                                     if (@item.IsVerified) {
                                                         <option value="@item.DeviceCode">
                                                             @item.DeviceCode
@@ -136,7 +136,7 @@
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
-                                                @foreach (var item in ViewBag.VolumeDevices) {
+                                                @foreach (var item in Model.VolumetricDevices) {
                                                     if (@item.IsVerified) {
                                                         <option value="@item.DeviceCode">
                                                             @item.DeviceCode
@@ -169,7 +169,7 @@
                                         <select id="grades" name="Grade" class="form-control no-border-radius input-summary input-half-width">
                                             <option value="">Grade..</option>
                                             <optgroup label="Grades'">
-                                                @foreach (var item in ViewBag.Grades) {
+                                                @foreach (var item in Model.Grades) {
                                                     <option value="@item">
                                                         @item
                                                     </option>
@@ -181,9 +181,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' class="btn btn-default next-section btn-next">Next »</a>
+                                <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                            </div>
+                            <div class="col-md-offset-1 col-md-10">
+                                <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
                             </div>
                         </div>
                     </section>
@@ -220,10 +223,13 @@
                                 @Html.ValidationMessageFor(model => model.MSDSNotes)
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <div class="form-group">
                             <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-3' id="btn-review" class="btn btn-default next-section btn-review">Review and Submit</a>
+                                <a href='#section-bar-3' disabled="disabled" id="btn-review" class="btn btn-default next-section btn-review">Review and Submit</a>
                                 <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
+                            </div>
+                            <div class="col-md-offset-1 col-md-10">
+                                <div id="button-message-s2" class="pull-right button-message-error">Fill out required fields.</div>
                             </div>
                         </div>
                     </section>
@@ -272,4 +278,56 @@
             maximumSelectionLength: 2
         });
     });
+
+
+    //$(function () {
+    //    var requiredField = $('.required-field');
+    //    var requiredFieldSectionTwo = $('.required-field-s2');
+    //    var btnNext = $('.btn-next');
+    //    var btnReview = $('.btn-review');
+    //    var buttonMessage = $('#button-message');
+    //    var buttonMessageSectionTwo = $('#button-message-s2');
+
+    //    requiredField.on('change keyup paste', function () {
+    //        var formIsValid = true;
+    //        requiredField.each(function () {
+    //            if (!$(this).val()) {
+    //                formIsValid = false;
+    //            }
+    //        });
+
+    //        if (formIsValid) {
+    //            btnNext.removeAttr("disabled");
+    //            buttonMessage.text("All required fields filled.");
+    //            buttonMessage.removeClass("button-message-error").addClass("button-message-success")
+    //        } else {
+    //            if (!btnNext.attr("disabled")) {
+    //                btnNext.attr('disabled', 'disabled');
+    //                buttonMessage.text("Fill out required fields.");
+    //                buttonMessage.removeClass("button-message-success").addClass("button-message-error");
+    //            }
+    //        }
+    //    });
+
+    //    requiredFieldSectionTwo.on('change keyup paste', function () {
+    //        var formIsValid = true;
+    //        requiredFieldSectionTwo.each(function () {
+    //            if (!$(this).val()) {
+    //                formIsValid = false;
+    //            }
+    //        });
+
+    //        if (formIsValid) {
+    //            btnReview.removeAttr("disabled");
+    //            buttonMessageSectionTwo.text("All required fields filled.");
+    //            buttonMessageSectionTwo.removeClass("button-message-error").addClass("button-message-success")
+    //        } else {
+    //            if (!btnReview.attr("disabled")) {
+    //                btnReview.attr('disabled', 'disabled');
+    //                buttonMessageSectionTwo.text("Fill out required fields.");
+    //                buttonMessageSectionTwo.removeClass("button-message-success").addClass("button-message-error");
+    //            }
+    //        }
+    //    });
+    //});
 </script>

@@ -111,8 +111,7 @@ namespace TMNT.Controllers {
             var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric"));
 
             var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
-
-
+            
             model.Storage = storageRequirements;
 
             model.BalanceDevices = balanceDevices;

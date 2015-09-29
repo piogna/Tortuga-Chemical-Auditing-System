@@ -313,7 +313,7 @@
     <Compile Include="Models\ViewModels\AuditViewModel.cs" />
     <Compile Include="Models\ViewModels\BalanceViewModel.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
-    <Compile Include="Models\ViewModels\IntermediateStandardViewModel.cs" />
+    <Compile Include="Models\ViewModels\IntermediateStandardViewModels.cs" />
     <Compile Include="Models\ViewModels\MaxxamMadeReagentViewModel.cs" />
     <Compile Include="Models\ViewModels\MaxxamMadeStandardViewModel.cs" />
     <Compile Include="Models\ViewModels\StockReagentViewModels.cs" />

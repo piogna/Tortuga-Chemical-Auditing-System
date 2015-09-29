@@ -133,3 +133,15 @@ input[type=text] {
         margin-left:0 !important;
         margin-right:0 !important;
     }
+
+    .button-message-error {
+        color:red;
+        font-size:14px;
+        padding-top:5px;
+    }
+
+    .button-message-success {
+        color:green;
+        font-size:14px;
+        padding-top:5px;
+    }

@@ -95,14 +95,13 @@ namespace TMNT.Controllers {
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
             var units = new UnitRepository().Get();
+            var model = new IntermediateStandardViewModel();
 
-            ViewBag.Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
-            ViewBag.Types = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
-            ViewBag.WeightUnits = units.Where(item => item.UnitType == "Weight").ToList();
-            ViewBag.VolumeUnits = units.Where(item => item.UnitType == "Volume").ToList();
-            ViewBag.OtherUnit = units.Where(item => item.UnitType == "Other").First();
+            model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+            model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            model.OtherUnit = units.Where(item => item.UnitType.Equals("Other")).FirstOrDefault();
 
-            return View();
+            return View(model);
         }
 
         // POST: /IntermediateStandard/Create
@@ -190,10 +189,7 @@ namespace TMNT.Controllers {
                 };
 
                 intermediatestandard.PrepList = prepList;
-                //intermediatestandard.CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
-                //update amounts of reagents, standards, or intermediate standards in the database
-                //if (reagentAndStandardContainer != null) { BuildIntermediateStandard.UpdateInventoryWithGenerics(reagentAndStandardContainer, amounts); }
                 //building the intermediate standard
                 IntermediateStandard standard = new IntermediateStandard() {
                     TotalVolume = intermediatestandard.TotalAmount,

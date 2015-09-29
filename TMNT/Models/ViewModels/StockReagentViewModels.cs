@@ -126,6 +126,17 @@ namespace TMNT.Models.ViewModels {
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
         public List<MSDS> AllMSDS { get; set; }
+
+        //View Model data fields
+        public List<string> Storage { get; set; } = new List<string>() { "Fridge", "Freezer", "Shelf" };
+        public List<string> ChemicalTypes { get; set; } = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
+        public List<string> Grades { get; set; } = new List<string>() { "A.C.S.", "Reagent", "U.S.P.", "N.F.", "Lab", "Purified", "Technical" };
+        public List<Device> BalanceDevices { get; set; }
+        public List<Device> VolumetricDevices { get; set; }
+
+        public List<Unit> WeightUnits { get; set; }
+        public List<Unit> VolumetricUnits { get; set; }
+        public Unit OtherUnit { get; set; }
     }
 
     public class StockReagentEditViewModel {
