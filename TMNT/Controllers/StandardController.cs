@@ -9,6 +9,7 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using TMNT.Helpers;
+using TMNT.Models.Enums;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -104,17 +105,8 @@ namespace TMNT.Controllers {
         // GET: /Standard/Create
         public ActionResult Create() {
             var model = new StockStandardCreateViewModel();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get();
+            SetStockStandard(model);
 
-            var balanceDevices = devices.Where(item => item.DeviceType.Equals("Balance"));
-            var volumeDevices = devices.Where(item => item.DeviceType.Equals("Volumetric"));
-
-            var storageRequirements = new List<string>() { "Fridge", "Freezer", "Shelf" };
-            
-            model.Storage = storageRequirements;
-
-            model.BalanceDevices = balanceDevices;
-            model.VolumeDevices = volumeDevices;
             return View(model);
         }
 
@@ -126,70 +118,88 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
                     StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-            
-            if (ModelState.IsValid) {
-                if (uploadCofA != null) {
-                    var cofa = new CertificateOfAnalysis() {
-                        FileName = uploadCofA.FileName,
-                        ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Today
-                    };
-
-                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
-                        cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
-                    }
-                    model.CertificateOfAnalysis = cofa;
-                }
-                if (uploadMSDS != null) {
-                    var msds = new MSDS() {
-                        FileName = uploadMSDS.FileName,
-                        ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Today,
-                        MSDSNotes = model.MSDSNotes
-                    };
-                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-                        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-                    }
-                    model.MSDS = msds;
-                }
-
-                StockStandard standard = new StockStandard() {
-                    IdCode = model.IdCode,
-                    LotNumber = model.LotNumber,
-                    StockStandardName = model.StockStandardName,
-                    SolventUsed = model.SolventUsed,
-                    Purity = model.Purity,
-                    SolventSupplierName = model.SolventSupplierName
-                };
-
-                InventoryItem inventoryItem = new InventoryItem() {
-                    CatalogueCode = model.CatalogueCode,
-                    Department = HelperMethods.GetUserDepartment(),
-                    ExpiryDate = model.ExpiryDate,
-                    UsedFor = model.UsedFor,
-                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
-                    DateCreated = DateTime.Today,
-                    DateModified = DateTime.Today,
-                    Type = "Standard",
-                    StorageRequirements = model.StorageRequirements,
-                    SupplierName = model.SupplierName
-                };
-
-                inventoryItem.MSDS.Add(model.MSDS);
-                inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
-                standard.InventoryItems.Add(inventoryItem);
-
-                repoStandard.Create(standard);
-
-                if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
-                    //save pressed
-                    return RedirectToAction("Index");
-                } else {
-                    //save & new pressed
-                    return RedirectToAction("Create");
-                }
+            //model isn't valid, return to the form
+            if (!ModelState.IsValid) {
+                SetStockStandard(model);
+                return View(model);
             }
-            return View(model);
+
+            //if (ModelState.IsValid) {
+            if (uploadCofA != null) {
+                var cofa = new CertificateOfAnalysis() {
+                    FileName = uploadCofA.FileName,
+                    ContentType = uploadCofA.ContentType,
+                    DateAdded = DateTime.Today
+                };
+
+                using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                    cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
+                }
+                model.CertificateOfAnalysis = cofa;
+            }
+            if (uploadMSDS != null) {
+                var msds = new MSDS() {
+                    FileName = uploadMSDS.FileName,
+                    ContentType = uploadMSDS.ContentType,
+                    DateAdded = DateTime.Today,
+                    MSDSNotes = model.MSDSNotes
+                };
+                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                }
+                model.MSDS = msds;
+            }
+
+            StockStandard standard = new StockStandard() {
+                IdCode = model.IdCode,
+                LotNumber = model.LotNumber,
+                StockStandardName = model.StockStandardName,
+                SolventUsed = model.SolventUsed,
+                Purity = model.Purity,
+                SolventSupplierName = model.SolventSupplierName
+            };
+
+            InventoryItem inventoryItem = new InventoryItem() {
+                CatalogueCode = model.CatalogueCode,
+                Department = HelperMethods.GetUserDepartment(),
+                ExpiryDate = model.ExpiryDate,
+                UsedFor = model.UsedFor,
+                CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
+                DateCreated = DateTime.Today,
+                DateModified = DateTime.Today,
+                Type = "Standard",
+                StorageRequirements = model.StorageRequirements,
+                SupplierName = model.SupplierName
+            };
+
+            inventoryItem.MSDS.Add(model.MSDS);
+            inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
+            standard.InventoryItems.Add(inventoryItem);
+
+            var result = repoStandard.Create(standard);
+
+            switch (result) {
+                case CheckModelState.Invalid:
+                    ModelState.AddModelError("", "The creation of " + standard.StockStandardName + " failed. Please double check all inputs and try again.");
+                    SetStockStandard(model);
+                    return View(model);
+                case CheckModelState.Error:
+                    ModelState.AddModelError("", "There was an error. Please try again.");
+                    SetStockStandard(model);
+                    return View(model);
+                case CheckModelState.Valid:
+                    if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                        //save pressed
+                        return RedirectToAction("Index");
+                    } else {
+                        //save & new pressed
+                        return RedirectToAction("Create");
+                    }
+                default:
+                    ModelState.AddModelError("", "An unknown error occurred.");
+                    SetStockStandard(model);
+                    return View(model);
+            }
         }
 
         // GET: /Standard/Edit/5
@@ -198,13 +208,13 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
             StockStandard stockstandard = repoStandard.Get(id);
 
             if (stockstandard == null) {
                 return HttpNotFound();
             }
-            
+
             StockStandardEditViewModel model = new StockStandardEditViewModel() {
                 StockStandardId = stockstandard.StockStandardId,
                 LotNumber = stockstandard.LotNumber,
@@ -241,7 +251,7 @@ namespace TMNT.Controllers {
                 updateStandard.IdCode = stockstandard.IdCode;
                 updateStandard.LotNumber = stockstandard.LotNumber;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
-                
+
                 repoStandard.Update(updateStandard);
 
                 if (uploadCofA != null) {
@@ -271,7 +281,7 @@ namespace TMNT.Controllers {
 
                     invItem.MSDS.Add(msds);
                 }
-                
+
                 invItem.DateModified = DateTime.Today;
                 invItem.SupplierName = stockstandard.SupplierName;
 
@@ -302,6 +312,18 @@ namespace TMNT.Controllers {
         public ActionResult DeleteConfirmed(int id) {
             repoStandard.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        public StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
+            var units = new UnitRepository(DbContextSingleton.Instance).Get();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+
+            model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
+            model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+
+            return model;
         }
     }
 }

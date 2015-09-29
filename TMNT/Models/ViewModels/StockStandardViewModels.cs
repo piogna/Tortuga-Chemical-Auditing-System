@@ -81,7 +81,12 @@ namespace TMNT.Models.ViewModels {
         //View Model data fields
         public List<string> Storage { get; set; }
         public IEnumerable<Device> BalanceDevices { get; set; }
-        public IEnumerable<Device> VolumeDevices { get; set;}
+        public IEnumerable<Device> VolumetricDevices { get; set;}
+
+
+        public List<Unit> WeightUnits { get; set; }
+        public List<Unit> VolumetricUnits { get; set; }
+        public Unit OtherUnit { get; set; }
     }
 
     public class StockStandardDetailsViewModel {
