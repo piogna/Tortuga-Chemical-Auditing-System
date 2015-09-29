@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
@@ -211,19 +210,13 @@ namespace TMNT.Controllers {
                 LotNumber = stockstandard.LotNumber,
                 StockStandardName = stockstandard.StockStandardName,
                 IdCode = stockstandard.IdCode,
-                //Purity = stockstandard.Purity,
-                //SolventSupplierName = stockstandard.SolventSupplierName,
-                //SolventUsed = stockstandard.SolventUsed,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
                 MSDS = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockstandard.InventoryItems) {
                 model.DateCreated = item.DateCreated;
-                //model.CatalogueCode = item.CatalogueCode;
-                //model.ExpiryDate = item.ExpiryDate;
                 model.SupplierName = item.SupplierName;
-                //model.UsedFor = item.UsedFor;
             }
             return View(model);
         }
@@ -262,9 +255,7 @@ namespace TMNT.Controllers {
                         cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
                     }
                     stockstandard.CertificateOfAnalysis = cofa;
-                    //update inventory item amount
                     //add certificate analysis
-
                     invItem.CertificatesOfAnalysis.Add(cofa);
                 }
                 if (uploadMSDS != null) {

@@ -122,91 +122,89 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
-
-            var errors = ModelState.Where(item => item.Value.Errors.Any());
-
-            if (ModelState.IsValid) {
-                if (uploadCofA != null) {
-                    var cofa = new CertificateOfAnalysis() {
-                        FileName = uploadCofA.FileName,
-                        ContentType = uploadCofA.ContentType,
-                        DateAdded = DateTime.Today
-                    };
-                    using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
-                        cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
-                    }
-                    model.CertificateOfAnalysis = cofa;
-                }
-
-                if (uploadMSDS != null) {
-                    var msds = new MSDS() {
-                        FileName = uploadMSDS.FileName,
-                        ContentType = uploadMSDS.ContentType,
-                        DateAdded = DateTime.Today,
-                        MSDSNotes = model.MSDSNotes
-                    };
-                    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-                        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-                    }
-                    model.MSDS = msds;
-                }
-
-                StockReagent reagent = new StockReagent() {
-                    IdCode = model.IdCode,
-                    LotNumber = model.LotNumber,
-                    ReagentName = model.ReagentName
-                };
-
-                InventoryItem inventoryItem = new InventoryItem() {
-                    CatalogueCode = model.CatalogueCode,
-                    Department = HelperMethods.GetUserDepartment(),
-                    Grade = model.Grade,
-                    GradeAdditionalNotes = model.GradeAdditionalNotes,
-                    ExpiryDate = DateTime.Today,
-                    DateOpened = null,
-                    DateModified = null,
-                    DateCreated = DateTime.Today,
-                    UsedFor = model.UsedFor,
-                    CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)
-                                ? HelperMethods.GetCurrentUser().UserName
-                                : "USERID",
-                    Type = "Reagent",
-                    StorageRequirements = model.StorageRequirements,
-                    SupplierName = model.SupplierName
-                };
-
-                inventoryItem.MSDS.Add(model.MSDS);
-                inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
-                reagent.InventoryItems.Add(inventoryItem);
-                var result = repo.Create(reagent);
-
-                switch (result) {
-                    case CheckModelState.Valid:
-                        if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
-                            //save pressed
-                            return RedirectToAction("Index");
-                        } else {
-                            //save & new pressed
-                            return RedirectToAction("Create");
-                        }
-                    case CheckModelState.Invalid:
-                        ModelState.AddModelError("", "There was an error. Please try again.");
-                        SetStockReagent(model);
-                        return View(model);
-                }
-
-                //if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
-                //    //save pressed
-                //    return RedirectToAction("Index");
-                //} else {
-                //    //save & new pressed
-                //    return RedirectToAction("Create");
-                //}
+            //model isn't valid, return to the form
+            if (!ModelState.IsValid) {
+                SetStockReagent(model);
+                return View(model);
             }
-            
-            ModelState.AddModelError("", "There was an error. Please try again.");
-            SetStockReagent(model);
-            return View(model);
+
+            if (uploadCofA != null) {
+                var cofa = new CertificateOfAnalysis() {
+                    FileName = uploadCofA.FileName,
+                    ContentType = uploadCofA.ContentType,
+                    DateAdded = DateTime.Today
+                };
+                using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                    cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
+                }
+                model.CertificateOfAnalysis = cofa;
+            }
+
+            if (uploadMSDS != null) {
+                var msds = new MSDS() {
+                    FileName = uploadMSDS.FileName,
+                    ContentType = uploadMSDS.ContentType,
+                    DateAdded = DateTime.Today,
+                    MSDSNotes = model.MSDSNotes
+                };
+                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                }
+                model.MSDS = msds;
+            }
+
+            StockReagent reagent = new StockReagent() {
+                IdCode = model.IdCode,
+                LotNumber = model.LotNumber,
+                ReagentName = model.ReagentName
+            };
+
+            InventoryItem inventoryItem = new InventoryItem() {
+                CatalogueCode = model.CatalogueCode,
+                Department = HelperMethods.GetUserDepartment(),
+                Grade = model.Grade,
+                GradeAdditionalNotes = model.GradeAdditionalNotes,
+                ExpiryDate = DateTime.Today,
+                DateOpened = null,
+                DateModified = null,
+                DateCreated = DateTime.Today,
+                UsedFor = model.UsedFor,
+                CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)
+                            ? HelperMethods.GetCurrentUser().UserName
+                            : "USERID",
+                Type = "Reagent",
+                StorageRequirements = model.StorageRequirements,
+                SupplierName = model.SupplierName
+            };
+
+            inventoryItem.MSDS.Add(model.MSDS);
+            inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
+            reagent.InventoryItems.Add(inventoryItem);
+            //getting the enum result
+            var result = repo.Create(reagent);
+
+            switch (result) {
+                case CheckModelState.Invalid:
+                    ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
+                    SetStockReagent(model);
+                    return View(model);
+                case CheckModelState.Error:
+                    ModelState.AddModelError("", "There was an error. Please try again.");
+                    SetStockReagent(model);
+                    return View(model);
+                case CheckModelState.Valid:
+                    if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                        //save pressed
+                        return RedirectToAction("Index");
+                    } else {
+                        //save & new pressed
+                        return RedirectToAction("Create");
+                    }
+                default:
+                    ModelState.AddModelError("", "An unknown error occurred.");
+                    SetStockReagent(model);
+                    return View(model);
+            }
         }
 
         // GET: /Reagent/Edit/5
@@ -259,7 +257,7 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)? HelperMethods.GetCurrentUser().UserName : "USERID";
+                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
                 repo.Update(updateReagent);
 
@@ -296,7 +294,7 @@ namespace TMNT.Controllers {
                 invItem.GradeAdditionalNotes = stockreagent.GradeAdditionalNotes;
                 //invItem.ExpiryDate = stockreagent.ExpiryDate;
                 invRepo.Update(invItem);
-                
+
                 return RedirectToAction("Index");
             }
             return View(stockreagent);

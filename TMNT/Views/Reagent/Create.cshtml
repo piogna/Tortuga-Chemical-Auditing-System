@@ -47,10 +47,10 @@
                         <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="content-wrap">
                     <!-- REAGENT INFO -->
                     <section id="section-bar-1" class="section">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="col-md-10">
