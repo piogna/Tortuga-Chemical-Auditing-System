@@ -79,7 +79,7 @@ namespace TMNT.Models.ViewModels {
         public List<MSDS> AllMSDS { get; set; }
 
         //View Model data fields
-        public List<string> Storage { get; set; }
+        public List<string> Storage { get; set; } = new List<string>() { "Fridge", "Freezer", "Shelf" };
         public IEnumerable<Device> BalanceDevices { get; set; }
         public IEnumerable<Device> VolumetricDevices { get; set;}
 

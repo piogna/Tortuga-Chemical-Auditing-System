@@ -26,10 +26,10 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard")]
         public ActionResult Index() {
             var intermediatestandards = repo.Get();
-            var list = new List<IntermediateStandardViewModel>();
+            var list = new List<IntermediateStandardIndexViewModel>();
 
             foreach (var item in intermediatestandards) {
-                list.Add(new IntermediateStandardViewModel() {
+                list.Add(new IntermediateStandardIndexViewModel() {
                     IntermediateStandardId = item.IntermediateStandardId,
                     IdCode = item.IdCode,
                     MaxxamId = item.MaxxamId
@@ -42,15 +42,11 @@ namespace TMNT.Controllers {
                 foreach (var invItem in standard.InventoryItems) {
                     if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
                         list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].DateOpened = invItem.DateOpened;
                         list[counter].DateCreated = invItem.DateCreated;
                         list[counter].CreatedBy = invItem.CreatedBy;
-                        list[counter].DateModified = invItem.DateModified;
                     }
                 }
-                counter++;
             }
-
             return View(list);
         }
 
@@ -67,7 +63,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            var vIntermediateStandard = new IntermediateStandardViewModel() {
+            var vIntermediateStandard = new IntermediateStandardDetailsViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
@@ -95,7 +91,7 @@ namespace TMNT.Controllers {
         // GET: /IntermediateStandard/Create
         public ActionResult Create() {
             var units = new UnitRepository().Get();
-            var model = new IntermediateStandardViewModel();
+            var model = new IntermediateStandardCreateViewModel();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
@@ -110,7 +106,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardViewModel intermediatestandard, string submit) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardCreateViewModel intermediatestandard, string submit) {
             var errors = ModelState.Where(item => item.Value.Errors.Any());
             if (ModelState.IsValid) {
                 //retrieving all table rows from recipe builder - replace with view model in the future
@@ -240,7 +236,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            IntermediateStandardViewModel model = new IntermediateStandardViewModel() {
+            IntermediateStandardEditViewModel model = new IntermediateStandardEditViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
