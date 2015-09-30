@@ -422,7 +422,7 @@ namespace TMNT.Controllers {
                 NextRequiredPasswordChange = user.NextRequiredPasswordChange
             };
             if (model.LastPasswordChange != null) {
-                model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - model.LastPasswordChange.Value).Days - 1;
+                model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - DateTime.Today).Days - 1;
             }
             return View(model);
         }
