@@ -188,6 +188,10 @@ namespace TMNT.Controllers {
                     ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
                     SetStockReagent(model);
                     return View(model);
+                case CheckModelState.DataError:
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                    SetStockReagent(model);
+                    return View(model);
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
                     SetStockReagent(model);

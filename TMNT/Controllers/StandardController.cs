@@ -183,6 +183,10 @@ namespace TMNT.Controllers {
                     ModelState.AddModelError("", "The creation of " + standard.StockStandardName + " failed. Please double check all inputs and try again.");
                     SetStockStandard(model);
                     return View(model);
+                case CheckModelState.DataError:
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                    SetStockStandard(model);
+                    return View(model);
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
                     SetStockStandard(model);

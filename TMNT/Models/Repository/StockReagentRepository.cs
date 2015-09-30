@@ -4,6 +4,7 @@ using System.Data.Entity;
 using TMNT.Utils;
 using System;
 using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
@@ -44,6 +45,8 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
+            } catch (DataException ex) {
+                return CheckModelState.DataError;
             } catch (Exception ex) {
                 return CheckModelState.Error;
             }
