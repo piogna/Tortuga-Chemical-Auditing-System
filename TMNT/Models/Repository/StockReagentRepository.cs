@@ -9,7 +9,22 @@ namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
+        private static volatile StockReagentRepository instance;
+        private static object syncRoot = new object();
+
         public StockReagentRepository() { }
+
+        public static StockReagentRepository StockReagentRepositoryInstance {
+            get {
+                if (instance == null) {
+                    lock (syncRoot) {
+                        if (instance == null)
+                            instance = new StockReagentRepository();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public StockReagentRepository(ApplicationDbContext db) {
             this.db = db;

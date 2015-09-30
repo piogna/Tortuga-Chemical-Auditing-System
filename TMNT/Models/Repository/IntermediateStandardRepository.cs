@@ -30,7 +30,7 @@ namespace TMNT.Models.Repository {
                     return CheckModelState.Valid;
                 }
             } catch (Exception ex) {
-
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }

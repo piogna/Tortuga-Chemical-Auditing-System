@@ -14,7 +14,7 @@ namespace TMNT.Controllers {
         [Route("")]
         public ActionResult Index() {
             var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
-
+            
             Department userDepartment = HelperMethods.GetUserDepartment();
 
             if (userDepartment == null) {

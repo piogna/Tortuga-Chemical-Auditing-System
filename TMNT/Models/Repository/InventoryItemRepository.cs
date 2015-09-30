@@ -9,7 +9,22 @@ namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
+        private static volatile InventoryItemRepository instance;
+        private static object syncRoot = new object();
+
         public InventoryItemRepository() { }
+        
+        public static InventoryItemRepository InventoryItemRepositoryInstance {
+            get {
+                if (instance == null) {
+                    lock (syncRoot) {
+                        if (instance == null)
+                            instance = new InventoryItemRepository();
+                    }
+                }
+                return instance;
+            }
+        }
 
         public InventoryItemRepository(ApplicationDbContext db) {
             this.db = db;
