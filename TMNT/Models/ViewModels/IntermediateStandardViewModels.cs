@@ -107,6 +107,18 @@ namespace TMNT.Models.ViewModels {
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
+
+        public string[] Types { get; set; }
+        //public List<IntermediateStandardPrepListsViewModel> PrepListsInTable { get; set; }
+    }
+
+    public class IntermediateStandardPrepListsViewModel {
+        public string AmountsWithUnits { get; set; }
+        public string Amount { get; set; }
+        public string Unit { get; set; }
+        public string IdCode { get; set; }
+        public string Type { get; set; }
+
     }
 
     public class IntermediateStandardEditViewModel {

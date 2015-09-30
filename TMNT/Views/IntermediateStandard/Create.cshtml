@@ -37,9 +37,9 @@
                         <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <section id="section-bar-1">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <!-- Start Building Recipe Section -->
                         <div class="col-md-12" style="background-color: lightgrey;">
                             <h4 style="padding-top: 5px; padding-bottom: 5px; color: #00000f">Build Your Intermediate Standard</h4>
@@ -369,9 +369,9 @@
 
                 Append = "";
                 Append += "<tr><td style='width:83px'>" + ItemCount + "</td>" +
-                        "<td style='width:169px'><input name='Type' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
-                         "<td style='width:101px'><input name='IdCodes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + IdCode.val() + "'/></td>" +
-                        "<td style='width:102px'><input name='Amount' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='" + amount + "'/></td>" +
+                        "<td style='width:169px'><input name='PrepListItemTypes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
+                         "<td style='width:101px'><input name='PrepListItemIdCodes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + IdCode.val() + "'/></td>" +
+                        "<td style='width:102px'><input name='PrepListItemAmounts' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='" + amount + "'/></td>" +
                         "<td style='width:151px'><a class='recipe-table-remove-item' href='#'><i class='fa fa-close'></i>&nbsp;&nbsp;Remove</a></td></tr>";
                 RecipeTable.append(Append);
 
