@@ -157,19 +157,22 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table id="myTable" class="table table-bordered table-hover table-striped">
+                    <table id="home-data-table" class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
+                                <th>Date Expired</th>
                                 <th>Item Type</th>
                                 <th>Created By</th>
                                 <th>Supplier</th>
-                                <th>Date Expired</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.ExpiredItems) {
                                 <tr>
+                                    <td>
+                                        @item.ExpiryDate.ToString().Split(' ')[0]
+                                    </td>
                                     <td>
                                         @item.Type
                                     </td>
@@ -178,9 +181,6 @@
                                     </td>
                                     <td>
                                         @item.SupplierName
-                                    </td>
-                                    <td>
-                                        @item.ExpiryDate.ToString().Split(' ')[0]
                                     </td>
                                     @if (@item.StockReagent != null) {
                                         <td>
@@ -218,10 +218,10 @@
                         </tbody>
                         <tfoot>
                             <tr>
+                                <th>Date Expired</th>
                                 <th>Item Type</th>
                                 <th>Created By</th>
                                 <th>Supplier</th>
-                                <th>Date Expired</th>
                                 <th>Details</th>
                             </tr>
                         </tfoot>
