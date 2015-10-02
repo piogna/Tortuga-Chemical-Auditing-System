@@ -9,6 +9,12 @@
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <style>
+        .form-group {
+            margin-left:0 !important;
+            margin-right:0 !important;
+        }
+    </style>
 }
 
 @using (Html.BeginForm("Create", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
@@ -45,27 +51,23 @@
                 <div class="content-wrap">
                     <!-- STANDARD INFORMATION -->
                     <section id="section-bar-1">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
+                        <div class="col-md-12">
+                            <div class="col-lg-6">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.IdCode)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.StockStandardName, new { htmlAttributes = new { @placeholder = "Standard Name", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.StockStandardName)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control required-field", @Value = "" } })
@@ -73,27 +75,21 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control required-field no-border-radius" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.UsedFor)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier Name", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SupplierName)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="storage-locations" name="StorageRequirements" class="form-control no-border-radius required-field input-summary">
@@ -110,27 +106,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
+                        <div class="col-md-12">
+                            <div class="col-lg-6 fix-right-col">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.LotNumber)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CatalogueCode)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
@@ -164,51 +156,42 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
+
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.SolventUsed, new { htmlAttributes = new { @placeholder = "Solvent(s) Used", @rows = 3.5, @style = "resize:none;height:82px;", @class = "input-summary form-control required-field no-border-radius" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SolventUsed)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.SolventSupplierName, new { htmlAttributes = new { @placeholder = "Solvent Supplier", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SolventSupplierName)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control required-field", @Value = "" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Purity)
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
-                            </div>
-                            <div class="col-md-offset-1 col-md-10">
-                                <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                <div class="form-group">
+                                    <div class="col-xs-12" style="padding-top:40px;">
+                                        <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                                    </div>
+                                    <div class="col-xs-12 pull-right">
+                                        <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>
                     <!-- UPLOADS -->
                     <section id="section-bar-2">
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Upload Certificate of Analysis and Safety Data Sheet</h4>
-                        </div>
+                        @Html.Partial("_SectionHeader", "Upload Certificate of Analysis and Safety Data Sheet")
                         <div class="col-md-12">
                             <div class="col-lg-6">
                                 <div class="input-group">
@@ -225,8 +208,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f;margin-top:45px;">Safety Data Sheet Information</h4>
+                        <div class="col-md-12" style="background-color:#953B65;margin-bottom:15px;">
+                            <h4 style="padding-top:5px;padding-bottom:5px;color:#fff;margin-top:45px;">Safety Data Sheet Information</h4>
                         </div>
                         <div class="col-md-12">
                             <div class="col-lg-6">
