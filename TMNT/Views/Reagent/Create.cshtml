@@ -112,6 +112,16 @@
                                 <div class="col-md-10">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Expiry Date", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CatalogueCode)
