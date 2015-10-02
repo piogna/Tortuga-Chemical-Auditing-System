@@ -25,7 +25,7 @@
 <div class="container">
     <section style="padding-bottom: 50px; padding-top: 50px;">
         <div class="row">
-            <div class="col-md-12">
+            @*<div class="col-md-12">
                 <div class="alert alert-info">
                     <div class="container">
                         <div class="col-md-10">
@@ -37,17 +37,16 @@
                         <div class="col-md-2">
                             <div class="pull-right" style="margin-bottom:0">
                                 <a href="#" class="btn btn-warning">Update Biography</a>
-                                @*<input type="submit" value="Update Biography" class="btn btn-warning" />*@
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="col-md-4">
                 <div class="alert alert-success">
                     <h4>User Information</h4>
                     <hr />
-                    <dl class="dl-horizontal">
+                    <dl class="dl-horizontal" style="word-wrap:break-word">
                         <dt>
                             @Html.DisplayNameFor(model => model.Name)
                         </dt>
@@ -55,7 +54,7 @@
                             @Html.DisplayFor(model => model.Name)
                         </dd>
                         <dt>
-                            @Html.DisplayNameFor(model => model.Email)
+                            @Html.DisplayNameFor(model => model.Email) 
                         </dt>
                         <dd>
                             @Html.DisplayFor(model => model.Email)
@@ -71,7 +70,7 @@
                 <div class="alert alert-success">
                     <h4>Location Information</h4>
                     <hr />
-                    <dl class="dl-horizontal">
+                    <dl class="dl-horizontal" style="word-wrap:break-word">
                         <dt>
                             @Html.DisplayNameFor(model => model.Location.LocationName)
                         </dt>
