@@ -102,8 +102,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime? DateModified { get; set; }
 
         //View Model data fields
-        public List<string> Storage { get; set; } = new List<string>() { "Fridge", "Freezer", "Shelf" };
-        public List<string> ChemicalTypes { get; set; } = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
+        public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
+        public List<string> ChemicalTypes = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
