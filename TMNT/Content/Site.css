@@ -96,8 +96,13 @@ textarea {
         border-right: 10px solid transparent;
     }
 
-.section-headers {
+.section-header {
+    background-color: #953B65;
+}
+
+.section-header-text {
     padding-top: 5px;
     padding-bottom: 5px;
-    color: #00000f;
+    color: #fff;
+    letter-spacing: 1px;
 }
