@@ -98,6 +98,7 @@ textarea {
 
 .section-header {
     background-color: #953B65;
+    margin-bottom:15px;
 }
 
 .section-header-text {
@@ -105,4 +106,8 @@ textarea {
     padding-bottom: 5px;
     color: #fff;
     letter-spacing: 1px;
+}
+
+.prep-list-wrapper {
+    min-height:320px;
 }

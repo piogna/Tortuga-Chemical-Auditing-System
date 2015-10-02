@@ -41,12 +41,10 @@
                     <section id="section-bar-1">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <!-- Start Building Recipe Section -->
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top: 5px; padding-bottom: 5px; color: #00000f">Build Your Intermediate Standard</h4>
-                        </div>
+                        @Html.Partial("_SectionHeader", "Build Your Intermediate Standard")
                         <div id="build-recipe">
                             <div class="col-md-4">
-                                <div class="alert alert-info no-border-radius">
+                                <div class="alert alert-info no-border-radius prep-list-wrapper">
                                     <h4 class="text-center">Prep List Item</h4>
                                     <hr />
                                     <div class="form-group zero-left-right-margin">
@@ -105,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div class="alert alert-info no-border-radius">
+                                <div class="alert alert-info no-border-radius prep-list-wrapper">
                                     <h4 class="text-center">Recipe List</h4>
                                     <hr />
                                     <div style="font-size:14px;">
@@ -125,101 +123,93 @@
                                 </div>
                             </div>
                             @*<div class="row" style="margin:0 !important">
-                <div class="col-md-2-5">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-addon addon-required" title="Required Field"></div>
-                            <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
-                                <option value="">Choose Chemical Type</option>
-                                <optgroup label="Item Type">
-                                    @foreach (var item in ViewBag.Types) {
-                                        <option value="@item">
-                                            @item
-                                        </option>
-                                    }
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                        <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
-                        <div class="input-group-btn">
-                            <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
-                                <option value="">Units</option>
-                                <optgroup label="Weights">
-                                    @foreach (var item in ViewBag.WeightUnits) {
-                                        <option value="@item.UnitId">
-                                            @item.UnitShorthandName
-                                        </option>
-                                    }
-                                </optgroup>
-                                <optgroup label="Volumes">
-                                    @foreach (var item in ViewBag.VolumeUnits) {
-                                        <option value="@item.UnitId">
-                                            @item.UnitShorthandName
-                                        </option>
-                                    }
-                                </optgroup>
-                                <optgroup label="Other">
-                                    <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                                    <div class="col-md-2-5">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-addon addon-required" title="Required Field"></div>
+                                                <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
+                                                    <option value="">Choose Chemical Type</option>
+                                                    <optgroup label="Item Type">
+                                                        @foreach (var item in ViewBag.Types) {
+                                                            <option value="@item">
+                                                                @item
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
+                                            <div class="input-group-btn">
+                                                <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
+                                                    <option value="">Units</option>
+                                                    <optgroup label="Weights">
+                                                        @foreach (var item in ViewBag.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in ViewBag.VolumeUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="col-md-2-5 input-no-left-padding">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                        <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
-                    </div>
-                </div>
-                <div class="col-md-2-5 input-no-left-padding">
-                    <a href="#" id="another-item" class="btn btn-default">Add</a>
-                    <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
-                </div>
-            </div>*@
+                                    <div class="col-md-2-5 input-no-left-padding">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2-5 input-no-left-padding">
+                                        <a href="#" id="another-item" class="btn btn-default">Add</a>
+                                        <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
+                                    </div>
+                                </div>*@
 
 
 
                         </div>
                         <!-- /End Recipe Section -->
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Intermediate Standard Information</h4>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
+                        @Html.Partial("_SectionHeader", "Intermediate Standard Information")
+                        <div class="container">
+                            <div class="col-md-5-5">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.Replaces)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon"></div>
                                         @Html.EditorFor(model => model.ReplacedBy, new { htmlAttributes = new { @placeholder = "Replaced By", @class = "input-summary form-control" } })
                                         @Html.ValidationMessageFor(model => model.ReplacedBy)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field input-summary">
@@ -235,19 +225,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
+                            <div class="col-md-5-5 pull-right">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field", @Value = "" } })
                                         @Html.ValidationMessageFor(model => model.TotalAmount)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control required-field", @Value = "" } })
@@ -255,36 +241,28 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.MaxxamId, new { htmlAttributes = new { @placeholder = "Maxxam ID", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.MaxxamId)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field" } })
                                         @Html.ValidationMessageFor(model => model.IdCode)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field", @Value = "" } })
                                         @Html.ValidationMessageFor(model => model.FinalConcentration)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field", @Value = "" } })
@@ -292,18 +270,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        @*<div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <a href='#section-bar-2' class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
-                            </div>
-                        </div>*@
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
-                                <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
-                            </div>
-                            <div class="col-md-offset-1 col-md-10">
-                                <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                            <div class="form-group">
+                                <div class="col-xs-12" style="padding-top:20px;">
+                                    <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
+                                </div>
+                                <div class="col-xs-12 pull-right">
+                                    <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                </div>
                             </div>
                         </div>
                     </section>
