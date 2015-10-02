@@ -31,9 +31,7 @@
 
 <hr />
 
-<div class="col-md-12 section-header">
-    <h4 class="section-header-text">Location Information</h4>
-</div>
+@Html.Partial("_SectionHeader", "Location Information")
 
 <div class="container">
     <div class="col-md-6">
@@ -77,9 +75,7 @@
     </div>
 </div>
 
-<div class="col-md-12 section-header">
-    <h4 class="section-header-text">Reagent Information</h4>
-</div>
+@Html.Partial("_SectionHeader", "Reagent Information")
 
 <div class="container">
     <div class="col-md-6">
@@ -137,6 +133,14 @@
     <div class="col-md-6">
         <dl class="dl-horizontal">
             <dt>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.SupplierName)
             </dt>
 
@@ -179,9 +183,7 @@
     </div>
 </div>
 
-<div class="col-md-12 section-header">
-    <h4 class="section-header-text">All Certificates of Analysis for @Model.IdCode</h4>
-</div>
+@Html.Partial("_SectionHeader", "All Certificates of Analysis for " + @Model.IdCode)
 
 <table id="myTable" class="table table-striped table-bordered">
     <thead>
@@ -227,9 +229,7 @@
     </tfoot>
 </table>
 
-<div class="col-md-12 section-header">
-    <h4 class="section-header-text">All Safety Data Sheets for @Model.IdCode</h4>
-</div>
+@Html.Partial("_SectionHeader", "All Safety Data Sheets for " + @Model.IdCode)
 
 <table id="myTable2" class="table table-striped table-bordered">
     <thead>

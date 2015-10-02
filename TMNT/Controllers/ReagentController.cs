@@ -294,9 +294,10 @@ namespace TMNT.Controllers {
                 }
 
                 invItem.DateModified = DateTime.Today;
+                invItem.SupplierName = stockreagent.SupplierName;
                 invItem.Grade = stockreagent.Grade;
                 invItem.GradeAdditionalNotes = stockreagent.GradeAdditionalNotes;
-                //invItem.ExpiryDate = stockreagent.ExpiryDate;
+                invItem.ExpiryDate = stockreagent.ExpiryDate;
                 invRepo.Update(invItem);
 
                 return RedirectToAction("Index");

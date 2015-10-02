@@ -28,9 +28,7 @@
 
 <hr />
 
-<div class="col-md-12" style="background-color: lightgrey;">
-    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Information</h4>
-</div>
+@Html.Partial("_SectionHeader", "Reagent Information")
 
 @using (Html.BeginForm("Edit", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -60,6 +58,13 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.SupplierName)
             </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control no-border-radius" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ExpiryDate)
+            </div>
         </div>
         <div class="col-md-5">
             <div class="form-group">
@@ -86,9 +91,7 @@
         </div>
     </div>
 
-    <div class="col-md-12" style="background-color: lightgrey;">
-        <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Reagent Certificate of Analysis and SDS</h4>
-    </div>
+    @Html.Partial("_SectionHeader", "Reagent Certificate of Analysis and SDS")
 
     <div class="container">
         <div class="col-md-5">
@@ -105,13 +108,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="input-group input-full-width">
-                    <label class="control-label input-group-addon input-group-addon-elg">Upload New SDS</label>
-                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
-                </div>
-            </div>
-
-            <div class="form-group">
                 <div class="col-md-12">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
@@ -120,8 +116,14 @@
         <div class="col-md-5">
             <div class="form-group">
                 <div class="input-group input-full-width">
-                    <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-elg">Current SDS</label>
+                    <label for="MSDS" class="control-label input-group-addon input-group-addon-elg">Current SDS</label>
                     @Html.ActionLink(Model.ReagentName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius input-full-width" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    <label for="MSDS" class="control-label input-group-addon input-group-addon-elg">Upload New SDS</label>
+                    <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default no-border-radius" accept=".pdf" />
                 </div>
             </div>
         </div>
