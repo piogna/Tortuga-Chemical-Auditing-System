@@ -231,6 +231,7 @@ namespace TMNT.Controllers {
             foreach (var item in stockstandard.InventoryItems) {
                 model.DateCreated = item.DateCreated;
                 model.SupplierName = item.SupplierName;
+                model.ExpiryDate = item.ExpiryDate;
             }
             return View(model);
         }
@@ -241,7 +242,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId,IdCode,SupplierName,StockStandardName")] StockStandardEditViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+        public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId,ExpiryDate,IdCode,SupplierName,StockStandardName")] StockStandardEditViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = new InventoryItemRepository();
@@ -288,6 +289,7 @@ namespace TMNT.Controllers {
 
                 invItem.DateModified = DateTime.Today;
                 invItem.SupplierName = stockstandard.SupplierName;
+                invItem.ExpiryDate = stockstandard.ExpiryDate;
 
                 inventoryRepo.Update(invItem);
 

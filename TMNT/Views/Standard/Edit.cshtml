@@ -69,6 +69,13 @@
                 </div>
                 @Html.ValidationMessageFor(model => model.StockStandardName)
             </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-lg" })
+                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control no-border-radius" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ExpiryDate)
+            </div>
         </div>
     </div>
 
