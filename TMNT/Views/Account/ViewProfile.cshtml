@@ -1,12 +1,39 @@
 ﻿@model TMNT.Models.ProfileViewModel
 
 @{
-    ViewBag.Title = "ViewProfile";
-    if (Model.Role == "Administrator") {
+    ViewBag.Title = "View Profile";
+    if (Model.Role.Equals("Administrator")) {
         Layout = "../Shared/_AdministratorLayout.cshtml";
     } else {
         Layout = "../Shared/_Layout.cshtml";
     }
+}
+
+@section AddToHead {
+    <style>
+        .dl-horizontal dt {
+            text-align: left;
+            width: auto;
+            padding-right: 1em;
+        }
+
+        .dl-horizontal dd {
+            margin-left: 0;
+            margin-bottom: 1em;
+        }
+
+        .bottom-row {
+            min-height: 166px;
+        }
+
+        .top-row {
+            min-height: 200px;
+        }
+
+        .change-password-container {
+            min-height:386px;
+        }
+    </style>
 }
 
 <div class="row">
@@ -43,8 +70,8 @@
                 </div>
             </div>*@
             <div class="col-md-4">
-                <div class="alert alert-success">
-                    <h4>User Information</h4>
+                <div class="alert alert-success top-row">
+                    <h4 class="text-center">User Information</h4>
                     <hr />
                     <dl class="dl-horizontal" style="word-wrap:break-word">
                         <dt>
@@ -67,8 +94,8 @@
                         </dd>
                     </dl>
                 </div>
-                <div class="alert alert-success">
-                    <h4>Location Information</h4>
+                <div class="alert alert-success bottom-row">
+                    <h4 class="text-center">Location Information</h4>
                     <hr />
                     <dl class="dl-horizontal" style="word-wrap:break-word">
                         <dt>
@@ -87,31 +114,29 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="alert alert-warning">
-                    <h4>Next Password Change</h4>
+                <div class="alert alert-warning top-row">
+                    <h4 class="text-center">Next Password Change</h4>
                     <hr />
                     <p>
                         <h3 class="text-center">@Html.DisplayFor(model => model.DaysUntilNextPasswordChange)</h3>
                         days before a password change will be required. You will be notified 14 days in advance.
                     </p>
                 </div>
-                <div class="alert alert-info">
-                    <h4>Your Role</h4>
+                <div class="alert alert-info bottom-row">
+                    <h4 class="text-center">Your Role</h4>
                     <hr />
                     <p>
-                        You are currently assigned as: @Html.DisplayFor(model => model.Role)
+                        You are currently assigned as: <h3 class="text-center">@Html.DisplayFor(model => model.Role)</h3>
                     </p>
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="alert alert-success" style="min-height:343px;">
+                <div class="alert alert-success change-password-container">
                     @Html.Partial("_ChangePasswordPartial", Model)
                 </div>
             </div>
         </div>
         <!-- ROW END -->
-
-
     </section>
     <!-- SECTION END -->
 </div>

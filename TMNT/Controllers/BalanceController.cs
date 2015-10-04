@@ -25,7 +25,7 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("Balances")]
         public ActionResult Index() {
-            var balances = repo.Get().Where(item => item.DeviceType == "Balance" && item.Department == HelperMethods.GetUserDepartment());
+            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department == HelperMethods.GetUserDepartment());
             var viewModels = new List<BalanceViewModel>();
 
             foreach (var item in balances) {
@@ -68,7 +68,9 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Device device = repo.Get(id);
+
             if (device == null) {
                 return HttpNotFound();
             }
@@ -110,8 +112,7 @@ namespace TMNT.Controllers {
         public ActionResult VerificationUnspecified() {
             var locations = new LocationRepository(DbContextSingleton.Instance);
             //sending all Locations to the view
-            var list = locations.Get().Select(name => name.LocationName).ToList();//repo.Get().Select(item => item.Department.Location).ToList();
-            //SelectList selects = new SelectList(list, "LocationId", "LocationName");
+            var list = locations.Get().Select(name => name.LocationName).ToList();
             ViewBag.Locations = locations.Get().Select(name => name.LocationName).ToList();
             return View("Verification");
         }
@@ -138,13 +139,10 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
             string selectedValue = Request.Form["Type"];
             balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode == balancetest.DeviceCode).Select(item => item.DeviceId).First();
-            
-            if (!User.Identity.IsAuthenticated || User == null) {
-                return RedirectToAction("Login", "Account");
-            }
+
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
@@ -220,10 +218,7 @@ namespace TMNT.Controllers {
         }
 
         protected override void Dispose(bool disposing) {
-            //if (disposing) {
-            //    db.Dispose();
-            //}
-            //base.Dispose(disposing);
+
         }
     }
 }

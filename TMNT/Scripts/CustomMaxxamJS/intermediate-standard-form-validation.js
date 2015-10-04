@@ -1,93 +1,101 @@
 ﻿/*
-    Validation specifically for Intermediate Standards. The standard validation script will not work for this form due to it being highly dynamic.
+    Validation specifically for Intermediate Standards. 
+    The standard validation script will not work for this form due to it being highly dynamic.
 */
 
 $(function () {
-    /* all script code below is native only to Intermediate Standard */
-    var recipes = $('#build-recipe');
+    var ChemicalType = $('#ChemicalType');
+    var IdCode = $('#IdCode');
+    var Amount = $('#Amount');
+    var Units = $('#Units');
 
-    //add another row
-    recipes.on('click', '#another-item', function (e) {
+    var Recipes = $('#build-recipe');
+    var RecipeTable = $('#recipe-table');
+    var AddItem = $('#another-item');
+    var RemoveItem = $('.recipe-table-remove-item');
+
+    var ItemCount = 1;
+    var Append;
+
+    if ($('#recipe-table tbody tr').length == 0) {
+        RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Ingredients</td></tr>");
+    }
+
+    Recipes.on('click', '#another-item', function (e) {
         e.preventDefault();
-        var div = document.getElementById("build-recipe");
 
-        var addRow =
-            "<div class='row' style='margin:0 !important'>" +
-                "<div class='col-md-2-5'>" +
-                    "<div class='form-group'>" +
-                        "<div class='input-group'>" +
-                            "<div class='input-group-addon addon-required title='Required Field''></div>" +
-                            "<select name='Type' class='type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field'>" +
-                                   "<option value=''>Choose Chemical Type</option>" +
-                                       "<optgroup label='Item Type'>" +
-                                       "<option value='Reagent'>" +
-                                           "Reagent" +
-                                       "</option>" +
-                                       "<option value='Standard'>" +
-                                           "Standard" +
-                                       "</option>" +
-                                       "<option value='Intermedate Standard'>" +
-                                           "Intermediate Standard" +
-                                       "</option>" +
-                                   "</optgroup>" +
-                            "</select>" +
-                        "</div>" +
-                    "</div>" +
-                "</div>" +
-            "<div class='col-md-2-5'>" +
-                "<div class='input-group'>" +
-                    "<div class='input-group-addon addon-required' title='Required Field'></div>" +
-                    "<input name='Amount' type='number' min='0' class='input-summary form-control text-box single-line no-border-radius required-field' placeholder='Amount' />" +
-                "</div>" +
-            "</div>" +
-            "<div class='col-md-2-5'>" +
-                "<div class='input-group'>" +
-                "<div class='input-group-addon addon-required' title='Required Field'></div>" +
-                    "<input name='IdCode' type='text' class='input-summary form-control text-box single-line required-field no-border-radius' placeholder='ID Code' />" +
-                "</div>" +
-            "</div>" +
-            "<div class='col-md-2-5'>" +
-                "<a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a>" +
-            "</div>" +
-        "</div>"
-        recipes.find('div[class=col-md-2]:last').remove("div[class=col-md-2]:last");
-        //recipes.find('.row:nth-last-child(1)').append("<div class='col-md-3'><a href='#' id='remove-item' class='btn btn-default'>Remove</a></div>");
-        recipes.append(addRow);
+        var listItemIsValid = true;
+        var amountValue = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
+        var requiredFieldsForListItem = [ChemicalType, IdCode, Amount, Units];
+        //make sure all fields are filled
+        for (var i = 0; i < requiredFieldsForListItem.length; i++) {
+            if (!requiredFieldsForListItem[i].val()) {
+                listItemIsValid = false;
+                break;
+            }
+        }
 
-        //scroll to make sure the most bottom row stays visible when adding new rows
-        if (recipes.children("div[class=row]").length > 5) {
-            recipes.css('overflow-y', 'scroll');
-            div.scrollTop = div.scrollHeight;
+        //if ($('#recipe-table tbody tr:not(:first)').length > 1) {
+        //    //make sure the same item isn't being used twice (declutter the view)
+        //    $('input[name=PrepListItemIdCodes]').each(function () {
+        //        if ($(this).val() === IdCode.val()) {
+        //            alert("exists");
+        //            listItemIsValid = false;
+        //        }
+        //    });
+        //}
+
+        if (listItemIsValid) {
+            Append = "";
+            Append += "<tr><td style='width:83px'>" + ItemCount + "</td>" +
+                    "<td style='width:169px'><input name='PrepListItemTypes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
+                     "<td style='width:101px'><input name='PrepListItemIdCodes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + IdCode.val() + "'/></td>" +
+                    "<td style='width:102px'><input name='PrepListItemAmounts' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='" + amountValue + "'/></td>" +
+                    "<td style='width:151px'><a class='recipe-table-remove-item' href='#'><i class='fa fa-close'></i>&nbsp;&nbsp;Remove</a></td></tr>";
+            RecipeTable.append(Append);
+
+            if ($('#recipe-table tbody tr').length > 0) {
+                $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'none');
+            }
+
+            //clear inputs
+            ChemicalType.val("");
+            IdCode.val("");
+            Amount.val("");
+            Units.val("");
+
+            ItemCount++;
+        } else {
+            //form isn't valid, display error message
+            var error = "Cannot created prep list item. Make sure the following fields are filled:\n\n";
+            for (var i = 0; i < requiredFieldsForListItem.length; i++) {
+                if (!requiredFieldsForListItem[i].val()) {
+                    error += "• " + requiredFieldsForListItem[i].attr("name").toString() + "\n";
+                }
+            }
+            alert(error);
         }
     });
 
-    //remove row
-    recipes.on('click', '#remove-item', function (e) {
+    Recipes.on('click', '.recipe-table-remove-item', function (e) {
         e.preventDefault();
-        if (recipes.children("div[class=row]").length > 1) {
-            //recipes.children("#remove-item").parent(".row").remove();
-            recipes.children("div[class=row]:last").remove();
-            recipes.children("div[class=row]:last").append("<div class='col-md-2'><a href='#' id='another-item' class='btn btn-default'>Add</a><a href='#' id='remove-item' class='btn btn-default' style='margin-left:5px;'>Remove</a></div>");
-            //ensuring we can never have 0 rows
-            if (recipes.children("div[class=row]").length == 1) {
-                $('#remove-item').attr('disabled', 'disabled');
-            }
+
+        var anchor = $(this).find('.recipe-table-remove-item').index() + 1;
+        $(this).parents('tr').remove();
+
+        if ($('#recipe-table tbody tr').length == 1) {
+            //one row = show no data
+            $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'table-row');
+        } else {
+            //remove the row that has been removed and fix the numbers of each item shown
+            var tds = $('#recipe-table tbody tr:not(:first)').find('td:first');
+            var count = 1;
+
+            tds.each(function () {
+                $(this).text(count.toString())
+                count++;
+            });
         }
-    });
-
-    recipes.on('change', '.type-validation', function () {
-        $('.type-validation').each(function () {
-            if ($(this).val()) {
-                $(this).css("border", "1px solid #ccc");
-            }
-        });
-    });
-
-    recipes.on('keyup', 'input.required-field', function () {
-        $('input.required-field').each(function () {
-            if ($(this).val()) {
-                $(this).css("border", "1px solid #ccc");
-            }
-        });
+        ItemCount--;
     });
 });

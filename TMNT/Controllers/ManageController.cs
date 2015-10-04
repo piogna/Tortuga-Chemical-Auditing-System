@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
+using System.Collections.Generic;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -198,11 +199,13 @@ namespace TMNT.Controllers {
                     if (user != null) {
                         await SignInAsync(user, isPersistent: false);
                     }
+                    TempData["Success"] = "Password successfully changed.";
                     return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });//, new { Message = ManageMessageId.ChangePasswordSuccess, Model = model });
                 }
             }
             AddErrors(result);
-            return View(model);
+            TempData["Error"] = result.Errors;
+            return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });//(model);
         }
 
         //

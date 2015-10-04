@@ -184,95 +184,98 @@
 </div>
 
 @Html.Partial("_SectionHeader", "All Certificates of Analysis for " + @Model.IdCode)
-
-<table id="myTable" class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>
-                View Certificate of Analysis
-            </th>
-            <th>
-                Date Added
-            </th>
-            <th>
-                Entered By
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.AllCertificatesOfAnalysis) {
+<div class="container">
+    <table id="myTable" class="table table-striped table-bordered">
+        <thead>
             <tr>
-                <td>
-                    @Html.ActionLink(item.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = item.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
-                </td>
-                <td>
-                    @item.DateAdded.ToString().Split(' ')[0]
-                </td>
-                <td>
-                    @item.InventoryItem.CreatedBy
-                </td>
+                <th>
+                    View Certificate of Analysis
+                </th>
+                <th>
+                    Date Added
+                </th>
+                <th>
+                    Entered By
+                </th>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <th>
-                View Certificate of Analysis
-            </th>
-            <th>
-                Date Added
-            </th>
-            <th>
-                Entered By
-            </th>
-        </tr>
-    </tfoot>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllCertificatesOfAnalysis) {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.DateAdded.ToString().Split(' ')[0] + " CofA", "ViewPDF", "PDFViewer", new { id = item.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
+                    </td>
+                    <td>
+                        @item.DateAdded.ToString().Split(' ')[0]
+                    </td>
+                    <td>
+                        @item.InventoryItem.CreatedBy
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>
+                    View Certificate of Analysis
+                </th>
+                <th>
+                    Date Added
+                </th>
+                <th>
+                    Entered By
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 @Html.Partial("_SectionHeader", "All Safety Data Sheets for " + @Model.IdCode)
 
-<table id="myTable2" class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>
-                View Materials Safety Data Sheet
-            </th>
-            <th>
-                Date Added
-            </th>
-            <th>
-                Entered By
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.AllMSDS) {
+<div class="container">
+    <table id="myTable2" class="table table-striped table-bordered">
+        <thead>
             <tr>
-                <td>
-                    @Html.ActionLink(item.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = item.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
-                </td>
-                <td>
-                    @item.DateAdded.ToString().Split(' ')[0]
-                </td>
-                <td>
-                    @item.InventoryItem.CreatedBy
-                </td>
+                <th>
+                    View Materials Safety Data Sheet
+                </th>
+                <th>
+                    Date Added
+                </th>
+                <th>
+                    Entered By
+                </th>
             </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <th>
-                View Materials Safety Data Sheet
-            </th>
-            <th>
-                Date Added
-            </th>
-            <th>
-                Entered By
-            </th>
-        </tr>
-    </tfoot>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllMSDS) {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = item.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+                    </td>
+                    <td>
+                        @item.DateAdded.ToString().Split(' ')[0]
+                    </td>
+                    <td>
+                        @item.InventoryItem.CreatedBy
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>
+                    View Materials Safety Data Sheet
+                </th>
+                <th>
+                    Date Added
+                </th>
+                <th>
+                    Entered By
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
 
 @Scripts.Render("~/datatables")

@@ -50,7 +50,7 @@
                                     <div class="form-group zero-left-right-margin">
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
-                                            <select id="ChemicalType" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                            <select name="Chemical Type" id="ChemicalType" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
                                                 <option value="">Choose Chemical Type</option>
                                                 <optgroup label="Item Type">
                                                     @foreach (var item in Model.ChemicalTypes) {
@@ -122,67 +122,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="row" style="margin:0 !important">
-                                    <div class="col-md-2-5">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-addon addon-required" title="Required Field"></div>
-                                                <select name="Type" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field">
-                                                    <option value="">Choose Chemical Type</option>
-                                                    <optgroup label="Item Type">
-                                                        @foreach (var item in ViewBag.Types) {
-                                                            <option value="@item">
-                                                                @item
-                                                            </option>
-                                                        }
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group">
-                                            <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <input name="Amount" type="number" min="0" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="Amount" />
-                                            <div class="input-group-btn">
-                                                <select name="Unit" class="type-validation input-xlarge-fuid input-summary form-control valid no-border-radius required-field" style="width:90px;">
-                                                    <option value="">Units</option>
-                                                    <optgroup label="Weights">
-                                                        @foreach (var item in ViewBag.WeightUnits) {
-                                                            <option value="@item.UnitId">
-                                                                @item.UnitShorthandName
-                                                            </option>
-                                                        }
-                                                    </optgroup>
-                                                    <optgroup label="Volumes">
-                                                        @foreach (var item in ViewBag.VolumeUnits) {
-                                                            <option value="@item.UnitId">
-                                                                @item.UnitShorthandName
-                                                            </option>
-                                                        }
-                                                    </optgroup>
-                                                    <optgroup label="Other">
-                                                        <option value="Other">@ViewBag.OtherUnit.UnitShorthandName</option>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2-5 input-no-left-padding">
-                                        <div class="input-group">
-                                            <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <input name="IdCode" type="text" class="input-summary form-control text-box single-line no-border-radius required-field" placeholder="ID Code" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2-5 input-no-left-padding">
-                                        <a href="#" id="another-item" class="btn btn-default">Add</a>
-                                        <a disabled="disabled" href="#" id="remove-item" class="btn btn-default">Remove</a>
-                                    </div>
-                                </div>*@
-
-
-
                         </div>
                         <!-- /End Recipe Section -->
                         @Html.Partial("_SectionHeader", "Intermediate Standard Information")
@@ -271,7 +210,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-xs-12" style="padding-top:20px;">
+                                <div class="col-xs-12">
                                     <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
                                 </div>
                                 <div class="col-xs-12 pull-right">
@@ -316,64 +255,5 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(function () {
-            var ChemicalType = $('#ChemicalType');
-            var IdCode = $('#IdCode');
-            var Amount = $('#Amount');
-            var Units = $('#Units');
-
-            var Recipes = $('#build-recipe');
-            var RecipeTable = $('#recipe-table');
-            var AddItem = $('#another-item');
-            var RemoveItem = $('.recipe-table-remove-item');
-
-            var ItemCount = 1;
-            var Append;
-
-            if ($('#recipe-table tbody tr').length == 0) {
-                RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Ingredients</td></tr>");
-            }
-
-            Recipes.on('click', '#another-item', function (e) {
-                e.preventDefault();
-
-                var amount = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
-
-                Append = "";
-                Append += "<tr><td style='width:83px'>" + ItemCount + "</td>" +
-                        "<td style='width:169px'><input name='PrepListItemTypes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
-                         "<td style='width:101px'><input name='PrepListItemIdCodes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + IdCode.val() + "'/></td>" +
-                        "<td style='width:102px'><input name='PrepListItemAmounts' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='" + amount + "'/></td>" +
-                        "<td style='width:151px'><a class='recipe-table-remove-item' href='#'><i class='fa fa-close'></i>&nbsp;&nbsp;Remove</a></td></tr>";
-                RecipeTable.append(Append);
-
-                if ($('#recipe-table tbody tr').length > 0) {
-                    $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'none');
-                }
-
-                //clear inputs
-                ChemicalType.val("");
-                IdCode.val("");
-                Amount.val("");
-                Units.val("");
-
-                ItemCount++;
-            });
-
-            Recipes.on('click', '.recipe-table-remove-item', function (e) {
-                e.preventDefault();
-
-                var anchor = $(this).find('.recipe-table-remove-item').index() + 1;
-                $(this).parents('tr').remove();
-
-                if ($('#recipe-table tbody tr').length == 1) {
-                    console.log("test");
-                    $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'table-row');
-                }
-                ItemCount--;
-            });
-        });
-    </script>
-    @*<script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>*@
+    <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
 }
