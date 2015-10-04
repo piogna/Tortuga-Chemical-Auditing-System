@@ -56,15 +56,65 @@
         .match-parent-height {
             height: 100%;
         }
+
+        .info-box i {
+            display: block;
+            height: 45px;
+            font-size: 32px;
+            min-width: 150px;
+            max-width: 400px;
+            float: left;
+            text-align: center;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            margin-right: 20px;
+            padding-right: 20px;
+            padding-left:10px;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .info-box {
+            margin-top:20px;
+            height: 55px;
+            margin-bottom: 20px;
+            padding: 5px;
+            color: white;
+        }
+
+        .panel {
+            border-radius:0;
+        }
+
+        .panel-heading {
+            border-radius:0;
+        }
+
+        .breadcrumb {
+            border-radius:0;
+        }
+
+        .dashboard-heading {
+            background: #91BAFF;
+        }
+
+        #welcome {
+            font-size:22px;
+            padding-top:8px;
+        }
     </style>
 }
 
 <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-12">
-        <h1>
+        @*<h1>
             Dashboard <small>Welcome!</small>
-        </h1>
+        </h1>*@
+        <div class="info-box dashboard-heading">
+            <i>@Html.DisplayFor(model => model.Department)</i>
+            <div id="welcome">
+                Welcome, @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
         <ol class="breadcrumb">
             <li class="active">
                 <i class="fa fa-dashboard"></i> Dashboard
@@ -72,6 +122,18 @@
         </ol>
     </div>
 </div>
+
+@*<div class="row">
+    <div class="col-md-12">
+        <div class="info-box danger" style="background: #ff5454;">
+            <i> @Html.DisplayFor(model => model.Department)</i>
+            <div style="font-size:22px;padding-top:6px;">
+                Welcome, @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+    </div>
+</div>*@
+
 <div class="row">
     <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary">
@@ -150,20 +212,20 @@
 <!-- /.row -->
 
 <div class="row">
-    <div class="col-lg-8" style="min-height:615px;">
+    <div class="col-lg-12" style="min-height:615px;">
         <div class="panel panel-primary match-parent-height">
             <div class="panel-heading">
                 <h3 class="panel-title">Expired Stock in @Model.Department</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table id="home-data-table" class="table table-bordered table-hover table-striped">
+                    <table id="home-data-table" class="table table-bordered table-striped table-home">
                         <thead>
                             <tr>
                                 <th>Date Expired</th>
                                 <th>Item Type</th>
-                                <th>Created By</th>
                                 <th>Supplier</th>
+                                <th>ID Code</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -177,12 +239,12 @@
                                         @item.Type
                                     </td>
                                     <td>
-                                        @item.CreatedBy
-                                    </td>
-                                    <td>
                                         @item.SupplierName
                                     </td>
                                     @if (@item.StockReagent != null) {
+                                        <td>
+                                            @item.StockReagent.IdCode
+                                        </td>
                                         <td>
                                             <a href="@Url.Action("Details", "Reagent", new { id = item.StockReagent.ReagentId })">
                                                 <div class="">
@@ -194,6 +256,9 @@
                                         </td>
                                     } else if (@item.StockStandard != null) {
                                         <td>
+                                            @item.StockStandard.IdCode
+                                        </td>
+                                        <td>
                                             <a href="@Url.Action("Details", "Standard", new { id = item.StockStandard.StockStandardId })">
                                                 <div class="">
                                                     <span class="pull-left">View Details</span>
@@ -203,6 +268,9 @@
                                             </a>
                                         </td>
                                     } else if (@item.IntermediateStandard != null) {
+                                        <td>
+                                            @item.IntermediateStandard.IdCode
+                                        </td>
                                         <td>
                                             <a href="@Url.Action("Details", "IntermediateStandard", new { id = item.IntermediateStandard.IntermediateStandardId })" >
                                                 <div class="">
@@ -220,8 +288,8 @@
                             <tr>
                                 <th>Date Expired</th>
                                 <th>Item Type</th>
-                                <th>Created By</th>
                                 <th>Supplier</th>
+                                <th>ID Code</th>
                                 <th>Details</th>
                             </tr>
                         </tfoot>
@@ -230,7 +298,9 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4" style="height:603px;">
+</div>
+
+@*<div class="col-lg-4" id="home-chart-wrapper" style="height:603px;">
         <div class="panel panel-red match-parent-height">
             <div class="panel-heading">
                 <h3 class="panel-title">Expired Stock By Departments at @Model.LocationName</h3>
@@ -241,13 +311,13 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
+
 <!-- /.row -->
 @Scripts.Render("~/datatables")
-<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
-<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.pie.js"></script>
-<script>
+@*<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.pie.js"></script>*@
+@*<script>
     $(function () {
         var data = [
                 { label: "Organics", data: 8 },
@@ -318,4 +388,4 @@
     function setCode(lines) {
         $("#code").text(lines.join("\n"));
     }
-</script>
+</script>*@
