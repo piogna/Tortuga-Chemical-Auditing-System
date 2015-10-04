@@ -14,5 +14,6 @@ namespace TMNT.Models.ViewModels
         public string Department { get; set; }
         public string LocationName { get; set; }
         public string  Role { get; set; }
+        public string Name { get; set; }
     }
 }

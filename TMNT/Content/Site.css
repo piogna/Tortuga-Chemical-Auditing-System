@@ -24,8 +24,6 @@ textarea {
 }*/
 
 
-
-
 /* Maxxam Media Queries */
 @media (max-width: 993px) {
     .table-index tr td:not(:nth-of-type(-n+3)) {
@@ -39,14 +37,55 @@ textarea {
     .dataTables_length {
         display: none;
     }
+
+    .table-home tr td:nth-child(3) {
+        display: none;
+    }
+
+    .table-home tr th:nth-child(3) {
+        display: none;
+    }
+
+    .table-home tr td:nth-child(4) {
+        display: none;
+    }
+
+    .table-home tr th:nth-child(4) {
+        display: none;
+    }
+
+    /*#home-chart-wrapper {
+        display:none;
+    }*/
+
+    .table-responsive {
+        overflow-x:hidden !important;
+        border:none !important;
+    }
 }
 
 @media (min-width: 993px) and (max-width: 1094px) {
+    .table-home tr td:nth-child(3) {
+        display: none;
+    }
+
+    .table-home tr th:nth-child(3) {
+        display: none;
+    }
+
     .table-index tr td:nth-child(7) {
         display: none;
     }
 
     .table-index tr th:nth-child(7) {
+        display: none;
+    }
+
+    .table-home tr td:nth-child(7) {
+        display: none;
+    }
+
+    .table-home tr th:nth-child(7) {
         display: none;
     }
 }
