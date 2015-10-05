@@ -178,7 +178,8 @@ namespace TMNT.Controllers {
                 DateCreated = DateTime.Today,
                 DateModified = DateTime.Today,
                 Type = "Standard",
-                
+                FirstDeviceUsed = model.DeviceOne,
+                SecondDeviceUsed = model.DeviceTwo,
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName
             };
