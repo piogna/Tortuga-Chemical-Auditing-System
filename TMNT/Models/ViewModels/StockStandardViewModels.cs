@@ -58,6 +58,8 @@ namespace TMNT.Models.ViewModels {
 
         //inventory properties
         public List<Device> DevicesUsed { get; set; }
+        public Device DeviceOne { get; set; }
+        public Device DeviceTwo { get; set; }
         [Required(ErrorMessage = "Storage Requirements is Required"), Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]

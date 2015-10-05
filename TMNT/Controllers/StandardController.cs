@@ -124,7 +124,16 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            //if (ModelState.IsValid) {
+            var devicesUsed = Request.Form["Devices"];
+            DeviceRepository deviceRepo = new DeviceRepository();
+
+            if (devicesUsed.Contains(",")) {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+                model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
+            } else {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+            }
+
             if (uploadCofA != null) {
                 var cofa = new CertificateOfAnalysis() {
                     FileName = uploadCofA.FileName,
@@ -137,6 +146,7 @@ namespace TMNT.Controllers {
                 }
                 model.CertificateOfAnalysis = cofa;
             }
+
             if (uploadMSDS != null) {
                 var msds = new MSDS() {
                     FileName = uploadMSDS.FileName,
@@ -168,6 +178,7 @@ namespace TMNT.Controllers {
                 DateCreated = DateTime.Today,
                 DateModified = DateTime.Today,
                 Type = "Standard",
+                
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName
             };
