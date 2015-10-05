@@ -26,7 +26,7 @@
         </div>
 
         <p>
-            @Html.ActionLink("Back to List", "Index", "IntermediateStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink("Back to List", "Index", "IntermediateStandard", null, htmlAttributes: new { @class = "btn btn-default btn-back-to-list" })
         </p>
 
         <section id="section-bar">
@@ -44,7 +44,7 @@
                         @Html.Partial("_SectionHeader", "Build Your Intermediate Standard")
                         <div id="build-recipe">
                             <div class="col-md-4">
-                                <div class="alert alert-info no-border-radius prep-list-wrapper">
+                                <div class="alert alert-grey no-border-radius prep-list-wrapper">
                                     <h4 class="text-center">Prep List Item</h4>
                                     <hr />
                                     <div class="form-group zero-left-right-margin">
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div class="alert alert-info no-border-radius prep-list-wrapper">
+                                <div class="alert alert-grey no-border-radius prep-list-wrapper">
                                     <h4 class="text-center">Prep List</h4>
                                     <hr />
                                     <div style="font-size:14px;">
