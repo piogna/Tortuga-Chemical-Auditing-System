@@ -5,7 +5,7 @@
 
 $(function () {
     var ChemicalType = $('#ChemicalType');
-    var IdCode = $('#IdCode');
+    var LotNumber = $('#LotNumbers');
     var Amount = $('#Amount');
     var Units = $('#Units');
 
@@ -14,6 +14,11 @@ $(function () {
     var AddItem = $('#another-item');
     var RemoveItem = $('.recipe-table-remove-item');
 
+    var OptReagent = $('.opt-reagent');
+    var OptStandard = $('.opt-standard');
+    var OptIntStandard = $('.opt-int-standard');
+    var OptLabel = $('.opt-label');
+
     var ItemCount = 1;
     var Append;
 
@@ -21,12 +26,69 @@ $(function () {
         RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Prep List Item</td></tr>");
     }
 
+    //LotNumber.on('change', function () {
+    //    alert("test");
+    //});
+
+    //building the appropriate list of lot numbers
+    ChemicalType.on('change', function () {
+        var ChemicalTypeValue;
+        if (ChemicalType.val()) {
+
+            //if a lot number is selected, wipe it to help prevent bugs
+            if (LotNumber.val()) {
+                LotNumber.val("");
+            }
+
+            ChemicalTypeValue = ChemicalType.val();
+
+            LotNumber.removeAttr("disabled");
+
+            switch (ChemicalTypeValue) {
+                case "Reagent":
+                    //display only reagent lot numbers
+                    OptReagent.removeClass('opt');
+                    OptLabel.text("Reagent Lot Numbers");
+                    if (!OptStandard.hasClass('opt')) { OptStandard.addClass('opt'); }
+                    if (!OptIntStandard.hasClass('opt')) { OptIntStandard.addClass('opt'); }
+                    break;
+                case "Standard":
+                    //display only standard lot numbers
+                    OptStandard.removeClass('opt');
+                    OptLabel.text("Standard Lot Numbers");
+                    if (!OptReagent.hasClass('opt')) { OptReagent.addClass('opt'); }
+                    if (!OptIntStandard.hasClass('opt')) { OptIntStandard.addClass('opt'); }
+                    break;
+                case "Intermediate Standard":
+                    //display only intermediate standard maxxam id's
+                    OptIntStandard.removeClass('opt');
+                    OptLabel.text("Intermediate Standard Maxxam Id's");
+                    if (!OptReagent.hasClass('opt')) { OptReagent.addClass('opt'); }
+                    if (!OptStandard.hasClass('opt')) { OptStandard.addClass('opt'); }
+                    break;
+                default:
+                    //dun goofed
+                    alert("Something went wrong. Refresh the page and try again. If the problem persists, contact your administrator.");
+            }
+
+        } else {
+            //clear inputs and display no selection option
+            ChemicalType.val("");
+            LotNumber.val("");
+            Amount.val("");
+            Units.val("");
+
+            OptLabel.text("Select a Chemical Type First");
+            LotNumber.attr("disabled", "disabled");
+        }
+    });
+
     Recipes.on('click', '#another-item', function (e) {
         e.preventDefault();
-
+        console.log(LotNumber.val());
         var listItemIsValid = true;
         var amountValue = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
-        var requiredFieldsForListItem = [ChemicalType, IdCode, Amount, Units];
+        var requiredFieldsForListItem = [ChemicalType, LotNumber, Amount, Units];
         //make sure all fields are filled
         for (var i = 0; i < requiredFieldsForListItem.length; i++) {
             if (!requiredFieldsForListItem[i].val()) {
@@ -49,7 +111,7 @@ $(function () {
             Append = "";
             Append += "<tr><td style='width:83px'>" + ItemCount + "</td>" +
                     "<td style='width:169px'><input name='PrepListItemTypes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
-                     "<td style='width:101px'><input name='PrepListItemIdCodes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + IdCode.val() + "'/></td>" +
+                     "<td style='width:101px'><input name='PrepListItemLotNumbers' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + LotNumber.val() + "'/></td>" +
                     "<td style='width:102px'><input name='PrepListItemAmounts' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='" + amountValue + "'/></td>" +
                     "<td style='width:151px'><a class='recipe-table-remove-item' href='#'><i class='fa fa-close'></i>&nbsp;&nbsp;Remove</a></td></tr>";
             RecipeTable.append(Append);
@@ -60,7 +122,7 @@ $(function () {
 
             //clear inputs
             ChemicalType.val("");
-            IdCode.val("");
+            LotNumber.val("");
             Amount.val("");
             Units.val("");
 

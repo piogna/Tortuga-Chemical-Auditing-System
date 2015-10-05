@@ -6,7 +6,33 @@
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <style>
+        .lot-numbers-hidden option {
+            display: none;
+        }
+
+        .lot-numbers-hidden optgroup {
+            display: none;
+        }
+
+        .lot-numbers-shown {
+            display: block;
+        }
+
+        .lot-numbers-no-selection {
+            display: block;
+        }
+
+        .opt {
+            display:none;
+        }
+
+        .opt option {
+            display:none;
+        }
+    </style>
 }
+
 
 @using (Html.BeginForm(Html.BeginForm("Create", "IntermediateStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" }))) {
     @Html.AntiForgeryToken()
@@ -33,7 +59,7 @@
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
-                        <li><a href="#section-bar-1" class="icon icon-config"><span>Inter. Standard Info</span></a></li>
+                        <li><a href="#section-bar-1" class="icon icon-config"><span>Intermediate Standard Info</span></a></li>
                         <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
@@ -66,7 +92,46 @@
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
                                             @*<input type="text" class="input-summary form-control text-box single-line no-border-radius" placeholder="ID Code" />*@
-                                            @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "form-control text-box single-line no-border-radius", @placeholder = "ID Code" } })
+                                            @*@Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "form-control text-box single-line no-border-radius", @placeholder = "ID Code" } })*@
+                                            <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                <option class="opt-label" value="">Select a Chemical Type First</option>
+                                                @*<option class="opt opt-label" value="">Lot Numbers & Maxxam Id's</option>*@
+                                                <optgroup class="opt opt-reagent" label="Reagents">
+                                                    @foreach (var item in Model.StockReagents) {
+                                                        <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup class="opt opt-standard" label="Standards">
+                                                    @foreach (var item in Model.StockStandards) {
+                                                        <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup class="opt opt-int-standard" label="Intermediate Standards">
+                                                    @foreach (var item in Model.IntermediateStandards) {
+                                                        <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId</option>
+                                                    }
+                                                </optgroup>
+
+
+                                                @*<optgroup label="Weights">
+                                                        @foreach (var item in Model.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in Model.VolumetricUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>*@
+                                            </select>
+
                                         </div>
                                     </div>
                                     <div class="form-group zero-left-right-margin">
@@ -112,7 +177,7 @@
                                                 <tr>
                                                     <th>Item #</th>
                                                     <th>Chemical Type</th>
-                                                    <th>ID Code</th>
+                                                    <th>ID</th>
                                                     <th>Amount</th>
                                                     <th>Remove Item</th>
                                                 </tr>
@@ -257,3 +322,12 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
 }
+@*<script>
+        $(function () {
+            $(".select2").select2({
+                placeholder: "Devices Used..",
+                allowClear: true,
+                maximumSelectionLength: 2
+            });
+        });
+    </script>*@

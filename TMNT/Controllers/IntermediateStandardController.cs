@@ -47,6 +47,7 @@ namespace TMNT.Controllers {
                         list[counter].CreatedBy = invItem.CreatedBy;
                     }
                 }
+                counter++;
             }
             return View(list);
         }
@@ -104,7 +105,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardCreateViewModel model, 
-            string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemIdCodes, string submit) {
+            string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string submit) {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
@@ -112,8 +113,13 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
+            if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
+                ModelState.AddModelError("", "The creation of " + model.IdCode + " failed. Make sure the Prep List table is complete.");
+                SetIntermediateStandard(model);
+                return View(model);
+            }
             //if all 3 arrays are not of equal length, return to view with an error message
-            if (!(PrepListItemAmounts.Length == PrepListItemIdCodes.Length) && !(PrepListItemIdCodes.Length == PrepListItemTypes.Length)) {
+            if (!(PrepListItemAmounts.Length == PrepListItemLotNumbers.Length) || !(PrepListItemLotNumbers.Length == PrepListItemTypes.Length)) {
                 ModelState.AddModelError("", "The creation of " + model.IdCode + " failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
@@ -127,31 +133,31 @@ namespace TMNT.Controllers {
 
             prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[0]).ToArray();
             prepListViewModel.Units = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[1]).ToArray();
-            prepListViewModel.IdCodes = PrepListItemIdCodes;
+            prepListViewModel.LotNumbers = PrepListItemLotNumbers;
             prepListViewModel.Types = PrepListItemTypes;
 
             List<object> reagentAndStandardContainer = new List<object>();
             List<PrepListItem> prepItems = new List<PrepListItem>();
 
             //go through all types and sort out what they are, instantiate, and build list of objects
-            foreach (var idcode in prepListViewModel.IdCodes) {
+            foreach (var lotNumber in prepListViewModel.LotNumbers) {
                 foreach (var type in prepListViewModel.Types) {
                     if (type == "Reagent") {
                         var add = new StockReagentRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.IdCode == idcode)
+                            .Where(x => x.LotNumber == lotNumber)
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type == "Standard") {
                         var add = new StockStandardRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.IdCode == idcode)
+                            .Where(x => x.LotNumber == lotNumber)
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type == "Intermediate Standard") {
                         var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.IdCode == idcode)
+                            .Where(x => x.MaxxamId == lotNumber)
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }
@@ -217,7 +223,6 @@ namespace TMNT.Controllers {
             new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
             intermediatestandard.InventoryItems.Add(inventoryItem);
             var result = repo.Create(intermediatestandard);
-            //invRepo.Create(inventoryItem); shouldn't need this
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -317,11 +322,20 @@ namespace TMNT.Controllers {
 
         public IntermediateStandardCreateViewModel SetIntermediateStandard(IntermediateStandardCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == HelperMethods.GetUserDepartment().DepartmentId).ToList();
+            List<InventoryItem> items = new InventoryItemRepository().Get()
+                .Where(item => item.Department == HelperMethods.GetUserDepartment())
+                .GroupBy(i => new { i.StockReagent, i.StockStandard, i.IntermediateStandard })
+                .Select(g => g.First())
+                .ToList();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             model.OtherUnit = units.Where(item => item.UnitType.Equals("Other")).FirstOrDefault();
+            model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null).ToList();
+            model.StockStandards = items.Where(item => item.StockStandard != null).ToList();
+            model.StockReagents = items.Where(item => item.StockReagent != null).ToList();
+
             //model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
             //model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 

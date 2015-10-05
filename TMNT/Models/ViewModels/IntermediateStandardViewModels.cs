@@ -104,6 +104,9 @@ namespace TMNT.Models.ViewModels {
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
         public List<string> ChemicalTypes = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
+        public List<InventoryItem> StockReagents { get; set; }
+        public List<InventoryItem> StockStandards { get; set; }
+        public List<InventoryItem> IntermediateStandards { get; set; }
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
@@ -133,7 +136,7 @@ namespace TMNT.Models.ViewModels {
     public class IntermediateStandardPrepListItemsViewModel {
         public string[] AmountsWithUnits { get; set; }
         public string[] Amounts { get; set; }
-        public string[] IdCodes { get; set; }
+        public string[] LotNumbers { get; set; }
         public string[] Types { get; set; }
         public string[] Units { get; set; }
     }

@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
     public class IntermediateStandard {
+        public IntermediateStandard() {
+            InventoryItems = new List<InventoryItem>();
+        }
+
         [Key]
         public int IntermediateStandardId { get; set; }
         public string IdCode { get; set; }
