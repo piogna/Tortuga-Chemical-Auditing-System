@@ -57,7 +57,9 @@
             height: 100%;
         }
 
-        .info-box i {
+        .info-box #department {
+            font-style:italic;
+            font-family:-webkit-pictograph;
             display: block;
             height: 45px;
             font-size: 32px;
@@ -69,7 +71,7 @@
             margin-right: 20px;
             padding-right: 20px;
             padding-left:10px;
-            color: rgba(255, 255, 255, 0.75);
+            color: rgba(255, 255, 255, 0.65);
         }
 
         .info-box {
@@ -93,7 +95,7 @@
         }
 
         .dashboard-heading {
-            background: #91BAFF;
+            background: /*#91BAFF;*/#b94a48;
         }
 
         #welcome {
@@ -110,7 +112,7 @@
             Dashboard <small>Welcome!</small>
         </h1>*@
         <div class="info-box dashboard-heading">
-            <i>@Html.DisplayFor(model => model.Department)</i>
+            <span id="department">@Html.DisplayFor(model => model.Department)</span>
             <div id="welcome">
                 Welcome, @Html.DisplayFor(model => model.Name)
             </div>
@@ -155,6 +157,7 @@
                     <div class="clearfix"></div>
                 </div>
             </a>
+            <div class="panel-footer" style="height:41px;"></div>
         </div>
     </div>
     <div class="col-lg-4 col-md-6">
@@ -177,10 +180,11 @@
                     <div class="clearfix"></div>
                 </div>
             </a>
+            <div class="panel-footer" style="height:41px;"></div>
         </div>
     </div>
     <div class="col-lg-4 col-md-6">
-        <div class="panel panel-yellow">
+        <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -213,7 +217,7 @@
 
 <div class="row">
     <div class="col-lg-12" style="min-height:615px;">
-        <div class="panel panel-primary match-parent-height">
+        <div class="panel panel-default match-parent-height">
             <div class="panel-heading">
                 <h3 class="panel-title">Expired Stock in @Model.Department</h3>
             </div>
@@ -222,8 +226,8 @@
                     <table id="home-data-table" class="table table-bordered table-striped table-home">
                         <thead>
                             <tr>
-                                <th>Date Expired</th>
                                 <th>Item Type</th>
+                                <th>Date Expired</th>
                                 <th>Supplier</th>
                                 <th>ID Code</th>
                                 <th>Details</th>
@@ -233,10 +237,10 @@
                             @foreach (var item in Model.ExpiredItems) {
                                 <tr>
                                     <td>
-                                        @item.ExpiryDate.ToString().Split(' ')[0]
+                                        @item.Type
                                     </td>
                                     <td>
-                                        @item.Type
+                                        @item.ExpiryDate.ToString().Split(' ')[0]
                                     </td>
                                     <td>
                                         @item.SupplierName
@@ -286,8 +290,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Date Expired</th>
                                 <th>Item Type</th>
+                                <th>Date Expired</th>
                                 <th>Supplier</th>
                                 <th>ID Code</th>
                                 <th>Details</th>

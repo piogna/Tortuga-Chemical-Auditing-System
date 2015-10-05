@@ -20,7 +20,7 @@
         } else if (table[i].id == "home-data-table") {
             $('#home-data-table').dataTable({
                 "pageLength": 10,
-                "order": [[0, "asc"]],
+                "order": [1, "asc"],
                 "aoColumnDefs": [
                     { 'bSortable': false, 'aTargets': [4] },
                     { 'bSearchable': false, "aTargets": [4] }

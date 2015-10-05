@@ -18,7 +18,7 @@ $(function () {
     var Append;
 
     if ($('#recipe-table tbody tr').length == 0) {
-        RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Ingredients</td></tr>");
+        RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Prep List Item</td></tr>");
     }
 
     Recipes.on('click', '#another-item', function (e) {
@@ -67,7 +67,7 @@ $(function () {
             ItemCount++;
         } else {
             //form isn't valid, display error message
-            var error = "Cannot created prep list item. Make sure the following fields are filled:\n\n";
+            var error = "Cannot create prep list item. Make sure the following fields are filled:\n\n";
             for (var i = 0; i < requiredFieldsForListItem.length; i++) {
                 if (!requiredFieldsForListItem[i].val()) {
                     error += "• " + requiredFieldsForListItem[i].attr("name").toString() + "\n";
