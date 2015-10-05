@@ -127,6 +127,12 @@ namespace TMNT.Controllers {
             var devicesUsed = Request.Form["Devices"];
             DeviceRepository deviceRepo = new DeviceRepository();
 
+            if (devicesUsed == null) {
+                ModelState.AddModelError("", "You must select a device that was used.");
+                SetStockStandard(model);
+                return View(model);
+            }
+
             if (devicesUsed.Contains(",")) {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
                 model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
