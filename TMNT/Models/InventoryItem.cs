@@ -28,7 +28,7 @@ namespace TMNT.Models {
         [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
         public string StorageRequirements { get; set; }
-        public string DevicesUsed { get; set; }
+        //public string DevicesUsed { get; set; }
 
 
         public virtual ICollection<Location> Locations { get; set; }
@@ -47,5 +47,7 @@ namespace TMNT.Models {
         public virtual MaxxamMadeReagent MaxxamMadeReagent { get; set; }
         public virtual MaxxamMadeStandard MaxxamMadeStandard { get; set; }
         public virtual IntermediateStandard IntermediateStandard { get; set; }
+        public virtual Device FirstDeviceUsed { get; set; }
+        public virtual Device SecondDeviceUsed { get; set; }
     }
 }
