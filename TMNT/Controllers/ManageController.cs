@@ -187,6 +187,12 @@ namespace TMNT.Controllers {
             if (!ModelState.IsValid) {
                 return View(model);
             }
+
+            if (model.OldPassword.Equals(model.NewPassword)) {
+                TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
+                return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+            }
+
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded) {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -199,12 +205,13 @@ namespace TMNT.Controllers {
                     if (user != null) {
                         await SignInAsync(user, isPersistent: false);
                     }
-                    TempData["Success"] = "Password successfully changed.";
+                    TempData["Success"] = "Password successfully changed!";
                     return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });//, new { Message = ManageMessageId.ChangePasswordSuccess, Model = model });
                 }
             }
             AddErrors(result);
             TempData["Error"] = result.Errors;
+
             return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });//(model);
         }
 
