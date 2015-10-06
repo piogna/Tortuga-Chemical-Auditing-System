@@ -26,30 +26,51 @@ namespace TMNT.Controllers {
         // GET: /IntermediateStandard/
         [Route("IntermediateStandard")]
         public ActionResult Index() {
-            var intermediatestandards = repo.Get();
-            var list = new List<IntermediateStandardIndexViewModel>();
+            var userDepartment = HelperMethods.GetUserDepartment();
+            List<IntermediateStandardIndexViewModel> lIntStandards = new List<IntermediateStandardIndexViewModel>();
 
-            foreach (var item in intermediatestandards) {
-                list.Add(new IntermediateStandardIndexViewModel() {
-                    IntermediateStandardId = item.IntermediateStandardId,
-                    IdCode = item.IdCode,
-                    MaxxamId = item.MaxxamId
-                });
-            }
-            //iterating through the associated InventoryItem and retrieving the appropriate data
-            //this is faster than LINQ
-            int counter = 0;
-            foreach (var standard in intermediatestandards) {
-                foreach (var invItem in standard.InventoryItems) {
-                    if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
-                        list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].DateCreated = invItem.DateCreated;
-                        list[counter].CreatedBy = invItem.CreatedBy;
-                    }
+            var invRepo = new InventoryItemRepository().Get()
+                .ToList();
+            
+            foreach (var item in invRepo) {
+                if (item.IntermediateStandard != null && item.Department == userDepartment) {
+                    lIntStandards.Add(new IntermediateStandardIndexViewModel() {
+                        IntermediateStandardId = item.IntermediateStandard.IntermediateStandardId,
+                        CreatedBy = item.CreatedBy,
+                        DateCreated = item.DateCreated,
+                        ExpiryDate = item.ExpiryDate,
+                        IdCode = item.IntermediateStandard.IdCode,
+                        MaxxamId = item.IntermediateStandard.MaxxamId,
+                    });
                 }
-                counter++;
             }
-            return View(list);
+
+            //old Intermediate Standard Index code. DO NOT DELETE FOR REFERENCE.
+
+            //var intermediatestandards = repo.Get();
+            //var list = new List<IntermediateStandardIndexViewModel>();
+
+            //foreach (var item in intermediatestandards) {
+            //    list.Add(new IntermediateStandardIndexViewModel() {
+            //        IntermediateStandardId = item.IntermediateStandardId,
+            //        IdCode = item.IdCode,
+            //        MaxxamId = item.MaxxamId
+            //    });
+            //}
+            ////iterating through the associated InventoryItem and retrieving the appropriate data
+            ////this is faster than LINQ
+            //int counter = 0;
+            //foreach (var standard in intermediatestandards) {
+            //    foreach (var invItem in standard.InventoryItems) {
+            //        if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
+            //            list[counter].ExpiryDate = invItem.ExpiryDate;
+            //            list[counter].DateCreated = invItem.DateCreated;
+            //            list[counter].CreatedBy = invItem.CreatedBy;
+            //        }
+            //    }
+            //    counter++;
+            //}
+            return View(lIntStandards);
         }
 
         // GET: /IntermediateStandard/Details/5

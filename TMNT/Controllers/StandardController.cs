@@ -27,33 +27,56 @@ namespace TMNT.Controllers {
         [Route("Standard")]
         // GET: /Standard/
         public ActionResult Index() {
-            var standards = repoStandard.Get();
-            List<StockStandardIndexViewModel> list = new List<StockStandardIndexViewModel>();
+            var userDepartment = HelperMethods.GetUserDepartment();
+            List<StockStandardIndexViewModel> lStandards = new List<StockStandardIndexViewModel>();
 
-            foreach (var item in standards) {
-                list.Add(new StockStandardIndexViewModel() {
-                    StockStandardId = item.StockStandardId,
-                    LotNumber = item.LotNumber,
-                    StockStandardName = item.StockStandardName,
-                    IdCode = item.IdCode
-                });
-            }
-            //iterating through the associated InventoryItem and retrieving the appropriate data
-            //this is faster than LINQ
-            int counter = 0;
-            foreach (var standard in standards) {
-                foreach (var invItem in standard.InventoryItems) {
-                    if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-                        list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].DateOpened = invItem.DateOpened;
-                        list[counter].DateCreated = invItem.DateCreated;
-                        list[counter].CreatedBy = invItem.CreatedBy;
-                        list[counter].DateModified = invItem.DateModified;
-                    }
+            var invRepo = new InventoryItemRepository().Get()
+                .ToList();
+            
+            foreach (var item in invRepo) {
+                if (item.StockStandard != null && item.Department == userDepartment) {
+                    lStandards.Add(new StockStandardIndexViewModel() {
+                        StockStandardId = item.StockStandard.StockStandardId,
+                        CreatedBy = item.CreatedBy,
+                        DateCreated = item.DateCreated,
+                        DateOpened = item.DateOpened,
+                        ExpiryDate = item.ExpiryDate,
+                        IdCode = item.StockStandard.IdCode,
+                        LotNumber = item.StockStandard.LotNumber,
+                        StockStandardName = item.StockStandard.StockStandardName
+                    });
                 }
-                counter++;
             }
-            return View(list);
+
+            //old Standard Index code. DO NOT DELETE FOR REFERENCE.
+
+            //var standards = repoStandard.Get();
+            //List<StockStandardIndexViewModel> list = new List<StockStandardIndexViewModel>();
+
+            //foreach (var item in standards) {
+            //    list.Add(new StockStandardIndexViewModel() {
+            //        StockStandardId = item.StockStandardId,
+            //        LotNumber = item.LotNumber,
+            //        StockStandardName = item.StockStandardName,
+            //        IdCode = item.IdCode
+            //    });
+            //}
+            ////iterating through the associated InventoryItem and retrieving the appropriate data
+            ////this is faster than LINQ
+            //int counter = 0;
+            //foreach (var standard in standards) {
+            //    foreach (var invItem in standard.InventoryItems) {
+            //        if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
+            //            list[counter].ExpiryDate = invItem.ExpiryDate;
+            //            list[counter].DateOpened = invItem.DateOpened;
+            //            list[counter].DateCreated = invItem.DateCreated;
+            //            list[counter].CreatedBy = invItem.CreatedBy;
+            //            list[counter].DateModified = invItem.DateModified;
+            //        }
+            //    }
+            //    counter++;
+            //}
+            return View(lStandards);
         }
 
         // GET: /Standard/Details/5

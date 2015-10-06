@@ -31,8 +31,7 @@ namespace TMNT.Controllers {
 
             var invRepo = new InventoryItemRepository().Get()
                 .ToList();
-
-
+            
             foreach (var item in invRepo) {
                 if (item.StockReagent != null && item.Department == userDepartment) {
                     lReagents.Add(new StockReagentIndexViewModel() {
