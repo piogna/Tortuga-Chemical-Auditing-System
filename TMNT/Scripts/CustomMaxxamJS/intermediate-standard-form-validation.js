@@ -125,6 +125,8 @@ $(function () {
             LotNumber.val("");
             Amount.val("");
             Units.val("");
+            OptLabel.text("Select a Chemical Type First");
+            LotNumber.attr("disabled", "disabled");
 
             ItemCount++;
         } else {
