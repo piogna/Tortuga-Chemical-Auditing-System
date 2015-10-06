@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
@@ -13,20 +12,21 @@ namespace TMNT.Controllers {
 
         [Route("")]
         public ActionResult Index() {
-            var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
-            
-            Department userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = HelperMethods.GetUserDepartment();
+            var user = HelperMethods.GetCurrentUser();
+
+            var inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+                .Where(item => item.Department == userDepartment);
+
+            var cofas = inventoryRepo.Select(item => item.CertificatesOfAnalysis).Count();
 
             if (userDepartment == null) {
                 ModelState.AddModelError("", "User is not designated a department");
             }
-            
-            var cofas = new CertificateOfAnalysisRepository(DbContextSingleton.Instance).Get().Where(item => item.InventoryItem.Department == userDepartment).Count();
-            var user = HelperMethods.GetCurrentUser();
-            
+
             var model = new DashboardViewModel() {
-                ExpiringItemsCount = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today) && item.Department == userDepartment).Count(),
-                ExpiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today && item.Department == userDepartment),
+                ExpiringItemsCount = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)).Count(),
+                ExpiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today),
                 CertificatesCount = cofas,
                 PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count(),
                 Department = userDepartment.DepartmentCode,
@@ -35,10 +35,20 @@ namespace TMNT.Controllers {
                 Name = user.FirstName + " " + user.LastName
             };
 
-            if (model.Role.Equals("Administrator")) {
-                return View("AdminIndex", model);
+            switch (model.Role) {
+                case "Lab Technician":
+                    //lab technician dashboard
+                    break;
+                case "Department Head":
+                    //department head dashboard
+                    return View(model);
+                case "Administrator":
+                    //admin dashboard
+                    return View("AdminIndex", model);
+                default:
+                    //error
+                    break;
             }
-
             return View(model);
         }
 

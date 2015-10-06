@@ -26,34 +26,58 @@ namespace TMNT.Controllers {
         // GET: /Reagent/
         [Route("Reagent")]
         public ActionResult Index() {
-            var reagents = repo.Get();
+            var userDepartment = HelperMethods.GetUserDepartment();
+            List<StockReagentIndexViewModel> lReagents = new List<StockReagentIndexViewModel>();
 
-            List<StockReagentIndexViewModel> list = new List<StockReagentIndexViewModel>();
+            var invRepo = new InventoryItemRepository().Get()
+                .ToList();
 
-            foreach (var item in reagents) {
-                list.Add(new StockReagentIndexViewModel() {
-                    ReagentId = item.ReagentId,
-                    LotNumber = item.LotNumber,
-                    IdCode = item.IdCode,
-                    ReagentName = item.ReagentName
-                });
-            }
 
-            //iterating through the associated InventoryItem and retrieving the appropriate data
-            //this is faster than LINQ
-            int counter = 0;
-            foreach (var reagent in reagents) {
-                foreach (var invItem in reagent.InventoryItems) {
-                    if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
-                        list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].DateOpened = invItem.DateOpened;
-                        list[counter].DateCreated = invItem.DateCreated;
-                        list[counter].CreatedBy = invItem.CreatedBy;
-                    }
+            foreach (var item in invRepo) {
+                if (item.StockReagent != null && item.Department == userDepartment) {
+                    lReagents.Add(new StockReagentIndexViewModel() {
+                        ReagentId = item.StockReagent.ReagentId,
+                        CreatedBy = item.CreatedBy,
+                        DateCreated = item.DateCreated,
+                        DateOpened = item.DateOpened,
+                        ExpiryDate = item.ExpiryDate,
+                        IdCode = item.StockReagent.IdCode,
+                        LotNumber = item.StockReagent.LotNumber,
+                        ReagentName = item.StockReagent.ReagentName
+                    });
                 }
-                counter++;
             }
-            return View(list);
+
+            //old Reagent Index code. DO NOT DELETE FOR REFERENCE.
+
+            //var reagents = repo.Get();
+
+            //List<StockReagentIndexViewModel> list = new List<StockReagentIndexViewModel>();
+
+            //foreach (var item in reagents) {
+            //    list.Add(new StockReagentIndexViewModel() {
+            //        ReagentId = item.ReagentId,
+            //        LotNumber = item.LotNumber,
+            //        IdCode = item.IdCode,
+            //        ReagentName = item.ReagentName
+            //    });
+            //}
+
+            ////iterating through the associated InventoryItem and retrieving the appropriate data
+            ////this is faster than LINQ
+            //int counter = 0;
+            //foreach (var reagent in reagents) {
+            //    foreach (var invItem in reagent.InventoryItems) {
+            //        if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
+            //            list[counter].ExpiryDate = invItem.ExpiryDate;
+            //            list[counter].DateOpened = invItem.DateOpened;
+            //            list[counter].DateCreated = invItem.DateCreated;
+            //            list[counter].CreatedBy = invItem.CreatedBy;
+            //        }
+            //    }
+            //    counter++;
+            //}
+            return View(lReagents);
         }
 
         // GET: /Reagent/Details/5
