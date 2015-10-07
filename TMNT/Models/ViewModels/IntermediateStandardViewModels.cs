@@ -44,9 +44,17 @@ namespace TMNT.Models.ViewModels {
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
         public DateTime? DateModified { get; set; }
+        [Display(Name = "Last Modified By")]
+        public string LastModifiedBy { get; set; }
         public Unit Unit { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
+        [Display(Name = "Maxxam Id")]
+        public string MaxxamId { get; set; }
+
+        //properties to help with views and have nothing to do with the db
+        public bool IsExpired { get; set; }
+        public bool IsOpened { get; set; }
 
         //foreign keys
         public virtual PrepList PrepList { get; set; }
@@ -98,8 +106,6 @@ namespace TMNT.Models.ViewModels {
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Modified")]
-        public DateTime? DateModified { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };

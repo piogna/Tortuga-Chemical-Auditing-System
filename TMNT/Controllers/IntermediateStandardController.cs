@@ -81,7 +81,6 @@ namespace TMNT.Controllers {
             }
 
             IntermediateStandard intermediatestandard = repo.Get(id);
-
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
@@ -93,6 +92,8 @@ namespace TMNT.Controllers {
                 PrepList = intermediatestandard.PrepList,
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
                 IdCode = intermediatestandard.IdCode,
+                MaxxamId = intermediatestandard.MaxxamId,
+                LastModifiedBy = intermediatestandard.LastModifiedBy
             };
 
             foreach (var invItem in intermediatestandard.InventoryItems) {
