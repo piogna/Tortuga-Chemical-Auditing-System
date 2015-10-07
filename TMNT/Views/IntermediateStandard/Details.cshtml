@@ -154,7 +154,13 @@
                 <tr>
                     @if (item.StockReagent != null) {
                         <td>
-                            @Html.ActionLink("Details", "Details", "Reagent", null, new { id = item.StockReagent.ReagentId })
+                            <a href="@Url.Action("Details", "Reagent", new { id = item.StockReagent.ReagentId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
                         </td>
                         <td>
                             Stock Reagent
@@ -169,7 +175,13 @@
 
                     @if (item.StockStandard != null) {
                         <td>
-                            @Html.ActionLink("Details", "Details", "Standard", null, new { id = item.StockStandard.StockStandardId })
+                            <a href="@Url.Action("Details", "Standard", new { id = item.StockStandard.StockStandardId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
                         </td>
                         <td>
                             Stock Standard
@@ -184,10 +196,16 @@
 
                     @if (item.IntermediateStandard != null) {
                         <td>
-                            @Html.ActionLink("Details", "Details", "IntermediateStandard", null, new { id = item.IntermediateStandard.IntermediateStandardId })
+                            <a href="@Url.Action("Details", "IntermediateStandard", new { id = item.IntermediateStandard.IntermediateStandardId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
                         </td>
                         <td>
-                            Stock Intermediate Standard
+                            Intermediate Standard
                         </td>
                         <td>
                             @item.IntermediateStandard.IdCode
@@ -197,7 +215,7 @@
                         </td>
                     }
                     <td>
-                        @item.Amount@item.Unit.UnitShorthandName
+                        @item.Amount@item.Unit.UnitShorthandName 
                     </td>
                 </tr>
             }

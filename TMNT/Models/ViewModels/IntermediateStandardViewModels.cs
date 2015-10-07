@@ -100,12 +100,14 @@ namespace TMNT.Models.ViewModels {
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         public Unit Unit { get; set; }
-        [Display(Name = "SDS")]
-        public MSDS MSDS { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
+        [Display(Name = "SDS")]
+        public MSDS MSDS { get; set; }
+        //[Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
+        //public string MSDSNotes { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf" };
@@ -127,7 +129,6 @@ namespace TMNT.Models.ViewModels {
         public string Unit { get; set; }
         public string IdCode { get; set; }
         public string Type { get; set; }
-
     }
 
     public class IntermediateStandardEditViewModel {
@@ -137,6 +138,10 @@ namespace TMNT.Models.ViewModels {
         public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
+        [Display(Name = "Maxxam Id")]
+        public string MaxxamId { get; set; }
+        [Display(Name = "Expiry Date"), DataType(DataType.Date)]
+        public DateTime ExpiryDate { get; set; }
     }
 
     public class IntermediateStandardPrepListItemsViewModel {

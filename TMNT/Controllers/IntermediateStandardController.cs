@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using TMNT.Helpers;
 using TMNT.Models;
@@ -126,8 +127,8 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardCreateViewModel model, 
-            string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string submit) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardCreateViewModel model,
+           string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string submit) {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
@@ -146,6 +147,19 @@ namespace TMNT.Controllers {
                 SetIntermediateStandard(model);
                 return View(model);
             }
+
+            //if (uploadMSDS != null) {
+            //    var msds = new MSDS() {
+            //        FileName = uploadMSDS.FileName,
+            //        ContentType = uploadMSDS.ContentType,
+            //        DateAdded = DateTime.Today,
+            //        MSDSNotes = model.MSDSNotes
+            //    };
+            //    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+            //        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+            //    }
+            //    model.MSDS = msds;
+            //}
 
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
@@ -242,6 +256,7 @@ namespace TMNT.Controllers {
             };
 
             //creating the prep list and the intermediate standard
+            //inventoryItem.MSDS.Add(model.MSDS);
             new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
             intermediatestandard.InventoryItems.Add(inventoryItem);
             var result = repo.Create(intermediatestandard);
@@ -299,8 +314,15 @@ namespace TMNT.Controllers {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
-                IdCode = intermediatestandard.IdCode
+                IdCode = intermediatestandard.IdCode,
+                MaxxamId = intermediatestandard.MaxxamId
             };
+
+            foreach (var item in intermediatestandard.InventoryItems) {
+                if (item.IntermediateStandard.IntermediateStandardId == model.IntermediateStandardId) {
+                    model.ExpiryDate = item.ExpiryDate;
+                }
+            }
 
             return View(model);
         }
@@ -311,9 +333,26 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IntermediateStandardId,DateCreated,DiscardDate,Replaces,ReplacedBy")] IntermediateStandard intermediatestandard) {
+        public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
-                repo.Update(intermediatestandard);
+                InventoryItemRepository inventoryRepo = new InventoryItemRepository();
+
+                InventoryItem invItem = inventoryRepo.Get()
+                        .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)
+                        .FirstOrDefault();
+
+                IntermediateStandard updateStandard = invItem.IntermediateStandard;
+                updateStandard.IdCode = intermediatestandard.IdCode;
+                updateStandard.MaxxamId = intermediatestandard.MaxxamId;
+                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
+
+                repo.Update(updateStandard);
+
+                invItem.DateModified = DateTime.Today;
+                invItem.ExpiryDate = intermediatestandard.ExpiryDate;
+
+
+                inventoryRepo.Update(invItem);
                 return RedirectToAction("Index");
             }
             return View(intermediatestandard);

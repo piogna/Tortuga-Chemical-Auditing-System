@@ -15,7 +15,7 @@
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Standards / <i class="fa fa-clipboard"></i> Edit @Model.IdCode
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Intermediate Standards / <i class="fa fa-clipboard"></i> Edit @Model.IdCode
             </li>
         </ol>
     </div>
@@ -26,34 +26,42 @@
     @Html.ActionLink("View " + Model.IdCode + " Details", "Details", new { id = Model.IntermediateStandardId }, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
-@using (Html.BeginForm("Edit", "IntermediateStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+<hr />
+
+@Html.Partial("_SectionHeader", "Intermediate Reagent Information")
+
+@using (Html.BeginForm("Edit", "IntermediateStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.IntermediateStandardId)
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.IntermediateStandardId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Replaces, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Replaces)
-                @Html.ValidationMessageFor(model => model.Replaces)
+    <div class="container">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.IdCode, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.IdCode)
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.MaxxamId, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.MaxxamId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.MaxxamId)
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReplacedBy, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReplacedBy)
-                @Html.ValidationMessageFor(model => model.ReplacedBy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-lg" })
+                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control no-border-radius" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ExpiryDate)
             </div>
         </div>
     </div>

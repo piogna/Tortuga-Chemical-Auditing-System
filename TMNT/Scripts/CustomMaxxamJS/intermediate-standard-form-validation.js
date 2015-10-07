@@ -85,7 +85,6 @@ $(function () {
 
     Recipes.on('click', '#another-item', function (e) {
         e.preventDefault();
-        console.log(LotNumber.val());
         var listItemIsValid = true;
         var amountValue = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
         var requiredFieldsForListItem = [ChemicalType, LotNumber, Amount, Units];

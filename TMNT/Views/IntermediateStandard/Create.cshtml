@@ -114,22 +114,22 @@
 
 
                                                 @*<optgroup label="Weights">
-                                                        @foreach (var item in Model.WeightUnits) {
-                                                            <option value="@item.UnitId">
-                                                                @item.UnitShorthandName
-                                                            </option>
-                                                        }
-                                                    </optgroup>
-                                                    <optgroup label="Volumes">
-                                                        @foreach (var item in Model.VolumetricUnits) {
-                                                            <option value="@item.UnitId">
-                                                                @item.UnitShorthandName
-                                                            </option>
-                                                        }
-                                                    </optgroup>
-                                                    <optgroup label="Other">
-                                                        <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
-                                                    </optgroup>*@
+                                            @foreach (var item in Model.WeightUnits) {
+                                                <option value="@item.UnitId">
+                                                    @item.UnitShorthandName
+                                                </option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="Volumes">
+                                            @foreach (var item in Model.VolumetricUnits) {
+                                                <option value="@item.UnitId">
+                                                    @item.UnitShorthandName
+                                                </option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="Other">
+                                            <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
+                                        </optgroup>*@
                                             </select>
 
                                         </div>
@@ -213,6 +213,13 @@
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                 </div>
+                                @*<div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default input-summary required-field" accept=".pdf" />
+                                        <div class="input-group-addon input-group-addon-md">Upload SDS</div>
+                                    </div>
+                                </div>*@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
@@ -273,12 +280,13 @@
                                         @Html.ValidationMessageFor(model => model.FinalVolume)
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-xs-12">
+                                <div class="form-group">
+                                    @*<div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>*@
+                                </div>
+                                <div class="form-group">
                                     <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Review and Submit</a>
                                 </div>
-                                <div class="col-xs-12 pull-right">
+                                <div class="form-group">
                                     <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
                                 </div>
                             </div>
