@@ -34,31 +34,36 @@
             min-height: 388px;
         }
 
-        @@media screen and (max-width:767px) {
+        @@media screen and (max-width:1200px) {
             .tab-fix-width {
                 width: 84%;
             }
         }
-
-        @@media screen and (min-width:768px) and (max-width:1200px) {
-            .tab-fix-width {
-                width: 84%;
+        @@media screen and (min-width:768px) and (max-width:991px) {
+            #break-inner{
+                display:none;
             }
         }
-        /*@@media screen and (min-width:993px) and (max-width:1200px) {
-            .tab-fix-width {
-                width: 94%;
-            }
-        }*/
 
-        /*.tab-fix-width {
-            width: 100%;
-        }*/
+        @@media screen and (min-width:992px) and (max-width:1200px) {
+            #break-inner{
+                display:none;
+            }
+
+            #break-outer{
+                display:none;
+            }
+        }
 
         @@media screen and (min-width:1201px) {
             #top-link-block {
                 display: none;
             }
+        }
+
+        button {
+            
+            color: #0000EE;
         }
 
         #top-link-block.affix-top {
@@ -162,9 +167,9 @@
     </section>
     <!-- SECTION END -->
     <span id="top-link-block" class="hidden">
-        <a href="#top" class="well well-sm" onclick="$('html,body').animate({ scrollTop: 0 }, 'slow'); return false;">
-            <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
-        </a>
+        <button class="well well-sm" onclick="$('html,body').animate({ scrollTop: 0 }, 'slow'); return false;">
+            <i class="glyphicon glyphicon-chevron-up"></i> <br id="break-outer" /><span>Back to <br id="break-inner" />Top</span>
+        </button>
     </span><!-- /top-link-block -->
 </div>
 <!-- CONATINER END -->
