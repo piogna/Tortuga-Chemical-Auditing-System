@@ -85,28 +85,26 @@ $(function () {
 
     Recipes.on('click', '#another-item', function (e) {
         e.preventDefault();
-        var listItemIsValid = true;
+        var listItemIsValid = "valid";
         var amountValue = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
         var requiredFieldsForListItem = [ChemicalType, LotNumber, Amount, Units];
         //make sure all fields are filled
         for (var i = 0; i < requiredFieldsForListItem.length; i++) {
             if (!requiredFieldsForListItem[i].val()) {
-                listItemIsValid = false;
+                listItemIsValid = "not filled";
                 break;
             }
         }
 
-        //if ($('#recipe-table tbody tr:not(:first)').length > 1) {
-        //    //make sure the same item isn't being used twice (declutter the view)
-        //    $('input[name=PrepListItemIdCodes]').each(function () {
-        //        if ($(this).val() === IdCode.val()) {
-        //            alert("exists");
-        //            listItemIsValid = false;
-        //        }
-        //    });
-        //}
+        var lotNumbersInPrepTable = $('input[name=PrepListItemLotNumbers]');
 
-        if (listItemIsValid) {
+        lotNumbersInPrepTable.each(function () {
+            if ($(this).val() === LotNumber.val()) {
+                listItemIsValid = "already exists";
+            }
+        });
+        
+        if (listItemIsValid === "valid") {
             Append = "";
             Append += "<tr><td style='width:83px'>" + ItemCount + "</td>" +
                     "<td style='width:169px'><input name='PrepListItemTypes' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + ChemicalType.val() + "'/></td>" +
@@ -128,7 +126,7 @@ $(function () {
             LotNumber.attr("disabled", "disabled");
 
             ItemCount++;
-        } else {
+        } else if (listItemIsValid === "not filled") {
             //form isn't valid, display error message
             var error = "Cannot create prep list item. Make sure the following fields are filled:\n\n";
             for (var i = 0; i < requiredFieldsForListItem.length; i++) {
@@ -137,6 +135,9 @@ $(function () {
                 }
             }
             alert(error);
+        } else if (listItemIsValid === "already exists") {
+            alert("The lot number " + LotNumber.val() + " already exists in the prep list table.");
+            LotNumber.val("");
         }
     });
 
