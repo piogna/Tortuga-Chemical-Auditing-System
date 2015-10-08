@@ -31,7 +31,35 @@
         }
 
         .change-password-container {
-            min-height:388px;
+            min-height: 388px;
+        }
+
+        @@media screen and (max-width:767px) {
+            #top-link-block {
+                display:block;
+            }
+
+            .tab-fix-width {
+                width:82%;
+            }
+        }
+
+        @@media screen and (min-width:768px) {
+            #top-link-block {
+                display:none;
+            }
+        }
+
+        #top-link-block.affix-top {
+            position: absolute; /* allows it to "slide" up into view */
+            bottom: -82px; /* negative of the offset - height of link element */
+            right: 10px; /* padding from the left side of the window */
+        }
+
+        #top-link-block.affix {
+            position: fixed; /* keeps it on the bottom once in view */
+            bottom: 18px; /* height of link element */
+            right: 10px; /* padding from the left side of the window */
         }
     </style>
 }
@@ -53,23 +81,23 @@
     <section style="padding-bottom: 50px; padding-top: 50px;">
         <div class="row">
             @*<div class="col-md-12">
-                <div class="alert alert-info">
-                    <div class="container">
-                        <div class="col-md-10">
-                            <h2>@Html.DisplayFor(model => model.Name)'s Bio: </h2>
-                            <p>
-                                @Html.DisplayFor(model => model.Biography)
-                            </p>
-                        </div>                        
-                        <div class="col-md-2">
-                            <div class="pull-right" style="margin-bottom:0">
-                                <a href="#" class="btn btn-warning">Update Biography</a>
+                    <div class="alert alert-info">
+                        <div class="container">
+                            <div class="col-md-10">
+                                <h2>@Html.DisplayFor(model => model.Name)'s Bio: </h2>
+                                <p>
+                                    @Html.DisplayFor(model => model.Biography)
+                                </p>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="pull-right" style="margin-bottom:0">
+                                    <a href="#" class="btn btn-warning">Update Biography</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>*@
-            <div class="col-lg-4">
+                </div>*@
+            <div class="col-lg-4 tab-fix-width">
                 <div class="alert alert-success top-row">
                     <h4 class="text-center">User Information</h4>
                     <hr />
@@ -81,7 +109,7 @@
                             @Html.DisplayFor(model => model.Name)
                         </dd>
                         <dt>
-                            @Html.DisplayNameFor(model => model.Email) 
+                            @Html.DisplayNameFor(model => model.Email)
                         </dt>
                         <dd>
                             @Html.DisplayFor(model => model.Email)
@@ -113,7 +141,7 @@
                     </dl>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 tab-fix-width">
                 <div class="alert alert-warning top-row">
                     <h4 class="text-center">Next Password Change</h4>
                     <hr />
@@ -130,7 +158,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-5">
+            <div class="col-lg-5 tab-fix-width">
                 <div class="alert alert-success change-password-container">
                     @Html.Partial("_ChangePasswordPartial", Model)
                 </div>
@@ -139,5 +167,20 @@
         <!-- ROW END -->
     </section>
     <!-- SECTION END -->
+    <span id="top-link-block" class="hidden">
+        <a href="#top" class="well well-sm" onclick="$('html,body').animate({ scrollTop: 0 }, 'slow'); return false;">
+            <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
+        </a>
+    </span><!-- /top-link-block -->
 </div>
 <!-- CONATINER END -->
+
+<script>
+    $(function () {
+        if (($(window).height() + 100) < $(document).height()) {
+            $('#top-link-block').removeClass('hidden').affix({
+                offset: { top: 100 }
+            });
+        }
+    });
+</script>
