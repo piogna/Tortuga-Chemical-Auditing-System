@@ -372,7 +372,7 @@ namespace TMNT.Controllers {
         }
 
         // POST: /IntermediateStandard/Delete/5
-        [Route("IntermediateStandard/Edit/{id?}")]
+        [Route("IntermediateStandard/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
