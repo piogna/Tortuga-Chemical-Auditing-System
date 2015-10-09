@@ -199,12 +199,17 @@ namespace TMNT.Controllers {
 
                 user.LastPasswordChange = DateTime.Today;
                 user.NextRequiredPasswordChange = DateTime.Today.AddYears(1);
+                //ApplicationDbContext.Create().Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
 
                 var updateResult = await UserManager.UpdateAsync(user);
                 if (updateResult.Succeeded) {
                     if (user != null) {
+                        var db = ApplicationDbContext.Create();//.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
+                        db.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
                         await SignInAsync(user, isPersistent: false);
                     }
+                    
                     TempData["Success"] = "Password successfully changed!";
                     return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });//, new { Message = ManageMessageId.ChangePasswordSuccess, Model = model });
                 }

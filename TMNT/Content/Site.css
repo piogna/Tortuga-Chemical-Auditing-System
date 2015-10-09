@@ -147,17 +147,13 @@ textarea {
     letter-spacing: 1px;
 }
 
-.prep-list-wrapper {
-    min-height:320px;
-}
-
 .fix-right-col {
     margin-top:-1px;
 }
 
-.select2-selection .select2-selection--multiple {
+/*.select2-selection .select2-selection--multiple {
     height:35px !important;
 }
 .select2 .select2-container .select2-container--default {
     height:35px !important;
-}
+}*/

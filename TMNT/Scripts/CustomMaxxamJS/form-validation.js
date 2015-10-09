@@ -43,7 +43,7 @@ $(function () {
         if (formIsValid) {
             btnReview.removeAttr("disabled");
             buttonMessageSectionTwo.text("All required fields filled.");
-            buttonMessageSectionTwo.removeClass("button-message-error").addClass("button-message-success")
+            buttonMessageSectionTwo.removeClass("button-message-error").addClass("button-message-success");
         } else {
             if (!btnReview.attr("disabled")) {
                 btnReview.attr('disabled', 'disabled');

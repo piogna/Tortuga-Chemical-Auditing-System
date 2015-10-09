@@ -408,7 +408,8 @@ namespace TMNT.Controllers {
         [AllowAnonymous]
         [Route("Account/ViewProfile/{id}")]
         public ActionResult ViewProfile(string id) {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            //have to do this
+            var user = ApplicationDbContext.Create().Users.Where(item => item.UserName.Equals(id)).First();//Helpers.HelperMethods.GetCurrentUser();
             ProfileViewModel model = new ProfileViewModel() {
                 Department = user.Department,
                 Location = user.Department.Location,
@@ -422,7 +423,11 @@ namespace TMNT.Controllers {
                 NextRequiredPasswordChange = user.NextRequiredPasswordChange
             };
             if (model.LastPasswordChange != null) {
-                model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - DateTime.Today).Days - 1;
+                //if (TempData["Success"] != null) {
+                //    model.DaysUntilNextPasswordChange = 365;
+               // } else {
+                    model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - DateTime.Today).Days - 1;
+                //}
             }
             return View(model);
         }

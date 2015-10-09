@@ -19,6 +19,8 @@ $(function () {
     var OptIntStandard = $('.opt-int-standard');
     var OptLabel = $('.opt-label');
 
+    var buttonMessage = $('#button-message');
+
     var ItemCount = 1;
     var Append;
 
@@ -86,7 +88,6 @@ $(function () {
     Recipes.on('click', '#another-item', function (e) {
         e.preventDefault();
         var listItemIsValid = "valid";
-        var amountValue = Amount.val().toString() + " " + Units.find("option:selected").text().trim();
         var requiredFieldsForListItem = [ChemicalType, LotNumber, Amount, Units];
         //make sure all fields are filled
         for (var i = 0; i < requiredFieldsForListItem.length; i++) {
@@ -95,6 +96,23 @@ $(function () {
                 break;
             }
         }
+
+        var amountValue = Amount.val().toString() + " ";
+
+        if (Units.find("option:selected").length > 1) {
+            Units.find("option:selected").each(function () {
+                var $this = $(this);
+                if ($this.length) {
+                    var selText = $this.text().trim();
+                    amountValue += $this.text().trim() + "/";
+                }
+            });
+        } else {
+            amountValue += Units.find("option:selected").text().trim();
+        }
+
+        //remove last backslash
+        if (amountValue.indexOf("/") > -1) { amountValue = amountValue.substr(0, amountValue.length - 1); }
 
         var lotNumbersInPrepTable = $('input[name=PrepListItemLotNumbers]');
 
@@ -115,13 +133,17 @@ $(function () {
 
             if ($('#recipe-table tbody tr').length > 0) {
                 $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'none');
+                $('.btn-next').removeAttr("disabled");
+
+                buttonMessage.text("All required fields filled.");
+                buttonMessage.removeClass("button-message-error").addClass("button-message-success");
             }
 
             //clear inputs
             ChemicalType.val("");
             LotNumber.val("");
             Amount.val("");
-            Units.val("");
+            $('#Units').val('').trigger('chosen:updated');
             OptLabel.text("Select a Chemical Type First");
             LotNumber.attr("disabled", "disabled");
 
@@ -150,6 +172,10 @@ $(function () {
         if ($('#recipe-table tbody tr').length == 1) {
             //one row = show no data
             $('#recipe-table tbody tr.recipe-table-no-data').css('display', 'table-row');
+            $('.btn-next').attr("disabled", "disabled");
+
+            buttonMessage.text("Fill out required fields.");
+            buttonMessage.removeClass("button-message-success").addClass("button-message-error");
         } else {
             //remove the row that has been removed and fix the numbers of each item shown
             var tds = $('#recipe-table tbody tr:not(:first)').find('td:first');

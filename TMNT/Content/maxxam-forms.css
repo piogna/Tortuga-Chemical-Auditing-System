@@ -120,7 +120,7 @@ input[type=text] {
 
 /* Intermediate Standard CSS */
 #build-recipe {
-    height: 340px;
+    height: 500px;
     overflow-y: auto;
 }
 
@@ -128,6 +128,10 @@ input[type=text] {
         padding-left: 15px;
         padding-right: 15px;
     }
+
+.prep-list-wrapper {
+    min-height:350px;
+}
 
 .zero-left-right-margin {
     margin-left: 0 !important;
