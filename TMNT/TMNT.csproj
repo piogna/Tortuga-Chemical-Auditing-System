@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201510052348195_BetterUsageOfDevicesUsed.Designer.cs">
       <DependentUpon>201510052348195_BetterUsageOfDevicesUsed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.cs" />
+    <Compile Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.Designer.cs">
+      <DependentUpon>201510091211041_RemovedRequiredAttrOnInStandard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -592,6 +596,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510052348195_BetterUsageOfDevicesUsed.resx">
       <DependentUpon>201510052348195_BetterUsageOfDevicesUsed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.resx">
+      <DependentUpon>201510091211041_RemovedRequiredAttrOnInStandard.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

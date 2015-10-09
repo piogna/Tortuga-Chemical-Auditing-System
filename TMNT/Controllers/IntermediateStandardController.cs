@@ -335,7 +335,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
-                InventoryItemRepository inventoryRepo = new InventoryItemRepository();
+                InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using TMNT.Utils;
 using TMNT.Models.Enums;
 using System;
+using System.Data.Entity.Validation;
 
 namespace TMNT.Models.Repository {
     public class IntermediateStandardRepository : IRepository<IntermediateStandard> {
@@ -36,8 +37,12 @@ namespace TMNT.Models.Repository {
         }
 
         public void Update(IntermediateStandard t) {
-            _db.Entry(t).State = EntityState.Modified;
-            _db.SaveChanges();
+            try {
+                _db.Entry(t).State = EntityState.Modified;
+                _db.SaveChanges();
+            } catch (DbEntityValidationException ex) {
+                
+            }
         }
 
         public void Delete(int? i) {
