@@ -142,6 +142,14 @@ namespace TMNT.Models.ViewModels {
         public string MaxxamId { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+        [Display(Name = "Final Concentration")]
+        public int FinalConcentration { get; set; }
+        [Display(Name = "Final Volume")]
+        public int FinalVolume { get; set; }
+        [Display(Name = "Total Amount")]
+        public int TotalAmount { get; set; }
+        [Display(Name = "Last Modified By")]
+        public string LastModifiedBy { get; set; }
     }
 
     public class IntermediateStandardPrepListItemsViewModel {
