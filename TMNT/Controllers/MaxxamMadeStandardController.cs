@@ -81,6 +81,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeStandards/Create
+        [Route("InHouseStandard/Create")]
         public ActionResult Create() {
             return View();
         }
@@ -90,6 +91,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("InHouseStandard/Create")]
         public ActionResult Create([Bind(Include = "MaxxamMadeStandardId,LotNumber,IdCode,MaxxamMadeStandardName,SolventUsed,SolventSupplierName,Purity,LastModifiedBy")] MaxxamMadeStandard maxxamMadeStandard) {
             if (ModelState.IsValid) {
                 db.MaxxamMadeStandard.Add(maxxamMadeStandard);

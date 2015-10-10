@@ -121,7 +121,7 @@ input[type=text] {
 /* Intermediate Standard CSS */
 #build-recipe {
     height: 500px;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
     #build-recipe > .row {

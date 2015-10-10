@@ -6,8 +6,6 @@
 
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
 <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
-@*<script src="~/Scripts/select2.min.js"></script>*@
-@*<link href="~/Content/select2.min.css" rel="stylesheet" />*@
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
@@ -340,12 +338,6 @@
     <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
     <script>
         $(function () {
-            //    $("#Units").select2({
-            //        placeholder: "Units..",
-            //        allowClear: true,
-            //        maximumSelectionLength: 2
-            //    });
-
             $("#Units").chosen({
                 max_selected_options: 2,
                 placeholder: "Units.."

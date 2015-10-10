@@ -82,6 +82,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Create
+        [Route("InHouseReagent/Create")]
         public ActionResult Create() {
             return View();
         }
@@ -91,6 +92,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("InHouseReagent/Create")]
         public ActionResult Create([Bind(Include = "MaxxamMadeReagentId,LotNumber,IdCode,MaxxamMadeReagentName,LastModifiedBy")] MaxxamMadeReagent maxxamMadeReagent) {
             if (ModelState.IsValid) {
                 db.MaxxamMadeReagent.Add(maxxamMadeReagent);
