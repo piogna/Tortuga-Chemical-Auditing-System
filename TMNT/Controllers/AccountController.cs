@@ -171,12 +171,12 @@ namespace TMNT.Controllers {
                 var locationRepo = new LocationRepository();
 
                 var locationId = locationRepo.Get()
-                    .Where(item => item.LocationName == model.LocationName)
+                    .Where(item => item.LocationName.Equals(model.LocationName))
                     .Select(item => item.LocationId)
                     .First();
 
                 Department department = locationRepo.Get(locationId).Departments
-                    .Where(item => item.DepartmentCode == model.DepartmentCode)
+                    .Where(item => item.DepartmentCode.Equals(model.DepartmentCode))
                     .First();
 
                 model.Password = "!Maxxam123";
@@ -191,7 +191,7 @@ namespace TMNT.Controllers {
                     string password = "tortugarules";
                     try {
                         using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
-                            message.Body = "Welcome to Maxxam!<br/><br/>" +
+                            message.Body = "Welcome to Maxxam, " + model.FirstName + " " + model.LastName +  "!<br/><br/>" +
                             "Click the link below to login to your account with the following credentials. You will be asked to change your password immediately (minimum 8 characters).<br/><br/>" +
                             "Username: " + model.UserName + "<br/>" +
                             "Password: " + model.Password + "<br/><br/>" +
