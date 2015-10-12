@@ -10,6 +10,7 @@ using System;
 using TMNT.Models.Repository;
 using System.Net.Mail;
 using System.Net;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -174,26 +175,36 @@ namespace TMNT.Controllers {
         public async Task<ActionResult> Register(RegisterViewModel model, string submit) {
             if (ModelState.IsValid) {
                 var locationRepo = new LocationRepository();
-
-                var locationId = locationRepo.Get()
-                    .Where(item => item.LocationName.Equals(model.LocationName))
-                    .Select(item => item.LocationId)
+                
+                var location = locationRepo.Get()
+                    .Where(item => item.LocationName.Equals(model.Location.LocationName))
                     .First();
-
-                Department department = locationRepo.Get(locationId).Departments
-                    .Where(item => item.DepartmentCode.Equals(model.DepartmentCode))
-                    .First();
+                
+                //Department department = locationRepo.Get(location.LocationId).Departments
+                //    .Where(item => item.DepartmentCode.Equals(model.Department.DepartmentCode))
+                //    .First();
 
                 model.Password = "!Maxxam123";
                 model.IsFirstTimeLogin = true;
-
+                //model.Department = department;
                 //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1) };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1), IsFirstTimeLogin = model.IsFirstTimeLogin };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded) {
+                    UserManager.AddToRole(user.Id, model.Role);
+                    using (ApplicationDbContext db = ApplicationDbContext.Create()) {
+                        var updateUser = db.Users.Where(item => item.Id.Equals(user.Id)).First();
+                        Department department = db.Departments.Where(item => item.DepartmentCode.Equals(model.Department.DepartmentCode)).First();
+
+                        updateUser.Department = department;
+
+                        db.Entry(updateUser).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
                     //send email to new user with username and default password
-                    string username = "team.tortuga.contact";// @gmail.com";
+                    string username = "team.tortuga.contact";
                     string password = "tortugarules";
                     try {
                         using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
@@ -234,7 +245,6 @@ namespace TMNT.Controllers {
                         //save & new pressed
                         return RedirectToAction("Register");
                     }
-                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }

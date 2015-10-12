@@ -27,7 +27,7 @@ namespace TMNT.Helpers {
         public static Department GetUserDepartment() {
             //UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = UserManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            UserManager.GetRoles(user.Id).ToString();
+            //UserManager.GetRoles(user.Id).ToString();
             return user.Department != null ? user.Department : null;
         }
 
