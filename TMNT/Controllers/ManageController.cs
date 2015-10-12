@@ -172,18 +172,18 @@ namespace TMNT.Controllers {
         }
 
         //
-        // GET: /Manage/ChangePassword
-        [Route("Manage/ChangePassword")]
-        public ActionResult ChangePassword() {
+        // GET: /Manage/ChangePasswordFirstTime
+        [Route("Manage/ChangePasswordFirstTime")]
+        public ActionResult ChangePasswordFirstTime() {
             return View();
         }
 
         //
-        // POST: /Manage/ChangePassword
+        // POST: /Manage/ChangePasswordFirstTime
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Manage/ChangePassword")]
-        public async Task<ActionResult> ChangePassword(ProfileViewModel model) {//ChangePasswordViewModel model) {
+        [Route("Manage/ChangePasswordFirstTime")]
+        public async Task<ActionResult> ChangePasswordFirstTime(ChangePasswordViewModel model) {
             if (!ModelState.IsValid) {
                 return View(model);
             }
@@ -199,25 +199,65 @@ namespace TMNT.Controllers {
 
                 user.LastPasswordChange = DateTime.Today;
                 user.NextRequiredPasswordChange = DateTime.Today.AddYears(1);
-                //ApplicationDbContext.Create().Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
+                user.IsFirstTimeLogin = false;
 
                 var updateResult = await UserManager.UpdateAsync(user);
                 if (updateResult.Succeeded) {
                     if (user != null) {
-                        //var db = ApplicationDbContext.Create();//.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
-                        //db.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
-                        //db.SaveChanges();
+                        await SignInAsync(user, isPersistent: false);
+
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            AddErrors(result);
+
+            return View();
+        }
+
+        //
+        // GET: /Manage/ChangePassword
+        [Route("Manage/ChangePassword")]
+        public ActionResult ChangePassword() {
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Manage/ChangePassword")]
+        public async Task<ActionResult> ChangePassword(ProfileViewModel model) {
+            if (!ModelState.IsValid) {
+                return View(model);
+            }
+
+            if (model.OldPassword.Equals(model.NewPassword)) {
+                TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
+                return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+            }
+
+            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            if (result.Succeeded) {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                user.LastPasswordChange = DateTime.Today;
+                user.NextRequiredPasswordChange = DateTime.Today.AddYears(1);
+
+                var updateResult = await UserManager.UpdateAsync(user);
+                if (updateResult.Succeeded) {
+                    if (user != null) {
                         await SignInAsync(user, isPersistent: false);
                     }
                     
                     TempData["Success"] = "Password successfully changed!";
-                    return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });//, new { Message = ManageMessageId.ChangePasswordSuccess, Model = model });
+                    return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });
                 }
             }
             AddErrors(result);
             TempData["Error"] = result.Errors;
 
-            return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });//(model);
+            return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
         }
 
         //

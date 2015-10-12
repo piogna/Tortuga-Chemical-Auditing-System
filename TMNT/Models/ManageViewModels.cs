@@ -37,7 +37,7 @@ namespace TMNT.Models {
     public class ChangePasswordViewModel {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Current Password")]
         public string OldPassword { get; set; }
 
         [Required]
@@ -47,7 +47,7 @@ namespace TMNT.Models {
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
+        [Display(Name = "Confirm New Password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }

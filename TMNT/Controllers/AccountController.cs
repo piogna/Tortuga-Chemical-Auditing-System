@@ -75,7 +75,7 @@ namespace TMNT.Controllers {
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             UserManager.MaxFailedAccessAttemptsBeforeLockout = 3;
-
+            
             var user = UserManager.FindByName(model.UserName);
 
             if (user == null) {
@@ -87,6 +87,11 @@ namespace TMNT.Controllers {
 
             switch (result) {
                 case SignInStatus.Success:
+                    //if first-time login, force them to change their password
+                    if (user.IsFirstTimeLogin) {
+                        return RedirectToAction("ChangePasswordFirstTime", "Manage");
+                    }
+
                     //ViewBag.User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department;
                     //setting the "Remember Me?" checkbox
                     if (model.RememberMe) {
@@ -180,6 +185,7 @@ namespace TMNT.Controllers {
                     .First();
 
                 model.Password = "!Maxxam123";
+                model.IsFirstTimeLogin = true;
 
                 //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1) };
@@ -290,6 +296,7 @@ namespace TMNT.Controllers {
 
         //
         // GET: /Account/ResetPassword
+        [Route("Account/ResetPassword")]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code) {
             return code == null ? View("Error") : View();
@@ -300,11 +307,12 @@ namespace TMNT.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("Account/ResetPassword")]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model) {
             if (!ModelState.IsValid) {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByNameAsync(model.Username);
             if (user == null) {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -447,7 +455,7 @@ namespace TMNT.Controllers {
         [Route("Account/ViewProfile/{id}")]
         public ActionResult ViewProfile(string id) {
             //have to do this
-            var user = ApplicationDbContext.Create().Users.Where(item => item.UserName.Equals(id)).First();//Helpers.HelperMethods.GetCurrentUser();
+            var user = ApplicationDbContext.Create().Users.Where(item => item.UserName.Equals(id)).First();
             ProfileViewModel model = new ProfileViewModel() {
                 Department = user.Department,
                 Location = user.Department.Location,
@@ -456,16 +464,11 @@ namespace TMNT.Controllers {
                 PhoneNumber = user.PhoneNumber,
                 Name = user.FirstName + " " + user.LastName,
                 Role = Helpers.HelperMethods.GetUserRoles().First(),
-                Biography = user.Biography,
                 LastPasswordChange = user.LastPasswordChange,
                 NextRequiredPasswordChange = user.NextRequiredPasswordChange
             };
             if (model.LastPasswordChange != null) {
-                //if (TempData["Success"] != null) {
-                //    model.DaysUntilNextPasswordChange = 365;
-               // } else {
-                    model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - DateTime.Today).Days - 1;
-                //}
+                model.DaysUntilNextPasswordChange = (model.NextRequiredPasswordChange.Value - DateTime.Today).Days - 1;
             }
             return View(model);
         }

@@ -11,7 +11,7 @@ namespace TMNT.Models {
     public class ApplicationUser : IdentityUser {
         public DateTime? LastPasswordChange { get; set; }
         public DateTime? NextRequiredPasswordChange { get; set; }
-        public string Biography { get; set; }
+        public bool IsFirstTimeLogin { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public virtual ICollection<UserSettings> UserSettings { get; set; }
