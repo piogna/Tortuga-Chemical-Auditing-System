@@ -98,7 +98,6 @@ namespace TMNT.Controllers {
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(maxxamMadeStandard);
         }
 

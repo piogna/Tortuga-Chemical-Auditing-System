@@ -8,6 +8,8 @@ using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
 using TMNT.Models.Repository;
+using System.Net.Mail;
+using System.Net;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -164,7 +166,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model) {
+        public async Task<ActionResult> Register(RegisterViewModel model, string submit) {
             if (ModelState.IsValid) {
                 var locationRepo = new LocationRepository();
 
@@ -177,21 +179,57 @@ namespace TMNT.Controllers {
                     .Where(item => item.DepartmentCode == model.DepartmentCode)
                     .First();
 
+                model.Password = "!Maxxam123";
+
                 //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1) };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded) {
+                    //send email to new user with username and default password
+                    string username = "team.tortuga.contact";// @gmail.com";
+                    string password = "tortugarules";
+                    try {
+                        using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
+                            message.Body = "Welcome to Maxxam!<br/><br/>" +
+                            "Click the link below to login to your account with the following credentials. You will be asked to change your password immediately (minimum 8 characters).<br/><br/>" +
+                            "Username: " + model.UserName + "<br/>" +
+                            "Password: " + model.Password + "<br/><br/>" +
+                            "http://142.55.49.127";
+
+                            message.IsBodyHtml = true;
+
+                            using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587)) {
+                                client.UseDefaultCredentials = false;
+                                client.Credentials = new NetworkCredential(username, password);
+                                client.EnableSsl = true;
+
+                                client.Send(message);
+                            }
+                        }
+                    } catch (Exception ex) {
+
+                    }
+
+
                     //UserManager.AddToRole(model.UserName, model.Role);//breaking the application
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //return View();
 
-                    return RedirectToAction("Index", "Home");
+                    if (!string.IsNullOrEmpty(submit) && submit.Equals("Create")) {
+                        //save pressed
+                        return RedirectToAction("Index", "Home");
+                    } else {
+                        //save & new pressed
+                        return RedirectToAction("Register");
+                    }
+                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }

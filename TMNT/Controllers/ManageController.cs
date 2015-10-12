@@ -204,9 +204,9 @@ namespace TMNT.Controllers {
                 var updateResult = await UserManager.UpdateAsync(user);
                 if (updateResult.Succeeded) {
                     if (user != null) {
-                        var db = ApplicationDbContext.Create();//.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
-                        db.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
+                        //var db = ApplicationDbContext.Create();//.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
+                        //db.Entry(user.Id).State = System.Data.Entity.EntityState.Modified;
+                        //db.SaveChanges();
                         await SignInAsync(user, isPersistent: false);
                     }
                     
