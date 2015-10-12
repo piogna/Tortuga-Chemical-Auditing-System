@@ -272,6 +272,10 @@
     <Compile Include="Migrations\201510121513464_IsFirstTimeLogin.Designer.cs">
       <DependentUpon>201510121513464_IsFirstTimeLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.cs" />
+    <Compile Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.Designer.cs">
+      <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -607,6 +611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510121513464_IsFirstTimeLogin.resx">
       <DependentUpon>201510121513464_IsFirstTimeLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.resx">
+      <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
