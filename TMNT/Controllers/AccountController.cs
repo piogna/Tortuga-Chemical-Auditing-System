@@ -216,8 +216,7 @@ namespace TMNT.Controllers {
                     } catch (Exception ex) {
 
                     }
-
-
+                    
                     //UserManager.AddToRole(model.UserName, model.Role);//breaking the application
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
