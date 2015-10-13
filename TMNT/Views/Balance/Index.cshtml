@@ -49,20 +49,6 @@
                         <text>|</text> @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @style = "color:red;" })
                     }
                 </td>
-                @*@if (!@item.IsVerified) {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
-                        @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId }) |
-                        @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @style = "color:red;" })
-                    </td>
-                } else {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
-                        @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
-                    </td>
-                }*@
                 <td>
                     @item.DeviceCode
                 </td>

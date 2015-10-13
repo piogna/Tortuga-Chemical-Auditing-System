@@ -20,6 +20,9 @@
 <p>
     @Html.ActionLink("Back to List", "Index", "IntermediateStandard", null, htmlAttributes: new { @class = "btn btn-default" })
     @Html.ActionLink("Edit " + @Model.IdCode, "Edit", new { id = Model.IntermediateStandardId }, htmlAttributes: new { @class = "btn btn-default" })
+    @if (!string.IsNullOrEmpty(@ViewBag.ReturnUrl)) {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Return to Intermediate Standard</a>
+    }
 </p>
 
 <hr />
@@ -215,7 +218,7 @@
                         </td>
                     }
                     <td>
-                        @item.Amount@item.Unit.UnitShorthandName
+                        @item.Amount@*@item.Unit.UnitShorthandName*@
                     </td>
                 </tr>
             }

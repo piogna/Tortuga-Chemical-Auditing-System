@@ -92,6 +92,10 @@ namespace TMNT.Controllers {
                 return HttpNotFound("The standard requested does not exist.");
             }
 
+            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            }
+
             StockStandardDetailsViewModel vStandard = new StockStandardDetailsViewModel() {
                 StockStandardId = standard.StockStandardId,
                 LotNumber = standard.LotNumber,

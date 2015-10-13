@@ -86,6 +86,10 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
+            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+                ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            }
+
             var vIntermediateStandard = new IntermediateStandardDetailsViewModel() {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 Replaces = intermediatestandard.Replaces,
