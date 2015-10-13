@@ -9,7 +9,7 @@
         <h1>
             @Model.IdCode Intermediate Standard Details
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb no-border-radius">
             <li class="active">
                 <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> Intermediate Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Intermediate Standard Details
             </li>
@@ -215,7 +215,7 @@
                         </td>
                     }
                     <td>
-                        @item.Amount@item.Unit.UnitShorthandName 
+                        @item.Amount@item.Unit.UnitShorthandName
                     </td>
                 </tr>
             }

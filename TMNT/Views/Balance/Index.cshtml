@@ -13,7 +13,7 @@
         <h1>
             Balances
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb no-border-radius">
             <li class="active">
                 <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-wrench"></i> Devices / <i class="fa fa-balance-scale"></i> Balances
             </li>
@@ -41,7 +41,15 @@
     <tbody>
         @foreach (var item in Model) {
             <tr>
-                @if (!@item.IsVerified) {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
+                    @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
+                    @if (!@item.IsVerified) {
+                        <text>|</text> @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @style = "color:red;" })
+                    }
+                </td>
+                @*@if (!@item.IsVerified) {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
                         @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
@@ -54,7 +62,7 @@
                         @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
                         @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
                     </td>
-                }
+                }*@
                 <td>
                     @item.DeviceCode
                 </td>

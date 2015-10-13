@@ -34,7 +34,7 @@
                 <h1>
                     New Stock Reagent
                 </h1>
-                <ol class="breadcrumb">
+                <ol class="breadcrumb no-border-radius">
                     <li class="active">
                         <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Reagents / <i class="fa fa-star-o"></i> New Stock Reagent
                     </li>
@@ -288,56 +288,4 @@
             maximumSelectionLength: 2
         });
     });
-
-
-    //$(function () {
-    //    var requiredField = $('.required-field');
-    //    var requiredFieldSectionTwo = $('.required-field-s2');
-    //    var btnNext = $('.btn-next');
-    //    var btnReview = $('.btn-review');
-    //    var buttonMessage = $('#button-message');
-    //    var buttonMessageSectionTwo = $('#button-message-s2');
-
-    //    requiredField.on('change keyup paste', function () {
-    //        var formIsValid = true;
-    //        requiredField.each(function () {
-    //            if (!$(this).val()) {
-    //                formIsValid = false;
-    //            }
-    //        });
-
-    //        if (formIsValid) {
-    //            btnNext.removeAttr("disabled");
-    //            buttonMessage.text("All required fields filled.");
-    //            buttonMessage.removeClass("button-message-error").addClass("button-message-success")
-    //        } else {
-    //            if (!btnNext.attr("disabled")) {
-    //                btnNext.attr('disabled', 'disabled');
-    //                buttonMessage.text("Fill out required fields.");
-    //                buttonMessage.removeClass("button-message-success").addClass("button-message-error");
-    //            }
-    //        }
-    //    });
-
-    //    requiredFieldSectionTwo.on('change keyup paste', function () {
-    //        var formIsValid = true;
-    //        requiredFieldSectionTwo.each(function () {
-    //            if (!$(this).val()) {
-    //                formIsValid = false;
-    //            }
-    //        });
-
-    //        if (formIsValid) {
-    //            btnReview.removeAttr("disabled");
-    //            buttonMessageSectionTwo.text("All required fields filled.");
-    //            buttonMessageSectionTwo.removeClass("button-message-error").addClass("button-message-success")
-    //        } else {
-    //            if (!btnReview.attr("disabled")) {
-    //                btnReview.attr('disabled', 'disabled');
-    //                buttonMessageSectionTwo.text("Fill out required fields.");
-    //                buttonMessageSectionTwo.removeClass("button-message-success").addClass("button-message-error");
-    //            }
-    //        }
-    //    });
-    //});
 </script>
