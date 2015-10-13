@@ -35,9 +35,9 @@ namespace TMNT.Models {
     }
 
     public class ChangePasswordViewModel {
-        [Required]
+        //[Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current Password")]
+        //[Display(Name = "Current Password")]
         public string OldPassword { get; set; }
 
         [Required]

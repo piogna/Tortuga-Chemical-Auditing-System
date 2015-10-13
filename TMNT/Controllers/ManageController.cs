@@ -185,12 +185,16 @@ namespace TMNT.Controllers {
         [Route("Manage/ChangePasswordFirstTime")]
         public async Task<ActionResult> ChangePasswordFirstTime(ChangePasswordViewModel model) {
             if (!ModelState.IsValid) {
+                ModelState.AddModelError("", "The information provided was not valid. Please try again.");
                 return View(model);
             }
 
+            model.OldPassword = "!Maxxam123";
+
             if (model.OldPassword.Equals(model.NewPassword)) {
-                TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
-                return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+                //TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
+                ModelState.AddModelError("", "The new password is not valid. Please choose another one.");
+                return View(model);//RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
             }
 
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
@@ -205,7 +209,6 @@ namespace TMNT.Controllers {
                 if (updateResult.Succeeded) {
                     if (user != null) {
                         await SignInAsync(user, isPersistent: false);
-
                     }
                     return RedirectToAction("Index", "Home");
                 }
