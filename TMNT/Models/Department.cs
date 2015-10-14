@@ -7,6 +7,7 @@ namespace TMNT.Models {
         public int DepartmentId { get; set; }
         [Required(ErrorMessage="Department Code is Required"), Display(Name="Department Code")]
         public string DepartmentCode { get; set; }
+        public string SubDepartment { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Device> Devices { get; set; }
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

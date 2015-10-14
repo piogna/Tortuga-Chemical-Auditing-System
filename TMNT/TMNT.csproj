@@ -277,6 +277,10 @@
     <Compile Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.Designer.cs">
       <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510141147160_AddSubDepartmentField.cs" />
+    <Compile Include="Migrations\201510141147160_AddSubDepartmentField.Designer.cs">
+      <DependentUpon>201510141147160_AddSubDepartmentField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -615,6 +619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.resx">
       <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510141147160_AddSubDepartmentField.resx">
+      <DependentUpon>201510141147160_AddSubDepartmentField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
