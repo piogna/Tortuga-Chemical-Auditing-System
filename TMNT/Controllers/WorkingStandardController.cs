@@ -1,9 +1,12 @@
 ﻿using System.Net;
 using System.Web.Mvc;
+using TMNT.Filters;
 using TMNT.Models;
 using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
+    [Authorize]
+    [PasswordChange]
     public class WorkingStandardController : Controller {
         private IRepository<WorkingStandard> repo;
 

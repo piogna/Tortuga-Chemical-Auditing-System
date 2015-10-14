@@ -5,9 +5,11 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using TMNT.Helpers;
+using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
+    [PasswordChange]
     public class HomeController : Controller {
 
         [Route("")]

@@ -19,13 +19,12 @@ namespace TMNT.Controllers {
         }
 
 
-        public ActionResult Forbidden()
-        {
+        public ActionResult Forbidden() {
             return View();
         }
 
-        public ActionResult CustomError()
-        {
+        public ActionResult CustomError(string customMessage) {
+            ViewBag.message = customMessage;
             return View();
         }
     }

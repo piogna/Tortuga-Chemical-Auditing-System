@@ -192,9 +192,8 @@ namespace TMNT.Controllers {
             model.OldPassword = "!Maxxam123";
 
             if (model.OldPassword.Equals(model.NewPassword)) {
-                //TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
                 ModelState.AddModelError("", "The new password is not valid. Please choose another one.");
-                return View(model);//RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+                return View(model);
             }
 
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);

@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using TMNT.Utils;
 using TMNT.Helpers;
 using TMNT.Models.Enums;
+using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
+    [PasswordChange]
     public class ReagentController : Controller {
 
         private IRepository<StockReagent> repo;

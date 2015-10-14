@@ -196,6 +196,7 @@
     <Compile Include="Controllers\StandardController.cs" />
     <Compile Include="Controllers\SyringeTestController.cs" />
     <Compile Include="Controllers\WorkingStandardController.cs" />
+    <Compile Include="Filters\PasswordChangeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

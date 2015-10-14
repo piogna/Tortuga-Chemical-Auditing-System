@@ -10,7 +10,6 @@ using System;
 using TMNT.Models.Repository;
 using System.Net.Mail;
 using System.Net;
-using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]

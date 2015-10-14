@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TMNT.Filters;
 using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Enums;
@@ -13,6 +14,7 @@ using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
+    [PasswordChange]
     public class IntermediateStandardController : Controller {
         private IRepository<IntermediateStandard> repo;
 

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using TMNT.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using TMNT.Models.Repository;
-using System;
+using TMNT.Filters;
 
 namespace TMNT.Controllers {
+    [Authorize]
+    [PasswordChange]
     public class ReportsController : Controller {
         private IRepository<InventoryItem> repo;
         public ReportsController()

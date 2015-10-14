@@ -10,9 +10,11 @@ using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using TMNT.Helpers;
 using TMNT.Models.Enums;
+using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
+    [PasswordChange]
     public class StandardController : Controller {
 
         private IRepository<StockStandard> repoStandard;
