@@ -194,7 +194,7 @@ namespace TMNT.Controllers {
                     UserManager.AddToRole(user.Id, model.Role);
                     using (ApplicationDbContext db = ApplicationDbContext.Create()) {
                         var updateUser = db.Users.Where(item => item.Id.Equals(user.Id)).First();
-                        Department department = db.Departments.Where(item => item.DepartmentCode.Equals(model.Department.DepartmentCode)).First();
+                        Department department = db.Departments.Where(item => item.DepartmentName.Equals(model.Department.DepartmentName)).First();
 
                         updateUser.Department = department;
 
