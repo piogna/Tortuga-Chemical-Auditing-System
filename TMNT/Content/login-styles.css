@@ -55,10 +55,104 @@
         display:none;
     }
 }
-
-@media (max-width:640px) {
+/* PHONE LANDSCAPE */
+@media (max-width:640px) and (orientation:landscape) {
     .vertical-center {
-        width: 80%;
+        width: 90%;
+        height: 265px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .checkbox {
+        color: #fff;
+        font-size:14px;
+    }
+
+    input[type=checkbox] {
+        width:25px;
+    }
+
+    #loginForm {
+        padding-left: 15px;
+        padding-right: 15px;
+        height:180px;
+    }
+
+    #page-wrapper {
+        padding: 0;
+    }
+
+    input:not([type=checkbox]) {
+        width:100%;
+        height:60px;
+        font-size:16px;
+    }
+
+    #login-title {
+        text-align:center;
+    }
+
+    body {
+        background:#1081C1;
+        overflow:hidden;
+    }
+
+    hr {
+        display:none;
+    }
+
+    #header-container {
+        display:none;
+        background:#005497;
+        padding:1px;
+        margin:0;
+        width:100%;
+        max-width:100%;
+    }
+
+    #header-container h2 {
+        color:#fff;
+        margin-top:10px;
+        margin-bottom:10px;
+        font-size:26px
+    }
+
+    #login-footer {
+        display:none;
+        position:absolute;
+        width:100%;
+        bottom:0px;
+        background:#005497;
+        display:block;
+        color:#fff;
+        text-align:center;
+        padding:1px;
+    }
+
+    #login-footer h2 {
+        display:none;
+        margin-top:10px;
+        margin-bottom:10px;
+        font-size:26px;
+    }
+
+    input[type=submit] {
+        background:#005497;
+        color:#fff;
+        border:1px solid #008997;
+        letter-spacing:1px;
+        font-size:18px;
+    }
+}
+/* PHONE PORTRAIT */
+@media (max-width:640px) and (orientation:portrait) {
+    .vertical-center {
+        width: 90%;
         height: 265px;
         position: absolute;
         top: 0;
@@ -143,7 +237,7 @@
         color:#fff;
         border:1px solid #008997;
         letter-spacing:1px;
-
+        font-size:18px;
     }
 }
 
@@ -226,5 +320,6 @@
         color:#fff;
         border:1px solid #008997;
         letter-spacing:1px;
+        font-size:18px;
     }
 }
