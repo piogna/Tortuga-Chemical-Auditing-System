@@ -57,21 +57,32 @@
             height: 100%;
         }
 
-        .info-box #department {
+        .info-box .department-text {
             font-style:italic;
             font-family:-webkit-pictograph;
             display: block;
             height: 45px;
-            font-size: 32px;
-            min-width: 150px;
             max-width: 400px;
-            float: left;
             text-align: center;
-            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            float: left;
+            /*margin-right: 20px;
+            padding-right: 20px;
+            padding-left:10px;*/
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        #department {
+            padding-left:10px;
+            font-size: 32px;
+        }
+
+        #subdepartment {
             margin-right: 20px;
             padding-right: 20px;
+            padding-top:7px;
             padding-left:10px;
-            color: rgba(255, 255, 255, 0.65);
+            font-size:24px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .info-box {
@@ -95,7 +106,7 @@
         }
 
         .dashboard-heading {
-            background: /*#91BAFF;*/#b94a48;
+            background: #b94a48;
         }
 
         #welcome {
@@ -108,11 +119,9 @@
 <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-12">
-        @*<h1>
-            Dashboard <small>Welcome!</small>
-        </h1>*@
         <div class="info-box dashboard-heading">
-            <span id="department">@Html.DisplayFor(model => model.Department)</span>
+            <span class="department-text" id="department">@Html.DisplayFor(model => model.DepartmentName)</span>
+            <span class="department-text" id="subdepartment">@Html.DisplayFor(model => model.SubDepartment)</span>
             <div id="welcome">
                 Welcome, @Html.DisplayFor(model => model.Name)
             </div>
@@ -124,17 +133,6 @@
         </ol>
     </div>
 </div>
-
-@*<div class="row">
-    <div class="col-md-12">
-        <div class="info-box danger" style="background: #ff5454;">
-            <i> @Html.DisplayFor(model => model.Department)</i>
-            <div style="font-size:22px;padding-top:6px;">
-                Welcome, @Html.DisplayFor(model => model.Name)
-            </div>
-        </div>
-    </div>
-</div>*@
 
 <div class="row">
     <div class="col-lg-4 col-md-6">
@@ -150,14 +148,6 @@
                     </div>
                 </div>
             </div>
-            @*<a href='@Url.Action("Index", "InventoryItem")'>
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-            <div class="panel-footer" style="height:41px;"></div>*@
         </div>
     </div>
     <div class="col-lg-4 col-md-6">
@@ -173,14 +163,6 @@
                     </div>
                 </div>
             </div>
-            @*<a href='@Url.Action("Index", "InventoryItem")'>
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-            <div class="panel-footer" style="height:41px;"></div>*@
         </div>
     </div>
     <div class="col-lg-4 col-md-6">
@@ -196,20 +178,6 @@
                     </div>
                 </div>
             </div>
-            @*<a href="@Url.Action("Index", "Balance")">
-                <div class="panel-footer">
-                    <span class="pull-left">View Pending Balance Verifications</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Pending Volume Verifications</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>*@
         </div>
     </div>
 </div>
@@ -219,7 +187,7 @@
     <div class="col-lg-12" style="min-height:615px;">
         <div class="panel panel-default match-parent-height">
             <div class="panel-heading">
-                <h3 class="panel-title">Expired Stock in @Model.Department</h3>
+                <h3 class="panel-title">Expired Stock in @Model.DepartmentName</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">

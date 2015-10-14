@@ -11,7 +11,8 @@ namespace TMNT.Models.ViewModels
         public IEnumerable<InventoryItem> ExpiredItems { get; set; }
         public int CertificatesCount { get; set; }
         public int PendingVerificationCount { get; set; }
-        public string Department { get; set; }
+        public string DepartmentName { get; set; }
+        public string SubDepartment { get; set; }
         public string LocationName { get; set; }
         public string  Role { get; set; }
         public string Name { get; set; }

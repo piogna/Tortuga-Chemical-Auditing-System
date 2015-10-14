@@ -31,7 +31,8 @@ namespace TMNT.Controllers {
                 ExpiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today),
                 CertificatesCount = cofas,
                 PendingVerificationCount = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count(),
-                Department = userDepartment.DepartmentName,
+                DepartmentName = userDepartment.DepartmentName,
+                SubDepartment = userDepartment.SubDepartment,
                 Role = HelperMethods.GetUserRoles().First(),
                 LocationName = userDepartment.Location.LocationName,
                 Name = user.FirstName + " " + user.LastName
