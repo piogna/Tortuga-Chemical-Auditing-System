@@ -21,7 +21,7 @@ namespace TMNT.Controllers {
         // GET: /WorkingStandard/
         [Route("WorkingStandard")]
         public ActionResult Index() {
-            return View(repo.Get());//db.WorkingStandards.ToList());
+            return View(repo.Get());
         }
 
         // GET: /WorkingStandard/Details/5
@@ -30,7 +30,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkingStandard workingstandard = repo.Get(id);//db.WorkingStandards.Find(id);
+            WorkingStandard workingstandard = repo.Get(id);
             if (workingstandard == null) {
                 return HttpNotFound();
             }
@@ -51,10 +51,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "WorkingStandardId,PreparationDate,Source,Grade")] WorkingStandard workingstandard) {
             if (ModelState.IsValid) {
-                //db.WorkingStandards.Add(workingstandard);
-                //db.SaveChanges();
-                //repo.Create(workingstandard);
-                return View(workingstandard);//return RedirectToAction("Index");
+                return View(workingstandard);
             }
 
             return View(workingstandard);
@@ -66,7 +63,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkingStandard workingstandard = repo.Get(id);//db.WorkingStandards.Find(id);
+            WorkingStandard workingstandard = repo.Get(id);
             if (workingstandard == null) {
                 return HttpNotFound();
             }
@@ -81,8 +78,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "WorkingStandardId,PreparationDate,Source,Grade")] WorkingStandard workingstandard) {
             if (ModelState.IsValid) {
-                //db.Entry(workingstandard).State = EntityState.Modified;
-                //db.SaveChanges();
                 repo.Update(workingstandard);
                 return RedirectToAction("Index");
             }
@@ -95,7 +90,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            WorkingStandard workingstandard = repo.Get(id);//db.WorkingStandards.Find(id);
+            WorkingStandard workingstandard = repo.Get(id);
             if (workingstandard == null) {
                 return HttpNotFound();
             }
@@ -107,9 +102,6 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            //WorkingStandard workingstandard = db.WorkingStandards.Find(id);
-            //db.WorkingStandards.Remove(workingstandard);
-            //db.SaveChanges();
             repo.Delete(id);
             return RedirectToAction("Index");
         }
