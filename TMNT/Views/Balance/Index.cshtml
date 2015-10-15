@@ -33,7 +33,7 @@
         <tr>
             <th>Action</th>
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-            <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
             <th>Last Verified By</th>
         </tr>
@@ -53,7 +53,7 @@
                     @item.DeviceCode
                 </td>
                 <td>
-                    @item.Department.DepartmentCode
+                    @item.Department.DepartmentName
                 </td>
                 @if (!@item.IsVerified) {
                     <td style="color:red;">
@@ -80,7 +80,7 @@
         <tr>
             <th>Action</th>
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-            <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
             <th>Last Verified By</th>
         </tr>
