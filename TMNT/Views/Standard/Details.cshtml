@@ -83,11 +83,27 @@
     <div class="col-md-6">
         <dl class="dl-horizontal">
             <dt>
+                @Html.DisplayNameFor(model => model.LotNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LotNumber)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.IdCode)
             </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.IdCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CatalogueCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CatalogueCode)
             </dd>
 
             <dt>
@@ -171,6 +187,14 @@
 
             <dd>
                 @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UsedFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UsedFor)
             </dd>
         </dl>
     </div>

@@ -102,6 +102,7 @@ namespace TMNT.Controllers {
 
             var vReagent = new StockReagentDetailsViewModel() {
                 ReagentId = reagent.ReagentId,
+                LotNumber = reagent.LotNumber,
                 IdCode = reagent.IdCode,
                 ReagentName = reagent.ReagentName,
                 LastModifiedBy = reagent.LastModifiedBy
@@ -109,6 +110,7 @@ namespace TMNT.Controllers {
 
             foreach (var invItem in reagent.InventoryItems) {
                 if (reagent.ReagentId == invItem.StockReagent.ReagentId) {
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
                     vReagent.DateCreated = invItem.DateCreated;
                     vReagent.DateModified = invItem.DateModified;
                     vReagent.CreatedBy = invItem.CreatedBy;
@@ -146,12 +148,15 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,IdCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockReagent(model);
                 return View(model);
             }
+
+            var user = HelperMethods.GetCurrentUser();
+            var department = HelperMethods.GetUserDepartment();
 
             if (uploadCofA != null) {
                 var cofa = new CertificateOfAnalysis() {
@@ -179,14 +184,14 @@ namespace TMNT.Controllers {
             }
 
             StockReagent reagent = new StockReagent() {
-                IdCode = model.IdCode,
+                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/",//append number of bottles
                 LotNumber = model.LotNumber,
                 ReagentName = model.ReagentName
             };
 
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode,
-                Department = HelperMethods.GetUserDepartment(),
+                Department = department,
                 Grade = model.Grade,
                 GradeAdditionalNotes = model.GradeAdditionalNotes,
                 ExpiryDate = DateTime.Today,
@@ -194,9 +199,7 @@ namespace TMNT.Controllers {
                 DateModified = null,
                 DateCreated = DateTime.Today,
                 UsedFor = model.UsedFor,
-                CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName)
-                            ? HelperMethods.GetCurrentUser().UserName
-                            : "USERID",
+                CreatedBy = user.UserName,
                 Type = "Reagent",
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName

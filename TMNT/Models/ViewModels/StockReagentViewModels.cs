@@ -77,8 +77,8 @@ namespace TMNT.Models.ViewModels {
     public class StockReagentCreateViewModel {
         //reagent properties
         public int ReagentId { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "ID Code")]
-        public string IdCode { get; set; }
+        //[Display(Name = "ID Code")]
+        //public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Display(Name = "Date Opened"), DataType(DataType.Date)]

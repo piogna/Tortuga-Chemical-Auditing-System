@@ -145,7 +145,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdCode,StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
                     StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -154,7 +154,9 @@ namespace TMNT.Controllers {
             }
 
             var devicesUsed = Request.Form["Devices"];
-            DeviceRepository deviceRepo = new DeviceRepository();
+            var deviceRepo = new DeviceRepository();
+            var user = HelperMethods.GetCurrentUser();
+            var department = HelperMethods.GetUserDepartment();
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
@@ -196,7 +198,7 @@ namespace TMNT.Controllers {
             }
 
             StockStandard standard = new StockStandard() {
-                IdCode = model.IdCode,
+                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/",//append number of bottles
                 LotNumber = model.LotNumber,
                 StockStandardName = model.StockStandardName,
                 SolventUsed = model.SolventUsed,
@@ -206,12 +208,12 @@ namespace TMNT.Controllers {
 
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode,
-                Department = HelperMethods.GetUserDepartment(),
+                Department = department,
                 ExpiryDate = model.ExpiryDate,
                 UsedFor = model.UsedFor,
-                CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
+                CreatedBy = user.UserName,
                 DateCreated = DateTime.Today,
-                DateModified = DateTime.Today,
+                //DateModified = DateTime.Today,
                 Type = "Standard",
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
