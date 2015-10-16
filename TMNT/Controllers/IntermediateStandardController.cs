@@ -111,6 +111,7 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.CreatedBy = invItem.CreatedBy;
                     vIntermediateStandard.DateModified = invItem.DateModified;
                     vIntermediateStandard.Unit = invItem.Unit;
+                    vIntermediateStandard.Department = invItem.Department;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
                 }
@@ -133,7 +134,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate,IdCode")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string submit) {
 
             if (!ModelState.IsValid) {
@@ -143,16 +144,19 @@ namespace TMNT.Controllers {
             }
 
             if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
-                ModelState.AddModelError("", "The creation of " + model.IdCode + " failed. Make sure the Prep List table is complete.");
+                ModelState.AddModelError("", "The creation of " + model.MaxxamId + " failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
             }
             //if all 3 arrays are not of equal length, return to view with an error message
             if (!(PrepListItemAmounts.Length == PrepListItemLotNumbers.Length) || !(PrepListItemLotNumbers.Length == PrepListItemTypes.Length)) {
-                ModelState.AddModelError("", "The creation of " + model.IdCode + " failed. Make sure the Prep List table is complete.");
+                ModelState.AddModelError("", "The creation of " + model.MaxxamId + " failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
             }
+
+            var user = HelperMethods.GetCurrentUser();
+            var department = HelperMethods.GetUserDepartment();
 
             //if (uploadMSDS != null) {
             //    var msds = new MSDS() {
@@ -170,7 +174,7 @@ namespace TMNT.Controllers {
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
             IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
-                AmountsWithUnits = PrepListItemAmounts//Request.Form.GetValues("Amount").Where(item => !string.IsNullOrEmpty(item)).ToArray()
+                AmountsWithUnits = PrepListItemAmounts
             };
 
             prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[0]).ToArray();
@@ -184,22 +188,22 @@ namespace TMNT.Controllers {
             //go through all types and sort out what they are, instantiate, and build list of objects
             foreach (var lotNumber in prepListViewModel.LotNumbers) {
                 foreach (var type in prepListViewModel.Types) {
-                    if (type == "Reagent") {
+                    if (type.Equals("Reagent")) {
                         var add = new StockReagentRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.LotNumber == lotNumber)
+                            .Where(x => x.LotNumber.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
-                    } else if (type == "Standard") {
+                    } else if (type.Equals("Standard")) {
                         var add = new StockStandardRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.LotNumber == lotNumber)
+                            .Where(x => x.LotNumber.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
-                    } else if (type == "Intermediate Standard") {
+                    } else if (type.Equals("Intermediate Standard")) {
                         var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
                             .Get()
-                            .Where(x => x.MaxxamId == lotNumber)
+                            .Where(x => x.MaxxamId.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }
@@ -244,16 +248,16 @@ namespace TMNT.Controllers {
                 FinalConcentration = model.FinalConcentration,
                 FinalVolume = model.FinalVolume,
                 MaxxamId = model.MaxxamId,
-                IdCode = model.IdCode,
+                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.MaxxamId + "/",//append number of bottles
                 PrepList = model.PrepList,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
             };
 
             InventoryItem inventoryItem = new InventoryItem() {
-                CreatedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID",
+                CreatedBy = user.UserName,
                 DateCreated = DateTime.Today,
-                Department = HelperMethods.GetUserDepartment(),
+                Department = department,
                 IntermediateStandard = intermediatestandard,
                 Type = "Intermediate Standard",
                 StorageRequirements = model.StorageRequirements,

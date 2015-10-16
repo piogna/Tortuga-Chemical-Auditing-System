@@ -27,11 +27,65 @@
 
 <hr />
 
+@Html.Partial("_SectionHeader", "Location Information")
+
+<div>
+    <div class="container">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.LocationName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.LocationName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.Address), @Html.DisplayFor(model => model.Department.Location.PostalCode) <br />
+                    @Html.DisplayFor(model => model.Department.Location.City), @Html.DisplayFor(model => model.Department.Location.Province)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.FaxNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.FaxNumber)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DepartmentName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
 @Html.Partial("_SectionHeader", "Intermediate Standard Information")
 
 <div class="container">
     <div class="col-md-6">
         <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MaxxamId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaxxamId)
+            </dd>
+
             <dt>
                 @Html.DisplayNameFor(model => model.IdCode)
             </dt>
@@ -54,14 +108,6 @@
 
             <dd>
                 @Html.DisplayFor(model => model.CreatedBy)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.UsedFor)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.UsedFor)
             </dd>
 
             <dt>
@@ -107,7 +153,6 @@
                     @Html.DisplayFor(model => model.ReplacedBy)
                 </dd>
             }
-
         </dl>
     </div>
     <div class="col-md-6">
@@ -134,6 +179,14 @@
 
             <dd>
                 @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UsedFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UsedFor)
             </dd>
         </dl>
     </div>
@@ -218,7 +271,7 @@
                         </td>
                     }
                     <td>
-                        @item.Amount@*@item.Unit.UnitShorthandName*@
+                        @item.Amount@item.Unit.UnitShorthandName
                     </td>
                 </tr>
             }

@@ -223,7 +223,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control required-field-s2" } })
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.UsedFor)
                                 </div>
@@ -266,13 +266,13 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.MaxxamId)
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @placeholder = "ID Code", @class = "input-summary form-control required-field-s2" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.IdCode)
-                                </div>
+                                </div>*@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>

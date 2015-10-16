@@ -57,9 +57,10 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //foreign keys
-        public virtual PrepList PrepList { get; set; }
+        public Department Department { get; set; }
+        public PrepList PrepList { get; set; }
         [Display(Name = "Items")]
-        public virtual List<PrepListItem> PrepListItems { get; set; }
+        public List<PrepListItem> PrepListItems { get; set; }
     }
 
     public class IntermediateStandardCreateViewModel {
@@ -67,8 +68,8 @@ namespace TMNT.Models.ViewModels {
         public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
         public string ReplacedBy { get; set; }
-        [Display(Name = "ID Code")]
-        public string IdCode { get; set; }
+        //[Display(Name = "ID Code")]
+        //public string IdCode { get; set; }
         [Display(Name = "Final Concentration")]
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]
@@ -77,11 +78,11 @@ namespace TMNT.Models.ViewModels {
         public string MaxxamId { get; set; }
 
         //foreign keys
-        public virtual PrepList PrepList { get; set; }
+        public PrepList PrepList { get; set; }
         [Display(Name = "Items")]
-        public virtual List<PrepListItem> PrepListItems { get; set; }
+        public List<PrepListItem> PrepListItems { get; set; }
 
-        public virtual StockStandard StockStandard { get; set; }
+        public StockStandard StockStandard { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
