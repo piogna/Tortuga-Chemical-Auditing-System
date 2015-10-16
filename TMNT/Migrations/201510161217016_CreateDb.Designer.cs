@@ -7,13 +7,13 @@ namespace TMNT.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddSubDepartmentField : IMigrationMetadata
+    public sealed partial class CreateDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddSubDepartmentField));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201510141147160_AddSubDepartmentField"; }
+            get { return "201510161217016_CreateDb"; }
         }
         
         string IMigrationMetadata.Source

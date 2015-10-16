@@ -3,7 +3,7 @@ namespace TMNT.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class fuckingballsack : DbMigration
+    public partial class CreateDb : DbMigration
     {
         public override void Up()
         {
@@ -81,7 +81,8 @@ namespace TMNT.Migrations
                 c => new
                     {
                         DepartmentId = c.Int(nullable: false, identity: true),
-                        DepartmentCode = c.String(nullable: false),
+                        DepartmentName = c.String(nullable: false),
+                        SubDepartment = c.String(),
                         Location_LocationId = c.Int(),
                     })
                 .PrimaryKey(t => t.DepartmentId)
@@ -146,7 +147,7 @@ namespace TMNT.Migrations
                         Id = c.String(nullable: false, maxLength: 128),
                         LastPasswordChange = c.DateTime(),
                         NextRequiredPasswordChange = c.DateTime(),
-                        Biography = c.String(),
+                        IsFirstTimeLogin = c.Boolean(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),
                         Email = c.String(maxLength: 256),
@@ -223,15 +224,15 @@ namespace TMNT.Migrations
                 c => new
                     {
                         LocationId = c.Int(nullable: false, identity: true),
-                        LocationCode = c.String(nullable: false),
-                        LocationName = c.String(nullable: false),
-                        Address = c.String(nullable: false),
-                        City = c.String(nullable: false),
-                        Province = c.String(nullable: false),
-                        PostalCode = c.String(nullable: false),
-                        PhoneNumber = c.String(nullable: false),
-                        FaxNumber = c.String(nullable: false),
-                        Website = c.String(nullable: false),
+                        LocationCode = c.String(),
+                        LocationName = c.String(),
+                        Address = c.String(),
+                        City = c.String(),
+                        Province = c.String(),
+                        PostalCode = c.String(),
+                        PhoneNumber = c.String(),
+                        FaxNumber = c.String(),
+                        Website = c.String(),
                         InventoryItem_InventoryItemId = c.Int(),
                     })
                 .PrimaryKey(t => t.LocationId)
@@ -263,10 +264,10 @@ namespace TMNT.Migrations
                         TotalVolume = c.Int(nullable: false),
                         FinalConcentration = c.Int(nullable: false),
                         LastModifiedBy = c.String(),
-                        PrepList_PrepListId = c.Int(nullable: false),
+                        PrepList_PrepListId = c.Int(),
                     })
                 .PrimaryKey(t => t.IntermediateStandardId)
-                .ForeignKey("dbo.PrepLists", t => t.PrepList_PrepListId, cascadeDelete: true)
+                .ForeignKey("dbo.PrepLists", t => t.PrepList_PrepListId)
                 .Index(t => t.PrepList_PrepListId);
             
             CreateTable(
@@ -482,7 +483,6 @@ namespace TMNT.Migrations
             DropForeignKey("dbo.InventoryItems", "MaxxamMadeStandard_MaxxamMadeStandardId", "dbo.MaxxamMadeStandards");
             DropForeignKey("dbo.InventoryItems", "MaxxamMadeReagent_MaxxamMadeReagentId", "dbo.MaxxamMadeReagents");
             DropForeignKey("dbo.Locations", "InventoryItem_InventoryItemId", "dbo.InventoryItems");
-            DropForeignKey("dbo.IntermediateStandards", "PrepList_PrepListId", "dbo.PrepLists");
             DropForeignKey("dbo.WorkingStandards", "PrepList_PrepListId", "dbo.PrepLists");
             DropForeignKey("dbo.PrepListItems", "Unit_UnitId", "dbo.Units");
             DropForeignKey("dbo.InventoryItems", "Unit_UnitId", "dbo.Units");
@@ -492,6 +492,7 @@ namespace TMNT.Migrations
             DropForeignKey("dbo.InventoryItems", "StockReagent_ReagentId", "dbo.StockReagents");
             DropForeignKey("dbo.PrepListItems", "PrepList_PrepListId", "dbo.PrepLists");
             DropForeignKey("dbo.PrepListItems", "IntermediateStandard_IntermediateStandardId", "dbo.IntermediateStandards");
+            DropForeignKey("dbo.IntermediateStandards", "PrepList_PrepListId", "dbo.PrepLists");
             DropForeignKey("dbo.InventoryItems", "IntermediateStandard_IntermediateStandardId", "dbo.IntermediateStandards");
             DropForeignKey("dbo.InventoryItems", "FirstDeviceUsed_DeviceId", "dbo.Devices");
             DropForeignKey("dbo.InventoryLocations", "Location_LocationId", "dbo.Locations");

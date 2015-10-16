@@ -201,89 +201,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HelperMethods.cs" />
-    <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs" />
-    <Compile Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.Designer.cs">
-      <DependentUpon>201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs" />
-    <Compile Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.Designer.cs">
-      <DependentUpon>201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509151729451_RemovedCaseNumber.cs" />
-    <Compile Include="Migrations\201509151729451_RemovedCaseNumber.Designer.cs">
-      <DependentUpon>201509151729451_RemovedCaseNumber.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509151833225_Test.cs" />
-    <Compile Include="Migrations\201509151833225_Test.Designer.cs">
-      <DependentUpon>201509151833225_Test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509151855431_RemoveNullableDateTime.cs" />
-    <Compile Include="Migrations\201509151855431_RemoveNullableDateTime.Designer.cs">
-      <DependentUpon>201509151855431_RemoveNullableDateTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509152048300_Test2.cs" />
-    <Compile Include="Migrations\201509152048300_Test2.Designer.cs">
-      <DependentUpon>201509152048300_Test2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509152122169_RemovedSDSExpiryDate.cs" />
-    <Compile Include="Migrations\201509152122169_RemovedSDSExpiryDate.Designer.cs">
-      <DependentUpon>201509152122169_RemovedSDSExpiryDate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509161410336_MaxxamMadeReagentAndStandardObjects.cs" />
-    <Compile Include="Migrations\201509161410336_MaxxamMadeReagentAndStandardObjects.Designer.cs">
-      <DependentUpon>201509161410336_MaxxamMadeReagentAndStandardObjects.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509161422582_NewTables.cs" />
-    <Compile Include="Migrations\201509161422582_NewTables.Designer.cs">
-      <DependentUpon>201509161422582_NewTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171359075_InvevntoryItemUpdateAndReagentFix.cs" />
-    <Compile Include="Migrations\201509171359075_InvevntoryItemUpdateAndReagentFix.Designer.cs">
-      <DependentUpon>201509171359075_InvevntoryItemUpdateAndReagentFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171416476_ChangeMaxxamStandardLotNumberToMaxxamId.cs" />
-    <Compile Include="Migrations\201509171416476_ChangeMaxxamStandardLotNumberToMaxxamId.Designer.cs">
-      <DependentUpon>201509171416476_ChangeMaxxamStandardLotNumberToMaxxamId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171849232_AddedFIeldsToIntermediateStandard.cs" />
-    <Compile Include="Migrations\201509171849232_AddedFIeldsToIntermediateStandard.Designer.cs">
-      <DependentUpon>201509171849232_AddedFIeldsToIntermediateStandard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509191646415_InventoryItemDevicesUsed.cs" />
-    <Compile Include="Migrations\201509191646415_InventoryItemDevicesUsed.Designer.cs">
-      <DependentUpon>201509191646415_InventoryItemDevicesUsed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509200126572_GradeAdditionalNotes.cs" />
-    <Compile Include="Migrations\201509200126572_GradeAdditionalNotes.Designer.cs">
-      <DependentUpon>201509200126572_GradeAdditionalNotes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509251841570_AddedFieldsToAspNetUsers.cs" />
-    <Compile Include="Migrations\201509251841570_AddedFieldsToAspNetUsers.Designer.cs">
-      <DependentUpon>201509251841570_AddedFieldsToAspNetUsers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510052348195_BetterUsageOfDevicesUsed.cs" />
-    <Compile Include="Migrations\201510052348195_BetterUsageOfDevicesUsed.Designer.cs">
-      <DependentUpon>201510052348195_BetterUsageOfDevicesUsed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.cs" />
-    <Compile Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.Designer.cs">
-      <DependentUpon>201510091211041_RemovedRequiredAttrOnInStandard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510121513464_IsFirstTimeLogin.cs" />
-    <Compile Include="Migrations\201510121513464_IsFirstTimeLogin.Designer.cs">
-      <DependentUpon>201510121513464_IsFirstTimeLogin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.cs" />
-    <Compile Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.Designer.cs">
-      <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510141147160_AddSubDepartmentField.cs" />
-    <Compile Include="Migrations\201510141147160_AddSubDepartmentField.Designer.cs">
-      <DependentUpon>201510141147160_AddSubDepartmentField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201510141153229_ChangedDepartmentCodeToDepartmentName.cs" />
-    <Compile Include="Migrations\201510141153229_ChangedDepartmentCodeToDepartmentName.Designer.cs">
-      <DependentUpon>201510141153229_ChangedDepartmentCodeToDepartmentName.cs</DependentUpon>
+    <Compile Include="Migrations\201510161217016_CreateDb.cs" />
+    <Compile Include="Migrations\201510161217016_CreateDb.Designer.cs">
+      <DependentUpon>201510161217016_CreateDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -567,71 +487,10 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509151704169_PrepListItemUnitForeignKeyFixPartOne.resx">
-      <DependentUpon>201509151704169_PrepListItemUnitForeignKeyFixPartOne.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509151704465_PrepListItemUnitForeignKeyFixPartTwo.resx">
-      <DependentUpon>201509151704465_PrepListItemUnitForeignKeyFixPartTwo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509151729451_RemovedCaseNumber.resx">
-      <DependentUpon>201509151729451_RemovedCaseNumber.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509151833225_Test.resx">
-      <DependentUpon>201509151833225_Test.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509151855431_RemoveNullableDateTime.resx">
-      <DependentUpon>201509151855431_RemoveNullableDateTime.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509152048300_Test2.resx">
-      <DependentUpon>201509152048300_Test2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509152122169_RemovedSDSExpiryDate.resx">
-      <DependentUpon>201509152122169_RemovedSDSExpiryDate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509161410336_MaxxamMadeReagentAndStandardObjects.resx">
-      <DependentUpon>201509161410336_MaxxamMadeReagentAndStandardObjects.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509161422582_NewTables.resx">
-      <DependentUpon>201509161422582_NewTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171359075_InvevntoryItemUpdateAndReagentFix.resx">
-      <DependentUpon>201509171359075_InvevntoryItemUpdateAndReagentFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171416476_ChangeMaxxamStandardLotNumberToMaxxamId.resx">
-      <DependentUpon>201509171416476_ChangeMaxxamStandardLotNumberToMaxxamId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171849232_AddedFIeldsToIntermediateStandard.resx">
-      <DependentUpon>201509171849232_AddedFIeldsToIntermediateStandard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509191646415_InventoryItemDevicesUsed.resx">
-      <DependentUpon>201509191646415_InventoryItemDevicesUsed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509200126572_GradeAdditionalNotes.resx">
-      <DependentUpon>201509200126572_GradeAdditionalNotes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509251841570_AddedFieldsToAspNetUsers.resx">
-      <DependentUpon>201509251841570_AddedFieldsToAspNetUsers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510052348195_BetterUsageOfDevicesUsed.resx">
-      <DependentUpon>201510052348195_BetterUsageOfDevicesUsed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510091211041_RemovedRequiredAttrOnInStandard.resx">
-      <DependentUpon>201510091211041_RemovedRequiredAttrOnInStandard.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510121513464_IsFirstTimeLogin.resx">
-      <DependentUpon>201510121513464_IsFirstTimeLogin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510121646198_RemoveRequiredOnLocationProperties.resx">
-      <DependentUpon>201510121646198_RemoveRequiredOnLocationProperties.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510141147160_AddSubDepartmentField.resx">
-      <DependentUpon>201510141147160_AddSubDepartmentField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201510141153229_ChangedDepartmentCodeToDepartmentName.resx">
-      <DependentUpon>201510141153229_ChangedDepartmentCodeToDepartmentName.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510161217016_CreateDb.resx">
+      <DependentUpon>201510161217016_CreateDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
