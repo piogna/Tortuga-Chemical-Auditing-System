@@ -44,7 +44,9 @@ namespace TMNT.Controllers {
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.StockReagent.IdCode,
                         LotNumber = item.StockReagent.LotNumber,
-                        ReagentName = item.StockReagent.ReagentName
+                        ReagentName = item.StockReagent.ReagentName,
+                        IsExpired = item.ExpiryDate < DateTime.Today,
+                        IsExpiring = item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)
                     });
                 }
             }
@@ -126,8 +128,10 @@ namespace TMNT.Controllers {
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
-                    vReagent.IsExpired = invItem.ExpiryDate >= DateTime.Today;
+                    vReagent.IsExpired = invItem.ExpiryDate < DateTime.Today;
+                    vReagent.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
                     vReagent.SupplierName = invItem.SupplierName;
+                    vReagent.NumberOfBottles = invItem.NumberOfBottles;
                 }
             }
             return View(vReagent);
@@ -148,12 +152,15 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockReagent(model);
                 return View(model);
             }
+
+            //last line of defense for number of bottles
+            if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
@@ -183,18 +190,12 @@ namespace TMNT.Controllers {
                 model.MSDS = msds;
             }
 
-            StockReagent reagent = new StockReagent() {
-                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/",//append number of bottles
-                LotNumber = model.LotNumber,
-                ReagentName = model.ReagentName
-            };
-
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode,
                 Department = department,
                 Grade = model.Grade,
                 GradeAdditionalNotes = model.GradeAdditionalNotes,
-                ExpiryDate = DateTime.Today,
+                ExpiryDate = model.ExpiryDate,
                 DateOpened = null,
                 DateModified = null,
                 DateCreated = DateTime.Today,
@@ -202,14 +203,40 @@ namespace TMNT.Controllers {
                 CreatedBy = user.UserName,
                 Type = "Reagent",
                 StorageRequirements = model.StorageRequirements,
-                SupplierName = model.SupplierName
+                SupplierName = model.SupplierName,
+                NumberOfBottles = model.NumberOfBottles
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
             inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
-            reagent.InventoryItems.Add(inventoryItem);
             //getting the enum result
-            var result = repo.Create(reagent);
+
+            StockReagent reagent = null;
+            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+
+            if (model.NumberOfBottles > 1) {
+                for (int i = 1; i <= model.NumberOfBottles; i++) {
+                    reagent = new StockReagent() {
+                        IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/" + i,//append number of bottles
+                        LotNumber = model.LotNumber,
+                        ReagentName = model.ReagentName
+                    };
+
+                    reagent.InventoryItems.Add(inventoryItem);
+                    result = repo.Create(reagent);
+
+                    //creation wasn't successful - break from loop and let switch statement handle the problem
+                    if (result != CheckModelState.Valid) { break; }
+                }
+            } else {
+                reagent = new StockReagent() {
+                    IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+                    LotNumber = model.LotNumber,
+                    ReagentName = model.ReagentName
+                };
+                reagent.InventoryItems.Add(inventoryItem);
+                result = repo.Create(reagent);
+            }
 
             switch (result) {
                 case CheckModelState.Invalid:

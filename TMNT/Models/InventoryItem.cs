@@ -28,6 +28,7 @@ namespace TMNT.Models {
         [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
         public string StorageRequirements { get; set; }
+        public int NumberOfBottles { get; set; }
         //public string DevicesUsed { get; set; }
 
 

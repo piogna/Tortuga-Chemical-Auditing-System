@@ -12,7 +12,7 @@
     <style>
         @@media screen and (min-width:1200px) {
             #reagent-next-fix {
-                padding-top: 160px;
+                padding-top: 110px;
             }
         }
 
@@ -125,13 +125,18 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.LotNumber)
                                 </div>
-
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Catalogue Code", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.CatalogueCode)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.NumberOfBottles, new { htmlAttributes = new { @placeholder = "Number of Bottles (Leave Empty if 1 Bottle)", @class = "input-summary form-control no-border-radius", @Value = "", @min = 1 } })
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">

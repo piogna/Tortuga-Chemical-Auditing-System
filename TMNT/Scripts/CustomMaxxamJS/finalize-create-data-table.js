@@ -7,6 +7,11 @@
     var table = $('table.summary-table > tbody');
 
     $('.btn-review').on('click', function (e) {
+        //give Number of Bottles a default value if its value is 0 or empty
+        if (!$('#NumberOfBottles').val()) {
+            $('#NumberOfBottles').val("1");
+        }
+
         //absolutely prevent duplicate rows
         if ($('table.summary-table > tbody > tr').length > 0) {
             table.find("tr").remove();
