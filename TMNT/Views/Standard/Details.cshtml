@@ -161,8 +161,29 @@
                 @Html.DisplayNameFor(model => model.ExpiryDate)
             </dt>
 
+            @if (Model.IsExpired) {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-exclamation-triangle text-danger" title="Expired"></span>
+                </dd>
+            } else if (Model.IsExpiring) {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-exclamation-triangle text-warning" title="Expiring"></span>
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-check-circle text-success" title="Valid"></span>
+                </dd>
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumberOfBottles)
+            </dt>
+
             <dd>
-                @Html.DisplayFor(model => model.ExpiryDate)
+                @Html.DisplayFor(model => model.NumberOfBottles)
             </dd>
 
             <dt>

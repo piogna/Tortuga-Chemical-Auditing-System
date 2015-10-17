@@ -125,6 +125,12 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.NumberOfBottles, new { htmlAttributes = new { @placeholder = "Number of Bottles (Leave Empty if 1 Bottle)", @class = "input-summary form-control no-border-radius", @Value = "", @min = 1 } })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">

@@ -15,12 +15,15 @@ namespace TMNT.Models.ViewModels {
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
         public DateTime? DateModified { get; set; }
-        [Display(Name = "Lot No.")]
+        [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
+        //properties to help with views and have nothing to do with the db
+        public bool IsExpired { get; set; }
+        public bool IsExpiring { get; set; }
     }
 
     public class StockStandardCreateViewModel {
@@ -47,7 +50,7 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "{0} is Required")]
         public double Purity { get; set; }
         //public double LowAmountThreshHold { get; set; }
-        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot No.")]
+        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
@@ -76,6 +79,8 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }
+        [Display(Name = "Number of Bottles")]
+        public int NumberOfBottles { get; set; }
 
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
         public List<MSDS> AllMSDS { get; set; }
@@ -114,13 +119,16 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         public double Purity { get; set; }
-        [Display(Name = "Lot No.")]
+        [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+        [Display(Name = "Number of Bottles")]
+        public int NumberOfBottles { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
+        public bool IsExpiring { get; set; }
         public bool IsOpened { get; set; }
 
         //inventory properties
@@ -169,7 +177,7 @@ namespace TMNT.Models.ViewModels {
         public string LastModifiedBy { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]
         public string SupplierName { get; set; }
-        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot No.")]
+        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }

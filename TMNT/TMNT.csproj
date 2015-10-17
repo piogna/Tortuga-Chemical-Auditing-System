@@ -205,6 +205,10 @@
     <Compile Include="Migrations\201510161217016_CreateDb.Designer.cs">
       <DependentUpon>201510161217016_CreateDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510161827105_NumberOfBottles.cs" />
+    <Compile Include="Migrations\201510161827105_NumberOfBottles.Designer.cs">
+      <DependentUpon>201510161827105_NumberOfBottles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -489,6 +493,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510161217016_CreateDb.resx">
       <DependentUpon>201510161217016_CreateDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510161827105_NumberOfBottles.resx">
+      <DependentUpon>201510161827105_NumberOfBottles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -17,13 +17,13 @@ namespace TMNT.Controllers {
     [PasswordChange]
     public class StandardController : Controller {
 
-        private IRepository<StockStandard> repoStandard;
+        private IRepository<StockStandard> repo;
         public StandardController()
             : this(new StockStandardRepository(DbContextSingleton.Instance)) {
         }
 
         public StandardController(IRepository<StockStandard> repoStandard) {
-            this.repoStandard = repoStandard;
+            repo = repoStandard;
         }
 
         [Route("Standard")]
@@ -45,7 +45,9 @@ namespace TMNT.Controllers {
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.StockStandard.IdCode,
                         LotNumber = item.StockStandard.LotNumber,
-                        StockStandardName = item.StockStandard.StockStandardName
+                        StockStandardName = item.StockStandard.StockStandardName,
+                        IsExpired = item.ExpiryDate < DateTime.Today,
+                        IsExpiring = item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)
                     });
                 }
             }
@@ -88,7 +90,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockStandard standard = repoStandard.Get(id);
+            StockStandard standard = repo.Get(id);
 
             if (standard == null) {
                 return HttpNotFound("The standard requested does not exist.");
@@ -125,6 +127,9 @@ namespace TMNT.Controllers {
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vStandard.SolventSupplierName = invItem.SupplierName;
                     vStandard.SupplierName = invItem.SupplierName;
+                    vStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
+                    vStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
+                    vStandard.NumberOfBottles = invItem.NumberOfBottles;
                 }
             }
             return View(vStandard);
@@ -145,13 +150,16 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles")]
                     StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockStandard(model);
                 return View(model);
             }
+
+            //last line of defense for number of bottles
+            if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             var devicesUsed = Request.Form["Devices"];
             var deviceRepo = new DeviceRepository();
@@ -213,19 +221,47 @@ namespace TMNT.Controllers {
                 UsedFor = model.UsedFor,
                 CreatedBy = user.UserName,
                 DateCreated = DateTime.Today,
-                //DateModified = DateTime.Today,
+                DateModified = null,
                 Type = "Standard",
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
                 StorageRequirements = model.StorageRequirements,
-                SupplierName = model.SupplierName
+                SupplierName = model.SupplierName,
+                NumberOfBottles = model.NumberOfBottles
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
             inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
-            standard.InventoryItems.Add(inventoryItem);
+            //standard.InventoryItems.Add(inventoryItem);
 
-            var result = repoStandard.Create(standard);
+            //var result = repoStandard.Create(standard);
+
+            StockStandard createStandard = null;
+            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+
+            if (model.NumberOfBottles > 1) {
+                for (int i = 1; i <= model.NumberOfBottles; i++) {
+                    createStandard = new StockStandard() {
+                        IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/" + i,//append number of bottles
+                        LotNumber = model.LotNumber,
+                        StockStandardName = model.StockStandardName
+                    };
+
+                    createStandard.InventoryItems.Add(inventoryItem);
+                    result = repo.Create(createStandard);
+
+                    //creation wasn't successful - break from loop and let switch statement handle the problem
+                    if (result != CheckModelState.Valid) { break; }
+                }
+            } else {
+                createStandard = new StockStandard() {
+                    IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+                    LotNumber = model.LotNumber,
+                    StockStandardName = model.StockStandardName
+                };
+                createStandard.InventoryItems.Add(inventoryItem);
+                result = repo.Create(createStandard);
+            }
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -262,7 +298,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockStandard stockstandard = repoStandard.Get(id);
+            StockStandard stockstandard = repo.Get(id);
 
             if (stockstandard == null) {
                 return HttpNotFound();
@@ -306,7 +342,7 @@ namespace TMNT.Controllers {
                 updateStandard.LotNumber = stockstandard.LotNumber;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
 
-                repoStandard.Update(updateStandard);
+                repo.Update(updateStandard);
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -353,7 +389,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repoStandard.Get(id);
+            StockStandard stockstandard = repo.Get(id);
             if (stockstandard == null) {
                 return HttpNotFound();
             }
@@ -365,7 +401,7 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            repoStandard.Delete(id);
+            repo.Delete(id);
             return RedirectToAction("Index");
         }
 
