@@ -50,6 +50,7 @@ namespace TMNT.Models {
         public DbSet<MSDS> MSDS { get; set; }
         public DbSet<MaxxamMadeReagent> MaxxamMadeReagent { get; set; }
         public DbSet<MaxxamMadeStandard> MaxxamMadeStandard { get; set; }
+        public DbSet<Ideas> Ideas { get; set; }
 
 
         public ApplicationDbContext()
