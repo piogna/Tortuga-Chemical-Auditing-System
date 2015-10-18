@@ -4,11 +4,9 @@
     ViewBag.Title = "Create";
 }
 
-<script src="~/Scripts/select2.min.js"></script>
-<link href="~/Content/select2.min.css" rel="stylesheet" />
-
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
     <style>
         @@media screen and (min-width:1200px) {
             #reagent-next-fix {
@@ -168,6 +166,7 @@
                                                     }
                                                 }
                                                 <option value="VOL902-W">VOL902-W</option>
+                                                <option value="None">No Device Used</option>
                                             </optgroup>
                                         </select>
                                     </div>
@@ -276,6 +275,7 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.min.js"></script>
 }
 <script>
     $(function () {
