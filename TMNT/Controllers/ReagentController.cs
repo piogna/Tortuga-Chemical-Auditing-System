@@ -142,7 +142,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Create() {
             var model = new StockReagentCreateViewModel();
             SetStockReagent(model);
@@ -156,7 +156,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -273,7 +273,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Edit/5
         [Route("Reagent/Edit/{id?}")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -309,7 +309,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
 
 
@@ -369,7 +369,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Delete/5
         [Route("Reagent/Delete/{id?}")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -385,7 +385,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult DeleteConfirmed(int id) {
             repo.Delete(id);
             return RedirectToAction("Index");
