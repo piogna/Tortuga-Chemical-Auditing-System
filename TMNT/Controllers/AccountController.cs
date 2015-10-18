@@ -178,15 +178,9 @@ namespace TMNT.Controllers {
                 var location = locationRepo.Get()
                     .Where(item => item.LocationName.Equals(model.Location.LocationName))
                     .First();
-                
-                //Department department = locationRepo.Get(location.LocationId).Departments
-                //    .Where(item => item.DepartmentCode.Equals(model.Department.DepartmentCode))
-                //    .First();
 
                 model.Password = "!Maxxam123";
                 model.IsFirstTimeLogin = true;
-                //model.Department = department;
-                //var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, Department = department };//breaking the application
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1), IsFirstTimeLogin = model.IsFirstTimeLogin };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
@@ -194,7 +188,9 @@ namespace TMNT.Controllers {
                     UserManager.AddToRole(user.Id, model.Role);
                     using (ApplicationDbContext db = ApplicationDbContext.Create()) {
                         var updateUser = db.Users.Where(item => item.Id.Equals(user.Id)).First();
-                        Department department = db.Departments.Where(item => item.DepartmentName.Equals(model.Department.DepartmentName)).First();
+                        Department department = db.Departments
+                            .Where(item => item.DepartmentName.Equals(model.Department.DepartmentName) && item.SubDepartment.Equals(model.Department.SubDepartment))
+                            .First();
 
                         updateUser.Department = department;
 
