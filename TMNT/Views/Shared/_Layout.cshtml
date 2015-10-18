@@ -91,7 +91,8 @@
                                     <a href="@Url.Action("Index", "Reagent")"><i class="fa fa-fw fa-flask"></i> Stock Reagents</a>
                                 </li>
                                 <li>
-                                    <a href='@Url.Action("Index", "MaxxamMadeReagent")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Reagents</a>
+                                    @*<a href='@Url.Action("Index", "MaxxamMadeReagent")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Reagents</a>*@
+                                    <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Reagents</a>
                                 </li>
                             </ul>
                         </li>
@@ -102,25 +103,30 @@
                                     <a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Stock Standards</a>
                                 </li>
                                 <li>
-                                    <a href='@Url.Action("Index", "MaxxamMadeStandard")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Standards</a>
+                                    @*<a href='@Url.Action("Index", "MaxxamMadeStandard")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Standards</a>*@
+                                    <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; In-House Standards</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "IntermediateStandard")"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>
+                            @*<a href="@Url.Action("Index", "IntermediateStandard")"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>*@
+                            <a href="#"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>
                         </li>
                         <li>
-                            <a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
+                            @*<a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>*@
+                            <a href="#"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
                         </li>
                         <!--TODO create new list item for Spiking Standards if User's Department == Organics-->
                         <li>
                             <a href="#"><i class="fa fa-fw fa-file-text"></i> Reports<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='@Url.Action("DeviceVerificationReport", "Reports")' target="_blank">Device Verification Report</a>
+                                    @*<a href='@Url.Action("DeviceVerificationReport", "Reports")' target="_blank">Device Verification Report</a>*@
+                                    <a href='#' target="_blank">Device Verification Report</a>
                                 </li>
                                 <li>
-                                    <a href='@Url.Action("CalibrationReport", "Reports")'>Calibration Report</a>
+                                    @*<a href='@Url.Action("CalibrationReport", "Reports")'>Calibration Report</a>*@
+                                    <a href='#'>Calibration Report</a>
                                 </li>
                             </ul>
                         </li>
@@ -128,10 +134,12 @@
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Devices<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='@Url.Action("Index", "Balances")'><i class="fa fa-balance-scale"></i> Balances</a>
+                                    @*<a href='@Url.Action("Index", "Balances")'><i class="fa fa-balance-scale"></i> Balances</a>*@
+                                    <a href='#'><i class="fa fa-balance-scale"></i> Balances</a>
                                 </li>
                                 <li>
-                                    <a href='@Url.Action("Index", "SyringeTest")'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices (Don't Click Yet)</a>
+                                    @*<a href='@Url.Action("Index", "SyringeTest")'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices</a>*@
+                                    <a href='#'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -148,7 +156,7 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-        <!---->
+        <!--Bringing in all jQuery and rendering the Body-->
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/bootstrap")
@@ -221,6 +229,11 @@
     <script>
         $(function() {
             document.getElementById('date-today').innerHTML = new Date().getFullYear();
+
+            //further preventing clicks of anchors with # as href to disallow the menu looking messed up during UAT
+            $('a[href="#"]').on('click', function (e) {
+                e.preventDefault();
+            });
         });
     </script>
 </body>

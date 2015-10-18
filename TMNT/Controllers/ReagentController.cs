@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
@@ -30,12 +29,16 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var userDepartment = HelperMethods.GetUserDepartment();
             List<StockReagentIndexViewModel> lReagents = new List<StockReagentIndexViewModel>();
+            List<InventoryItem> invRepo = null;
 
-            var invRepo = new InventoryItemRepository().Get()
-                .ToList();
+            if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
+                invRepo = new InventoryItemRepository().Get().ToList();
+            } else {
+                invRepo = new InventoryItemRepository().Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+            }
             
             foreach (var item in invRepo) {
-                if (item.StockReagent != null && item.Department == userDepartment) {
+                if (item.StockReagent != null) {
                     lReagents.Add(new StockReagentIndexViewModel() {
                         ReagentId = item.StockReagent.ReagentId,
                         CreatedBy = item.CreatedBy,
@@ -126,7 +129,7 @@ namespace TMNT.Controllers {
                     vReagent.Grade = invItem.Grade;
                     vReagent.GradeAdditionalNotes = invItem.GradeAdditionalNotes;
                     vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
-                    vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    //vReagent.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vReagent.IsExpired = invItem.ExpiryDate < DateTime.Today;
                     vReagent.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
@@ -139,6 +142,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Create() {
             var model = new StockReagentCreateViewModel();
             SetStockReagent(model);
@@ -152,6 +156,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -268,6 +273,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Edit/5
         [Route("Reagent/Edit/{id?}")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -303,6 +309,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
 
 
@@ -362,6 +369,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Delete/5
         [Route("Reagent/Delete/{id?}")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -377,6 +385,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult DeleteConfirmed(int id) {
             repo.Delete(id);
             return RedirectToAction("Index");

@@ -481,6 +481,11 @@ namespace TMNT.Controllers {
             return View(model);
         }
 
+        [Route("AccessDenied")]
+        public ActionResult InsufficientPrivileges() {
+            return View();
+        }
+
         protected override void Dispose(bool disposing) {
             if (disposing) {
                 if (_userManager != null) {

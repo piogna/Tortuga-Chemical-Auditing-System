@@ -31,12 +31,16 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var userDepartment = HelperMethods.GetUserDepartment();
             List<StockStandardIndexViewModel> lStandards = new List<StockStandardIndexViewModel>();
+            List<InventoryItem> invRepo = null;
 
-            var invRepo = new InventoryItemRepository().Get()
-                .ToList();
-            
+            if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
+                invRepo = new InventoryItemRepository().Get().ToList();
+            } else {
+                invRepo = new InventoryItemRepository().Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+            }
+
             foreach (var item in invRepo) {
-                if (item.StockStandard != null && item.Department == userDepartment) {
+                if (item.StockStandard != null) {
                     lStandards.Add(new StockStandardIndexViewModel() {
                         StockStandardId = item.StockStandard.StockStandardId,
                         CreatedBy = item.CreatedBy,
@@ -123,7 +127,7 @@ namespace TMNT.Controllers {
                     vStandard.Department = invItem.Department;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
-                    vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    //vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vStandard.SolventSupplierName = invItem.SupplierName;
                     vStandard.SupplierName = invItem.SupplierName;
@@ -136,6 +140,7 @@ namespace TMNT.Controllers {
         }
 
         [Route("Standard/Create")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         // GET: /Standard/Create
         public ActionResult Create() {
             var model = new StockStandardCreateViewModel();
@@ -150,6 +155,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles")]
                     StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
@@ -293,6 +299,7 @@ namespace TMNT.Controllers {
 
         // GET: /Standard/Edit/5
         [Route("Standard/Edit/{id?}")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -327,6 +334,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId,ExpiryDate,IdCode,SupplierName,StockStandardName")] StockStandardEditViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
@@ -334,6 +342,7 @@ namespace TMNT.Controllers {
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
+
                         .FirstOrDefault();
 
                 StockStandard updateStandard = invItem.StockStandard;
@@ -385,6 +394,7 @@ namespace TMNT.Controllers {
 
         // GET: /Standard/Delete/5
         [Route("Standard/Delete/{id?}")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -400,6 +410,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager")]
         public ActionResult DeleteConfirmed(int id) {
             repo.Delete(id);
             return RedirectToAction("Index");

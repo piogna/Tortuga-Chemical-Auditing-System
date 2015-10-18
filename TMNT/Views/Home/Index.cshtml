@@ -215,7 +215,11 @@
     <div class="col-lg-12" style="min-height:615px;">
         <div class="panel panel-default match-parent-height">
             <div class="panel-heading">
-                <h3 class="panel-title">Expired Stock in @Model.DepartmentName</h3>
+                @if (Model.DepartmentName.Equals("Quality Assurance")) {
+                    <h3 class="panel-title">Expired Stock in Maxxam</h3>
+                } else {
+                    <h3 class="panel-title">Expired Stock in @Model.DepartmentName</h3>
+                }
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -299,93 +303,4 @@
         </div>
     </div>
 </div>
-
-@*<div class="col-lg-4" id="home-chart-wrapper" style="height:603px;">
-        <div class="panel panel-red match-parent-height">
-            <div class="panel-heading">
-                <h3 class="panel-title">Expired Stock By Departments at @Model.LocationName</h3>
-            </div>
-            <div id="content">
-                <div class="demo-container">
-                    <div id="placeholder" class="demo-placeholder"></div>
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-<!-- /.row -->
 @Scripts.Render("~/datatables")
-@*<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
-<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.pie.js"></script>*@
-@*<script>
-    $(function () {
-        var data = [
-                { label: "Organics", data: 8 },
-                { label: "Inorganics", data: 3 },
-                { label: "Metals", data: 1 }
-        ], series = data.length;
-
-        //for (var i = 0; i < series; i++) {
-        //    data[i] = {
-        //        label: "Series" + (i + 1),
-        //        data: Math.floor(Math.random() * 100) + 1
-        //    }
-        //}
-
-        var placeholder = $("#placeholder");
-
-        placeholder.unbind();
-
-        $.plot(placeholder, data, {
-            series: {
-                pie: {
-                    show: true,
-                    radius: 3 / 4,
-                    label: {
-                        show: true,
-                        radius: 3 / 4,
-                        formatter: labelFormatter,
-                        background: {
-                            opacity: 0.5,
-                            color: "#000"
-                        }
-                    }
-                }
-            },
-            legend: {
-                show: false
-            }
-        });
-
-        setCode([
-            "$.plot('#placeholder', data, {",
-            "    series: {",
-            "        pie: {",
-            "            show: true,",
-            "            radius: 3/4,",
-            "            label: {",
-            "                show: true,",
-            "                radius: 3/4,",
-            "                formatter: labelFormatter,",
-            "                background: {",
-            "                    opacity: 0.5,",
-            "                    color: '#000'",
-            "                }",
-            "            }",
-            "        }",
-            "    },",
-            "    legend: {",
-            "        show: false",
-            "    }",
-            "});"
-        ]);
-    });
-
-    function labelFormatter(label, series) {
-        return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
-    }
-
-    function setCode(lines) {
-        $("#code").text(lines.join("\n"));
-    }
-</script>*@

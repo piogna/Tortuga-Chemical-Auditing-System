@@ -197,7 +197,7 @@
     <Compile Include="Controllers\StandardController.cs" />
     <Compile Include="Controllers\SyringeTestController.cs" />
     <Compile Include="Controllers\WorkingStandardController.cs" />
-    <Compile Include="Filters\PasswordChangeAttribute.cs" />
+    <Compile Include="Filters\MaxxamFilterAttributes.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -489,6 +489,7 @@
     <Content Include="Views\Manage\ChangePasswordFirstTime.cshtml" />
     <Content Include="Views\Ideas\Create.cshtml" />
     <Content Include="Views\Ideas\Index.cshtml" />
+    <Content Include="Views\Account\InsufficientPrivileges.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
