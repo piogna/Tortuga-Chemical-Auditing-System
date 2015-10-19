@@ -30,7 +30,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Ideas/Create")]
+        [Route("Feedback/Create")]
         public ActionResult Create([Bind(Include = "FeedbackId,Category,Comment")] Feedback feedback) {
             if (ModelState.IsValid) {
                 feedback.CreatedBy = Helpers.HelperMethods.GetCurrentUser().UserName;
