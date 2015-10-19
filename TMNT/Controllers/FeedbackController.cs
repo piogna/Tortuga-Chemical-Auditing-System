@@ -13,13 +13,13 @@ namespace TMNT.Controllers {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Ideas
-        [Route("Ideas")]
+        [Route("Feedback")]
         public ActionResult Index() {
             return View(db.Feedback.ToList());
         }
 
         // GET: Ideas/Create
-        [Route("Ideas/Create")]
+        [Route("Feedback/Create")]
         public ActionResult Create() {
             ViewBag.Categories = new List<string>() { "Idea", "Concern", "Problem" };
             return View();
@@ -31,14 +31,14 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Ideas/Create")]
-        public ActionResult Create([Bind(Include = "IdeaId,Category,Comment")] Feedback ideas) {
+        public ActionResult Create([Bind(Include = "FeedbackId,Category,Comment")] Feedback feedback) {
             if (ModelState.IsValid) {
-                ideas.CreatedBy = Helpers.HelperMethods.GetCurrentUser().UserName;
-                db.Feedback.Add(ideas);
+                feedback.CreatedBy = Helpers.HelperMethods.GetCurrentUser().UserName;
+                db.Feedback.Add(feedback);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ideas);
+            return View(feedback);
         }
 
         protected override void Dispose(bool disposing) {
