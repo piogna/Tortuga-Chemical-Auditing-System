@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
-    public class Ideas {
+    public class Feedback {
         [Key]
-        public int IdeaId { get; set; }
+        public int FeedbackId { get; set; }
         public string Category { get; set; }
         [Required(ErrorMessage = "Your Comment is Required"), DataType(DataType.MultilineText)]
         public string Comment { get; set; }

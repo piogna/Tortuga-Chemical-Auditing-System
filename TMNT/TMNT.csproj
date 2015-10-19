@@ -183,7 +183,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IdeasController.cs" />
+    <Compile Include="Controllers\FeedbackController.cs" />
     <Compile Include="Controllers\IntermediateStandardController.cs" />
     <Compile Include="Controllers\InventoryItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201510171457412_Ideas.Designer.cs">
       <DependentUpon>201510171457412_Ideas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510191434026_renameideastofeedback.cs" />
+    <Compile Include="Migrations\201510191434026_renameideastofeedback.Designer.cs">
+      <DependentUpon>201510191434026_renameideastofeedback.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -228,7 +232,7 @@
     <Compile Include="Models\FakeModels\FakeLowStockStandards.cs" />
     <Compile Include="Models\FakeRepository\FakeExpiringStandardsRepository.cs" />
     <Compile Include="Models\FakeRepository\FakeLowStockRepository.cs" />
-    <Compile Include="Models\Ideas.cs" />
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MaxxamMadeReagent.cs" />
     <Compile Include="Models\IntermediateStandard.cs" />
@@ -508,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510171457412_Ideas.resx">
       <DependentUpon>201510171457412_Ideas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510191434026_renameideastofeedback.resx">
+      <DependentUpon>201510191434026_renameideastofeedback.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

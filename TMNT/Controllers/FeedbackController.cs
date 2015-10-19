@@ -9,13 +9,13 @@ using System.Web.Mvc;
 using TMNT.Models;
 
 namespace TMNT.Controllers {
-    public class IdeasController : Controller {
+    public class FeedbackController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Ideas
         [Route("Ideas")]
         public ActionResult Index() {
-            return View(db.Ideas.ToList());
+            return View(db.Feedback.ToList());
         }
 
         // GET: Ideas/Create
@@ -31,10 +31,10 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Ideas/Create")]
-        public ActionResult Create([Bind(Include = "IdeaId,Category,Comment")] Ideas ideas) {
+        public ActionResult Create([Bind(Include = "IdeaId,Category,Comment")] Feedback ideas) {
             if (ModelState.IsValid) {
                 ideas.CreatedBy = Helpers.HelperMethods.GetCurrentUser().UserName;
-                db.Ideas.Add(ideas);
+                db.Feedback.Add(ideas);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
