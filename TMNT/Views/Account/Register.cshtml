@@ -17,79 +17,130 @@
     </div>
 </div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
-    @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Location.LocationName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Location.LocationName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Department.DepartmentName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Department.DepartmentName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Department.SubDepartment, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Department.SubDepartment, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Role, new { @class = "form-control" })
-        </div>
-    </div>
-    @*<div class="form-group">
-            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+<hr />
+
+<div class="container">
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-user fa-fw"></i></span>
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-envelope fa-fw"></i></span>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
             </div>
-        </div>*@
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="reset" class="btn btn-warning" value="Clear Form" />
-            <input name="submit" type="submit" class="btn btn-primary" value="Create" />
-            <input name="submit" type="submit" class="btn btn-primary" value="Create & New" />
         </div>
-    </div>
-}
-
-@section Scripts {
-
-}
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-user fa-fw"></i></span>
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-user fa-fw"></i></span>
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-map-marker fa-fw"></i></span>
+                <select class="form-control" name="LocationName">
+                    <option value="">
+                        Choose a Location..
+                    </option>
+                    @foreach (var item in Model.LocationNames) {
+                        <option value="@item">
+                            @item
+                        </option>
+                    }
+                </select>
+            </div>
+            @*@Html.LabelFor(m => m.Location.LocationName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Location.LocationName, new { @class = "form-control" })
+                </div>*@
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-location-arrow fa-fw"></i></span>
+                <select class="form-control" name="DepartmentName">
+                    <option value="">
+                        Choose a Department..
+                    </option>
+                    @foreach (var item in Model.DepartmentNames) {
+                        <option value="@item">
+                            @item
+                        </option>
+                    }
+                </select>
+            </div>
+            @*@Html.LabelFor(m => m.Department.DepartmentName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Department.DepartmentName, new { @class = "form-control" })
+                </div>*@
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-sitemap fa-fw"></i></span>
+                <select class="form-control" name="SubDepartment">
+                    <option value="">
+                        Choose a Sub Department..
+                    </option>
+                    @foreach (var item in Model.SubDepartments) {
+                        <option value="@item">
+                            @item
+                        </option>
+                    }
+                </select>
+            </div>
+            @*@Html.LabelFor(m => m.Department.SubDepartment, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Department.SubDepartment, new { @class = "form-control" })
+                </div>*@
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-cogs fa-fw"></i></span>
+                <select class="form-control" name="Role">
+                    <option value="">
+                        Choose a Role..
+                    </option>
+                    @foreach (var item in Model.SubDepartments) {
+                        <option value="@item">
+                            @item
+                        </option>
+                    }
+                </select>
+            </div>
+            @*@Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Role, new { @class = "form-control" })
+                </div>*@
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="reset" class="btn btn-warning" value="Clear Form" />
+                <input name="submit" type="submit" class="btn btn-primary" value="Create" />
+                <input name="submit" type="submit" class="btn btn-primary" value="Create & New" />
+            </div>
+        </div>
+    }
+</div>

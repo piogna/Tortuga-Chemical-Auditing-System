@@ -162,7 +162,7 @@ namespace TMNT.Controllers {
         [Route("Account/Register")]
         [AllowAnonymous]
         public ActionResult Register() {
-            return View();
+            return View(new RegisterViewModel());
         }
 
         //

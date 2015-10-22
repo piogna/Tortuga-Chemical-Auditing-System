@@ -119,6 +119,10 @@ namespace TMNT.Models {
         public string Password { get; set; }
 
         public bool IsFirstTimeLogin { get; set; }
+        public List<string> LocationNames = new List<string>() { "Burnaby", "Mississauga" };
+        public List<string> DepartmentNames = new List<string>() { "Organics", "Inorganics" };
+        public List<string> SubDepartments = new List<string>() { "Volatiles", "Semi-Volatiles", "Hydropcarbons", "Metals", "Wet Chemistry", "Autoanalyzer" };
+        public List<string> RoleNames = new List<string>() { "Administrator", "Department Head", "Manager", "Supervisor", "Analyst", "Quality Assurance" };
 
         //[DataType(DataType.Password)]
         //[Display(Name = "Confirm password")]
