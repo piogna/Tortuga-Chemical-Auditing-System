@@ -156,8 +156,8 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount")]
-                    StockStandardCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount,Concentration")]
+                    StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockStandard(model);
@@ -186,10 +186,15 @@ namespace TMNT.Controllers {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
             }
 
-            if (Unit.Length == 1) {
-                model.InitialAmountUnits = Unit[0];
-            } else {
-                model.InitialAmountUnits = Unit[0] + "/" + Unit[1];
+            model.InitialAmountUnits = AmountUnit[0];
+            model.InitialConcentrationUnits = ConcentrationUnit[0];
+
+            if (AmountUnit.Length > 1) {
+                model.InitialAmountUnits += "/" + AmountUnit[1];
+            }
+
+            if (ConcentrationUnit.Length > 1) {
+                model.InitialConcentrationUnits += "/" + ConcentrationUnit[1];
             }
 
             if (uploadCofA != null) {
@@ -249,7 +254,8 @@ namespace TMNT.Controllers {
                         StockStandardName = model.StockStandardName,
                         Purity = model.Purity,
                         SolventUsed = model.SolventUsed,
-                        SolventSupplierName = model.SolventSupplierName
+                        SolventSupplierName = model.SolventSupplierName,
+                        Concentration = model.Concentration.ToString() + " " 
                     };
 
                     createStandard.InventoryItems.Add(inventoryItem);
@@ -265,7 +271,8 @@ namespace TMNT.Controllers {
                     StockStandardName = model.StockStandardName,
                     Purity = model.Purity,
                     SolventUsed = model.SolventUsed,
-                    SolventSupplierName = model.SolventSupplierName
+                    SolventSupplierName = model.SolventSupplierName,
+                    Concentration = model.Concentration.ToString() + " " + model.InitialConcentrationUnits
                 };
 
                 createStandard.InventoryItems.Add(inventoryItem);

@@ -167,11 +167,11 @@ namespace TMNT.Controllers {
 
             //last line of defense for number of bottles
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
-            
-            if (Unit.Length == 1) {
-                model.InitialAmountUnits = Unit[0];
-            } else {
-                model.InitialAmountUnits = Unit[0] + "/" + Unit[1];
+
+            model.InitialAmountUnits = Unit[0];
+
+            if (Unit.Length > 1) {
+                model.InitialAmountUnits += "/" + Unit[1];
             }
 
             var user = HelperMethods.GetCurrentUser();

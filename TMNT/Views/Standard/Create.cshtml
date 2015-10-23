@@ -106,9 +106,16 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Supplier Name", @class = "input-summary form-control required-field" } })
+                                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @placeholder = "Standard Supplier", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SupplierName)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control required-field", @Value = "" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Purity)
                                 </div>
                                 @*<div class="form-group zero-left-right-margin">
                                     <div class="input-group">
@@ -153,11 +160,38 @@
                         </div>
                         <div class="col-md-12">
                             <div class="col-lg-6 fix-right-col">
-                                <div class="form-group zero-left-right-margin">
+                                <!-- AMOUNT -->
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
-                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                        <select data-placeholder="Units.." name="AmountUnit" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--CONCENTRATION-->
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        <input name="Concentration" id="Concentration" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Concentration" />
+                                        <select data-placeholder="Units.." name="ConcentrationUnit" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
                                                     <option value="@item.UnitShorthandName">
@@ -233,7 +267,6 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
@@ -247,13 +280,6 @@
                                         @Html.EditorFor(model => model.SolventSupplierName, new { htmlAttributes = new { @placeholder = "Solvent Supplier", @class = "input-summary form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SolventSupplierName)
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control required-field", @Value = "" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Purity)
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-12">
@@ -353,7 +379,7 @@
             maximumSelectionLength: 2
         });
 
-        $("#Units").chosen({
+        $(".Units").chosen({
             max_selected_options: 2,
             placeholder: "Units.."
         });

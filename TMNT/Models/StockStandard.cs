@@ -16,7 +16,8 @@ namespace TMNT.Models {
         public string SolventSupplierName { get; set; }
         public double Purity { get; set; }
         public string LastModifiedBy { get; set; }
-        
+        public string Concentration { get; set; }
+
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }
     }

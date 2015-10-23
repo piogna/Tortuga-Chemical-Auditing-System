@@ -222,6 +222,10 @@
     <Compile Include="Migrations\201510231249477_InitialAmountField.Designer.cs">
       <DependentUpon>201510231249477_InitialAmountField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510231506555_StandardConcentrationField.cs" />
+    <Compile Include="Migrations\201510231506555_StandardConcentrationField.Designer.cs">
+      <DependentUpon>201510231506555_StandardConcentrationField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -522,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510231249477_InitialAmountField.resx">
       <DependentUpon>201510231249477_InitialAmountField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510231506555_StandardConcentrationField.resx">
+      <DependentUpon>201510231506555_StandardConcentrationField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
