@@ -42,7 +42,8 @@ namespace TMNT.Controllers {
                     lReagents.Add(new StockReagentIndexViewModel() {
                         ReagentId = item.StockReagent.ReagentId,
                         CreatedBy = item.CreatedBy,
-                        DateCreated = item.DateCreated,
+                        CatalogueCode = item.CatalogueCode,
+                        //DateCreated = item.DateCreated,
                         DateOpened = item.DateOpened,
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.StockReagent.IdCode,

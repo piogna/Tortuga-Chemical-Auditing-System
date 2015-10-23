@@ -13,6 +13,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
+        [Display(Name = "Catalogue Code")]
+        public string CatalogueCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
         public DateTime? DateModified { get; set; }
         [Display(Name = "Lot #")]

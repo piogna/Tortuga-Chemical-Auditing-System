@@ -44,8 +44,9 @@ namespace TMNT.Controllers {
                     lStandards.Add(new StockStandardIndexViewModel() {
                         StockStandardId = item.StockStandard.StockStandardId,
                         CreatedBy = item.CreatedBy,
+                        CatalogueCode = item.CatalogueCode,
                         DateCreated = item.DateCreated,
-                        DateOpened = item.DateOpened,
+                        //DateOpened = item.DateOpened,
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.StockStandard.IdCode,
                         LotNumber = item.StockStandard.LotNumber,

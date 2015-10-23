@@ -19,6 +19,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
+        [Display(Name = "Catalogue Code")]
+        public string CatalogueCode { get; set; }
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
         public bool IsExpiring { get; set; }
