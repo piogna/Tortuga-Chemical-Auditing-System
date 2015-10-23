@@ -248,7 +248,7 @@ namespace TMNT.Controllers {
                 FinalConcentration = model.FinalConcentration,
                 FinalVolume = model.FinalVolume,
                 MaxxamId = model.MaxxamId,
-                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.MaxxamId + "/",//append number of bottles
+                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"

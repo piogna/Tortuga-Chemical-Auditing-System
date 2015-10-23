@@ -142,7 +142,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Create
         [Route("Reagent/Create")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         public ActionResult Create() {
             var model = new StockReagentCreateViewModel();
             SetStockReagent(model);
@@ -156,7 +156,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -169,6 +169,7 @@ namespace TMNT.Controllers {
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
+            var numOfItems = new InventoryItemRepository().Get().Count();
 
             if (uploadCofA != null) {
                 var cofa = new CertificateOfAnalysis() {
@@ -222,7 +223,7 @@ namespace TMNT.Controllers {
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
                     reagent = new StockReagent() {
-                        IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/" + i,//append number of bottles
+                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
                         LotNumber = model.LotNumber,
                         ReagentName = model.ReagentName
                     };
@@ -235,7 +236,7 @@ namespace TMNT.Controllers {
                 }
             } else {
                 reagent = new StockReagent() {
-                    IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
                     LotNumber = model.LotNumber,
                     ReagentName = model.ReagentName
                 };

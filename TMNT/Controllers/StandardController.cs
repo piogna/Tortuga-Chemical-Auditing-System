@@ -140,7 +140,7 @@ namespace TMNT.Controllers {
         }
 
         [Route("Standard/Create")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         // GET: /Standard/Create
         public ActionResult Create() {
             var model = new StockStandardCreateViewModel();
@@ -155,7 +155,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles")]
                     StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
@@ -171,6 +171,7 @@ namespace TMNT.Controllers {
             var deviceRepo = new DeviceRepository();
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
+            var numOfItems = new InventoryItemRepository().Get().Count();
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
@@ -211,15 +212,6 @@ namespace TMNT.Controllers {
                 model.MSDS = msds;
             }
 
-            StockStandard standard = new StockStandard() {
-                IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/",//append number of bottles
-                LotNumber = model.LotNumber,
-                StockStandardName = model.StockStandardName,
-                SolventUsed = model.SolventUsed,
-                Purity = model.Purity,
-                SolventSupplierName = model.SolventSupplierName
-            };
-
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode,
                 Department = department,
@@ -238,9 +230,6 @@ namespace TMNT.Controllers {
 
             inventoryItem.MSDS.Add(model.MSDS);
             inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
-            //standard.InventoryItems.Add(inventoryItem);
-
-            //var result = repoStandard.Create(standard);
 
             StockStandard createStandard = null;
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
@@ -250,7 +239,10 @@ namespace TMNT.Controllers {
                     createStandard = new StockStandard() {
                         IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/" + i,//append number of bottles
                         LotNumber = model.LotNumber,
-                        StockStandardName = model.StockStandardName
+                        StockStandardName = model.StockStandardName,
+                        Purity = model.Purity,
+                        SolventUsed = model.SolventUsed,
+                        SolventSupplierName = model.SolventSupplierName
                     };
 
                     createStandard.InventoryItems.Add(inventoryItem);
@@ -263,15 +255,19 @@ namespace TMNT.Controllers {
                 createStandard = new StockStandard() {
                     IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
                     LotNumber = model.LotNumber,
-                    StockStandardName = model.StockStandardName
+                    StockStandardName = model.StockStandardName,
+                    Purity = model.Purity,
+                    SolventUsed = model.SolventUsed,
+                    SolventSupplierName = model.SolventSupplierName
                 };
+
                 createStandard.InventoryItems.Add(inventoryItem);
                 result = repo.Create(createStandard);
             }
 
             switch (result) {
                 case CheckModelState.Invalid:
-                    ModelState.AddModelError("", "The creation of " + standard.StockStandardName + " failed. Please double check all inputs and try again.");
+                    ModelState.AddModelError("", "The creation of " + createStandard.StockStandardName + " failed. Please double check all inputs and try again.");
                     SetStockStandard(model);
                     return View(model);
                 case CheckModelState.DataError:
