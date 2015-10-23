@@ -156,8 +156,8 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles")]
-                    StockStandardCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount")]
+                    StockStandardCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockStandard(model);
@@ -184,6 +184,12 @@ namespace TMNT.Controllers {
                 model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
             } else {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+            }
+
+            if (Unit.Length == 1) {
+                model.InitialAmountUnits = Unit[0];
+            } else {
+                model.InitialAmountUnits = Unit[0] + "/" + Unit[1];
             }
 
             if (uploadCofA != null) {
@@ -225,7 +231,8 @@ namespace TMNT.Controllers {
                 SecondDeviceUsed = model.DeviceTwo,
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName,
-                NumberOfBottles = model.NumberOfBottles
+                NumberOfBottles = model.NumberOfBottles,
+                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits 
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
@@ -237,7 +244,7 @@ namespace TMNT.Controllers {
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
                     createStandard = new StockStandard() {
-                        IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber + "/" + i,//append number of bottles
+                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
                         LotNumber = model.LotNumber,
                         StockStandardName = model.StockStandardName,
                         Purity = model.Purity,
@@ -253,7 +260,7 @@ namespace TMNT.Controllers {
                 }
             } else {
                 createStandard = new StockStandard() {
-                    IdCode = department.Location.LocationCode + "-" + department.DepartmentName + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
                     LotNumber = model.LotNumber,
                     StockStandardName = model.StockStandardName,
                     Purity = model.Purity,

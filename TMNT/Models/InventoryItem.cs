@@ -29,8 +29,8 @@ namespace TMNT.Models {
         public DateTime? DateModified { get; set; }
         public string StorageRequirements { get; set; }
         public int NumberOfBottles { get; set; }
-        //public string DevicesUsed { get; set; }
-
+        public string InitialAmount { get; set; }
+        
 
         public virtual ICollection<Location> Locations { get; set; }
 

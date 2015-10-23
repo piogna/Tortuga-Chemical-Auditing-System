@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "Create";
 }
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
     <link href="~/Content/select2.min.css" rel="stylesheet" />
     <style>
         .select2-container--default {
@@ -19,6 +21,26 @@
         .form-group {
             margin-left: 0 !important;
             margin-right: 0 !important;
+        }
+
+        ul.chosen-choices {
+            border: 1px solid #ccc !important;
+            background-image: none !important;
+        }
+
+        li.search-field {
+            padding-top: 3px !important;
+            height: 32px !important;
+            padding-left: 5px !important;
+            font-size: 14px !important;
+        }
+
+        li.search-choice {
+            margin: 5px 5px 3px 0 !important;
+        }
+
+        div.chosen-container {
+            width: 50% !important;
         }
     </style>
 }
@@ -88,6 +110,30 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.SupplierName)
                                 </div>
+                                @*<div class="form-group zero-left-right-margin">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitId">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitId">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>*@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
@@ -107,6 +153,31 @@
                         </div>
                         <div class="col-md-12">
                             <div class="col-lg-6 fix-right-col">
+                                <div class="form-group zero-left-right-margin">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
+                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
@@ -280,6 +351,11 @@
             placeholder: "Devices Used..",
             allowClear: true,
             maximumSelectionLength: 2
+        });
+
+        $("#Units").chosen({
+            max_selected_options: 2,
+            placeholder: "Units.."
         });
     });
 </script>
