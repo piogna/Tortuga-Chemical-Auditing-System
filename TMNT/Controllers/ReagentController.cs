@@ -157,7 +157,8 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate")] StockReagentCreateViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
+        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate,InitialAmount")]
+                StockReagentCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
                 SetStockReagent(model);
@@ -166,6 +167,12 @@ namespace TMNT.Controllers {
 
             //last line of defense for number of bottles
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
+            
+            if (Unit.Length == 1) {
+                model.InitialAmountUnits = Unit[0];
+            } else {
+                model.InitialAmountUnits = Unit[0] + "/" + Unit[1];
+            }
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
@@ -210,7 +217,8 @@ namespace TMNT.Controllers {
                 Type = "Reagent",
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName,
-                NumberOfBottles = model.NumberOfBottles
+                NumberOfBottles = model.NumberOfBottles,
+                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
@@ -240,6 +248,7 @@ namespace TMNT.Controllers {
                     LotNumber = model.LotNumber,
                     ReagentName = model.ReagentName
                 };
+
                 reagent.InventoryItems.Add(inventoryItem);
                 result = repo.Create(reagent);
             }

@@ -141,18 +141,18 @@
                                 <div class="form-group zero-left-right-margin">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <input name="Amount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
-                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control valid no-border-radius required-field" multiple="multiple">
+                                        <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
+                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitId">
+                                                    <option value="@item.UnitShorthandName">
                                                         @item.UnitShorthandName
                                                     </option>
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumes">
                                                 @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitId">
+                                                    <option value="@item.UnitShorthandName">
                                                         @item.UnitShorthandName
                                                     </option>
                                                 }
