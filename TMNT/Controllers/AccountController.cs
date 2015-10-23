@@ -10,6 +10,7 @@ using System;
 using TMNT.Models.Repository;
 using System.Net.Mail;
 using System.Net;
+using System.Configuration;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -179,7 +180,7 @@ namespace TMNT.Controllers {
                     .Where(item => item.LocationName.Equals(model.Location.LocationName))
                     .First();
 
-                model.Password = "!Maxxam123";
+                model.Password = ConfigurationManager.AppSettings["default-password"];
                 model.IsFirstTimeLogin = true;
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, LastPasswordChange = DateTime.Today, NextRequiredPasswordChange = DateTime.Today.AddYears(1), IsFirstTimeLogin = model.IsFirstTimeLogin };
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -199,8 +200,8 @@ namespace TMNT.Controllers {
                     }
 
                     //send email to new user with username and default password
-                    string username = "team.tortuga.contact";
-                    string password = "tortugarules";
+                    string username = ConfigurationManager.AppSettings["smtp-username"];
+                    string password = ConfigurationManager.AppSettings["smtp-password"];
                     try {
                         using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
                             message.Body = "Welcome to Maxxam, " + model.FirstName + " " + model.LastName +  "!<br/><br/>" +
