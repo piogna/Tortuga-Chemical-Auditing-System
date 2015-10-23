@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.js" />
 /// <reference path="bootstrap-datepicker.js" />
+/// <reference path="chosen.jquery.min.js" />
 /// <reference path="custommaxxamjs/execute-datatables.js" />
 /// <reference path="custommaxxamjs/file-validation.js" />
 /// <reference path="custommaxxamjs/finalize-create-data-table.js" />
