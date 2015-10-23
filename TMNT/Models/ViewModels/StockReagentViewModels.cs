@@ -40,12 +40,16 @@ namespace TMNT.Models.ViewModels {
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
         public DateTime? DateModified { get; set; }
+        [Display(Name = "Date Received"), DataType(DataType.Date)]
+        public DateTime DateReceived { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
         [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime ExpiryDate { get; set; }
+        [Display(Name = "Amount Purchased")]
+        public string InitialAmount { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -85,8 +89,6 @@ namespace TMNT.Models.ViewModels {
     public class StockReagentCreateViewModel {
         //reagent properties
         public int ReagentId { get; set; }
-        //[Display(Name = "ID Code")]
-        //public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         [Display(Name = "Date Opened"), DataType(DataType.Date)]

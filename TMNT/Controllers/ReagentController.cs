@@ -136,6 +136,8 @@ namespace TMNT.Controllers {
                     vReagent.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
                     vReagent.SupplierName = invItem.SupplierName;
                     vReagent.NumberOfBottles = invItem.NumberOfBottles;
+                    vReagent.InitialAmount = invItem.InitialAmount;
+                    vReagent.DateReceived = invItem.DateReceived;
                 }
             }
             return View(vReagent);
