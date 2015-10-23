@@ -111,7 +111,8 @@ namespace TMNT.Controllers {
                 IdCode = standard.IdCode,
                 StockStandardName = standard.StockStandardName,
                 LastModifiedBy = standard.LastModifiedBy,
-                SolventUsed = standard.SolventUsed
+                SolventUsed = standard.SolventUsed,
+                Concentration = standard.Concentration
             };
 
             foreach (var invItem in standard.InventoryItems) {
@@ -135,6 +136,8 @@ namespace TMNT.Controllers {
                     vStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
                     vStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
                     vStandard.NumberOfBottles = invItem.NumberOfBottles;
+                    vStandard.DateReceived = invItem.DateReceived;
+                    vStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
             return View(vStandard);

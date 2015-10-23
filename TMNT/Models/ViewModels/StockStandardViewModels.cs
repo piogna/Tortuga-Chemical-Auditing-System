@@ -118,6 +118,8 @@ namespace TMNT.Models.ViewModels {
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
         public DateTime? DateModified { get; set; }
+        [Display(Name = "Date Received"), DataType(DataType.Date)]
+        public DateTime DateReceived { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
         [Display(Name = "Solvent Used"), DataType(DataType.MultilineText)]
@@ -133,6 +135,9 @@ namespace TMNT.Models.ViewModels {
         public DateTime ExpiryDate { get; set; }
         [Display(Name = "Number of Bottles")]
         public int NumberOfBottles { get; set; }
+        public string Concentration { get; set; }
+        [Display(Name = "Amount Purchased")]
+        public string InitialAmount { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }

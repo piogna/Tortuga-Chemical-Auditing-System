@@ -158,6 +158,14 @@
     <div class="col-md-6">
         <dl class="dl-horizontal">
             <dt>
+                @Html.DisplayNameFor(model => model.DateReceived)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateReceived)
+            </dd>
+
+            <dt>
                 @Html.DisplayNameFor(model => model.ExpiryDate)
             </dt>
 
@@ -177,6 +185,22 @@
                     <span class="fa fa-check-circle text-success" title="Valid"></span>
                 </dd>
             }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.InitialAmount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InitialAmount)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Concentration)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Concentration)
+            </dd>
 
             <dt>
                 @Html.DisplayNameFor(model => model.NumberOfBottles)
