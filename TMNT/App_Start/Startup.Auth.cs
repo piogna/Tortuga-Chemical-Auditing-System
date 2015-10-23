@@ -20,7 +20,7 @@ namespace TMNT {
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             // Configure the sign in cookie
             app.UseCookieAuthentication(new CookieAuthenticationOptions {
-                ExpireTimeSpan = TimeSpan.FromMinutes(20),
+                ExpireTimeSpan = TimeSpan.FromMinutes(5),
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider {
