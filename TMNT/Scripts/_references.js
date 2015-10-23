@@ -7,6 +7,7 @@
 /// <reference path="custommaxxamjs/form-validation.js" />
 /// <reference path="custommaxxamjs/help-me.js" />
 /// <reference path="custommaxxamjs/intermediate-standard-form-validation.js" />
+/// <reference path="datepickerjs/bootstrap-datepicker.min.js" />
 /// <reference path="jquery.datatables.min.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
