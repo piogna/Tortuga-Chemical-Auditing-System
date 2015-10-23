@@ -219,7 +219,7 @@ namespace TMNT.Controllers {
             }
 
             InventoryItem inventoryItem = new InventoryItem() {
-                CatalogueCode = model.CatalogueCode,
+                CatalogueCode = model.CatalogueCode.ToUpper(),
                 Department = department,
                 ExpiryDate = model.ExpiryDate,
                 UsedFor = model.UsedFor,

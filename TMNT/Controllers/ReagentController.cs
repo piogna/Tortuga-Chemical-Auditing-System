@@ -204,7 +204,7 @@ namespace TMNT.Controllers {
             }
 
             InventoryItem inventoryItem = new InventoryItem() {
-                CatalogueCode = model.CatalogueCode,
+                CatalogueCode = model.CatalogueCode.ToUpper(),
                 Department = department,
                 Grade = model.Grade,
                 GradeAdditionalNotes = model.GradeAdditionalNotes,
