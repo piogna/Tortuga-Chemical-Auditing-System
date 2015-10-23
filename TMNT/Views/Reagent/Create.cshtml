@@ -4,10 +4,12 @@
     ViewBag.Title = "Create";
 }
 <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
     <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
+    <link href="~/Content/Datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <link href="~/Content/select2.min.css" rel="stylesheet" />
     <style>
         @@media screen and (min-width:1200px) {
@@ -98,7 +100,15 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Expiry Date", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        @Html.EditorFor(model => model.DateReceived, new { htmlAttributes = new { @placeholder = "Date Received", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
+                                        <div class="input-group-addon input-group-addon-md">Date Received</div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DateReceived)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Expiry Date", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
                                         <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
@@ -335,6 +345,16 @@
         $("#Units").chosen({
             max_selected_options: 2,
             placeholder: "Units.."
+        });
+
+        $('.date-input').datepicker({
+            format: "yyyy-mm-dd",
+            startDate: "Today",
+            startView: 2,
+            todayBtn: "linked",
+            clearBtn: true,
+            orientation: "bottom auto",
+            autoclose: true
         });
     });
 </script>

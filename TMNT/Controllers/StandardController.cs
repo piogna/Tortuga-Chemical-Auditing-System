@@ -156,7 +156,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount,Concentration")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount,Concentration,DateReceived")]
                     StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -226,9 +226,10 @@ namespace TMNT.Controllers {
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode.ToUpper(),
                 Department = department,
-                ExpiryDate = model.ExpiryDate,
                 UsedFor = model.UsedFor,
                 CreatedBy = user.UserName,
+                ExpiryDate = model.ExpiryDate,
+                DateReceived = model.DateReceived,
                 DateCreated = DateTime.Today,
                 DateModified = null,
                 Type = "Standard",

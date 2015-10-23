@@ -27,6 +27,8 @@ namespace TMNT.Models {
         public DateTime ExpiryDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateReceived { get; set; }
         public string StorageRequirements { get; set; }
         public int NumberOfBottles { get; set; }
         public string InitialAmount { get; set; }
