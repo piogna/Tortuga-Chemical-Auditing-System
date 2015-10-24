@@ -5,7 +5,7 @@ namespace TMNT.Models {
         [Key]
         public int PrepListItemId { get; set; }
         [Required]
-        public int Amount { get; set; }
+        public string AmountTaken { get; set; }
 
         //foreign keys
         public virtual StockReagent StockReagent { get; set; }
@@ -13,7 +13,7 @@ namespace TMNT.Models {
         public virtual StockStandard StockStandard { get; set; }
         //public double? StockStandardAmountTaken { get; set; }
         public virtual IntermediateStandard IntermediateStandard { get; set; }
-        public virtual Unit Unit { get; set; }
+        //public virtual Unit Unit { get; set; }
         //public double? IntermediateStandardAmountTaken { get; set; }
         //public virtual WorkingStandard WorkingStandard { get; set; }
         [Required]

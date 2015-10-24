@@ -125,7 +125,7 @@ namespace TMNT.Controllers {
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
-                    vStandard.Unit = invItem.Unit;
+                    //vStandard.Unit = invItem.Unit;
                     vStandard.Department = invItem.Department;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();

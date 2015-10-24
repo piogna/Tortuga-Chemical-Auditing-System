@@ -15,8 +15,8 @@ namespace TMNT.Models {
         public string MaxxamId { get; set; }
         public int FinalVolume { get; set; }
         public string ReplacedBy { get; set; }
-        public int TotalVolume { get; set; }
-        public int FinalConcentration { get; set; }
+        public string TotalVolume { get; set; }
+        public string FinalConcentration { get; set; }
         public string LastModifiedBy { get; set; }
         //foreign keys
         public virtual PrepList PrepList { get; set; }

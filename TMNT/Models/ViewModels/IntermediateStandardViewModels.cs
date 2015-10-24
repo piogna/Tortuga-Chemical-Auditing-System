@@ -85,6 +85,8 @@ namespace TMNT.Models.ViewModels {
         public List<Device> DevicesUsed { get; set; }
         public Device DeviceOne { get; set; }
         public Device DeviceTwo { get; set; }
+        public string TotalAmountUnits { get; set; }
+        public string FinalConcentrationUnits { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }

@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201510241434206_RemoveLowAmountThreshold.Designer.cs">
       <DependentUpon>201510241434206_RemoveLowAmountThreshold.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510241530236_removeDependenciesOfUnitsAndChangeAmountColumnsToString.cs" />
+    <Compile Include="Migrations\201510241530236_removeDependenciesOfUnitsAndChangeAmountColumnsToString.Designer.cs">
+      <DependentUpon>201510241530236_removeDependenciesOfUnitsAndChangeAmountColumnsToString.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -515,6 +519,8 @@
     <Content Include="Views\Ideas\Create.cshtml" />
     <Content Include="Views\Ideas\Index.cshtml" />
     <Content Include="Views\Account\InsufficientPrivileges.cshtml" />
+    <Content Include="Views\Feedback\Create.cshtml" />
+    <Content Include="Views\Feedback\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -548,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510241434206_RemoveLowAmountThreshold.resx">
       <DependentUpon>201510241434206_RemoveLowAmountThreshold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510241530236_removeDependenciesOfUnitsAndChangeAmountColumnsToString.resx">
+      <DependentUpon>201510241530236_removeDependenciesOfUnitsAndChangeAmountColumnsToString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

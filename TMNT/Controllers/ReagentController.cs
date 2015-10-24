@@ -124,7 +124,7 @@ namespace TMNT.Controllers {
                     vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vReagent.UsedFor = invItem.UsedFor;
-                    vReagent.Unit = invItem.Unit;
+                    //vReagent.Unit = invItem.Unit;
                     vReagent.Department = invItem.Department;
                     vReagent.CatalogueCode = invItem.CatalogueCode;
                     vReagent.Grade = invItem.Grade;

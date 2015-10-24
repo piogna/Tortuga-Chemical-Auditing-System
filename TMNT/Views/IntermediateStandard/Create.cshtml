@@ -59,7 +59,7 @@
         }
 
         div.chosen-container {
-            width: 100% !important;
+            width: 50% !important;
         }
     </style>
 }
@@ -152,7 +152,7 @@
                                     <div class="form-group zero-left-right-margin">
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
-                                            <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                            <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
                                                 <optgroup label="Weights">
                                                     @foreach (var item in Model.WeightUnits) {
                                                         <option value="@item.UnitId">
@@ -255,9 +255,54 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TotalAmount)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FinalConcentration)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -309,20 +354,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.FinalConcentration)
-                                </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FinalVolume)
-                                </div>
+                                </div>*@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
@@ -333,6 +371,7 @@
                                     <div id="button-message-s2" class="pull-right button-message-error">Fill out required fields.</div>
                                 </div>
                             </div>
+                            @*@Html.Partial("_SectionHeader", "Safety Data Sheet Information")*@
                         </div>
                     </section>
                     <section id="section-bar-3">
@@ -384,7 +423,7 @@
                 maximumSelectionLength: 2
             });
 
-            $("#Units").chosen({
+            $(".Units").chosen({
                 max_selected_options: 2,
                 placeholder: "Units.."
             });
