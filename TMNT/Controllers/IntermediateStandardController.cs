@@ -134,7 +134,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate")] IntermediateStandardCreateViewModel model, HttpPostedFileBase uploadMSDS,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -260,18 +260,18 @@ namespace TMNT.Controllers {
 
             model.PrepList = prepList;
 
-            //if (uploadMSDS != null) {
-            //    var msds = new MSDS() {
-            //        FileName = uploadMSDS.FileName,
-            //        ContentType = uploadMSDS.ContentType,
-            //        DateAdded = DateTime.Today,
-            //        MSDSNotes = model.MSDSNotes
-            //    };
-            //    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-            //        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-            //    }
-            //    model.MSDS = msds;
-            //}
+            if (uploadMSDS != null) {
+                var msds = new MSDS() {
+                    FileName = uploadMSDS.FileName,
+                    ContentType = uploadMSDS.ContentType,
+                    DateAdded = DateTime.Today,
+                    MSDSNotes = model.MSDSNotes
+                };
+                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                }
+                model.MSDS = msds;
+            }
 
             //building the intermediate standard
             IntermediateStandard intermediatestandard = new IntermediateStandard() {
@@ -298,6 +298,8 @@ namespace TMNT.Controllers {
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo
             };
+
+            inventoryItem.MSDS.Add(model.MSDS);
 
             //creating the prep list and the intermediate standard
             //inventoryItem.MSDS.Add(model.MSDS);

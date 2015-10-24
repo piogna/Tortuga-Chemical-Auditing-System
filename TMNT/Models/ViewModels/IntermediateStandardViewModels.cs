@@ -111,8 +111,8 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
-        //[Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
-        //public string MSDSNotes { get; set; }
+        [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
+        public string MSDSNotes { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
