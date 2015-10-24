@@ -4,12 +4,20 @@
     ViewBag.Title = "Create";
 }
 
-<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
-<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css" />
-
 @section AddToHead {
+    <link href="~/Content/chosen.css" rel="stylesheet" />
+    <link href="~/Content/Datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
     @Styles.Render("~/maxxam-forms")
     <style>
+        .select2-container--default {
+            width: 100% !important;
+        }
+
+        .select2-search__field {
+            width: 100% !important;
+        }
+
         .lot-numbers-hidden option {
             display: none;
         }
@@ -138,7 +146,7 @@
                                     <div class="form-group zero-left-right-margin">
                                         <div class="input-group">
                                             <div class="input-group-addon"></div>
-                                            <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" placeholder="Amount" />
+                                            <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
                                         </div>
                                     </div>
                                     <div class="form-group zero-left-right-margin">
@@ -247,14 +255,14 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field-s2", @Value = "" } })
+                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TotalAmount)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "input-summary form-control required-field-s2", @Value = "" } })
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "date-input input-summary form-control required-field-s2", @Value = "", @type = "text" } })
                                         <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
@@ -269,14 +277,49 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field-s2", @Value = "" } })
+                                        <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
+                                            <optgroup label="Balance ID's">
+                                                @foreach (var item in Model.BalanceDevices) {
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumetric ID's">
+                                                @foreach (var item in Model.VolumetricDevices) {
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
+                                                }
+                                                <option value="VOL902-W">VOL902-W</option>
+                                                <option value="None">No Device Used</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FinalConcentration)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field-s2", @Value = "" } })
+                                        @Html.EditorFor(model => model.FinalVolume, new { htmlAttributes = new { @placeholder = "Final Volume", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FinalVolume)
                                 </div>
@@ -328,12 +371,32 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
     <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
+
     <script>
         $(function () {
+            $(".select2").select2({
+                placeholder: "Devices Used..",
+                allowClear: true,
+                maximumSelectionLength: 2
+            });
+
             $("#Units").chosen({
                 max_selected_options: 2,
                 placeholder: "Units.."
+            });
+
+            $('.date-input').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
             });
         });
     </script>

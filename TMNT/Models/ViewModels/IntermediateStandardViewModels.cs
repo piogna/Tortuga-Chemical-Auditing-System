@@ -81,8 +81,10 @@ namespace TMNT.Models.ViewModels {
         public PrepList PrepList { get; set; }
         [Display(Name = "Items")]
         public List<PrepListItem> PrepListItems { get; set; }
-
         public StockStandard StockStandard { get; set; }
+        public List<Device> DevicesUsed { get; set; }
+        public Device DeviceOne { get; set; }
+        public Device DeviceTwo { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -116,12 +118,13 @@ namespace TMNT.Models.ViewModels {
         public List<InventoryItem> StockReagents { get; set; }
         public List<InventoryItem> StockStandards { get; set; }
         public List<InventoryItem> IntermediateStandards { get; set; }
+        public IEnumerable<Device> BalanceDevices { get; set; }
+        public IEnumerable<Device> VolumetricDevices { get; set; }
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
 
         public string[] Types { get; set; }
-        //public List<IntermediateStandardPrepListsViewModel> PrepListsInTable { get; set; }
     }
 
     public class IntermediateStandardPrepListsViewModel {

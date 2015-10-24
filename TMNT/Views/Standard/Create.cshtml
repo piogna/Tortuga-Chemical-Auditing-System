@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "Create";
 }
-<script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
-<script src="~/Scripts/chosen.jquery.min.js"></script>
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
@@ -379,29 +377,32 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
     <script src="~/Scripts/select2.min.js"></script>
+
+    <script>
+        $(function () {
+            $(".select2").select2({
+                placeholder: "Devices Used..",
+                allowClear: true,
+                maximumSelectionLength: 2
+            });
+
+            $(".Units").chosen({
+                max_selected_options: 2,
+                placeholder: "Units.."
+            });
+
+            $('.date-input').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
+            });
+        });
+    </script>
 }
-<script>
-    $(function () {
-        $(".select2").select2({
-            placeholder: "Devices Used..",
-            allowClear: true,
-            maximumSelectionLength: 2
-        });
-
-        $(".Units").chosen({
-            max_selected_options: 2,
-            placeholder: "Units.."
-        });
-
-        $('.date-input').datepicker({
-            format: "yyyy-mm-dd",
-            startDate: "Today",
-            startView: 2,
-            todayBtn: "linked",
-            clearBtn: true,
-            orientation: "bottom auto",
-            autoclose: true
-        });
-    });
-</script>

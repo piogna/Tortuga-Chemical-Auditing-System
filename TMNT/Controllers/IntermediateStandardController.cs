@@ -154,22 +154,25 @@ namespace TMNT.Controllers {
                 SetIntermediateStandard(model);
                 return View(model);
             }
+            
+            var devicesUsed = Request.Form["Devices"];
+            var deviceRepo = new DeviceRepository();
+
+            if (devicesUsed == null) {
+                ModelState.AddModelError("", "You must select a device that was used.");
+                SetIntermediateStandard(model);
+                return View(model);
+            }
+
+            if (devicesUsed.Contains(",")) {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+                model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
+            } else {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+            }
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
-
-            //if (uploadMSDS != null) {
-            //    var msds = new MSDS() {
-            //        FileName = uploadMSDS.FileName,
-            //        ContentType = uploadMSDS.ContentType,
-            //        DateAdded = DateTime.Today,
-            //        MSDSNotes = model.MSDSNotes
-            //    };
-            //    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-            //        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-            //    }
-            //    model.MSDS = msds;
-            //}
 
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
@@ -242,6 +245,19 @@ namespace TMNT.Controllers {
 
             model.PrepList = prepList;
 
+            //if (uploadMSDS != null) {
+            //    var msds = new MSDS() {
+            //        FileName = uploadMSDS.FileName,
+            //        ContentType = uploadMSDS.ContentType,
+            //        DateAdded = DateTime.Today,
+            //        MSDSNotes = model.MSDSNotes
+            //    };
+            //    using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+            //        msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+            //    }
+            //    model.MSDS = msds;
+            //}
+
             //building the intermediate standard
             IntermediateStandard intermediatestandard = new IntermediateStandard() {
                 TotalVolume = model.TotalAmount,
@@ -256,13 +272,16 @@ namespace TMNT.Controllers {
 
             InventoryItem inventoryItem = new InventoryItem() {
                 CreatedBy = user.UserName,
+                DateReceived = DateTime.Today,//giving this a default value, otherwise errors - never to be looked at
                 DateCreated = DateTime.Today,
                 Department = department,
                 IntermediateStandard = intermediatestandard,
                 Type = "Intermediate Standard",
                 StorageRequirements = model.StorageRequirements,
                 UsedFor = model.UsedFor,
-                ExpiryDate = model.ExpiryDate
+                ExpiryDate = model.ExpiryDate,
+                FirstDeviceUsed = model.DeviceOne,
+                SecondDeviceUsed = model.DeviceTwo
             };
 
             //creating the prep list and the intermediate standard
@@ -297,16 +316,6 @@ namespace TMNT.Controllers {
                     SetIntermediateStandard(model);
                     return View(model);
             }
-
-            //if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
-            //    //save pressed
-            //    return RedirectToAction("Index");
-            //} else {
-            //    //save & new pressed
-            //    return RedirectToAction("Create");
-            //}
-            //}
-            //return View(model);
         }
 
         // GET: /IntermediateStandard/Edit/5
@@ -407,8 +416,8 @@ namespace TMNT.Controllers {
             model.StockStandards = items.Where(item => item.StockStandard != null).ToList();
             model.StockReagents = items.Where(item => item.StockReagent != null).ToList();
 
-            //model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
-            //model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
 
             return model;
         }
