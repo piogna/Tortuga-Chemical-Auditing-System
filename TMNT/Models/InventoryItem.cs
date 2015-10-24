@@ -43,7 +43,6 @@ namespace TMNT.Models {
         //Supplier is not in use at this time as we're not sure if all their information is required. an input field may suffice and is what's in use for now
         public virtual Supplier Supplier { get; set; }
         public virtual Department Department { get; set; }
-        //public virtual Unit Unit { get; set; }
         public virtual StockStandard StockStandard { get; set; }
         public virtual StockReagent StockReagent { get; set; }
         public virtual MaxxamMadeReagent MaxxamMadeReagent { get; set; }

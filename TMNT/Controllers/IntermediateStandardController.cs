@@ -194,9 +194,7 @@ namespace TMNT.Controllers {
             IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
                 AmountsWithUnits = PrepListItemAmounts
             };
-
-            //prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.ToArray();//.Select(item => item.Split(' ')[0]).ToArray();
-            //prepListViewModel.Units = prepListViewModel.AmountsWithUnits.ToArray();//.Select(item => item.Split(' ')[1]).ToArray();
+            
             prepListViewModel.LotNumbers = PrepListItemLotNumbers;
             prepListViewModel.Types = PrepListItemTypes;
 
@@ -235,19 +233,16 @@ namespace TMNT.Controllers {
                 if (item is StockReagent) {
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
-                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is StockStandard) {
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
-                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is IntermediateStandard) {
                     prepItems.Add(new PrepListItem() {
                         IntermediateStandard = item as IntermediateStandard,
-                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 }
@@ -302,7 +297,6 @@ namespace TMNT.Controllers {
             inventoryItem.MSDS.Add(model.MSDS);
 
             //creating the prep list and the intermediate standard
-            //inventoryItem.MSDS.Add(model.MSDS);
             new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
             intermediatestandard.InventoryItems.Add(inventoryItem);
             var result = repo.Create(intermediatestandard);
