@@ -230,6 +230,10 @@
     <Compile Include="Migrations\201510231546147_DateReceivedField.Designer.cs">
       <DependentUpon>201510231546147_DateReceivedField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510241434206_RemoveLowAmountThreshold.cs" />
+    <Compile Include="Migrations\201510241434206_RemoveLowAmountThreshold.Designer.cs">
+      <DependentUpon>201510241434206_RemoveLowAmountThreshold.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -541,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510231546147_DateReceivedField.resx">
       <DependentUpon>201510231546147_DateReceivedField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510241434206_RemoveLowAmountThreshold.resx">
+      <DependentUpon>201510241434206_RemoveLowAmountThreshold.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
