@@ -53,7 +53,7 @@ namespace TMNT.Controllers {
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
-                        list[counter].Unit = invItem.Unit;
+                        //list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;

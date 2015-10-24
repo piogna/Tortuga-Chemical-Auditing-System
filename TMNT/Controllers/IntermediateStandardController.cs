@@ -110,7 +110,7 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.DateCreated = invItem.DateCreated;
                     vIntermediateStandard.CreatedBy = invItem.CreatedBy;
                     vIntermediateStandard.DateModified = invItem.DateModified;
-                    vIntermediateStandard.Unit = invItem.Unit;
+                    //vIntermediateStandard.Unit = invItem.Unit;
                     vIntermediateStandard.Department = invItem.Department;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
@@ -134,8 +134,8 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,FinalVolume,TotalAmount,ExpiryDate")] IntermediateStandardCreateViewModel model,
-           string[] PrepListItemTypes, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string submit) {
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate")] IntermediateStandardCreateViewModel model,
+           string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
@@ -143,7 +143,7 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
+            if (PrepListItemTypes == null || PrepListItemAmounts == null ||  PrepListItemLotNumbers == null) {
                 ModelState.AddModelError("", "The creation of " + model.MaxxamId + " failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
@@ -155,6 +155,7 @@ namespace TMNT.Controllers {
                 return View(model);
             }
             
+            //setting the devices used
             var devicesUsed = Request.Form["Devices"];
             var deviceRepo = new DeviceRepository();
 
@@ -170,6 +171,20 @@ namespace TMNT.Controllers {
             } else {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
             }
+            //finsihed setting the devices used
+
+            //setting the units to amount and concentration
+            model.TotalAmountUnits = TotalAmountUnits[0];
+            model.FinalConcentrationUnits = FinalConcentrationUnits[0];
+
+            if (TotalAmountUnits.Length > 1) {
+                model.TotalAmountUnits += "/" + TotalAmountUnits[1];
+            }
+
+            if (FinalConcentrationUnits.Length > 1) {
+                model.FinalConcentrationUnits += "/" + FinalConcentrationUnits[1];
+            }
+            //finished setting teh units to amount and concentration
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
@@ -180,8 +195,8 @@ namespace TMNT.Controllers {
                 AmountsWithUnits = PrepListItemAmounts
             };
 
-            prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[0]).ToArray();
-            prepListViewModel.Units = prepListViewModel.AmountsWithUnits.Select(item => item.Split(' ')[1]).ToArray();
+            //prepListViewModel.Amounts = prepListViewModel.AmountsWithUnits.ToArray();//.Select(item => item.Split(' ')[0]).ToArray();
+            //prepListViewModel.Units = prepListViewModel.AmountsWithUnits.ToArray();//.Select(item => item.Split(' ')[1]).ToArray();
             prepListViewModel.LotNumbers = PrepListItemLotNumbers;
             prepListViewModel.Types = PrepListItemTypes;
 
@@ -220,20 +235,20 @@ namespace TMNT.Controllers {
                 if (item is StockReagent) {
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
-                        Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
-                        Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
+                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                        AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is StockStandard) {
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
-                        Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
-                        Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
+                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                        AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is IntermediateStandard) {
                     prepItems.Add(new PrepListItem() {
                         IntermediateStandard = item as IntermediateStandard,
-                        Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
-                        Amount = Convert.ToInt32(prepListViewModel.Amounts[counter])
+                        //Unit = unitRepo.Get().Where(unit => unit.UnitShorthandName.Equals(prepListViewModel.Units[counter])).First(),
+                        AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 }
                 counter++;
@@ -260,11 +275,11 @@ namespace TMNT.Controllers {
 
             //building the intermediate standard
             IntermediateStandard intermediatestandard = new IntermediateStandard() {
-                TotalVolume = model.TotalAmount,
-                FinalConcentration = model.FinalConcentration,
+                TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
+                FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
                 FinalVolume = model.FinalVolume,
                 MaxxamId = model.MaxxamId,
-                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId + "/",//append number of bottles?
+                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
