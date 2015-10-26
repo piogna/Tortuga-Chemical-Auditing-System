@@ -19,7 +19,7 @@ namespace TMNT.Models.ViewModels {
 
         //inventory poperties
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public Unit Unit { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
@@ -35,7 +35,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
@@ -98,7 +98,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public string InventoryItemName { get; set; }
         [Required]
         public int TotalAmount { get; set; }
@@ -147,7 +147,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Maxxam Id")]
         public string MaxxamId { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Final Concentration")]
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]

@@ -12,7 +12,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
@@ -47,7 +47,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Amount Purchased")]
         public string InitialAmount { get; set; }
 
@@ -104,7 +104,7 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "#")]
         public string LotNumber { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
         public DateTime DateReceived { get; set; }
 
@@ -169,7 +169,7 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         //inventory poperties
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]

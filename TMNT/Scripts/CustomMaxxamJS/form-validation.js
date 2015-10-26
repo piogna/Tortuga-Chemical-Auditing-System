@@ -3,7 +3,7 @@
    Created By: Tortuga
 */
 $(function () {
-    var requiredField = $('.required-field');
+    var requiredField = $('.required-field:not([type=hidden])');
     var requiredFieldSectionTwo = $('.required-field-s2');
     var btnNext = $('.btn-next');
     var btnReview = $('.btn-review');
@@ -11,7 +11,45 @@ $(function () {
     var buttonMessageSectionTwo = $('#button-message-s2');
     var formIsValid = true;
 
-    requiredField.on('change keyup paste', function () {
+    $('#section-bar-1').on('change keyup paste', '.required-field', function () {
+        formIsValid = true;
+        requiredField.each(function () {
+            if (!$(this).val()) {
+                formIsValid = false;
+            }
+        });
+
+        if (formIsValid) {
+            btnNext.removeAttr("disabled");
+            buttonMessage.text("All required fields filled.");
+            buttonMessage.removeClass("button-message-error").addClass("button-message-success")
+        } else {
+            if (!btnNext.attr("disabled")) {
+                btnNext.attr('disabled', 'disabled');
+                buttonMessage.text("Fill out required fields.");
+                buttonMessage.removeClass("button-message-success").addClass("button-message-error");
+            }
+        }
+    });
+
+    $('#IsExpiryDateBasedOnDays').on('change', function () {
+        alert("checked in js");
+
+        var expiryDays = $('#DaysUntilExpired');
+        var expiryDate = $('#ExpiryDate');
+
+        if (this.checked) {
+            expiryDate.attr('type', 'hidden');
+            expiryDays.attr('type', 'number');
+            expiryDate.val("");
+        } else {
+            expiryDate.attr('type', 'text');
+            expiryDays.attr('type', 'hidden');
+            expiryDays.val("");
+        }
+
+        requiredField = $('.required-field:not([type=hidden])');
+
         formIsValid = true;
         requiredField.each(function () {
             if (!$(this).val()) {

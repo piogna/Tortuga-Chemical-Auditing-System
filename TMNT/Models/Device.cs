@@ -5,7 +5,7 @@ namespace TMNT.Models {
     public class Device {
         [Key]
         public int DeviceId { get; set; }
-        [Display(Name="Device Code")]
+        [Display(Name = "Device Code")]
         public string DeviceCode { get; set; }
         [Display(Name="Verification Standing")]
         public bool IsVerified { get; set; }

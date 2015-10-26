@@ -160,9 +160,10 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,ExpiryDate,MSDSNotes,UsedFor,SolventUsed,Purity,NumberOfBottles,InitialAmount,Concentration,DateReceived")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
                     StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (!ModelState.IsValid) {
                 SetStockStandard(model);
                 return View(model);
@@ -242,7 +243,8 @@ namespace TMNT.Controllers {
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName,
                 NumberOfBottles = model.NumberOfBottles,
-                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits 
+                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
+                DaysUntilExpired = model.DaysUntilExpired
             };
 
             inventoryItem.MSDS.Add(model.MSDS);

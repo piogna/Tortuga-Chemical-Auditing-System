@@ -188,6 +188,7 @@ namespace TMNT.Controllers {
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
+            var inventoryItemRepo = new InventoryItemRepository();
 
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
@@ -226,21 +227,72 @@ namespace TMNT.Controllers {
                 }
             }
 
+            //loop through all items used and list all items as "opened" if they're not already open
+            //if the expiry date hasn't been set yet, set it with the "days until expired" property provided from the "Create" form
+            //foreach (var item in reagentAndStandardContainer) {
+            //    var invItem = item as InventoryItem;
+
+            //    if (invItem.DateOpened == null) {
+            //        invItem.DateOpened = DateTime.Today;
+            //    }
+
+            //    if (invItem.ExpiryDate == null) {
+            //        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+            //    }
+            //    inventoryItemRepo.Update(invItem);
+            //}
+
             //building the prep list with the desired prep list items
             UnitRepository unitRepo = new UnitRepository(DbContextSingleton.Instance);
             int counter = 0;
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
+                    var reagent = item as StockReagent;
+                    var invItem = reagent.InventoryItems.First();
+
+                    if (invItem.DateOpened == null) {
+                        invItem.DateOpened = DateTime.Today;
+                    }
+
+                    if (invItem.ExpiryDate == null) {
+                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    }
+                    inventoryItemRepo.Update(invItem);
+
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is StockStandard) {
+                    var standard = item as StockStandard;
+                    var invItem = standard.InventoryItems.First();
+
+                    if (invItem.DateOpened == null) {
+                        invItem.DateOpened = DateTime.Today;
+                    }
+
+                    if (invItem.ExpiryDate == null) {
+                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    }
+                    inventoryItemRepo.Update(invItem);
+
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is IntermediateStandard) {
+                    var intStandard = item as IntermediateStandard;
+                    var invItem = intStandard.InventoryItems.First();
+
+                    if (invItem.DateOpened == null) {
+                        invItem.DateOpened = DateTime.Today;
+                    }
+
+                    if (invItem.ExpiryDate == null) {
+                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    }
+                    inventoryItemRepo.Update(invItem);
+
                     prepItems.Add(new PrepListItem() {
                         IntermediateStandard = item as IntermediateStandard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]

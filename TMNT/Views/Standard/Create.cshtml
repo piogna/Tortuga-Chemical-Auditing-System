@@ -42,6 +42,14 @@
         div.chosen-container {
             width: 50% !important;
         }
+
+        .hide-expiry-input {
+            /*display: none !important;*/
+        }
+
+        input[type=checkbox]:hover {
+            cursor: pointer;
+        }
     </style>
 }
 
@@ -99,8 +107,13 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "input-summary form-control required-field date-input", @Value = "", @type = "text" } })
-                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                        <div class="input-group-addon">
+                                            <div style="margin-top:-5px;" class="checkbox">
+                                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) @*<input id="expiry-checkbox" type="checkbox">*@Expire By Days?</label>
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
                                 </div>
@@ -126,29 +139,29 @@
                                     @Html.ValidationMessageFor(model => model.Purity)
                                 </div>
                                 @*<div class="form-group zero-left-right-margin">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
-                                            <optgroup label="Weights">
-                                                @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitId">
-                                                        @item.UnitShorthandName
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                            <optgroup label="Volumes">
-                                                @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitId">
-                                                        @item.UnitShorthandName
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                            <optgroup label="Other">
-                                                <option value="Other">Other</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                </div>*@
+                                        <div class="input-group">
+                                            <div class="input-group-addon"></div>
+                                            <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                                <optgroup label="Weights">
+                                                    @foreach (var item in Model.WeightUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Volumes">
+                                                    @foreach (var item in Model.VolumetricUnits) {
+                                                        <option value="@item.UnitId">
+                                                            @item.UnitShorthandName
+                                                        </option>
+                                                    }
+                                                </optgroup>
+                                                <optgroup label="Other">
+                                                    <option value="Other">Other</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                    </div>*@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>

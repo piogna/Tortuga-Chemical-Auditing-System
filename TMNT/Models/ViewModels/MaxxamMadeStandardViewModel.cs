@@ -31,7 +31,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Maxxam Id")]
         public string MaxxamId { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }

@@ -23,7 +23,7 @@ namespace TMNT.Models {
         [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
         [DataType(DataType.Date)]
-        public DateTime ExpiryDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime? DateModified { get; set; }
         [DataType(DataType.Date)]
@@ -31,7 +31,8 @@ namespace TMNT.Models {
         public string StorageRequirements { get; set; }
         public int NumberOfBottles { get; set; }
         public string InitialAmount { get; set; }
-        
+        public int? DaysUntilExpired { get; set; }
+
 
         public virtual ICollection<Location> Locations { get; set; }
 
