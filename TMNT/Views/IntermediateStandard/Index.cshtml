@@ -77,9 +77,22 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExpiryDate)
-                </td>
+                @if (item.IsExpired) {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-exclamation-triangle text-danger" title="Expired"></span>
+                    </td>
+                } else if (item.IsExpiring) {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-exclamation-triangle text-warning" title="Expiring"></span>
+                    </td>
+                } else {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-check-circle text-success" title="Valid"></span>
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>

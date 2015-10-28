@@ -33,6 +33,7 @@ namespace TMNT.Controllers {
             List<IntermediateStandardIndexViewModel> lIntStandards = new List<IntermediateStandardIndexViewModel>();
 
             var invRepo = new InventoryItemRepository().Get()
+                .Where(item => item.Type.Equals("Intermediate Standard"))
                 .ToList();
             
             foreach (var item in invRepo) {
@@ -44,6 +45,8 @@ namespace TMNT.Controllers {
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.IntermediateStandard.IdCode,
                         MaxxamId = item.IntermediateStandard.MaxxamId,
+                        IsExpired = item.ExpiryDate < DateTime.Today,
+                        IsExpiring = item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)
                     });
                 }
             }
@@ -110,10 +113,11 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.DateCreated = invItem.DateCreated;
                     vIntermediateStandard.CreatedBy = invItem.CreatedBy;
                     vIntermediateStandard.DateModified = invItem.DateModified;
-                    //vIntermediateStandard.Unit = invItem.Unit;
                     vIntermediateStandard.Department = invItem.Department;
                     //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
+                    vIntermediateStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
+                    vIntermediateStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
                 }
             }
             return View(vIntermediateStandard);

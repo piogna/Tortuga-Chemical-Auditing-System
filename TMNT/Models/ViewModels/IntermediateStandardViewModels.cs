@@ -15,6 +15,7 @@ namespace TMNT.Models.ViewModels {
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
+        public bool IsExpiring { get; set; }
         public bool IsOpened { get; set; }
 
         //inventory poperties
@@ -54,6 +55,7 @@ namespace TMNT.Models.ViewModels {
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
+        public bool IsExpiring { get; set; }
         public bool IsOpened { get; set; }
 
         //foreign keys
