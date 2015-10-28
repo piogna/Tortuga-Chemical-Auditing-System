@@ -50,7 +50,7 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         [Required(ErrorMessage = "{0} is Required")]
-        public double Purity { get; set; }
+        public string Purity { get; set; }
         //public double LowAmountThreshHold { get; set; }
         [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
         public string LotNumber { get; set; }
@@ -131,7 +131,7 @@ namespace TMNT.Models.ViewModels {
         public string SolventSupplierName { get; set; }
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
-        public double Purity { get; set; }
+        public string Purity { get; set; }
         [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]

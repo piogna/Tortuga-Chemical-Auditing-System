@@ -14,7 +14,7 @@ namespace TMNT.Models {
         public string StockStandardName { get; set; }
         public string SolventUsed { get; set; }
         public string SolventSupplierName { get; set; }
-        public double Purity { get; set; }
+        public string Purity { get; set; }
         public string LastModifiedBy { get; set; }
         public string Concentration { get; set; }
 
