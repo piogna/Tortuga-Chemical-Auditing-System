@@ -88,7 +88,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard")) {
+            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard/Details")) {
                 ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             }
 
