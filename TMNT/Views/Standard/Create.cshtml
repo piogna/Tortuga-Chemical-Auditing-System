@@ -83,10 +83,10 @@
                         <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <!-- STANDARD INFORMATION -->
                     <section id="section-bar-1">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         <div class="col-md-12">
                             <div class="col-lg-6">
                                 <div class="form-group">
