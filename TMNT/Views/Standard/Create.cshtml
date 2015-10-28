@@ -134,7 +134,12 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control required-field", @Value = "" } })
+                                        <div class="input-group-addon">
+                                            <div style="margin-top:-5px;" class="checkbox">
+                                                <label><input type="checkbox" id="na"/>N/A</label>
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @placeholder = "Purity", @class = "input-summary form-control required-field", @Value = "", type = "number" } })                                        
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Purity)
                                 </div>
@@ -416,6 +421,18 @@
                 orientation: "bottom auto",
                 autoclose: true
             });
+
+            $('#na').click(function () {
+                var $this = $(this);
+                var $purityText = $('#Purity');
+                if ($this.is(':checked')) {
+                    $purityText.attr('type', 'text').attr('readonly', true).val('N/A');
+                } else {
+                    $purityText.attr('type', 'number').attr('readonly', false);
+                }
+            });
         });
+
+
     </script>
 }
