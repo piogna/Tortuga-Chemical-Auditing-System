@@ -112,7 +112,8 @@ namespace TMNT.Controllers {
                 StockStandardName = standard.StockStandardName,
                 LastModifiedBy = standard.LastModifiedBy,
                 SolventUsed = standard.SolventUsed,
-                Concentration = standard.Concentration
+                Concentration = standard.Concentration,
+                Purity = standard.Purity
             };
 
             foreach (var invItem in standard.InventoryItems) {
