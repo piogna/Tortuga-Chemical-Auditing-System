@@ -169,8 +169,15 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            //last line of defense for number of bottles
-            if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
+            //catalogue code must be unique - let's verify
+            bool doesCatalogueCodeExist = new InventoryItemRepository().Get()
+                .Any(item => item.CatalogueCode != null && item.CatalogueCode.Equals(model.CatalogueCode));
+
+            if (doesCatalogueCodeExist) {
+                ModelState.AddModelError("", "The Catalogue Code provided is not unique. If the Catalogue Code provided is in fact correct, add the item as a new Lot Number under the existing Catalogue Code.");
+                SetStockStandard(model);
+                return View(model);
+            }
 
             var devicesUsed = Request.Form["Devices"];
             var deviceRepo = new DeviceRepository();
@@ -183,6 +190,9 @@ namespace TMNT.Controllers {
                 SetStockStandard(model);
                 return View(model);
             }
+
+            //last line of defense for number of bottles
+            if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             if (devicesUsed.Contains(",")) {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
