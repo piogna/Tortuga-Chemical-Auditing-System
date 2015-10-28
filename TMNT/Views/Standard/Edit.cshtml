@@ -102,7 +102,7 @@
             <div class="form-group">
                 <div class="input-group input-full-width">
                     <label for="GradeAdditionalNotes" class="control-label input-group-addon input-group-addon-elg">Current SDS</label>
-                    @Html.ActionLink(Model.StockStandardName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius input-full-width" })
+                    @Html.ActionLink(Model.MSDS.FileName + " - " + Model.MSDS.DateAdded.ToString().Split(' ')[0] + " SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank", @class = "btn btn-default no-border-radius input-full-width" })
                 </div>
             </div>
             <div class="form-group">

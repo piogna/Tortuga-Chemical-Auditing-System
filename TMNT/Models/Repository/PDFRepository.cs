@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using TMNT.Models.Enums;
 using TMNT.Utils;
 
@@ -75,7 +76,12 @@ namespace TMNT.Models.Repository {
         }
 
         public void Update(MSDS t) {
-            throw new NotImplementedException();
+            try {
+                _db.Entry(t).State = EntityState.Modified;
+                _db.SaveChanges();
+            } catch (Exception ex) {
+
+            }
         }
     }
 }

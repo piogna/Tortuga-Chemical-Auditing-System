@@ -370,7 +370,6 @@ namespace TMNT.Controllers {
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
-
                         .FirstOrDefault();
 
                 StockStandard updateStandard = invItem.StockStandard;
@@ -404,9 +403,22 @@ namespace TMNT.Controllers {
                     using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                     }
+
                     stockstandard.MSDS = msds;
 
-                    invItem.MSDS.Add(msds);
+                    var msdsRepo = new MSDSRepository();
+
+                    var oldSDS = msdsRepo.Get()
+                        .Where(item => item.InventoryItem.StockStandard != null && item.InventoryItem.StockStandard.StockStandardId == stockstandard.StockStandardId)
+                        .First();
+
+                    oldSDS.Content = msds.Content;
+                    oldSDS.FileName = msds.FileName;
+                    oldSDS.ContentType = msds.ContentType;
+                    oldSDS.DateAdded = DateTime.Today;
+
+                    msdsRepo.Update(oldSDS);
+                    //invItem.MSDS.Add(msds);
                 }
 
                 invItem.DateModified = DateTime.Today;
@@ -415,7 +427,7 @@ namespace TMNT.Controllers {
 
                 inventoryRepo.Update(invItem);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = stockstandard.StockStandardId });
             }
             return View(stockstandard);
         }
