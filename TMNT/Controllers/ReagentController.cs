@@ -325,8 +325,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-
-
+            
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
@@ -366,7 +365,19 @@ namespace TMNT.Controllers {
                         msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                     }
                     stockreagent.MSDS = msds;
-                    invItem.MSDS.Add(msds);
+
+                    var msdsRepo = new MSDSRepository();
+
+                    var oldSDS = msdsRepo.Get()
+                        .Where(item => item.InventoryItem.StockReagent != null && item.InventoryItem.StockReagent.ReagentId == stockreagent.ReagentId)
+                        .First();
+
+                    oldSDS.Content = msds.Content;
+                    oldSDS.FileName = msds.FileName;
+                    oldSDS.ContentType = msds.ContentType;
+                    oldSDS.DateAdded = DateTime.Today;
+
+                    msdsRepo.Update(oldSDS);
                 }
 
                 invItem.DateModified = DateTime.Today;
@@ -376,7 +387,7 @@ namespace TMNT.Controllers {
                 invItem.ExpiryDate = stockreagent.ExpiryDate;
                 invRepo.Update(invItem);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = stockreagent.ReagentId });
             }
             return View(stockreagent);
         }

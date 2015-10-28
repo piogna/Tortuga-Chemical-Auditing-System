@@ -418,7 +418,6 @@ namespace TMNT.Controllers {
                     oldSDS.DateAdded = DateTime.Today;
 
                     msdsRepo.Update(oldSDS);
-                    //invItem.MSDS.Add(msds);
                 }
 
                 invItem.DateModified = DateTime.Today;
