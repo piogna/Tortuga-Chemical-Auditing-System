@@ -254,6 +254,10 @@
     <Compile Include="Migrations\201510292117441_RemoveSolventSupplier.Designer.cs">
       <DependentUpon>201510292117441_RemoveSolventSupplier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510292301139_IntermediateStandardSafetyNotes.cs" />
+    <Compile Include="Migrations\201510292301139_IntermediateStandardSafetyNotes.Designer.cs">
+      <DependentUpon>201510292301139_IntermediateStandardSafetyNotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -585,6 +589,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510292117441_RemoveSolventSupplier.resx">
       <DependentUpon>201510292117441_RemoveSolventSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510292301139_IntermediateStandardSafetyNotes.resx">
+      <DependentUpon>201510292301139_IntermediateStandardSafetyNotes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

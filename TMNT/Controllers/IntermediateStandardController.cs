@@ -138,7 +138,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate,MSDSNotes")] IntermediateStandardCreateViewModel model, HttpPostedFileBase uploadMSDS,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate,MSDSNotes")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -311,19 +311,6 @@ namespace TMNT.Controllers {
 
             model.PrepList = prepList;
 
-            if (uploadMSDS != null) {
-                var msds = new MSDS() {
-                    FileName = uploadMSDS.FileName,
-                    ContentType = uploadMSDS.ContentType,
-                    DateAdded = DateTime.Today,
-                    MSDSNotes = model.MSDSNotes
-                };
-                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-                }
-                model.MSDS = msds;
-            }
-
             //building the intermediate standard
             IntermediateStandard intermediatestandard = new IntermediateStandard() {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
@@ -332,6 +319,7 @@ namespace TMNT.Controllers {
                 MaxxamId = model.MaxxamId,
                 IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
+                SafetyNotes = model.SafetyNotes,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
             };
@@ -349,8 +337,6 @@ namespace TMNT.Controllers {
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo
             };
-
-            inventoryItem.MSDS.Add(model.MSDS);
 
             //creating the prep list and the intermediate standard
             new PrepListRepository(DbContextSingleton.Instance).Create(prepList);

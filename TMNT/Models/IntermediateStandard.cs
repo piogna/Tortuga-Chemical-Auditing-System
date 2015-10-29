@@ -18,6 +18,7 @@ namespace TMNT.Models {
         public string TotalVolume { get; set; }
         public string FinalConcentration { get; set; }
         public string LastModifiedBy { get; set; }
+        public string SafetyNotes { get; set; }
         //foreign keys
         public virtual PrepList PrepList { get; set; }
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

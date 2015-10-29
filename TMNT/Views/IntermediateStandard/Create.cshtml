@@ -356,27 +356,17 @@
                                 </div>
                             </div>
                         </div>
-                        @Html.Partial("_SectionHeader", "SDS Upload and Notes")
+                        @Html.Partial("_SectionHeader", "Safety Notes")
                         <div class="container">
                             <div class="col-md-5-5">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default required-field-s2" accept=".pdf" />
-                                        <div class="input-group-addon input-group-addon-md">Upload SDS</div>
+                                        @Html.EditorFor(model => model.SafetyNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.SafetyNotes)
                                 </div>
                             </div>
-                            <div class="col-md-5-5 pull-right">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.MSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.MSDSNotes)
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
                                     <a href='#section-bar-3' disabled="disabled" id="btn-review" class="btn btn-default next-section btn-review">Review and Submit</a>
