@@ -272,7 +272,6 @@ namespace TMNT.Controllers {
                         StockStandardName = model.StockStandardName,
                         Purity = model.Purity,
                         SolventUsed = model.SolventUsed,
-                        SolventSupplierName = model.SolventSupplierName,
                         Concentration = model.Concentration.ToString() + " " 
                     };
 
@@ -289,7 +288,6 @@ namespace TMNT.Controllers {
                     StockStandardName = model.StockStandardName,
                     Purity = model.Purity,
                     SolventUsed = model.SolventUsed,
-                    SolventSupplierName = model.SolventSupplierName,
                     Concentration = model.Concentration.ToString() + " " + model.InitialConcentrationUnits
                 };
 
