@@ -98,7 +98,10 @@ namespace TMNT.Models {
         public string Email { get; set; }
         [Required]
         [Display(Name = "Department")]
-        public Department Department { get; set; }
+        public string DepartmentName { get; set; }
+        [Required]
+        [Display(Name = "Sub Department")]
+        public string SubDepartment { get; set; }
         [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -110,7 +113,7 @@ namespace TMNT.Models {
         public string Role { get; set; }
         //[Required]
         [Display(Name = "Location")]
-        public Location Location { get; set; }
+        public string LocationName { get; set; }
 
         //[Required]
         //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]

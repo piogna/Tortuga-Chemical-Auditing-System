@@ -177,7 +177,7 @@ namespace TMNT.Controllers {
                 var locationRepo = new LocationRepository();
                 
                 var location = locationRepo.Get()
-                    .Where(item => item.LocationName.Equals(model.Location.LocationName))
+                    .Where(item => item.LocationName.Equals(model.LocationName))
                     .First();
 
                 model.Password = ConfigurationManager.AppSettings["default-password"];
@@ -190,7 +190,7 @@ namespace TMNT.Controllers {
                     using (ApplicationDbContext db = ApplicationDbContext.Create()) {
                         var updateUser = db.Users.Where(item => item.Id.Equals(user.Id)).First();
                         Department department = db.Departments
-                            .Where(item => item.DepartmentName.Equals(model.Department.DepartmentName) && item.SubDepartment.Equals(model.Department.SubDepartment))
+                            .Where(item => item.DepartmentName.Equals(model.DepartmentName) && item.SubDepartment.Equals(model.SubDepartment))
                             .First();
 
                         updateUser.Department = department;
