@@ -103,7 +103,8 @@ namespace TMNT.Controllers {
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
                 IdCode = intermediatestandard.IdCode,
                 MaxxamId = intermediatestandard.MaxxamId,
-                LastModifiedBy = intermediatestandard.LastModifiedBy
+                LastModifiedBy = intermediatestandard.LastModifiedBy,
+                Concentration = intermediatestandard.FinalConcentration
             };
 
             foreach (var invItem in intermediatestandard.InventoryItems) {
@@ -118,6 +119,7 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
                     vIntermediateStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
                     vIntermediateStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
+                    vIntermediateStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
             return View(vIntermediateStandard);
@@ -335,7 +337,8 @@ namespace TMNT.Controllers {
                 UsedFor = model.UsedFor,
                 ExpiryDate = model.ExpiryDate,
                 FirstDeviceUsed = model.DeviceOne,
-                SecondDeviceUsed = model.DeviceTwo
+                SecondDeviceUsed = model.DeviceTwo,
+                InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits
             };
 
             //creating the prep list and the intermediate standard

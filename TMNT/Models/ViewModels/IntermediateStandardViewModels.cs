@@ -52,6 +52,9 @@ namespace TMNT.Models.ViewModels {
         public string UsedFor { get; set; }
         [Display(Name = "Maxxam Id")]
         public string MaxxamId { get; set; }
+        [Display(Name = "Initial Amount")]
+        public string InitialAmount { get; set; }
+        public string Concentration { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
