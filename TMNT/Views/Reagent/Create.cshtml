@@ -105,11 +105,24 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DateReceived)
                                 </div>
-                                <div class="form-group">
+                                @*<div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Expiry Date", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
                                         <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                </div>*@
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <div class="input-group-addon">
+                                            <div style="margin-top:-5px;" class="checkbox">
+                                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
                                 </div>

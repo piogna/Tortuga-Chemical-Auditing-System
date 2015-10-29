@@ -43,7 +43,6 @@ namespace TMNT.Controllers {
                         ReagentId = item.StockReagent.ReagentId,
                         CreatedBy = item.CreatedBy,
                         CatalogueCode = item.CatalogueCode,
-                        //DateCreated = item.DateCreated,
                         DateOpened = item.DateOpened,
                         ExpiryDate = item.ExpiryDate,
                         IdCode = item.StockReagent.IdCode,
@@ -160,7 +159,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate,InitialAmount,DateReceived")]
+        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate,InitialAmount,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
                 StockReagentCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -222,7 +221,8 @@ namespace TMNT.Controllers {
                 StorageRequirements = model.StorageRequirements,
                 SupplierName = model.SupplierName,
                 NumberOfBottles = model.NumberOfBottles,
-                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits
+                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
+                DaysUntilExpired = model.DaysUntilExpired
             };
 
             inventoryItem.MSDS.Add(model.MSDS);

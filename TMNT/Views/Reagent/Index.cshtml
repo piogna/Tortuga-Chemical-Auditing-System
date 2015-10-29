@@ -89,6 +89,11 @@
                         @Html.DisplayFor(modelItem => item.ExpiryDate)
                         <span class="fa fa-exclamation-triangle text-warning" title="Expiring"></span>
                     </td>
+                } else if (item.ExpiryDate == null) {
+                    <td>
+                        TBD
+                        <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                    </td>
                 } else {
                     <td>
                         @Html.DisplayFor(modelItem => item.ExpiryDate)

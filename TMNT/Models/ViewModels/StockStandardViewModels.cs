@@ -45,8 +45,6 @@ namespace TMNT.Models.ViewModels {
         public string LastModifiedBy { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Solvent Used"), DataType(DataType.MultilineText)]
         public string SolventUsed { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Solvent Supplier")]
-        public string SolventSupplierName { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         [Required(ErrorMessage = "{0} is Required")]
@@ -127,8 +125,6 @@ namespace TMNT.Models.ViewModels {
         public string LastModifiedBy { get; set; }
         [Display(Name = "Solvent Used"), DataType(DataType.MultilineText)]
         public string SolventUsed { get; set; }
-        [Display(Name = "Solvent Supplier")]
-        public string SolventSupplierName { get; set; }
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         public string Purity { get; set; }

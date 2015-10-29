@@ -138,7 +138,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate,MSDSNotes")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {

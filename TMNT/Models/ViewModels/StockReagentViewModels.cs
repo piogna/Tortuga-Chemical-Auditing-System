@@ -103,14 +103,17 @@ namespace TMNT.Models.ViewModels {
         public string LastModifiedBy { get; set; }
         [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "#")]
         public string LotNumber { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
+        [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
+        [Display(Name = "Days Until Expired")]
+        public int? DaysUntilExpired { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
         public DateTime DateReceived { get; set; }
 
         //properties to help with views and have nothing to do with the db
-        public bool IsExpired { get; set; }
-        public bool IsOpened { get; set; }
+        //public bool IsExpired { get; set; }
+        //public bool IsOpened { get; set; }
+        public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory poperties
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]

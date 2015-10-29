@@ -33,8 +33,6 @@ $(function () {
     });
 
     $('#IsExpiryDateBasedOnDays').on('change', function () {
-        alert("checked in js");
-
         var expiryDays = $('#DaysUntilExpired');
         var expiryDate = $('#ExpiryDate');
 

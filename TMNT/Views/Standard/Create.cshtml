@@ -105,7 +105,7 @@
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         <div class="input-group-addon">
                                             <div style="margin-top:-5px;" class="checkbox">
-                                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) @*<input id="expiry-checkbox" type="checkbox">*@Expire By Days?</label>
+                                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
                                             </div>
                                         </div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
@@ -397,7 +397,5 @@
                 }
             });
         });
-
-
     </script>
 }

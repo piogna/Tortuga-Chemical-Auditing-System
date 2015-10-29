@@ -132,7 +132,6 @@ namespace TMNT.Controllers {
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     //vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
-                    vStandard.SolventSupplierName = invItem.SupplierName;
                     vStandard.SupplierName = invItem.SupplierName;
                     vStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
                     vStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
@@ -161,7 +160,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SolventSupplierName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
                     StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             var errors = ModelState.Values.SelectMany(v => v.Errors);
