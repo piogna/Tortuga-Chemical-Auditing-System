@@ -153,10 +153,58 @@
 <!-- Community message for all testers -->
 <div class="row">
     <div class="col-lg-12">
-        <div class="panel panel-default no-border-radius no-border">
+        @*<div class="panel panel-default no-border-radius no-border">
             <div class="panel-heading no-border-radius">
-                <h4>Welcome to the 1st UAT! In this UAT you will be able to do anything with Reagents and Standards that are purchased, and view your profile. We have also added a new feature
-                for you called Ideas. If you have any ideas, concerns or problems, you will be able to let us know! Have fun in the sandbox!</h4>
+                <h4>Welcome to the 2nd UAT! In this UAT you will be able to use Intermediate Standards. You will also be able to test out the new features found in purchased
+                Stock Standards and Stock Reagents. Have fun in the sandbox!</h4>
+            </div>
+        </div>*@
+        <div class="panel-group" style="padding-bottom:20px;">
+            <div class="panel panel-primary no-border-radius">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Patch Notes - Click Here to View and Hide</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <ul style="list-style:none">
+                            <li>Stock Standard</li>
+                            <li>
+                                <ul>
+                                    <li>New field for "Date Received"</li>
+                                    <li>Date Inputs have had the interface for the input overhauled</li>
+                                    <li>New field for "Initial Amount" along with a Units picklist</li>
+                                    <li>New field for "Concentration" along with Units picklist</li>
+                                    <li>"Date Created" has been replaced with "Catalogue Code" on the Index page</li>
+                                    <li>N/A is now a possible value for the Purity field</li>
+                                    <li>Details page now displays the "Purity" field</li>
+                                    <li>After an edit, user is now redirected to the Details page of the item updated instead of the Index page</li>
+                                </ul>
+                            </li>
+                            <li>Stock Reagent</li>
+                            <li>
+                                <ul>
+                                    <li>New field for "Date Received"</li>
+                                    <li>Date Inputs have had the interface for the input overhauled</li>
+                                    <li>New field for "Initial Amount" along with a Units picklist</li>
+                                    <li>"Date Created" has been replaced with "Catalogue Code" on the Index page</li>
+                                    <li>After an edit, user is now redirected to the Details page of the item updated instead of the Index page</li>
+                                </ul>
+                            </li>
+                            <li>Miscellaneous Changes</li>
+                            <li>
+                                <ul>
+                                    <li>Catalogue Code now uppercase</li>
+                                    <li>User session increased to 60 minutes, up from 20 minutes</li>
+                                    <li>Quality Assurance can now create items with a new Catalogue Code</li>
+                                    <li>ID Code has had its structure changed to: LocationCodeFirst3Chars/IncrementedNumber/LotNumber/NumberOfBottles</li>
+                                    <li>Numerous uprgades to the User Registration form for the administrator</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
