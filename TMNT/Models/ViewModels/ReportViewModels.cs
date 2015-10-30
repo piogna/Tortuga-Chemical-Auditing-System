@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 
 namespace TMNT.Models.ViewModels {
-    public class ExpiringStockViewModel {
+    public class ReportExpiringStockViewModel {
         [Display(Name = "Days Until Expired")]
         public string DaysUntilExpired { get; set; }
         public string Type { get; set; }
@@ -16,5 +16,13 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         public string Department { get; set; }
+    }
+
+    public class ReportDeviceVerificationViewModel {
+        public string DeviceType { get; set; }
+        public string DeviceCode { get; set; }
+        public string Department { get; set; }
+        public string IsVerified { get; set; }
+        public string Status { get; set; }
     }
 }

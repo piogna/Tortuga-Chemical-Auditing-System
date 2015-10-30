@@ -52,12 +52,12 @@ namespace TMNT.Controllers {
             var devices = new DeviceRepository().Get().ToList();
 
             var output = devices
-                .Select(item => new {
-                    item.DeviceType,
-                    item.DeviceCode,
-                    item.Department.DepartmentName,
-                    item.IsVerified,
-                    item.Status
+                .Select(item => new ReportDeviceVerificationViewModel() {
+                    DeviceType = item.DeviceType,
+                    DeviceCode = item.DeviceCode,
+                    Department = item.Department.DepartmentName,
+                    IsVerified = item.IsVerified.ToString(),
+                    Status = item.Status
                 });
             
             return Json(output, JsonRequestBehavior.AllowGet);
@@ -67,7 +67,7 @@ namespace TMNT.Controllers {
         public ActionResult ExpiringInventoryReportInformation() {
             var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
                 .Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today))
-                .Select(item => new ExpiringStockViewModel() {
+                .Select(item => new ReportExpiringStockViewModel() {
                     DaysUntilExpired = item.ExpiryDate == null 
                         ? "TBD" :
                             (item.ExpiryDate - DateTime.Today).Value.Days == 0

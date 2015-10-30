@@ -12,6 +12,7 @@
 @Styles.Render("~/Content/css")
 
 <link href="http://www.flotcharts.org/flot/examples/examples.css" rel="stylesheet" type="text/css">
+<link href="~/Content/Site.css" rel="stylesheet" />
 <style type="text/css">
     body {
         font-size:14px;
@@ -172,9 +173,7 @@
 </div>
 
 <div id="section-1" class="container">
-    <div class="col-md-12" style="background-color: lightgrey;">
-        <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Inventory</h4>
-    </div>
+    @Html.Partial("_SectionHeader", "All Inventory")
     <table id="table-all" class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -200,9 +199,7 @@
 
 <div class="container">
     <div class="col-md-6">
-        <div class="col-md-12" style="background-color: lightgrey;">
-            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Expiring Inventory Dashboard</h4>
-        </div>
+        @Html.Partial("_SectionHeader", "All Expiring Inventory Dashboard")
         <div id="content">
             <div class="demo-container">
                 <div id="placeholder" class="demo-placeholder">All Departments</div>
@@ -211,9 +208,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="col-md-12" style="background-color: lightgrey;">
-            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Department By Department Dashboard</h4>
-        </div>
+        @Html.Partial("_SectionHeader", "Department By Department Dashboard")
         <div id="content2">
             <div class="demo-container">
                 <div id="placeholder2" class="demo-placeholder">Organics Expiring Inventory</div>
