@@ -1,0 +1,545 @@
+﻿@model IEnumerable<TMNT.Models.ViewModels.ExpiringStockViewModel>
+
+@{
+    Layout = "";
+}
+
+@{
+    ViewBag.Title = "DeviceVerificationReport";
+}
+
+<link href="../../Content/dataTables.min.css" rel="stylesheet" />
+@Styles.Render("~/Content/css")
+
+<link href="http://www.flotcharts.org/flot/examples/examples.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+    body {
+        font-size:14px;
+    }
+
+    table {
+        font-size:14px;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+    }
+
+    #content {
+        margin: 0;
+        width: 450px;
+        height: 325px;
+    }
+
+    #content2 {
+        margin: 0;
+        width: 450px;
+        height: 325px;
+        padding: 10px;
+    }
+
+    .demo-container {
+        position: relative;
+        height: 300px;
+        margin: 0;
+        background: #fff;
+        border: none;
+        box-shadow: none;
+        width: 475px;
+    }
+
+    #placeholder {
+        width: 450px;
+    }
+
+    #placeholder2 {
+        width: 450px;
+    }
+
+    #menu {
+        position: absolute;
+        top: 20px;
+        left: 625px;
+        bottom: 20px;
+        right: 20px;
+        width: 200px;
+    }
+
+        #menu button {
+            display: inline-block;
+            width: 200px;
+            padding: 3px 0 2px 0;
+            margin-bottom: 4px;
+            background: #eee;
+            border: 1px solid #999;
+            border-radius: 2px;
+            font-size: 14px;
+            -o-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            -ms-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+
+    #description {
+        margin: 15px 10px 20px 10px;
+    }
+
+    #code {
+        display: block;
+        width: 870px;
+        padding: 15px;
+        margin: 10px auto;
+        border: 1px dashed #999;
+        background-color: #f8f8f8;
+        font-size: 16px;
+        line-height: 20px;
+        color: #666;
+    }
+
+    ul {
+        font-size: 10pt;
+    }
+
+        ul li {
+            margin-bottom: 0.5em;
+        }
+
+        ul.options li {
+            list-style: none;
+            margin-bottom: 1em;
+        }
+
+        ul li i {
+            color: #999;
+        }
+
+    table.dataTable thead .sorting {
+        background-image: url("../../Content/images/sort_both.png") !important;
+        background-repeat: no-repeat !important;
+        background-position: center right !important;
+    }
+
+    table.dataTable thead .sorting_asc {
+        background-image: url("../../Content/images/sort_asc.png") !important;
+        background-repeat: no-repeat !important;
+        background-position: center right !important;
+    }
+
+    table.dataTable thead .sorting_desc {
+        background-image: url("../../Content/images/sort_desc.png") !important;
+        background-repeat: no-repeat !important;
+        background-position: center right !important;
+    }
+
+    #section-2 {
+        display: none;
+    }
+
+    #section-3 {
+        display: none;
+    }
+</style>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="~/Content/Images/maxxam2.png" style="height:60px;width:177px;margin-left:15px;" />
+        </div>
+        <div class="text-right container">
+            <h2>
+                Expiring Stock Report - Expiring Within 30 Days
+            </h2>
+        </div>
+    </div><!--/.container-fluid -->
+</nav>
+
+<div class="container loading">
+    <div class="text-center">
+        <h2>Loading the report, please wait..</h2>
+    </div>
+</div>
+
+<div id="section-1" class="container">
+    <div class="col-md-12" style="background-color: lightgrey;">
+        <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Inventory</h4>
+    </div>
+    <table id="table-all" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Type)</th>
+                <th>@Html.DisplayNameFor(model => model.DaysUntilExpired)</th>
+                <th>@Html.DisplayNameFor(model => model.ExpiryDate)</th>
+                <th>@Html.DisplayNameFor(model => model.DateOpened)</th>
+                <th>@Html.DisplayNameFor(model => model.SupplierName)</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Type)</th>
+                <th>@Html.DisplayNameFor(model => model.DaysUntilExpired)</th>
+                <th>@Html.DisplayNameFor(model => model.ExpiryDate)</th>
+                <th>@Html.DisplayNameFor(model => model.DateOpened)</th>
+                <th>@Html.DisplayNameFor(model => model.SupplierName)</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="container">
+    <div class="col-md-6">
+        <div class="col-md-12" style="background-color: lightgrey;">
+            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">All Expiring Inventory Dashboard</h4>
+        </div>
+        <div id="content">
+            <div class="demo-container">
+                <div id="placeholder" class="demo-placeholder">All Departments</div>
+                <img src="~/Content/Images/bluespinner.gif" alt="" class="loading" style="margin-top:-200px;margin-left:175px;" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-12" style="background-color: lightgrey;">
+            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Department By Department Dashboard</h4>
+        </div>
+        <div id="content2">
+            <div class="demo-container">
+                <div id="placeholder2" class="demo-placeholder">Organics Expiring Inventory</div>
+                <img src="~/Content/Images/bluespinner.gif" alt="" class="loading" style="margin-top:-200px;margin-left:175px;" />
+            </div>
+        </div>
+        <div id="content3">
+            <div class="demo-container">
+                <div id="placeholder3" class="demo-placeholder">Inorganics Expiring Inventory</div>
+                <img src="~/Content/Images/bluespinner.gif" alt="" class="loading" style="margin-top:-200px;margin-left:175px;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer" style="position:relative;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;">
+    <div class="container">
+        <p class="text-muted col-md-9"><span>Requested by: @ViewBag.User</span></p>
+        <p class="text-muted col-md-3">Requested on: <span id="date"></span></p>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/js")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/datatables")
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
+<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.pie.js"></script>
+
+<script>
+    $(function () {
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        $('#date').text(date.getFullYear() + "-" + ('0' + date.getDate()).slice(-2) + "-" + ('0' + month).slice(-2));
+
+        var json;
+        var tableAll = $('#table-all');
+        var tableVolumetric = $('#table-volumetric');
+        var tableBalance = $('#table-balance');
+
+        var balances = [], volumes = [];
+
+        //on success, set table to show all data
+        function onDataReceived(data) {
+            json = data;
+            //filling all table
+            var text = "";
+            $.each(json, function (i, row) {
+                text += "<tr>" +
+                            "<td>" + row.Type + "</td>" +
+                            "<td>" + row.DaysUntilExpired + "</td>" +
+                            "<td>" + row.ExpiryDate + "</td>" +
+                            "<td>" + row.DateOpened + "</td>" +
+                            "<td>" + row.SupplierName + "</td>" +
+                        "</tr>";
+            });
+            tableAll.append(text);
+            return true;
+        }
+
+        //ajax call
+        var getAjaxData = $.ajax({
+            type: "GET",
+            url: '@Url.Action("ExpiringInventoryReportInformation", "Reports")',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+                $('.loading').show();
+            },
+            complete: function () {
+                $('.loading').hide();
+            },
+            success: onDataReceived,
+            error:
+                function (xhr, status, error) {
+                    console.log("error");
+                }
+        });
+
+        //promise - once data is loaded, load datatables
+        $.when(getAjaxData).done(function (x) {
+            // Setup - add a text input to each footer cell
+            $('#table-all tfoot th').each(function () {
+                var title = $('#table-all thead th').eq($(this).index()).text();
+                $(this).html('<input type="text" style="width:209px;font-size:14px;padding-left:2px;" placeholder="Search ' + title + '" />');
+            });
+            //all data
+            var datatable = $('#table-all').DataTable({
+                "pageLength": 10,
+                "order": [[0, "asc"]],
+                "columns": [
+                    { "fields": "Type" },
+                    { "fields": "DaysUntilExpired" },
+                    { "fields": "ExpiryDate" },
+                    { "fields": "DateOpened" },
+                    { "fields": "SupplierName" }
+                ],
+                "aoColumnDefs": [
+                    { 'bSortable': true, 'aTargets': [0] }
+                ]
+            });
+
+            datatable.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
+            });
+        });
+
+        var data = [], organicsData = [], inorganicsData = [], series;
+
+        $.when(getAjaxData).done(function (x) {
+            //getting all device verification data
+            var IntermediateStandardExpired = 0, ReagentExpired = 0, StandardExpired = 0, OrganicsIntermediateStandardExpired = 0, OrganicsReagentExpired = 0, OrganicsStandardExpired = 0,
+                InorganicsIntermediateStandardExpired = 0, InorganicsReagentExpired = 0, InorganicsStandardExpired = 0;
+            for (var i = 0; i < json.length; i++) {
+                var item = json[i];
+                console.log(item.Department);
+
+                if (item.Type === "Intermediate Standard") {
+                    if (item.Department === "Organics") {
+                        OrganicsIntermediateStandardExpired++;
+                    } else if (item.Department === "Inorganics") {
+                        InorganicsIntermediateStandardExpired++;
+                    }
+                    IntermediateStandardExpired++;
+                } else if (item.Type === "Standard") {
+                    if (item.Department === "Organics") {
+                        OrganicsStandardExpired++;
+                    } else if (item.Department === "Inorganics") {
+                        InorganicsStandardExpired++;
+                    }
+                    StandardExpired++;
+                } else if (item.Type === "Reagent") {
+                    if (item.Department === "Organics") {
+                        OrganicsReagentExpired++;
+                    } else if (item.Department === "Inorganics") {
+                        InorganicsReagentExpired++;
+                    }
+                    ReagentExpired++;
+                }
+            }
+
+            data = [
+                { label: "Intermediate Standard Expiring", data: IntermediateStandardExpired },
+                { label: "Standard Expiring", data: StandardExpired },
+                { label: "Reagent Expiring", data: ReagentExpired }
+            ], series = data.length;
+
+            organicsData = [
+                { label: "Intermediate Standard Expiring", data: OrganicsIntermediateStandardExpired },
+                { label: "Standard Expiring", data: OrganicsStandardExpired },
+                { label: "Reagent Expiring", data: OrganicsReagentExpired }
+            ], series = organicsData.length;
+
+            inorganicsData = [
+                { label: "Intermediate Standard Expiring", data: InorganicsIntermediateStandardExpired },
+                { label: "Standard Expiring", data: InorganicsStandardExpired },
+                { label: "Reagent Expiring", data: InorganicsReagentExpired }
+            ], series = inorganicsData.length;
+
+            var placeholder = $("#placeholder");
+            var placeholder2 = $("#placeholder2");
+            var placeholder3 = $("#placeholder3");
+
+            if (inorganicsData[0].data === 0 && inorganicsData[1].data === 0 && inorganicsData[2].data === 0) {
+                $('#no-data-message').text("No data!");
+            } else {
+                console.log("hit");
+                $.plot(placeholder3, inorganicsData, {
+                    series: {
+                        pie: {
+                            show: true,
+                            radius: 3 / 4,
+                            label: {
+                                show: true,
+                                radius: 3 / 4,
+                                formatter: labelFormatter,
+                                background: {
+                                    opacity: 0.5,
+                                    color: "#000"
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        show: false
+                    }
+                });
+            }
+
+            $.plot(placeholder, data, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 3 / 4,
+                        label: {
+                            show: true,
+                            radius: 3 / 4,
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.5,
+                                color: "#000"
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            });
+
+            $.plot(placeholder2, organicsData, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 3 / 4,
+                        label: {
+                            show: true,
+                            radius: 3 / 4,
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.5,
+                                color: "#000"
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            });
+
+            setCode([
+                "$.plot('#placeholder', data, {",
+                "    series: {",
+                "        pie: {",
+                "            show: true,",
+                "            radius: 3/4,",
+                "            label: {",
+                "                show: true,",
+                "                radius: 3/4,",
+                "                formatter: labelFormatter,",
+                "                background: {",
+                "                    opacity: 0.5,",
+                "                    color: '#000'",
+                "                }",
+                "            }",
+                "        }",
+                "    },",
+                "    legend: {",
+                "        show: false",
+                "    }",
+                "});"
+            ]);
+
+            setCode([
+                    "$.plot('#placeholder2', organicsData, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 3/4,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 3/4,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.5,",
+                    "                    color: '#000'",
+                    "                }",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+            ]);
+
+            setCode([
+                    "$.plot('#placeholder3', inorganicsData, {",
+                    "    series: {",
+                    "        pie: {",
+                    "            show: true,",
+                    "            radius: 3/4,",
+                    "            label: {",
+                    "                show: true,",
+                    "                radius: 3/4,",
+                    "                formatter: labelFormatter,",
+                    "                background: {",
+                    "                    opacity: 0.5,",
+                    "                    color: '#000'",
+                    "                }",
+                    "            }",
+                    "        }",
+                    "    },",
+                    "    legend: {",
+                    "        show: false",
+                    "    }",
+                    "});"
+            ]);
+        });
+
+    });
+
+    // A custom label formatter used by several of the plots
+
+    function labelFormatter(label, series) {
+        return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+    }
+
+    function setCode(lines) {
+        $("#code").text(lines.join("\n"));
+    }
+</script>
