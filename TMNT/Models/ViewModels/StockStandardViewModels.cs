@@ -30,9 +30,6 @@ namespace TMNT.Models.ViewModels {
 
     public class StockStandardCreateViewModel {
         public int StockStandardId { get; set; }
-        //stock standard properties
-        //[Required(ErrorMessage = "{0} is Required"), Display(Name = "ID Code")]
-        //public string IdCode { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
         [Display(Name = "Date Opened")]
@@ -59,9 +56,6 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
         public DateTime DateReceived { get; set; }
 
-        //properties to help with views and have nothing to do with the db
-        //public bool IsExpired { get; set; }
-        //public bool IsOpened { get; set; }
         public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory properties

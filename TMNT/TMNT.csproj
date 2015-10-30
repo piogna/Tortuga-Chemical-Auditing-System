@@ -317,6 +317,7 @@
     <Compile Include="Models\ViewModels\IntermediateStandardViewModels.cs" />
     <Compile Include="Models\ViewModels\MaxxamMadeReagentViewModel.cs" />
     <Compile Include="Models\ViewModels\MaxxamMadeStandardViewModel.cs" />
+    <Compile Include="Models\ViewModels\ReportViewModels.cs" />
     <Compile Include="Models\ViewModels\StockReagentViewModels.cs" />
     <Compile Include="Models\ViewModels\StockStandardViewModels.cs" />
     <Compile Include="Models\ViewModels\WorkingStandardViewModel.cs" />
@@ -541,6 +542,7 @@
     <Content Include="Views\Account\InsufficientPrivileges.cshtml" />
     <Content Include="Views\Feedback\Create.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
+    <Content Include="Views\Reports\ExpiringStockReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

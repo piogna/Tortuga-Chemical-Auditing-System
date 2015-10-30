@@ -1,9 +1,12 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using TMNT.Models;
-using Microsoft.AspNet.Identity;
 using TMNT.Models.Repository;
 using TMNT.Filters;
+using Newtonsoft.Json;
+using System;
+using TMNT.Utils;
+using TMNT.Models.ViewModels;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -20,13 +23,14 @@ namespace TMNT.Controllers {
 
         [Route("Report/LowStockReport")]
         public ActionResult LowStockReport() {
-            //List<InventoryItem> items = new InventoryItemRepository()
-            //    .Get()
-            //    .Where(item => item.StockReagent != null || item.StockStandard != null)
-            //    .OrderBy(item => item.Amount)
-            //    .ToList();
+            return View();
+        }
 
-            //return View("LowStockReport", items);
+        [Route("Report/ExpiringStockReport")]
+        public ActionResult ExpiringStockReport() {
+            var user = Helpers.HelperMethods.GetCurrentUser();
+            ViewBag.User = user.FirstName + " " + user.LastName;
+
             return View();
         }
 
@@ -37,10 +41,51 @@ namespace TMNT.Controllers {
 
         [Route("Report/DeviceVerificationReport")]
         public ActionResult DeviceVerificationReport() {
-            string currentUserId = User.Identity.GetUserId();
-            var user = new ApplicationDbContext().Users.FirstOrDefault(x => x.Id == currentUserId);
+            var user = Helpers.HelperMethods.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
+
             return View(new DeviceRepository().Get().ToList());
+        }
+
+        [Route("Report/DeviceReportInformation")]
+        public ActionResult DeviceReportInformation() {
+            var devices = new DeviceRepository().Get().ToList();
+
+            var output = devices
+                .Select(item => new {
+                    item.DeviceType,
+                    item.DeviceCode,
+                    item.Department.DepartmentName,
+                    item.IsVerified,
+                    item.Status
+                });
+            
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
+        [Route("Report/ExpiringInventoryReportInformation")]
+        public ActionResult ExpiringInventoryReportInformation() {
+            var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+                .Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today))
+                .Select(item => new ExpiringStockViewModel() {
+                    DaysUntilExpired = item.ExpiryDate == null 
+                        ? "TBD" :
+                            (item.ExpiryDate - DateTime.Today).Value.Days == 0
+                                ? "Expires Today"
+                                : (item.ExpiryDate - DateTime.Today).Value.Days.ToString(),
+                    Type = item.Type,
+                    ExpiryDate = item.ExpiryDate == null
+                                ? "TBD"
+                                : item.ExpiryDate.ToString().Split(' ')[0],
+                    DateOpened = item.DateOpened == null ?
+                                    "TBD" :
+                                    item.DateOpened.ToString().Split(' ')[0],
+                    SupplierName = item.SupplierName,
+                    Department = item.Department.DepartmentName
+                })
+                .ToList();
+
+            return Json(expiringInventory, JsonRequestBehavior.AllowGet);
         }
     }
 }

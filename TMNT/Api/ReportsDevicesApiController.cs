@@ -33,18 +33,6 @@ namespace TMNT.Api {
                     device.Department = db.Departments.Where(item => item.DepartmentId == department.DepartmentId).First();
                 }
             }
-            //List<Device> deviceDataToSend = new List<Device>();
-
-            //foreach (var item in devices) {
-            //    deviceDataToSend.Add(new Device() {
-            //        //Department = item.Department,
-            //        DeviceCode = item.DeviceCode,
-            //        DeviceType = item.DeviceType,
-            //        Status = item.Status,
-            //        IsVerified = item.IsVerified,
-            //        DeviceVerifications = item.DeviceVerifications.ToList()
-            //    });
-            //}
 
             if (devices == null) {
                 return NotFound();

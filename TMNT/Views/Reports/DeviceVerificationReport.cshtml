@@ -190,9 +190,9 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
                 <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
                 <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
+                @*<th>Device Verifications Count</th>*@
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
             </tr>
         </thead>
@@ -201,65 +201,14 @@
             <tr>
                 <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
                 <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
+                <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
                 <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
+                @*<th>Device Verifications Count</th>*@
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
             </tr>
         </tfoot>
     </table>
 </div>
-
-@*<div id="section-2" class="container">
-    <table id="table-volumetric" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
-                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
-                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-            </tr>
-        </thead>
-
-        <tfoot>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
-                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
-                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-            </tr>
-        </tfoot>
-    </table>
-</div>
-
-<div id="section-3" class="container">
-    <table id="table-balance" class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
-                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
-                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.DeviceType)</th>
-                <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-                <th>@Html.DisplayNameFor(model => model.Department.DepartmentCode)</th>
-                <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-                <th>Device Verifications Count</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-            </tr>
-        </tfoot>
-    </table>
-</div>*@
 
 <div class="container">
     <div class="col-md-6">
@@ -330,9 +279,9 @@
                 text += "<tr>" +
                             "<td>" + row.DeviceType + "</td>" +
                             "<td>" + row.DeviceCode + "</td>" +
-                            "<td>" + row.Department.DepartmentCode + "</td>" +
+                            "<td>" + row.DepartmentName + "</td>" +
                             "<td>" + row.IsVerified + "</td>" +
-                            "<td>" + row.DeviceVerifications.length + "</td>" +
+                            //"<td>" + row.DeviceVerifications.length + "</td>" +
                             "<td>" + row.Status + "</td>" +
                         "</tr>";
             });
@@ -345,9 +294,9 @@
                     text += "<tr>" +
                                 "<td>" + row.DeviceType + "</td>" +
                                 "<td>" + row.DeviceCode + "</td>" +
-                                "<td>" + row.Department.DepartmentCode + "</td>" +
+                                "<td>" + row.DepartmentName + "</td>" +
                                 "<td>" + row.IsVerified + "</td>" +
-                                "<td>" + row.DeviceVerifications.length + "</td>" +
+                                //"<td>" + row.DeviceVerifications.length + "</td>" +
                                 "<td>" + row.Status + "</td>" +
                             "</tr>";
                     volumes.push(row);
@@ -362,9 +311,9 @@
                     text += "<tr>" +
                                 "<td>" + row.DeviceType + "</td>" +
                                 "<td>" + row.DeviceCode + "</td>" +
-                                "<td>" + row.Department.DepartmentCode + "</td>" +
+                                "<td>" + row.DepartmentName + "</td>" +
                                 "<td>" + row.IsVerified + "</td>" +
-                                "<td>" + row.DeviceVerifications.length + "</td>" +
+                                //"<td>" + row.DeviceVerifications.length + "</td>" +
                                 "<td>" + row.Status + "</td>" +
                             "</tr>";
                     balances.push(row);
@@ -377,7 +326,8 @@
         //ajax call
         var getAjaxData = $.ajax({
             type: "GET",
-            url: "http://localhost:1413/api/reportsdevicesapi",
+            url: '@Url.Action("DeviceReportInformation", "Reports")',
+            contentType: "application/json; charset=utf-8",
             dataType: "json",
             beforeSend: function () {
                 $('.loading').show();
@@ -388,31 +338,44 @@
             success: onDataReceived,
             error:
                 function (xhr, status, error) {
-                    //$('.loading').show()//.text("Error loading the report. Please try again shortly.")
-                    alert("There was an error while retrieving the report. Please try again shortly.")
+                    console.log("error");
                 }
-            //    function (xhr, status, error) {
-            //    alert(xhr.responseText);
-            //}
         });
 
-        //promise - once data is laoded, load datatables
+        //promise - once data is loaded, load datatables
         $.when(getAjaxData).done(function (x) {
+            // Setup - add a text input to each footer cell
+            $('#table-all tfoot th').each(function () {
+                var title = $('#table-all thead th').eq($(this).index()).text();
+                $(this).html('<input type="text" style="width:209px;" placeholder="Search ' + title + '" />');
+            });
             //all data
-            $('#table-all').dataTable({
+            var datatable = $('#table-all').DataTable({
                 "pageLength": 10,
                 "order": [[0, "asc"]],
                 "columns": [
                     { "fields": "Type" },
                     { "fields": "DeviceCode" },
-                    { "fields": "DepartmentCode" },
+                    { "fields": "DepartmentName" },
                     { "fields": "IsVerified" },
-                    { "fields": "Device Verification Count" },
+                    //{ "fields": "Device Verification Count" },
                     { "fields": "Status" }
                 ],
                 "aoColumnDefs": [
                     { 'bSortable': true, 'aTargets': [0] }
                 ]
+            });
+
+            datatable.columns().every(function () {
+                var that = this;
+
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that
+                            .search(this.value)
+                            .draw();
+                    }
+                });
             });
 
             //volemtric table only
