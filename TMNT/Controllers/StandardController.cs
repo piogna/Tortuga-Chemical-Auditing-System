@@ -56,35 +56,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-
-            //old Standard Index code. DO NOT DELETE FOR REFERENCE.
-
-            //var standards = repoStandard.Get();
-            //List<StockStandardIndexViewModel> list = new List<StockStandardIndexViewModel>();
-
-            //foreach (var item in standards) {
-            //    list.Add(new StockStandardIndexViewModel() {
-            //        StockStandardId = item.StockStandardId,
-            //        LotNumber = item.LotNumber,
-            //        StockStandardName = item.StockStandardName,
-            //        IdCode = item.IdCode
-            //    });
-            //}
-            ////iterating through the associated InventoryItem and retrieving the appropriate data
-            ////this is faster than LINQ
-            //int counter = 0;
-            //foreach (var standard in standards) {
-            //    foreach (var invItem in standard.InventoryItems) {
-            //        if (standard.StockStandardId == invItem.StockStandard.StockStandardId) {
-            //            list[counter].ExpiryDate = invItem.ExpiryDate;
-            //            list[counter].DateOpened = invItem.DateOpened;
-            //            list[counter].DateCreated = invItem.DateCreated;
-            //            list[counter].CreatedBy = invItem.CreatedBy;
-            //            list[counter].DateModified = invItem.DateModified;
-            //        }
-            //    }
-            //    counter++;
-            //}
             return View(lStandards);
         }
 
@@ -126,11 +97,9 @@ namespace TMNT.Controllers {
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
-                    //vStandard.Unit = invItem.Unit;
                     vStandard.Department = invItem.Department;
                     vStandard.CatalogueCode = invItem.CatalogueCode;
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
-                    //vStandard.AllMSDS = invItem.MSDS.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vStandard.SupplierName = invItem.SupplierName;
                     vStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
@@ -180,7 +149,6 @@ namespace TMNT.Controllers {
             }
 
             var devicesUsed = Request.Form["Devices"];
-            var deviceRepo = new DeviceRepository();
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
             var numOfItems = new InventoryItemRepository().Get().Count();
@@ -191,108 +159,11 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            //last line of defense for number of bottles
-            if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
-
-            if (devicesUsed.Contains(",")) {
-                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
-                model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
-            } else {
-                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
-            }
-
-            model.InitialAmountUnits = AmountUnit[0];
-            model.InitialConcentrationUnits = ConcentrationUnit[0];
-
-            if (AmountUnit.Length > 1) {
-                model.InitialAmountUnits += "/" + AmountUnit[1];
-            }
-
-            if (ConcentrationUnit.Length > 1) {
-                model.InitialConcentrationUnits += "/" + ConcentrationUnit[1];
-            }
-
-            if (uploadCofA != null) {
-                var cofa = new CertificateOfAnalysis() {
-                    FileName = uploadCofA.FileName,
-                    ContentType = uploadCofA.ContentType,
-                    DateAdded = DateTime.Today
-                };
-
-                using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
-                    cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
-                }
-                model.CertificateOfAnalysis = cofa;
-            }
-
-            if (uploadMSDS != null) {
-                var msds = new MSDS() {
-                    FileName = uploadMSDS.FileName,
-                    ContentType = uploadMSDS.ContentType,
-                    DateAdded = DateTime.Today,
-                    MSDSNotes = model.MSDSNotes
-                };
-                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
-                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
-                }
-                model.MSDS = msds;
-            }
-
-            InventoryItem inventoryItem = new InventoryItem() {
-                CatalogueCode = model.CatalogueCode.ToUpper(),
-                Department = department,
-                UsedFor = model.UsedFor,
-                CreatedBy = user.UserName,
-                ExpiryDate = model.ExpiryDate,
-                DateReceived = model.DateReceived,
-                DateCreated = DateTime.Today,
-                DateModified = null,
-                Type = "Standard",
-                FirstDeviceUsed = model.DeviceOne,
-                SecondDeviceUsed = model.DeviceTwo,
-                StorageRequirements = model.StorageRequirements,
-                SupplierName = model.SupplierName,
-                NumberOfBottles = model.NumberOfBottles,
-                InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
-                DaysUntilExpired = model.DaysUntilExpired
-            };
-
-            inventoryItem.MSDS.Add(model.MSDS);
-            inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
+            model = BuildReagentOrStandard.BuildStandard(model, devicesUsed, AmountUnit, ConcentrationUnit, uploadCofA, uploadMSDS);
+            InventoryItem inventoryItem = BuildReagentOrStandard.BuildStandardInventoryItem(model, department, user);
 
             StockStandard createStandard = null;
-            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
-
-            if (model.NumberOfBottles > 1) {
-                for (int i = 1; i <= model.NumberOfBottles; i++) {
-                    createStandard = new StockStandard() {
-                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
-                        LotNumber = model.LotNumber,
-                        StockStandardName = model.StockStandardName,
-                        Purity = model.Purity,
-                        SolventUsed = model.SolventUsed,
-                        Concentration = model.Concentration.ToString() + " " 
-                    };
-
-                    createStandard.InventoryItems.Add(inventoryItem);
-                    result = repo.Create(createStandard);
-
-                    //creation wasn't successful - break from loop and let switch statement handle the problem
-                    if (result != CheckModelState.Valid) { break; }
-                }
-            } else {
-                createStandard = new StockStandard() {
-                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
-                    LotNumber = model.LotNumber,
-                    StockStandardName = model.StockStandardName,
-                    Purity = model.Purity,
-                    SolventUsed = model.SolventUsed,
-                    Concentration = model.Concentration.ToString() + " " + model.InitialConcentrationUnits
-                };
-
-                createStandard.InventoryItems.Add(inventoryItem);
-                result = repo.Create(createStandard);
-            }
+            CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department);
 
             switch (result) {
                 case CheckModelState.Invalid:
