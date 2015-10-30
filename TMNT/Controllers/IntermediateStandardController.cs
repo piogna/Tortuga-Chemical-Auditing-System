@@ -49,32 +49,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-
-            //old Intermediate Standard Index code. DO NOT DELETE FOR REFERENCE.
-
-            //var intermediatestandards = repo.Get();
-            //var list = new List<IntermediateStandardIndexViewModel>();
-
-            //foreach (var item in intermediatestandards) {
-            //    list.Add(new IntermediateStandardIndexViewModel() {
-            //        IntermediateStandardId = item.IntermediateStandardId,
-            //        IdCode = item.IdCode,
-            //        MaxxamId = item.MaxxamId
-            //    });
-            //}
-            ////iterating through the associated InventoryItem and retrieving the appropriate data
-            ////this is faster than LINQ
-            //int counter = 0;
-            //foreach (var standard in intermediatestandards) {
-            //    foreach (var invItem in standard.InventoryItems) {
-            //        if (standard.IntermediateStandardId == invItem.IntermediateStandard.IntermediateStandardId) {
-            //            list[counter].ExpiryDate = invItem.ExpiryDate;
-            //            list[counter].DateCreated = invItem.DateCreated;
-            //            list[counter].CreatedBy = invItem.CreatedBy;
-            //        }
-            //    }
-            //    counter++;
-            //}
             return View(lIntStandards);
         }
 
@@ -192,7 +166,6 @@ namespace TMNT.Controllers {
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
-            var inventoryItemRepo = new InventoryItemRepository();
             var numOfItems = new InventoryItemRepository().Get().Count();
 
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
@@ -234,19 +207,6 @@ namespace TMNT.Controllers {
 
             //loop through all items used and list all items as "opened" if they're not already open
             //if the expiry date hasn't been set yet, set it with the "days until expired" property provided from the "Create" form
-            //foreach (var item in reagentAndStandardContainer) {
-            //    var invItem = item as InventoryItem;
-
-            //    if (invItem.DateOpened == null) {
-            //        invItem.DateOpened = DateTime.Today;
-            //    }
-
-            //    if (invItem.ExpiryDate == null) {
-            //        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
-            //    }
-            //    inventoryItemRepo.Update(invItem);
-            //}
-
             //building the prep list with the desired prep list items
             UnitRepository unitRepo = new UnitRepository(DbContextSingleton.Instance);
             int counter = 0;
@@ -262,7 +222,7 @@ namespace TMNT.Controllers {
                     if (invItem.ExpiryDate == null) {
                         invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
                     }
-                    inventoryItemRepo.Update(invItem);
+                    invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
@@ -279,7 +239,7 @@ namespace TMNT.Controllers {
                     if (invItem.ExpiryDate == null) {
                         invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
                     }
-                    inventoryItemRepo.Update(invItem);
+                    invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
@@ -296,7 +256,7 @@ namespace TMNT.Controllers {
                     if (invItem.ExpiryDate == null) {
                         invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
                     }
-                    inventoryItemRepo.Update(invItem);
+                    invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         IntermediateStandard = item as IntermediateStandard,
