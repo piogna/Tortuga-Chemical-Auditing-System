@@ -9,7 +9,7 @@ namespace TMNT.Models.ViewModels {
         public string IdCode { get; set; }
         [Display(Name = "Standard Name")]
         public string StockStandardName { get; set; }
-        [Display(Name = "Date Opened")]
+        [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
