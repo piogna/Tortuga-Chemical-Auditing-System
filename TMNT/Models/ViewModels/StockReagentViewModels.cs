@@ -109,10 +109,6 @@ namespace TMNT.Models.ViewModels {
         public int? DaysUntilExpired { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
         public DateTime DateReceived { get; set; }
-
-        //properties to help with views and have nothing to do with the db
-        //public bool IsExpired { get; set; }
-        //public bool IsOpened { get; set; }
         public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory poperties

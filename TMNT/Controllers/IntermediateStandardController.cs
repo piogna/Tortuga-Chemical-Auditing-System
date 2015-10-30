@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TMNT.Filters;
 using TMNT.Helpers;
@@ -115,7 +114,6 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.CreatedBy = invItem.CreatedBy;
                     vIntermediateStandard.DateModified = invItem.DateModified;
                     vIntermediateStandard.Department = invItem.Department;
-                    //vIntermediateStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
                     vIntermediateStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
                     vIntermediateStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
@@ -140,7 +138,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,MaxxamId,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -195,6 +193,7 @@ namespace TMNT.Controllers {
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
             var inventoryItemRepo = new InventoryItemRepository();
+            var numOfItems = new InventoryItemRepository().Get().Count();
 
             InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
@@ -318,7 +317,7 @@ namespace TMNT.Controllers {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
                 FinalVolume = model.FinalVolume,
-                MaxxamId = model.MaxxamId,
+                MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
                 IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
@@ -338,7 +337,8 @@ namespace TMNT.Controllers {
                 ExpiryDate = model.ExpiryDate,
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
-                InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits
+                InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
+                DaysUntilExpired = model.DaysUntilExpired
             };
 
             //creating the prep list and the intermediate standard

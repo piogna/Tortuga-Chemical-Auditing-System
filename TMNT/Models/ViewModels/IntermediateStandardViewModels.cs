@@ -73,8 +73,6 @@ namespace TMNT.Models.ViewModels {
         public string Replaces { get; set; }
         [Display(Name = "Replaced By")]
         public string ReplacedBy { get; set; }
-        //[Display(Name = "ID Code")]
-        //public string IdCode { get; set; }
         [Display(Name = "Final Concentration")]
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]
@@ -93,17 +91,16 @@ namespace TMNT.Models.ViewModels {
         public string TotalAmountUnits { get; set; }
         public string FinalConcentrationUnits { get; set; }
 
-        //properties to help with views and have nothing to do with the db
-        public bool IsExpired { get; set; }
-        public bool IsOpened { get; set; }
-
         //inventory poperties
+        public bool IsExpiryDateBasedOnDays { get; set; }
         [Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
         public DateTime? ExpiryDate { get; set; }
+        [Display(Name = "Days Until Expired")]
+        public int? DaysUntilExpired { get; set; }
         public string InventoryItemName { get; set; }
         [Required]
         public int TotalAmount { get; set; }
