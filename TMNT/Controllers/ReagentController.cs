@@ -293,8 +293,9 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            
+            var user = HelperMethods.GetCurrentUser();
             var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (ModelState.IsValid) {
                 var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
 
@@ -304,7 +305,7 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
+                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
 
                 repo.Update(updateReagent);
 
@@ -384,7 +385,7 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        public StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
+        private StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
 

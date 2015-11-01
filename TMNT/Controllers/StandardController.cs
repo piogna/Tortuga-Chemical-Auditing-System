@@ -235,6 +235,7 @@ namespace TMNT.Controllers {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = new InventoryItemRepository();
+                var user = HelperMethods.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
@@ -244,7 +245,7 @@ namespace TMNT.Controllers {
                 updateStandard.StockStandardName = stockstandard.StockStandardName;
                 updateStandard.IdCode = stockstandard.IdCode;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
+                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
 
                 repo.Update(updateStandard);
 
@@ -323,7 +324,7 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        public StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
+        private StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
 

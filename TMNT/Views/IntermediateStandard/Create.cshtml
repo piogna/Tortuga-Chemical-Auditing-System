@@ -65,6 +65,29 @@
         option[disabled] {
             color: #bbb;
         }
+
+        .tab {
+            cursor: pointer;
+            border: 1px solid #cfcfcf;
+            padding: 6px 0 6px 0;
+            margin-bottom: 10px;
+        }
+
+        .tab-unselected {
+            background: #cfcfcf;
+        }
+
+        .tab-selected {
+            border-bottom: none;
+        }
+
+        #solvent-input-container > .input-group {
+            width: 100%;
+        }
+
+        .solvent-input-container-display {
+            display: none;
+        }
     </style>
 }
 
@@ -108,90 +131,116 @@
                                 <div class="alert alert-grey no-border-radius prep-list-wrapper">
                                     <h4 class="text-center">Prep List Item</h4>
                                     <hr />
-                                    <div class="form-group zero-left-right-margin">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select name="Chemical Type" id="ChemicalType" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
-                                                <option value="">Choose Chemical Type</option>
-                                                <optgroup label="Item Type">
-                                                    @foreach (var item in Model.ChemicalTypes) {
-                                                        <option value="@item">
-                                                            @item
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                            </select>
+                                    <!-- tabs to show either compounds or solvents/acids -->
+                                    @*<div class="col-md-6 tab tab-selected text-center" id="compounds">Compounds</div>
+                                    <div class="col-md-6 tab tab-unselected text-center" id="solvents">Solvents/Acids</div>*@
+                                    <div id="compound-section">
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select name="Chemical Type" id="ChemicalType" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                    <option value="">Choose Chemical Type</option>
+                                                    <optgroup label="Item Type">
+                                                        @foreach (var item in Model.ChemicalTypes) {
+                                                            <option value="@item">
+                                                                @item
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                    <option class="opt-label" value="">Select a Chemical Type First</option>
+                                                    <optgroup class="opt opt-reagent" label="Reagents">
+                                                        @foreach (var item in Model.StockReagents) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber - Expired</option>
+                                                            } else {
+                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup class="opt opt-standard" label="Standards">
+                                                        @foreach (var item in Model.StockStandards) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber - Expired</option>
+                                                            } else {
+                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup class="opt opt-int-standard" label="Intermediate Standards">
+                                                        @foreach (var item in Model.IntermediateStandards) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId - Expired</option>
+                                                            } else {
+                                                                <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                                    <optgroup label="Weights">
+                                                        @foreach (var item in Model.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in Model.VolumetricUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <a href="#" id="another-item" class="btn btn-primary">Add Item</a>
                                         </div>
                                     </div>
-                                    <div class="form-group zero-left-right-margin">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
-                                                <option class="opt-label" value="">Select a Chemical Type First</option>
-                                                <optgroup class="opt opt-reagent" label="Reagents">
-                                                    @foreach (var item in Model.StockReagents) {
-                                                        if (item.ExpiryDate < DateTime.Today) {
-                                                            <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber - Expired</option>
-                                                        } else {
-                                                            <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
-                                                        }
-                                                    }
-                                                </optgroup>
-                                                <optgroup class="opt opt-standard" label="Standards">
-                                                    @foreach (var item in Model.StockStandards) {
-                                                        if (item.ExpiryDate < DateTime.Today) {
-                                                            <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber - Expired</option>
-                                                        } else {
-                                                            <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
-                                                        }
-                                                    }
-                                                </optgroup>
-                                                <optgroup class="opt opt-int-standard" label="Intermediate Standards">
-                                                    @foreach (var item in Model.IntermediateStandards) {
-                                                        if (item.ExpiryDate < DateTime.Today) {
-                                                            <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId - Expired</option>
-                                                        } else {
-                                                            <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId</option>
-                                                        }
-                                                    }
-                                                </optgroup>
-                                            </select>
+                                    <!-- Solvents/Acids -->
+                                    @*<div id="solvent-section">
+                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input">
+                    <div class="input-group">
+                        <div class="input-group-addon"></div>
+                        <select name="Solvents" id="SolventAcid" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                            <option value="">Choose Chemical Type</option>
+                            <optgroup label="Item Type">
+                                <option value="Solvent">Solvent</option>
+                                <option value="Acid">Acid</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
 
-                                        </div>
-                                    </div>
-                                    <div class="form-group zero-left-right-margin">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group zero-left-right-margin">
-                                        <div class="input-group">
-                                            <div class="input-group-addon"></div>
-                                            <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
-                                                <optgroup label="Weights">
-                                                    @foreach (var item in Model.WeightUnits) {
-                                                        <option value="@item.UnitId">
-                                                            @item.UnitShorthandName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                                <optgroup label="Volumes">
-                                                    @foreach (var item in Model.VolumetricUnits) {
-                                                        <option value="@item.UnitId">
-                                                            @item.UnitShorthandName
-                                                        </option>
-                                                    }
-                                                </optgroup>
-                                                <optgroup label="Other">
-                                                    <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
-                                                </optgroup>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group zero-left-right-margin">
-                                        <a href="#" id="another-item" class="btn btn-primary">Add Item</a>
-                                    </div>
+                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input" id="solvent-input-container">
+                    <div class="input-group">
+                        <div class="input-group-addon"></div>
+                        <input name="Solvent" id="Solvent" type="text" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Solvent/Acid Name" />
+                    </div>
+                </div>
+            </div>*@
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -435,6 +484,9 @@
 
     <script>
         $(function () {
+            var compoundsTab = $('#compounds');
+            var solventsTab = $('#solvents');
+
             $(".select2").select2({
                 placeholder: "Devices Used..",
                 allowClear: true,
@@ -455,6 +507,24 @@
                 orientation: "bottom auto",
                 autoclose: true
             });
+
+            //compoundsTab.on("click", function () {
+            //    if (compoundsTab.hasClass("tab-unselected")) {
+            //        compoundsTab.addClass('tab-selected').removeClass('tab-unselected');
+            //        solventsTab.addClass('tab-unselected').removeClass('tab-selected');
+            //        $("#compound-section").css("display", "block");
+            //        $("#solvent-input-container").addClass('solvent-input-container-display');
+            //    }
+            //});
+
+            //solventsTab.on("click", function () {
+            //    if (solventsTab.hasClass("tab-unselected")) {
+            //        solventsTab.addClass('tab-selected').removeClass('tab-unselected');
+            //        compoundsTab.addClass('tab-unselected').removeClass('tab-selected');
+            //        $("#compound-section").css("display", "none");
+            //        $("#solvent-input-container").removeClass('solvent-input-container-display');
+            //    }
+            //});
         });
     </script>
 }

@@ -3,7 +3,6 @@ using System.Web.Mvc;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Filters;
-using Newtonsoft.Json;
 using System;
 using TMNT.Utils;
 using TMNT.Models.ViewModels;

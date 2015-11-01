@@ -122,13 +122,13 @@ namespace TMNT.Controllers {
             }
 
             if (PrepListItemTypes == null || PrepListItemAmounts == null ||  PrepListItemLotNumbers == null) {
-                ModelState.AddModelError("", "The creation of " + model.MaxxamId + " failed. Make sure the Prep List table is complete.");
+                ModelState.AddModelError("", "The creation of the Intermediate Standard failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
             }
             //if all 3 arrays are not of equal length, return to view with an error message
             if (!(PrepListItemAmounts.Length == PrepListItemLotNumbers.Length) || !(PrepListItemLotNumbers.Length == PrepListItemTypes.Length)) {
-                ModelState.AddModelError("", "The creation of " + model.MaxxamId + " failed. Make sure the Prep List table is complete.");
+                ModelState.AddModelError("", "The creation of the Intermediate Standard failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
             }
@@ -358,7 +358,6 @@ namespace TMNT.Controllers {
                     model.ExpiryDate = item.ExpiryDate;
                 }
             }
-
             return View(model);
         }
 
@@ -371,6 +370,7 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+                var user = HelperMethods.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)
@@ -379,14 +379,13 @@ namespace TMNT.Controllers {
                 IntermediateStandard updateStandard = invItem.IntermediateStandard;
                 updateStandard.IdCode = intermediatestandard.IdCode;
                 updateStandard.MaxxamId = intermediatestandard.MaxxamId;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(HelperMethods.GetCurrentUser().UserName) ? HelperMethods.GetCurrentUser().UserName : "USERID";
+                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
 
                 repo.Update(updateStandard);
 
                 invItem.DateModified = DateTime.Today;
                 invItem.ExpiryDate = intermediatestandard.ExpiryDate;
-
-
+                
                 inventoryRepo.Update(invItem);
                 return RedirectToAction("Index");
             }
@@ -416,11 +415,13 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        public IntermediateStandardCreateViewModel SetIntermediateStandard(IntermediateStandardCreateViewModel model) {
+        private IntermediateStandardCreateViewModel SetIntermediateStandard(IntermediateStandardCreateViewModel model) {
+            var department = HelperMethods.GetUserDepartment();
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == HelperMethods.GetUserDepartment().DepartmentId).ToList();
+            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
+
             List<InventoryItem> items = new InventoryItemRepository().Get()
-                .Where(item => item.Department == HelperMethods.GetUserDepartment())
+                .Where(item => item.Department == department)
                 .GroupBy(i => new { i.StockReagent, i.StockStandard, i.IntermediateStandard })
                 .Select(g => g.First())
                 .ToList();
