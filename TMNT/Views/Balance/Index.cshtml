@@ -46,7 +46,7 @@
                     @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
                     @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
                     @if (!@item.IsVerified) {
-                        <text>|</text> @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @style = "color:red;" })
+                        <text>|</text> @Html.ActionLink("Verify", "Verification", new { id = item.BalanceId }, htmlAttributes: new { @class = "text-danger" })
                     }
                 </td>
                 <td>

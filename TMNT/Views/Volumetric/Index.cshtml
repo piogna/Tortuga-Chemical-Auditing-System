@@ -1,27 +1,40 @@
-﻿@model IEnumerable<TMNT.Models.Device>
+﻿@model IEnumerable<TMNT.Models.ViewModels.VolumetricIndexViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            Volumetrics
+        </h1>
+        <ol class="breadcrumb no-border-radius">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-wrench"></i> Devices / <i class="fa fa-circle-o"></i> Volumetrics
+            </li>
+        </ol>
+    </div>
+</div>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("New Volumetric Verification", "VerificationUnspecified", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Add New Volumetric Device", "Create", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
-<table class="table">
+
+<hr />
+
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DeviceCode)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsVerified)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeviceType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
         </th>
         <th></th>
     </tr>
@@ -35,17 +48,71 @@
             @Html.DisplayFor(modelItem => item.IsVerified)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.DeviceType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DeviceId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DeviceId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DeviceId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.VolumetricId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VolumetricId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VolumetricId })
         </td>
     </tr>
 }
 
+</table>*@
+
+<table id="myTable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
+            <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+            <th>Last Verified By</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.VolumetricId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.VolumetricId }) |
+                    @Html.ActionLink("Archive", "Delete", new { id = item.VolumetricId })
+                    @if (!@item.IsVerified) {
+                        <text>|</text> @Html.ActionLink("Verify", "Verification", new { id = item.VolumetricId }, htmlAttributes: new { @class = "text-danger" })
+                    }
+                </td>
+                <td>
+                    @item.DeviceCode
+                </td>
+                <td>
+                    @item.Department.DepartmentName
+                </td>
+                @if (!@item.IsVerified) {
+                    <td class="text-danger">
+                        Not Verified <span class="fa fa-times-circle"></span>
+                    </td>
+                } else {
+                    <td class="text-success">
+                        Verified <span class="fa fa-check-circle"></span>
+                    </td>
+                }
+                @if (@item.LastVerifiedBy == null) {
+                    <td>
+                        N/A
+                    </td>
+                } else {
+                    <td>
+                        @item.LastVerifiedBy
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Action</th>
+            <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
+            <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
+            <th>Last Verified By</th>
+        </tr>
+    </tfoot>
 </table>
+@Scripts.Render("~/datatables")

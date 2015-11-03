@@ -507,7 +507,6 @@
     <Content Include="Views\Supplier\Details.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
-    <Content Include="Views\SyringeTest\Create.cshtml" />
     <Content Include="Views\WorkingStandard\Create.cshtml" />
     <Content Include="Views\WorkingStandard\Delete.cshtml" />
     <Content Include="Views\WorkingStandard\Details.cshtml" />

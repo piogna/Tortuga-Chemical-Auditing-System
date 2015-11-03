@@ -28,6 +28,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: Volumetric
+        [Route("Volumetrics")]
         public ActionResult Index() {
             var department = HelperMethods.GetUserDepartment();
 
@@ -51,8 +52,7 @@ namespace TMNT.Controllers {
                                         .First()
                 });
             }
-
-            return View(repo.Get().ToList());
+            return View(viewModels);
         }
 
         // GET: Volumetric/Details/5
@@ -131,11 +131,11 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing) {
-            if (disposing) {
-                repo.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing) {
+        //    if (disposing) {
+        //        repo.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
