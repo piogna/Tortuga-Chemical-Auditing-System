@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
-    public class BalanceViewModel {
+    public class BalanceVerificationViewModel {
         [Required(ErrorMessage="The balance ID is required"), Display(Name="Balance ID")]
         public int BalanceId { get; set; }
         [Required, Display(Name="Device Code")]
@@ -32,5 +32,16 @@ namespace TMNT.Models.ViewModels {
 
         //for details
         public List<DeviceVerification> DeviceVerifications { get; set; }
+    }
+
+    public class BalanceCreateViewModel {
+        [Display(Name = "Device Code")]
+        public string DeviceCode { get; set; }
+        [Display(Name = "Department Name")]
+        public string DepartmentName { get; set; }
+        [Display(Name = "Sub Department")]
+        public string SubDepartment { get; set; }
+        [Display(Name = "Location Name")]
+        public string LocationName { get; set; }
     }
 }

@@ -64,7 +64,15 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard/Details")) {
+            if (Session["FirstIStandardViewed"] == null) {
+                Session["FirstIStandardViewed"] = intermediatestandard.IntermediateStandardId;
+            }
+
+            //if (Request.UrlReferrer.AbsolutePath.Contains("IntermediateStandard/Details")) {
+            //    ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
+            //}
+
+            if (Convert.ToInt32(Session["FirstIStandardViewed"]) != intermediatestandard.IntermediateStandardId) {
                 ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             }
 

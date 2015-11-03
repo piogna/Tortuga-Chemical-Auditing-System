@@ -30,11 +30,11 @@ namespace TMNT.Controllers {
             var department = HelperMethods.GetUserDepartment();
 
             var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department));
-            var viewModels = new List<BalanceViewModel>();
+            var viewModels = new List<BalanceVerificationViewModel>();
 
             foreach (var item in balances) {
                 CompareDates.SetBalanceToUnverified(item);
-                viewModels.Add(new BalanceViewModel() { 
+                viewModels.Add(new BalanceVerificationViewModel() { 
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
@@ -75,7 +75,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            BalanceViewModel balanceData = new BalanceViewModel() {
+            BalanceVerificationViewModel balanceData = new BalanceVerificationViewModel() {
                 BalanceId = device.DeviceId,
                 Department = device.Department,
                 DeviceCode = device.DeviceCode,
@@ -126,7 +126,7 @@ namespace TMNT.Controllers {
             ViewBag.DeviceCode = balance.DeviceCode;
             ViewBag.SelectedLocation = balance.Department.Location.LocationName;
             
-            return View(new BalanceViewModel() {
+            return View(new BalanceVerificationViewModel() {
                 BalanceId = balance.DeviceId,
                 Location = balance.Department.Location,
                 DeviceCode = balance.DeviceCode
@@ -139,7 +139,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceVerificationViewModel balancetest) {
             string selectedValue = Request.Form["Type"];
             balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
 
