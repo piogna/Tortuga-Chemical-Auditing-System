@@ -208,7 +208,6 @@ namespace TMNT.Controllers {
             //loop through all items used and list all items as "opened" if they're not already open
             //if the expiry date hasn't been set yet, set it with the "days until expired" property provided from the "Create" form
             //building the prep list with the desired prep list items
-            UnitRepository unitRepo = new UnitRepository(DbContextSingleton.Instance);
             int counter = 0;
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
