@@ -429,12 +429,12 @@ namespace TMNT.Controllers {
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             model.OtherUnit = units.Where(item => item.UnitType.Equals("Other")).FirstOrDefault();
-            model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null).ToList();
-            model.StockStandards = items.Where(item => item.StockStandard != null).ToList();
-            model.StockReagents = items.Where(item => item.StockReagent != null).ToList();
+            model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null && item.Department == department).ToList();
+            model.StockStandards = items.Where(item => item.StockStandard != null && item.Department == department).ToList();
+            model.StockReagents = items.Where(item => item.StockReagent != null && item.Department == department).ToList();
 
-            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
-            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department).ToList();
 
             return model;
         }

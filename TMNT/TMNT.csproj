@@ -195,7 +195,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\BalanceController.cs" />
     <Compile Include="Controllers\StandardController.cs" />
-    <Compile Include="Controllers\SyringeTestController.cs" />
+    <Compile Include="Controllers\VolumetricController.cs" />
     <Compile Include="Controllers\WorkingStandardController.cs" />
     <Compile Include="Filters\MaxxamFilterAttributes.cs" />
     <Compile Include="Global.asax.cs">
@@ -320,6 +320,7 @@
     <Compile Include="Models\ViewModels\ReportViewModels.cs" />
     <Compile Include="Models\ViewModels\StockReagentViewModels.cs" />
     <Compile Include="Models\ViewModels\StockStandardViewModels.cs" />
+    <Compile Include="Models\ViewModels\VolumetricViewModels.cs" />
     <Compile Include="Models\ViewModels\WorkingStandardViewModel.cs" />
     <Compile Include="Models\WorkingStandard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -544,6 +545,11 @@
     <Content Include="Views\Feedback\Create.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
     <Content Include="Views\Reports\ExpiringStockReport.cshtml" />
+    <Content Include="Views\Volumetric\Create.cshtml" />
+    <Content Include="Views\Volumetric\Delete.cshtml" />
+    <Content Include="Views\Volumetric\Details.cshtml" />
+    <Content Include="Views\Volumetric\Edit.cshtml" />
+    <Content Include="Views\Volumetric\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -7,7 +7,7 @@ namespace TMNT.Models {
         [Key]
         public int DeviceVerificationId { get; set; }
 
-        [Display(Name = "Date Last Verified")]
+        [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
         public DateTime? VerifiedOn { get; set; }
         public double? WeightOne { get; set; }
         public double? WeightTwo { get; set; }

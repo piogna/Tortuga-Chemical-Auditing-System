@@ -143,7 +143,7 @@ namespace TMNT.Controllers {
         [Route("Balance/Verification")]
         public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceViewModel balancetest) {
             string selectedValue = Request.Form["Type"];
-            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode == balancetest.DeviceCode).Select(item => item.DeviceId).First();
+            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
 
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
@@ -152,7 +152,8 @@ namespace TMNT.Controllers {
                 balance.IsVerified = true;
 
                 DeviceVerification verification = new DeviceVerification() {
-                    VerifiedOn = DateTime.Now,
+                    DidTestPass = true,
+                    VerifiedOn = DateTime.Today,
                     WeightOne = balancetest.WeightOne,
                     WeightTwo = balancetest.WeightTwo,
                     WeightThree = balancetest.WeightThree,

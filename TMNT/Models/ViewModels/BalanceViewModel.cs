@@ -21,7 +21,7 @@ namespace TMNT.Models.ViewModels {
         public string Comments { get; set; }
         [Display(Name = "Verification Standing")]
         public bool IsVerified { get; set; }
-        [Display(Name = "Date Last Verified")]
+        [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
         public DateTime? LastVerified { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
         [Display(Name = "Last Verified By")]
