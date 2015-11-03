@@ -27,7 +27,9 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("Balances")]
         public ActionResult Index() {
-            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department == HelperMethods.GetUserDepartment());
+            var department = HelperMethods.GetUserDepartment();
+
+            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department));
             var viewModels = new List<BalanceViewModel>();
 
             foreach (var item in balances) {
@@ -38,24 +40,20 @@ namespace TMNT.Controllers {
                     IsVerified = item.IsVerified,
                     Department = item.Department,
                     LastVerified = item.DeviceVerifications
-                                .Where(x => x.Device == item)
-                                .OrderByDescending(x => x.VerifiedOn)
-                                .Select(x => x.VerifiedOn)
+                                .Where(x => x.Device.Equals(item))
                                 .Count() == 0 ?
                                     null :
                                     item.DeviceVerifications
-                                        .Where(x => x.Device == item)
+                                        .Where(x => x.Device.Equals(item))
                                         .OrderBy(x => x.VerifiedOn)
                                         .Select(x => x.VerifiedOn)
                                         .First(),
                     User = item.DeviceVerifications//last verified by
-                                .Where(x => x.Device == item)
-                                .OrderByDescending(x => x.VerifiedOn)
-                                .Select(x => x.User)
+                                .Where(x => x.Device.Equals(item))
                                 .Count() == 0 ?
                                     null :
                                     item.DeviceVerifications
-                                        .Where(x => x.Device == item)
+                                        .Where(x => x.Device.Equals(item))
                                         .OrderBy(x => x.VerifiedOn)
                                         .Select(x => x.User)
                                         .First()

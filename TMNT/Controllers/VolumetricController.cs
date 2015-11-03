@@ -6,15 +6,53 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TMNT.Filters;
+using TMNT.Helpers;
 using TMNT.Models;
+using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
+    [Authorize]
+    [PasswordChange]
     public class VolumetricController : Controller {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
+        private IRepository<Device> repo;
+        public VolumetricController()
+            : this(new DeviceRepository(DbContextSingleton.Instance)) {
+        }
+
+        public VolumetricController(IRepository<Device> repo) {
+            this.repo = repo;
+        }
 
         // GET: Volumetric
         public ActionResult Index() {
-            return View(db.Devices.ToList());
+            var department = HelperMethods.GetUserDepartment();
+
+            var volumetrics = repo.Get().Where(item => item.DeviceType.Equals("Volumetric") && item.Department.Equals(department));
+            var viewModels = new List<VolumetricIndexViewModel>();
+
+            foreach (var item in volumetrics) {
+                viewModels.Add(new VolumetricIndexViewModel() {
+                    VolumetricId = item.DeviceId,
+                    DeviceCode = item.DeviceCode,
+                    IsVerified = item.IsVerified,
+                    Department = item.Department,
+                    LastVerifiedBy = item.DeviceVerifications//last verified by
+                                .Where(x => x.Device.Equals(item))
+                                .Count() == 0 ?
+                                    null :
+                                    item.DeviceVerifications
+                                        .Where(x => x.Device.Equals(item))
+                                        .OrderBy(x => x.VerifiedOn)
+                                        .Select(x => x.User.UserName)
+                                        .First()
+                });
+            }
+
+            return View(repo.Get().ToList());
         }
 
         // GET: Volumetric/Details/5
@@ -22,7 +60,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            Device device = repo.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -41,8 +79,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
             if (ModelState.IsValid) {
-                db.Devices.Add(device);
-                db.SaveChanges();
+                repo.Create(device);
                 return RedirectToAction("Index");
             }
 
@@ -54,7 +91,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            Device device = repo.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -68,8 +105,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
             if (ModelState.IsValid) {
-                db.Entry(device).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.Update(device);
                 return RedirectToAction("Index");
             }
             return View(device);
@@ -80,7 +116,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = db.Devices.Find(id);
+            Device device = repo.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -91,15 +127,13 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            Device device = db.Devices.Find(id);
-            db.Devices.Remove(device);
-            db.SaveChanges();
+            repo.Delete(id);
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {
-                db.Dispose();
+                repo.Dispose();
             }
             base.Dispose(disposing);
         }
