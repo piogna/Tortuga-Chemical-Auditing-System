@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.ViewModels.BalanceViewModel
+﻿@model TMNT.Models.ViewModels.BalanceVerificationViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -7,74 +7,6 @@
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
 }
-
-<script>
-    $(function () {
-        //fixing a rendering issue in IE with class btn-success
-        if (false || !!document.documentMode) {
-            $('.btn-success').css('float', 'right');
-        }
-
-        var validateOne = $('.weight-validate').first();
-        var validateTwo = $('.weight-validate').eq(1);
-        var validateThree = $('.weight-validate').eq(2);
-        var passOrFailOne = $('.pass-or-fail').first();
-        var passOrFailTwo = $('.pass-or-fail').eq(1);
-        var passOrFailThree = $('.pass-or-fail').eq(2);
-
-        var weightOne = $('.weight-one');
-        var weightTwo = $('.weight-two');
-        var weightThree = $('.weight-three');
-
-        //weight must be within 2% of 0.5000 to pass. if not, two other inputs will apear to pass the verification.
-        $(validateOne).on('click', function (e) {
-            e.preventDefault();
-            var weightOneVal = parseFloat($('.weight-one').val());
-
-            if (weightOneVal > 0.4990 && weightOneVal < .5010) {
-                //pass
-                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
-                weightOne.attr('readonly', 'readonly');
-            } else {
-                //fail
-                weightOne.attr('readonly', 'readonly');
-                validateOne.attr('disabled', 'disabled');
-                passOrFailOne.first().text("Fail").css('color', 'red');
-
-                validateThree.attr('disabled', 'disabled');
-                weightThree.attr('readonly', 'readonly');
-
-                $('#additional-weights').css('display', 'block');
-            }
-        });
-        //second verification if first fails
-        $(validateTwo).on('click', function (e) {
-            e.preventDefault();
-            var weightTwoVal = parseFloat($('.weight-two').val());
-
-            if (weightTwoVal > 9.8000 && weightTwoVal < 10.2000) {
-                //pass
-                passOrFailTwo.first().text("Pass!").css('color', '#5cb85c');
-                weightTwo.attr('readonly', 'readonly');
-                validateThree.attr('disabled', 'disabled');
-                weightThree.attr('readonly', 'readonly');
-            } else {
-                //fail
-                weightTwo.attr('readonly', 'readonly');
-                validateTwo.attr('disabled', 'disabled');
-                validateThree.removeAttr('disabled');
-                weightThree.removeAttr('readonly');
-                $('#add-required').addClass('addon-required');
-                passOrFailTwo.first().text("Fail").css('color', 'red');
-            }
-        });
-
-        $(validateThree).on('click', function (e) {
-            e.preventDefault();
-            console.log('clicked');
-        });
-    });
-</script>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
