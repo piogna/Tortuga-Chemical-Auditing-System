@@ -75,7 +75,7 @@ namespace TMNT.Controllers {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
-            UserManager.MaxFailedAccessAttemptsBeforeLockout = 3;
+            //UserManager.MaxFailedAccessAttemptsBeforeLockout = 3;
             
             var user = UserManager.FindByName(model.UserName);
 
@@ -88,6 +88,10 @@ namespace TMNT.Controllers {
 
             switch (result) {
                 case SignInStatus.Success:
+                    //if login successful and lockout enabled, reset the counter
+                    if (UserManager.SupportsUserLockout && await UserManager.GetAccessFailedCountAsync(user.Id) > 0) {
+                        await UserManager.ResetAccessFailedCountAsync(user.Id);
+                    }
                     //if first-time login, force them to change their password
                     if (user.IsFirstTimeLogin) {
                         return RedirectToAction("ChangePasswordFirstTime", "Manage");
