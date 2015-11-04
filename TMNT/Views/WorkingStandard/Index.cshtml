@@ -1,87 +1,19 @@
-﻿@model IEnumerable<TMNT.Models.WorkingStandard>
+﻿@model IEnumerable<TMNT.Models.ViewModels.WorkingStandardIndexViewModel>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
-
-<style>
-    /*#region overriding data table css*/
-    table.dataTable thead .sorting_asc::after {
-        content: none !important;
-    }
-
-    table.dataTable thead .sorting_desc::after {
-        content: none !important;
-    }
-
-    table.dataTable thead .sorting::after {
-        content: none !important;
-    }
-    /*#endregion*/
-
-    /*#region overriding pagination tabs css*/
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        box-sizing: border-box;
-        display: inline-block;
-        min-width: 1.5em;
-        padding: 0.5em 1em;
-        margin-left: 0;
-        text-align: center;
-        text-decoration: none !important;
-        cursor: pointer;
-        color: #337ab7 !important;
-        border: 1px solid #ddd;
-    }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background: #eee;
-            border: 1px solid #ddd;
-            color: #337ab7 !important;
-        }
-
-    .previous {
-        border-bottom-left-radius: 4px;
-        border-top-left-radius: 4px;
-    }
-
-    .next {
-        border-bottom-right-radius: 4px;
-        border-top-right-radius: 4px;
-    }
-
-    .disabled {
-        border: 1px solid #ddd !important;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
-        cursor: not-allowed;
-    }
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-        z-index: 2;
-        color: #fff !important;
-        cursor: default;
-        background: #337ab7 !important;
-        border: 1px solid #337ab7;
-    }
-
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-            color: #fff !important;
-            cursor: default;
-            border: 1px solid #337ab7;
-        }
-    /*#endregion*/
-</style>
+@section AddToHead {
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+}
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
+        <h1>
             Working Standards
         </h1>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb no-border-radius">
             <li class="active">
                 <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards
             </li>
@@ -90,23 +22,35 @@
 </div>
 
 <p>
-    @Html.ActionLink("New Working Standard", "Create", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("New Working", "Create", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
 
-<table id="myTable" class="table table-bordered table-striped">
+<table id="myTable" class="table table-bordered table-striped table-index">
     <thead>
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.PreparationDate)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Source)
+                @Html.DisplayNameFor(model => model.MaxxamId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Grade)
+                @Html.DisplayNameFor(model => model.Replaces)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplacedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </thead>
@@ -115,16 +59,42 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.WorkingStandardId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.WorkingStandardId })
+                    @Html.ActionLink("Details", "Details", new { id = item.WorkingStandardId }) |
+                    <a href="#">Print Label</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PreparationDate)
+                    @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Source)
+                    @Html.DisplayFor(modelItem => item.MaxxamId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Grade)
+                    @Html.DisplayFor(modelItem => item.Replaces)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReplacedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCode)
+                </td>
+                @if (item.IsExpired) {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-exclamation-triangle text-danger" title="Expired"></span>
+                    </td>
+                } else if (item.IsExpiring) {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-exclamation-triangle text-warning" title="Expiring"></span>
+                    </td>
+                } else {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpiryDate)
+                        <span class="fa fa-check-circle text-success" title="Valid"></span>
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
                 </td>
             </tr>
         }
@@ -133,21 +103,27 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.PreparationDate)
+                @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Source)
+                @Html.DisplayNameFor(model => model.MaxxamId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Grade)
+                @Html.DisplayNameFor(model => model.Replaces)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReplacedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
             </th>
         </tr>
     </tfoot>
 </table>
-<script>
-    $(function () {
-        $('#myTable').dataTable({
-            "pageLength": 50
-        });
-    });
-</script>
+@Scripts.Render("~/datatables")

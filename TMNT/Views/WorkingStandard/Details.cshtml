@@ -1,42 +1,317 @@
-﻿@model TMNT.Models.WorkingStandard
+﻿@model TMNT.Models.ViewModels.WorkingStandardDetailsViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            @Model.IdCode Working Standard Details
+        </h1>
+        <ol class="breadcrumb no-border-radius">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> Working Standards / <i class="fa fa-clipboard"></i> @Model.IdCode Working Standard Details
+            </li>
+        </ol>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("Edit " + @Model.IdCode, "Edit", new { id = Model.WorkingStandardId }, htmlAttributes: new { @class = "btn btn-default" })
+    @if (!string.IsNullOrEmpty(@ViewBag.ReturnUrl)) {
+        <a href="@ViewBag.ReturnUrl" class="btn btn-default">Return to Working Standard</a>
+    }
+</p>
+
+<hr />
+
+@Html.Partial("_SectionHeader", "Location Information")
 
 <div>
-    <h4>WorkingStandard</h4>
-	<hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PreparationDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PreparationDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Source)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Source)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Grade)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Grade)
-        </dd>
-
-    </dl>
+    <div class="container">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.LocationName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.LocationName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.Address)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.Address), @Html.DisplayFor(model => model.Department.Location.PostalCode) <br />
+                    @Html.DisplayFor(model => model.Department.Location.City), @Html.DisplayFor(model => model.Department.Location.Province)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.PhoneNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.PhoneNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.Location.FaxNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.Location.FaxNumber)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Department.DepartmentName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Department.DepartmentName)
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.WorkingStandardId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+@Html.Partial("_SectionHeader", "Working Standard Information")
+
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MaxxamId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MaxxamId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateOpened)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateOpened)
+            </dd>
+
+            @if (Model.Replaces == null) {
+                <dt>
+                    Replaces
+                </dt>
+
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Replaces)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Replaces)
+                </dd>
+            }
+
+            @if (Model.Replaces == null) {
+                <dt>
+                    Replaced By
+                </dt>
+
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dt>
+                    @Html.DisplayNameFor(model => model.ReplacedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ReplacedBy)
+                </dd>
+            }
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </dt>
+
+            @if (Model.IsExpired) {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-exclamation-triangle text-danger" title="Expired"></span>
+                </dd>
+            } else if (Model.IsExpiring) {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-exclamation-triangle text-warning" title="Expiring"></span>
+                </dd>
+            } else if (Model.ExpiryDate == null) {
+                <dd>
+                    TBD
+                    <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                    <span class="fa fa-check-circle text-success" title="Valid"></span>
+                </dd>
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.InitialAmount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InitialAmount)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Concentration)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Concentration)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateModified)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateModified)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UsedFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UsedFor)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@Html.Partial("_SectionHeader", "Prep List Table")
+
+<div class="container">
+    <table id="myTable" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Action</th>
+                <th>Item Type</th>
+                <th>Item ID Code</th>
+                <th>Item Name</th>
+                <th>Amount Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PrepListItems) {
+                <tr>
+                    @if (item.StockReagent != null) {
+                        <td>
+                            <a href="@Url.Action("Details", "Reagent", new { id = item.StockReagent.ReagentId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            Stock Reagent
+                        </td>
+                        <td>
+                            @item.StockReagent.IdCode
+                        </td>
+                        <td>
+                            @item.StockReagent.ReagentName
+                        </td>
+                    }
+
+                    @if (item.StockStandard != null) {
+                        <td>
+                            <a href="@Url.Action("Details", "Standard", new { id = item.StockStandard.StockStandardId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            Stock Standard
+                        </td>
+                        <td>
+                            @item.StockStandard.IdCode
+                        </td>
+                        <td>
+                            @item.StockStandard.StockStandardName
+                        </td>
+                    }
+
+                    @if (item.WorkingStandard != null) {
+                        <td>
+                            <a href="@Url.Action("Details", "WorkingStandard", new { id = item.WorkingStandard.WorkingStandardId })">
+                                <div>
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            Working Standard
+                        </td>
+                        <td>
+                            @item.WorkingStandard.IdCode
+                        </td>
+                        <td>
+                            @item.WorkingStandard.WorkingStandardId
+                        </td>
+                    }
+                    <td>
+                        @item.AmountTaken
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+
+        </tfoot>
+    </table>
+</div>

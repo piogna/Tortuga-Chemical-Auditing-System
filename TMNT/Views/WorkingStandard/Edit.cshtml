@@ -1,58 +1,71 @@
-﻿@model TMNT.Models.WorkingStandard
+﻿@model TMNT.Models.ViewModels.WorkingStandardEditViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+}
 
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            Edit @Model.IdCode
+        </h1>
+        <ol class="breadcrumb no-border-radius">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards / <i class="fa fa-clipboard"></i> Edit @Model.IdCode
+            </li>
+        </ol>
+    </div>
+</div>
 
-@using (Html.BeginForm())
-{
+<p>
+    @Html.ActionLink("Back to List", "Index", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("View " + Model.IdCode + " Details", "Details", new { id = Model.WorkingStandardId }, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+<hr />
+
+@Html.Partial("_SectionHeader", "Working Reagent Information")
+
+@using (Html.BeginForm("Edit", "WorkingStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>WorkingStandard</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.WorkingStandardId)
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.WorkingStandardId)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PreparationDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PreparationDate)
-                @Html.ValidationMessageFor(model => model.PreparationDate)
+    <div class="container">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.IdCode, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.IdCode, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.IdCode)
+            </div>
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.MaxxamId, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-md" })
+                    @Html.EditorFor(model => model.MaxxamId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.MaxxamId)
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Source, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Source)
-                @Html.ValidationMessageFor(model => model.Source)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Grade, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Grade)
-                @Html.ValidationMessageFor(model => model.Grade)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group input-full-width">
+                    @Html.LabelFor(model => model.ExpiryDate, htmlAttributes: new { @class = "control-label input-group-addon input-group-addon-lg" })
+                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @class = "form-control no-border-radius" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.ExpiryDate)
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
-    
+    @Scripts.Render("~/bundles/jqueryval")
 }

@@ -507,11 +507,6 @@
     <Content Include="Views\Supplier\Details.cshtml" />
     <Content Include="Views\Supplier\Edit.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
-    <Content Include="Views\WorkingStandard\Create.cshtml" />
-    <Content Include="Views\WorkingStandard\Delete.cshtml" />
-    <Content Include="Views\WorkingStandard\Details.cshtml" />
-    <Content Include="Views\WorkingStandard\Edit.cshtml" />
-    <Content Include="Views\WorkingStandard\Index.cshtml" />
     <Content Include="Views\AdminController\Create.cshtml" />
     <Content Include="Views\AdminController\Delete.cshtml" />
     <Content Include="Views\AdminController\Details.cshtml" />
@@ -549,6 +544,11 @@
     <Content Include="Views\Volumetric\Details.cshtml" />
     <Content Include="Views\Volumetric\Edit.cshtml" />
     <Content Include="Views\Volumetric\Index.cshtml" />
+    <Content Include="Views\WorkingStandard\Create.cshtml" />
+    <Content Include="Views\WorkingStandard\Delete.cshtml" />
+    <Content Include="Views\WorkingStandard\Details.cshtml" />
+    <Content Include="Views\WorkingStandard\Edit.cshtml" />
+    <Content Include="Views\WorkingStandard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

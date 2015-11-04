@@ -1,48 +1,106 @@
-﻿@model TMNT.Models.ViewModels.WorkingStandardViewModel
+﻿@model TMNT.Models.ViewModels.WorkingStandardCreateViewModel
 
 @{
     ViewBag.Title = "Create";
 }
 
-<style>
-    #page-wrapper {
-        min-height: 900px;
-    }
+@section AddToHead {
+    <link href="~/Content/chosen.css" rel="stylesheet" />
+    <link href="~/Content/Datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    @Styles.Render("~/maxxam-forms")
+    <style>
+        .select2-container--default {
+            width: 100% !important;
+        }
 
-    input[type=text] {
-        width: 100%;
-    }
+        .select2-search__field {
+            width: 100% !important;
+        }
 
-    button {
-        width: 33%;
-        color: #fff !important;
-        border-radius: 0 !important;
-        background-color: #428BCA !important;
-        float: right;
-    }
+        .lot-numbers-hidden option {
+            display: none;
+        }
 
-    .next-section {
-        float: right;
-        bottom: 0;
-    }
+        .lot-numbers-hidden optgroup {
+            display: none;
+        }
 
-    .previous-section {
-        float: left;
-        bottom: 0;
-    }
-</style>
+        .lot-numbers-shown {
+            display: block;
+        }
 
+        .lot-numbers-no-selection {
+            display: block;
+        }
 
-@using (Html.BeginForm()) {
+        .opt {
+            display: none;
+        }
+
+            .opt option {
+                display: none;
+            }
+
+        ul.chosen-choices {
+            border: 1px solid #ccc !important;
+            background-image: none !important;
+        }
+
+        li.search-field {
+            padding-top: 3px !important;
+            height: 32px !important;
+            padding-left: 5px !important;
+            font-size: 14px !important;
+        }
+
+        li.search-choice {
+            margin: 5px 5px 3px 0 !important;
+        }
+
+        div.chosen-container {
+            width: 50% !important;
+        }
+
+        option[disabled] {
+            color: #bbb;
+        }
+
+        .tab {
+            cursor: pointer;
+            border: 1px solid #cfcfcf;
+            padding: 6px 0 6px 0;
+            margin-bottom: 10px;
+        }
+
+        .tab-unselected {
+            background: #cfcfcf;
+        }
+
+        .tab-selected {
+            border-bottom: none;
+        }
+
+        #solvent-input-container > .input-group {
+            width: 100%;
+        }
+
+        .solvent-input-container-display {
+            display: none;
+        }
+    </style>
+}
+
+@using (Html.BeginForm(Html.BeginForm("Create", "WorkingStandard", null, FormMethod.Post, new { enctype = "multipart/form-data" }))) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">
+                <h1>
                     New Working Standard
                 </h1>
-                <ol class="breadcrumb">
+                <ol class="breadcrumb no-border-radius">
                     <li class="active">
                         <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Working Standards / <i class="fa fa-star-o"></i> New Working Standard
                     </li>
@@ -51,124 +109,363 @@
         </div>
 
         <p>
-            @Html.ActionLink("Back to List", "Index", "WorkingStandard", htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink("Back to List", "Index", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default btn-back-to-list" })
         </p>
 
         <section id="section-bar">
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
-                        <li><a href="#section-bar-1" class="icon icon-config"><span>Standard Info Part I</span></a></li>
-                        <li><a href="#section-bar-2" class="icon icon-config"><span>Standard Info Part II</span></a></li>
-                        <li><a href="#section-bar-4" class="icon icon-display"><span>Finalize</span></a></li>
-                        <li><a href="#section-bar-5" id="section-confirmation" style="pointer-events: none;" class="icon icon-coffee"><span>Confirmation</span></a></li>
+                        <li><a href="#section-bar-1" class="icon icon-box"><span>Prep List</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-config"><span>Working Standard Info</span></a></li>
+                        <li><a href="#section-bar-3" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <section id="section-bar-1">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.LabelFor(model => model.PreparationDate) @Html.EditorFor(model => model.PreparationDate, new { htmlAttributes = new { @placeholder = "Preparation Date" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.PreparationDate)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.CatalogueCode, new { htmlAttributes = new { @placeholder = "Lot #" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.CatalogueCode)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.InventoryItemName, new { htmlAttributes = new { @placeholder = "Inventory Item Name" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.InventoryItemName)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Size, new { htmlAttributes = new { @placeholder = "Size", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.Size)
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @placeholder = "Grade", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.Grade)
-                                </div>
-                            </div>
-                        </div>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <!-- Start Building Recipe Section -->
+                        @Html.Partial("_SectionHeader", "Build Your Working Standard")
+                        <div id="build-recipe">
+                            <div class="col-md-4">
+                                <div class="alert alert-grey no-border-radius prep-list-wrapper">
+                                    <h4 class="text-center">Prep List Item</h4>
+                                    <hr />
+                                    <!-- tabs to show either compounds or solvents/acids -->
+                                    @*<div class="col-md-6 tab tab-selected text-center" id="compounds">Compounds</div>
+                                    <div class="col-md-6 tab tab-unselected text-center" id="solvents">Solvents/Acids</div>*@
+                                    <div id="compound-section">
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select name="Chemical Type" id="ChemicalType" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                    <option value="">Choose Chemical Type</option>
+                                                    <optgroup label="Item Type">
+                                                        @foreach (var item in Model.ChemicalTypes) {
+                                                            <option value="@item">
+                                                                @item
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                    <option class="opt-label" value="">Select a Chemical Type First</option>
+                                                    <optgroup class="opt opt-reagent" label="Reagents">
+                                                        @foreach (var item in Model.StockReagents) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber - Expired</option>
+                                                            } else {
+                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup class="opt opt-standard" label="Standards">
+                                                        @foreach (var item in Model.StockStandards) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber - Expired</option>
+                                                            } else {
+                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup class="opt opt-int-standard" label="Working Standards">
+                                                        @foreach (var item in Model.WorkingStandards) {
+                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.WorkingStandard.MaxxamId">@item.WorkingStandard.MaxxamId - Expired</option>
+                                                            } else {
+                                                                <option value="@item.WorkingStandard.MaxxamId">@item.WorkingStandard.MaxxamId</option>
+                                                            }
+                                                        }
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <div class="input-group">
+                                                <div class="input-group-addon"></div>
+                                                <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                                    <optgroup label="Weights">
+                                                        @foreach (var item in Model.WeightUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Volumes">
+                                                        @foreach (var item in Model.VolumetricUnits) {
+                                                            <option value="@item.UnitId">
+                                                                @item.UnitShorthandName
+                                                            </option>
+                                                        }
+                                                    </optgroup>
+                                                    <optgroup label="Other">
+                                                        <option value="Other">@Model.OtherUnit.UnitShorthandName</option>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group zero-left-right-margin">
+                                            <a href="#" id="another-item" class="btn btn-primary">Add Item</a>
+                                        </div>
+                                    </div>
+                                    <!-- Solvents/Acids -->
+                                    @*<div id="solvent-section">
+                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input">
+                    <div class="input-group">
+                        <div class="input-group-addon"></div>
+                        <select name="Solvents" id="SolventAcid" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                            <option value="">Choose Chemical Type</option>
+                            <optgroup label="Item Type">
+                                <option value="Solvent">Solvent</option>
+                                <option value="Acid">Acid</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-2">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @placeholder = "Case Number", @min = 0 } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.CaseNumber)
+                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input" id="solvent-input-container">
+                    <div class="input-group">
+                        <div class="input-group-addon"></div>
+                        <input name="Solvent" id="Solvent" type="text" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Solvent/Acid Name" />
+                    </div>
+                </div>
+            </div>*@
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @cols = 48, @rows = 5 } })<span class="required"></span>
+                            <div class="col-md-8">
+                                <div class="alert alert-grey no-border-radius prep-list-wrapper">
+                                    <h4 class="text-center">Prep List</h4>
+                                    <hr />
+                                    <div style="font-size:14px;">
+                                        <table id="recipe-table" class="table alert-success table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item #</th>
+                                                    <th>Chemical Type</th>
+                                                    <th>ID</th>
+                                                    <th>Amount</th>
+                                                    <th>Remove Item</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recipe-tbody"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                </div>
+                                <div class="form-group">
+                                    <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                                </div>
+                                <div class="form-group">
+                                    <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /End Recipe Section -->
+                    </section>
+                    <!-- SECTION TWO -->
+                    <section id="section-bar-2">
+                        @Html.Partial("_SectionHeader", "Working Standard Information")
+                        <div class="container">
+                            <div class="col-md-5-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Replaces)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        @Html.EditorFor(model => model.ReplacedBy, new { htmlAttributes = new { @placeholder = "Replaced By", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ReplacedBy)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
+                                    </div>
                                     @Html.ValidationMessageFor(model => model.UsedFor)
                                 </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field-s2 input-summary">
+                                            <option value="">Storage Requirement..</option>
+                                            <optgroup label="Storage Req's'">
+                                                @foreach (var item in Model.Storage) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.LabelFor(model => model.DateCreated) @Html.EditorFor(model => model.DateCreated, new { htmlAttributes = new { @placeholder = "Date Created" } })<span class="required"></span>
-                                    @Html.ValidationMessageFor(model => model.DateCreated)
+                            <div class="col-md-5-5 pull-right">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.TotalAmount)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            <optgroup label="Weights">
+                                                @foreach (var item in Model.WeightUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumes">
+                                                @foreach (var item in Model.VolumetricUnits) {
+                                                    <option value="@item.UnitShorthandName">
+                                                        @item.UnitShorthandName
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Other">
+                                                <option value="Other">Other</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FinalConcentration)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <div class="input-group-addon">
+                                            <div style="margin-top:-5px;" class="checkbox">
+                                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
+                                            </div>
+                                        </div>
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field-s2 input-summary" multiple="multiple">
+                                            <optgroup label="Balance ID's">
+                                                @foreach (var item in Model.BalanceDevices) {
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup label="Volumetric ID's">
+                                                @foreach (var item in Model.VolumetricDevices) {
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
+                                                }
+                                                <option value="VOL902-W">VOL902-W</option>
+                                                <option value="None">No Device Used</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <a href='#section-bar-2' class="btn btn-default next-section">Next »</a>
-                                <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
+                        @Html.Partial("_SectionHeader", "Safety Notes")
+                        <div class="container">
+                            <div class="col-md-5-5">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.SafetyNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "Safety Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SafetyNotes)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-1 col-md-10" style="padding-top:20px;">
+                                    <a href='#section-bar-3' disabled="disabled" id="btn-review" class="btn btn-default next-section btn-review">Review and Submit</a>
+                                    <a href='#section-bar-1' class="btn btn-default previous-section">« Previous</a>
+                                </div>
+                                <div class="col-md-offset-1 col-md-10">
+                                    <div id="button-message-s2" class="pull-right button-message-error">Fill out required fields.</div>
+                                </div>
                             </div>
                         </div>
                     </section>
                     <section id="section-bar-3">
                         <div class="form-group">
-                            <div style="text-align:center;" class="page-header">
-                                <h2>Are You Sure?</h2>
+                            <div class="container">
+                                <table class="table table-bordered table-striped summary-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:14px;"></tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
                             </div>
                             <div class="row">
-                                <div class="col-md-4 col-md-offset-3">
-                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 30px;">&#x2717; No, Go Back</a>
-                                    <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> Print Label?
-                                        </label>
+                                <div class="col-md-12 text-center">
+                                    <input type="button" href='#section-bar-2' value="Cancel" class="btn btn-warning previous-section" />
+                                    <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                                    <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default center-block active"><input type="radio">Print Label</label>
+                                        <label class="btn btn-default center-block"><input type="radio">Don't Print Label</label>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section id="section-bar-4">
-                        <div class="form-group" style="text-align:center;">
-                            <div style="padding-bottom:20px;">Summary</div>
-                            <div>Summary of Data would go here..</div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-offset-3 col-md-10">
-                                @Html.ActionLink("Dashboard", "Index", new { @controller = "Home" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @Html.ActionLink("New Stock Reagent", "Create", new { @controller = "Reagent" }, new { @style = "margin-right:15px;", @class = "btn btn-default" })
-                                @*<a onclick="window.print()" href='#section-bar-1' class="btn btn-default">Print Label</a>*@
                             </div>
                         </div>
                     </section>
@@ -178,7 +475,56 @@
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>
 }
-
 @section Scripts {
-    
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/CustomMaxxamJS/Working-standard-form-validation.js"></script>
+
+    <script>
+        $(function () {
+            var compoundsTab = $('#compounds');
+            var solventsTab = $('#solvents');
+
+            $(".select2").select2({
+                placeholder: "Devices Used..",
+                allowClear: true,
+                maximumSelectionLength: 2
+            });
+
+            $(".Units").chosen({
+                max_selected_options: 2,
+                placeholder: "Units.."
+            });
+
+            $('.date-input').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
+            });
+
+            //compoundsTab.on("click", function () {
+            //    if (compoundsTab.hasClass("tab-unselected")) {
+            //        compoundsTab.addClass('tab-selected').removeClass('tab-unselected');
+            //        solventsTab.addClass('tab-unselected').removeClass('tab-selected');
+            //        $("#compound-section").css("display", "block");
+            //        $("#solvent-input-container").addClass('solvent-input-container-display');
+            //    }
+            //});
+
+            //solventsTab.on("click", function () {
+            //    if (solventsTab.hasClass("tab-unselected")) {
+            //        solventsTab.addClass('tab-selected').removeClass('tab-unselected');
+            //        compoundsTab.addClass('tab-unselected').removeClass('tab-selected');
+            //        $("#compound-section").css("display", "none");
+            //        $("#solvent-input-container").removeClass('solvent-input-container-display');
+            //    }
+            //});
+        });
+    </script>
 }
