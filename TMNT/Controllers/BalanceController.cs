@@ -30,32 +30,32 @@ namespace TMNT.Controllers {
             var department = HelperMethods.GetUserDepartment();
 
             var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department));
-            var viewModels = new List<BalanceVerificationViewModel>();
+            var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
                 CompareDates.SetBalanceToUnverified(item);
-                viewModels.Add(new BalanceVerificationViewModel() { 
+                viewModels.Add(new BalanceIndexViewModel() { 
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
-                    Department = item.Department,
-                    LastVerified = item.DeviceVerifications
+                    DepartmentName = item.Department.DepartmentName,
+                    //LastVerified = item.DeviceVerifications
+                    //            .Where(x => x.Device.Equals(item))
+                    //            .Count() == 0 ?
+                    //                null :
+                    //                item.DeviceVerifications
+                    //                    .Where(x => x.Device.Equals(item))
+                    //                    .OrderBy(x => x.VerifiedOn)
+                    //                    .Select(x => x.VerifiedOn)
+                    //                    .First(),
+                    LastVerifiedBy = item.DeviceVerifications//last verified by
                                 .Where(x => x.Device.Equals(item))
                                 .Count() == 0 ?
                                     null :
                                     item.DeviceVerifications
                                         .Where(x => x.Device.Equals(item))
                                         .OrderBy(x => x.VerifiedOn)
-                                        .Select(x => x.VerifiedOn)
-                                        .First(),
-                    User = item.DeviceVerifications//last verified by
-                                .Where(x => x.Device.Equals(item))
-                                .Count() == 0 ?
-                                    null :
-                                    item.DeviceVerifications
-                                        .Where(x => x.Device.Equals(item))
-                                        .OrderBy(x => x.VerifiedOn)
-                                        .Select(x => x.User)
+                                        .Select(x => x.User.UserName)
                                         .First()
                 });
             }

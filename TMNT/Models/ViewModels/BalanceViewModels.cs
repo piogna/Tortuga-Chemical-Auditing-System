@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
+    public class BalanceIndexViewModel {
+        public int BalanceId { get; set; }
+        [Display(Name = "Device Code")]
+        public string DeviceCode { get; set; }
+        [Display(Name = "Department Name")]
+        public string DepartmentName { get; set; }
+        [Display(Name = "Verification Standing")]
+        public bool IsVerified { get; set; }
+        [Display(Name = "Last Verified By")]
+        public string LastVerifiedBy { get; set; }//full name
+    }
+
     public class BalanceVerificationViewModel {
         [Required(ErrorMessage="The balance ID is required"), Display(Name="Balance ID")]
         public int BalanceId { get; set; }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TMNT.Models.ViewModels.BalanceViewModel>
+﻿@model IEnumerable<TMNT.Models.ViewModels.BalanceIndexViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -33,9 +33,9 @@
         <tr>
             <th>Action</th>
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
+            <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-            <th>Last Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.LastVerifiedBy)</th>
         </tr>
     </thead>
     <tbody>
@@ -53,7 +53,7 @@
                     @item.DeviceCode
                 </td>
                 <td>
-                    @item.Department.DepartmentName
+                    @item.DepartmentName
                 </td>
                 @if (!@item.IsVerified) {
                     <td class="text-danger">
@@ -64,13 +64,13 @@
                         Verified <span class="fa fa-check-circle"></span>
                     </td>
                 }
-                @if (@item.User == null) {
+                @if (@item.LastVerifiedBy == null) {
                     <td>
                         N/A
                     </td>
                 } else {
                     <td>
-                        @item.User.UserName
+                        @item.LastVerifiedBy
                     </td>
                 }
             </tr>
@@ -80,9 +80,9 @@
         <tr>
             <th>Action</th>
             <th>@Html.DisplayNameFor(model => model.DeviceCode)</th>
-            <th>@Html.DisplayNameFor(model => model.Department.DepartmentName)</th>
+            <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.IsVerified)</th>
-            <th>Last Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.LastVerifiedBy)</th>
         </tr>
     </tfoot>
 </table>
