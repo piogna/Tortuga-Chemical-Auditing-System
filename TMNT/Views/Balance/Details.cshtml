@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.ViewModels.BalanceViewModel
+﻿@model TMNT.Models.ViewModels.BalanceVerificationViewModel
 @{
     ViewBag.Title = "Details";
 }
@@ -27,47 +27,7 @@
 
 <hr />
 
-<div class="col-md-12" style="background-color: lightgrey;">
-    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">@Model.DeviceCode Last 5 Balance Verifications</h4>
-</div>
-
-<table id="myTable" class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Verified On</th>
-            <th>Verified By</th>
-            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
-            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
-            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.DeviceVerifications != null) {
-            foreach (var item in Model.DeviceVerifications) {
-                <tr>
-                    <td>@item.VerifiedOn</td>
-                    <td>@item.User.FirstName @item.User.LastName</td>
-                    <td>@item.WeightOne</td>
-                    <td>@item.WeightTwo</td>
-                    <td>@item.WeightThree</td>
-                </tr>
-            }
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <th>Verified On</th>
-            <th>Verified By</th>
-            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
-            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
-            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
-        </tr>
-    </tfoot>
-</table>
-
-<div class="col-md-12" style="background-color: lightgrey;">
-    <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Balance Information</h4>
-</div>
+@Html.Partial("_SectionHeader", "Balance Information")
 
 <div>
     <dl class="dl-horizontal">
@@ -109,4 +69,40 @@
         </dd>
     </dl>
 </div>
+
+@Html.Partial("_SectionHeader", @Model.DeviceCode + " Last 5 Balance Verifications")
+
+<table id="myTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Verified On</th>
+            <th>Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.DeviceVerifications != null) {
+            foreach (var item in Model.DeviceVerifications) {
+                <tr>
+                    <td>@item.VerifiedOn</td>
+                    <td>@item.User.FirstName @item.User.LastName</td>
+                    <td>@item.WeightOne</td>
+                    <td>@item.WeightTwo</td>
+                    <td>@item.WeightThree</td>
+                </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Verified On</th>
+            <th>Verified By</th>
+            <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
+            <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
+        </tr>
+    </tfoot>
+</table>
 @Scripts.Render("~/datatables")

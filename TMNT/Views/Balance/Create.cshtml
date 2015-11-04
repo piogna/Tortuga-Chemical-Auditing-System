@@ -41,9 +41,7 @@
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
                     <section id="section-bar-1">
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Pick Balance to Verify</h4>
-                        </div>
+                        @Html.Partial("_SectionHeader", "Pick Balance to Verify")
                         <div class="form-group">
                             <div class="col-md-4">
                                 <div class="input-group">
@@ -80,9 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12" style="background-color: lightgrey;">
-                            <h4 style="padding-top:5px;padding-bottom:5px;color:#00000f">Start Balance Verification</h4>
-                        </div>
+                        @Html.Partial("_SectionHeader", "Start Balance Verification")
                         <div class="form-group">
                             <div class="col-lg-4">
                                 <div class="input-group">
