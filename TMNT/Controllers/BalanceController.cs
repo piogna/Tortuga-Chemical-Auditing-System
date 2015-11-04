@@ -110,10 +110,8 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/Create
         [Route("Balance/Verification")]
         public ActionResult VerificationUnspecified() {
-            var locations = new LocationRepository(DbContextSingleton.Instance);
             //sending all Locations to the view
-            var list = locations.Get().Select(name => name.LocationName).ToList();
-            ViewBag.Locations = locations.Get().Select(name => name.LocationName).ToList();
+            ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
             return View("Verification");
         }
 
