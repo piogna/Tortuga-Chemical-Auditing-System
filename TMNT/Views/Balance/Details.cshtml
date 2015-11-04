@@ -89,8 +89,16 @@
                     <td>@item.VerifiedOn</td>
                     <td>@item.User.FirstName @item.User.LastName</td>
                     <td>@item.WeightOne</td>
-                    <td>@item.WeightTwo</td>
-                    <td>@item.WeightThree</td>
+                    @if (item.WeightTwo == null) {
+                        <td>N/A</td>
+                    } else {
+                        <td>@item.WeightTwo</td>
+                    }
+                    @if (item.WeightTwo == null) {
+                        <td>N/A</td>
+                    } else {
+                        <td>@item.WeightThree</td>
+                    }
                 </tr>
             }
         }
