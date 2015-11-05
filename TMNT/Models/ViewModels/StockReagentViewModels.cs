@@ -145,7 +145,7 @@ namespace TMNT.Models.ViewModels {
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
         public List<string> ChemicalTypes = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
-        public List<string> Grades = new List<string>() { "A.C.S.", "Reagent", "U.S.P.", "N.F.", "Lab", "Purified", "Technical" };
+        public List<string> Grades = new List<string>() { "A.C.S.", "Reagent", "U.S.P.", "N.F.", "Lab", "Purified", "Technical", "Trace Metal", "Optimal" };
         public List<Device> BalanceDevices { get; set; }
         public List<Device> VolumetricDevices { get; set; }
 

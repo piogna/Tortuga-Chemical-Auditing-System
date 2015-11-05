@@ -55,5 +55,14 @@ namespace TMNT.Models.ViewModels {
         public string SubDepartment { get; set; }
         [Display(Name = "Location Name")]
         public string LocationName { get; set; }
+
+        //properties to help populate the view
+        public List<string> LocationNames { get; set; }
+        public List<string> DepartmentNames { get; set; }
+        public List<string> SubDepartmentNames { get; set; }
+    }
+
+    public class BalanceDetailsViewModel {
+
     }
 }

@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.ViewModels.BalanceVerificationViewModel
+﻿@model TMNT.Models.ViewModels.BalanceCreateViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -8,7 +8,7 @@
     @Styles.Render("~/maxxam-forms")
 }
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("Create", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -16,11 +16,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    New Daily Balance Verification Test
+                    New Balance
                 </h1>
                 <ol class="breadcrumb">
                     <li class="active">
-                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Balance Test
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> New Balance
                     </li>
                 </ol>
             </div>
@@ -34,134 +34,81 @@
             <div class="tabs tabs-style-bar">
                 <nav>
                     <ul>
-                        <li class="section-list"><a href="#section-bar-1" class="icon icon-config"><span>Test Info</span></a></li>
-                        @*<li class="section-list"><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>*@
+                        <li class="section-list"><a href="#section-bar-1" class="icon icon-config"><span>Balance Info</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
                 @Html.ValidationSummary(true)
                 <div class="content-wrap">
-                    <section id="section-bar-1">
-                        @Html.Partial("_SectionHeader", "Pick Balance to Verify")
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
-                                    @Html.EditorFor(model => model.BalanceId, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
-                                    @Html.ValidationMessageFor(model => model.BalanceId)
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
-                                    @Html.DropDownListFor(model => model.Location, new SelectList(ViewBag.Locations as SelectList, "Value", "Text"), new { @class = "input-xlarge-fuid input-summary form-control valid no-border-radius" })
-                                    @Html.ValidationMessageFor(model => model.Location)
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
-                                    <select name="WorkStation" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                        <option>Nothing Selected</option>
-                                        <optgroup label="Work Station">
-                                            <option>Station One</option>
-                                            <option>Station Two</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
-                                    <input type="text" class="input-summary form-control no-border-radius" placeholder="Weight ID" />
-                                </div>
-                            </div>
-                        </div>
-                        @Html.Partial("_SectionHeader", "Start Balance Verification")
-                        <div class="form-group">
-                            <div class="col-lg-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required"></div>
-                                    @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one" } })
-                                    @Html.ValidationMessageFor(model => model.WeightOne)
-                                    <div class="input-group-addon addon-weight">0.5000</div>
-                                    <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
-                                </div>
-                                <div class="input-group col-lg-9">
-                                    <div class="checkbox">
-                                        <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
-                                    </div>
-                                </div>
-                                <div class="input-group col-lg-2">
-                                    <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                </div>
-                            </div>
-                            <div id="additional-weights">
-                                <div class="col-lg-4">
+                    <section id="section-bar-1" class="section">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-md-12">
+                            <div class="col-lg-12">
+                                <div class="form-group">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @class = "input-summary form-control weight-two" } })
-                                        @Html.ValidationMessageFor(model => model.WeightTwo)
-                                        <div class="input-group-addon addon-weight">10.0000</div>
-                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Device Code", @class = "input-summary form-control required-field" } })
                                     </div>
-                                    <div class="input-group col-lg-9">
-                                        <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
-                                        </div>
-                                    </div>
-                                    <div class="input-group col-lg-2">
-                                        <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="form-group">
                                     <div class="input-group">
-                                        <div id="add-required" class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @class = "input-summary form-control weight-three" } })
-                                        @Html.ValidationMessageFor(model => model.WeightThree)
-                                        <div class="input-group-addon addon-weight">100.0000</div>
-                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Validate</a>
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="storage-locations" name="LocationName" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Locations..</option>
+                                                @foreach (var item in Model.LocationNames) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.LocationName)
                                     </div>
-                                    <div class="input-group col-lg-9">
-                                        <div class="checkbox">
-                                            <label class="form-control no-border"><input type="checkbox" value="Y" style="" />Level/Clean</label>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="storage-locations" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Departments..</option>
+                                            @foreach (var item in Model.DepartmentNames) {
+                                                <option value="@item">
+                                                    @item
+                                                </option>
+                                            }
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.DepartmentName)
                                     </div>
-                                    <div class="input-group col-lg-2">
-                                        <div class="form-control no-border pass-or-fail" style="float:right;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="storage-locations" name="SubDepartment" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Sub Departments..</option>
+                                            @foreach (var item in Model.SubDepartmentNames) {
+                                                <option value="@item">
+                                                    @item
+                                                </option>
+                                            }
+                                        </select>
+                                        @Html.ValidationMessageFor(model => model.SubDepartment)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12" id="reagent-next-fix">
+                                        <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                                    </div>
+                                    <div class="col-xs-12 pull-right">
+                                        <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-lg-6">
-                                <div class="input-group">
-                                    <div class="input-group-addon"></div>
-                                    @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { cols = 50, rows = 6, @placeholder = "Comments", @class = "input-summary form-control no-border-radius", @style = "resize:none;" } })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" class="btn btn-default" value="Create" />
-                                @*<a href='#section-bar-2' class="btn btn-default next-section">Next »</a>*@
-                            </div>
-                        </div>
+
                     </section>
-                    @*<section id="section-bar-2">
-                        <div class="form-group">
-                            <div style="text-align:center;" class="page-header">
-                                <h2>Are You Sure?</h2>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <a href='#section-bar-2' class="btn btn-default previous-section" style="margin:0 10px 0 15px;">&#x2717; No, Go Back</a>
-                                    <input type="submit" class="btn btn-default" value="&#x2713; Yes, Create Record" />
-                                </div>
-                            </div>
-                        </div>
-                    </section>*@
+                    <section id="section-bar-2">
+
+                    </section>
                 </div>
             </div>
         </section>

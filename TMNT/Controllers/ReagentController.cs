@@ -115,9 +115,8 @@ namespace TMNT.Controllers {
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         public ActionResult Create() {
             var model = new StockReagentCreateViewModel();
-            SetStockReagent(model);
 
-            return View(model);
+            return View(SetStockReagent(model));
         }
 
         // POST: /Reagent/Create

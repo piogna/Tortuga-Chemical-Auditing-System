@@ -377,7 +377,17 @@
                 placeholder: "Units.."
             });
 
-            $('.date-input').datepicker({
+            $('#DateReceived').datepicker({
+                format: "yyyy-mm-dd",
+                endDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
+            });
+
+            $('#ExpiryDate').datepicker({
                 format: "yyyy-mm-dd",
                 startDate: "Today",
                 startView: 2,

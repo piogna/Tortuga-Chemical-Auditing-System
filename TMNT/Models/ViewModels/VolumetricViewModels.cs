@@ -21,4 +21,16 @@ namespace TMNT.Models.ViewModels {
         
         public List<DeviceVerification> DeviceVerifications { get; set; }
     }
+
+    public class VolumetricVerificationViewModel {
+
+    }
+
+    public class VolumetricDetailsViewModel {
+
+    }
+
+    public class VolumetricCreateViewModel {
+
+    }
 }

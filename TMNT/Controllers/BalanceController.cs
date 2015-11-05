@@ -81,29 +81,27 @@ namespace TMNT.Controllers {
                 DeviceCode = device.DeviceCode,
                 IsVerified = device.IsVerified,
                 Location = device.Department.Location,
-                Status = device.Status,
+                Status = device.Status
             };
 
             if (device.DeviceVerifications.Count > 0) {
-                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).Take(5).ToList();
+                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).ToList();//Take(5).ToList();
                 balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
-                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
-
-                    //BalanceId = device.DeviceId,
-                    //Department = device.Department,
-                    //DeviceCode = device.DeviceCode,
-                    //IsVerified = device.IsVerified,
-                    //Location = device.Department.Location,
-                    //LastVerified = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.VerifiedOn).First(),
-                    //Status = device.Status,
-                    //LastVerifiedBy = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First()//last verified by
-                    //User = device.DeviceVerifications.OrderBy(item => item.VerifiedOn).Select(item => item.User).First()
+                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.UserName).First();//.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
             }
             return View(balanceData);
         }
 
         [Route("Balance/Create")]
         public ActionResult Create() {
+            var model = new BalanceCreateViewModel();
+            return View(SetBalance(model));
+        }
+
+        [Route("Balance/Create")]
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName")] BalanceVerificationViewModel balance) {
+            SetBalance(new BalanceCreateViewModel());
             return View();
         }
 
@@ -216,8 +214,17 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing) {
+        private BalanceCreateViewModel SetBalance(BalanceCreateViewModel model) {
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
+            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
 
+            model.LocationNames = locations.Select(item => item.LocationName).ToList();
+            model.DepartmentNames = departments
+                .GroupBy(item => item.DepartmentName)
+                .Select(item => item.First().DepartmentName).ToList();//.Select(item => item.DepartmentName).GroupBy(item => item.).ToList();
+            model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment)).Select(item => item.SubDepartment).ToList();
+
+            return model;
         }
     }
 }
