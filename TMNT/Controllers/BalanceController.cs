@@ -39,15 +39,6 @@ namespace TMNT.Controllers {
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
                     DepartmentName = item.Department.DepartmentName,
-                    //LastVerified = item.DeviceVerifications
-                    //            .Where(x => x.Device.Equals(item))
-                    //            .Count() == 0 ?
-                    //                null :
-                    //                item.DeviceVerifications
-                    //                    .Where(x => x.Device.Equals(item))
-                    //                    .OrderBy(x => x.VerifiedOn)
-                    //                    .Select(x => x.VerifiedOn)
-                    //                    .First(),
                     LastVerifiedBy = item.DeviceVerifications//last verified by
                                 .Where(x => x.Device.Equals(item))
                                 .Count() == 0 ?
@@ -85,9 +76,9 @@ namespace TMNT.Controllers {
             };
 
             if (device.DeviceVerifications.Count > 0) {
-                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).ToList();//Take(5).ToList();
+                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).ToList();
                 balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
-                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.UserName).First();//.User.FirstName + " " + item.User.LastName + " (" + item.User.UserName + ")").First();//last verified by
+                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.UserName).First();
             }
             return View(balanceData);
         }
@@ -222,7 +213,7 @@ namespace TMNT.Controllers {
             model.DepartmentNames = departments
                 .Where(item => !item.DepartmentName.Equals("Quality Assurance"))
                 .GroupBy(item => item.DepartmentName)
-                .Select(item => item.First().DepartmentName).ToList();//.Select(item => item.DepartmentName).GroupBy(item => item.).ToList();
+                .Select(item => item.First().DepartmentName).ToList();
             model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).Select(item => item.SubDepartment).ToList();
 
             return model;
