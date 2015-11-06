@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMNT.Utils;
 using System.Data.Entity;
 using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {
-    public class MaxxamMadeReagentRepository : IRepository<MaxxamMadeReagent> {
+    public class PreparedStandardRepository : IRepository<PreparedStandard> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
-        public MaxxamMadeReagentRepository() { }
-        public MaxxamMadeReagentRepository(ApplicationDbContext db) {
+        public PreparedStandardRepository() { }
+
+        public PreparedStandardRepository(ApplicationDbContext db) {
             this.db = db;
         }
 
-        public IEnumerable<MaxxamMadeReagent> Get() {
-            return db.MaxxamMadeReagent.ToList();
+        public IEnumerable<PreparedStandard> Get() {
+            return db.PreparedStandard;
         }
 
-        public MaxxamMadeReagent Get(int? i) {
-            return db.MaxxamMadeReagent.Find(i);
+        public PreparedStandard Get(int? i) {
+            return db.PreparedStandard.Find(i);
         }
 
-        public CheckModelState Create(MaxxamMadeReagent t) {
+        public CheckModelState Create(PreparedStandard t) {
             try {
-                db.MaxxamMadeReagent.Add(t);
+                db.PreparedStandard.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
@@ -34,13 +34,13 @@ namespace TMNT.Models.Repository {
             return CheckModelState.Invalid;
         }
 
-        public void Update(MaxxamMadeReagent t) {
+        public void Update(PreparedStandard t) {
             db.Entry(t).State = EntityState.Modified;
             db.SaveChanges();
         }
 
         public void Delete(int? i) {
-            db.MaxxamMadeReagent.Remove(db.MaxxamMadeReagent.Find(i));
+            db.PreparedStandard.Remove(db.PreparedStandard.Find(i));
             db.SaveChanges();
         }
 

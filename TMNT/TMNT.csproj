@@ -187,8 +187,8 @@
     <Compile Include="Controllers\IntermediateStandardController.cs" />
     <Compile Include="Controllers\InventoryItemController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\MaxxamMadeReagentController.cs" />
-    <Compile Include="Controllers\MaxxamMadeStandardController.cs" />
+    <Compile Include="Controllers\PreparedReagentController.cs" />
+    <Compile Include="Controllers\PreparedStandardController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\PDFViewerController.cs" />
     <Compile Include="Controllers\ReagentController.cs" />
@@ -262,6 +262,14 @@
     <Compile Include="Migrations\201511041507194_WorkingStandardChanges.Designer.cs">
       <DependentUpon>201511041507194_WorkingStandardChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511061629167_SubDepartmentCode.cs" />
+    <Compile Include="Migrations\201511061629167_SubDepartmentCode.Designer.cs">
+      <DependentUpon>201511061629167_SubDepartmentCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511061651447_RenameObjects.cs" />
+    <Compile Include="Migrations\201511061651447_RenameObjects.Designer.cs">
+      <DependentUpon>201511061651447_RenameObjects.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -278,13 +286,13 @@
     <Compile Include="Models\FakeRepository\FakeLowStockRepository.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\MaxxamMadeReagent.cs" />
+    <Compile Include="Models\PreparedReagent.cs" />
     <Compile Include="Models\IntermediateStandard.cs" />
     <Compile Include="Models\InventoryItem.cs" />
     <Compile Include="Models\InventoryLocation.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MaxxamMadeStandard.cs" />
+    <Compile Include="Models\PreparedStandard.cs" />
     <Compile Include="Models\MSDS.cs" />
     <Compile Include="Models\PrepList.cs" />
     <Compile Include="Models\PrepListItem.cs" />
@@ -294,8 +302,8 @@
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />
     <Compile Include="Models\Repository\LowStockRepository.cs" />
-    <Compile Include="Models\Repository\MaxxamMadeReagentRepository.cs" />
-    <Compile Include="Models\Repository\MaxxamMadeStandardRepository.cs" />
+    <Compile Include="Models\Repository\PreparedReagentRepository.cs" />
+    <Compile Include="Models\Repository\PreparedStandardRepository.cs" />
     <Compile Include="Models\Repository\PDFRepository.cs" />
     <Compile Include="Models\Repository\PrepListItemRepository.cs" />
     <Compile Include="Models\Repository\PrepListRepository.cs" />
@@ -320,8 +328,8 @@
     <Compile Include="Models\ViewModels\BalanceViewModels.cs" />
     <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\IntermediateStandardViewModels.cs" />
-    <Compile Include="Models\ViewModels\MaxxamMadeReagentViewModel.cs" />
-    <Compile Include="Models\ViewModels\MaxxamMadeStandardViewModel.cs" />
+    <Compile Include="Models\ViewModels\PreparedReagentViewModel.cs" />
+    <Compile Include="Models\ViewModels\PreparedStandardViewModel.cs" />
     <Compile Include="Models\ViewModels\ReportViewModels.cs" />
     <Compile Include="Models\ViewModels\StockReagentViewModels.cs" />
     <Compile Include="Models\ViewModels\StockStandardViewModels.cs" />
@@ -521,16 +529,16 @@
     <Content Include="Views\PDFViewer\ViewPDF.cshtml" />
     <Content Include="Views\Reports\DeviceVerificationReport.cshtml" />
     <Content Include="Views\Account\ViewProfile.cshtml" />
-    <Content Include="Views\MaxxamMadeReagent\Create.cshtml" />
-    <Content Include="Views\MaxxamMadeReagent\Delete.cshtml" />
-    <Content Include="Views\MaxxamMadeReagent\Details.cshtml" />
-    <Content Include="Views\MaxxamMadeReagent\Edit.cshtml" />
-    <Content Include="Views\MaxxamMadeReagent\Index.cshtml" />
-    <Content Include="Views\MaxxamMadeStandard\Create.cshtml" />
-    <Content Include="Views\MaxxamMadeStandard\Delete.cshtml" />
-    <Content Include="Views\MaxxamMadeStandard\Details.cshtml" />
-    <Content Include="Views\MaxxamMadeStandard\Edit.cshtml" />
-    <Content Include="Views\MaxxamMadeStandard\Index.cshtml" />
+    <Content Include="Views\PreparedReagent\Create.cshtml" />
+    <Content Include="Views\PreparedReagent\Delete.cshtml" />
+    <Content Include="Views\PreparedReagent\Details.cshtml" />
+    <Content Include="Views\PreparedReagent\Edit.cshtml" />
+    <Content Include="Views\PreparedReagent\Index.cshtml" />
+    <Content Include="Views\PreparedStandard\Create.cshtml" />
+    <Content Include="Views\PreparedStandard\Delete.cshtml" />
+    <Content Include="Views\PreparedStandard\Details.cshtml" />
+    <Content Include="Views\PreparedStandard\Edit.cshtml" />
+    <Content Include="Views\PreparedStandard\Index.cshtml" />
     <Content Include="Views\Error\CustomError.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Exception\Index.cshtml" />
@@ -608,6 +616,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511041507194_WorkingStandardChanges.resx">
       <DependentUpon>201511041507194_WorkingStandardChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511061629167_SubDepartmentCode.resx">
+      <DependentUpon>201511061629167_SubDepartmentCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511061651447_RenameObjects.resx">
+      <DependentUpon>201511061651447_RenameObjects.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

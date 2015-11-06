@@ -46,8 +46,8 @@ namespace TMNT.Models {
         public virtual Department Department { get; set; }
         public virtual StockStandard StockStandard { get; set; }
         public virtual StockReagent StockReagent { get; set; }
-        public virtual MaxxamMadeReagent MaxxamMadeReagent { get; set; }
-        public virtual MaxxamMadeStandard MaxxamMadeStandard { get; set; }
+        public virtual PreparedReagent PreparedReagent { get; set; }
+        public virtual PreparedStandard PreparedStandard { get; set; }
         public virtual IntermediateStandard IntermediateStandard { get; set; }
         public virtual WorkingStandard WorkingStandard { get; set; }
         public virtual Device FirstDeviceUsed { get; set; }

@@ -2,15 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
-    public class MaxxamMadeReagent {
-        public MaxxamMadeReagent() {
+    public class PreparedReagent {
+        public PreparedReagent() {
             InventoryItems = new List<InventoryItem>();
         }
         [Key]
-        public int MaxxamMadeReagentId { get; set; }
+        public int PreparedReagentId { get; set; }
         public string MaxxamId { get; set; }
         public string IdCode { get; set; }
-        public string MaxxamMadeReagentName { get; set; }
+        public string PreparedReagentName { get; set; }
         public string LastModifiedBy { get; set; }
 
         //foreign keys

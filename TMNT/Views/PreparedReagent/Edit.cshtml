@@ -1,4 +1,4 @@
-﻿@model TMNT.Models.MaxxamMadeStandard
+﻿@model TMNT.Models.PreparedReagent
 
 @{
     ViewBag.Title = "Edit";
@@ -11,10 +11,10 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>MaxxamMadeStandard</h4>
+        <h4>MaxxamMadeReagent</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.MaxxamMadeStandardId)
+        @Html.HiddenFor(model => model.MaxxamMadeReagentId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.LotNumber, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -33,34 +33,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MaxxamMadeStandardName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MaxxamMadeReagentName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.MaxxamMadeStandardName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MaxxamMadeStandardName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SolventUsed, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SolventUsed, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SolventUsed, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SolventSupplierName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SolventSupplierName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SolventSupplierName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Purity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Purity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Purity, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.MaxxamMadeReagentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaxxamMadeReagentName, "", new { @class = "text-danger" })
             </div>
         </div>
 

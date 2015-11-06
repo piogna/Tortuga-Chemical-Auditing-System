@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TMNT.Filters;
 using TMNT.Models;
@@ -15,46 +14,47 @@ using TMNT.Utils;
 namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
-    public class MaxxamMadeStandardController : Controller {
+    public class PreparedReagentController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        private IRepository<MaxxamMadeStandard> repoStandard;
-        public MaxxamMadeStandardController()
-            : this(new MaxxamMadeStandardRepository(DbContextSingleton.Instance)) {
+
+        private IRepository<PreparedReagent> repo;
+
+        public PreparedReagentController() : this(new PreparedReagentRepository(DbContextSingleton.Instance)) { }
+
+        public PreparedReagentController(IRepository<PreparedReagent> repo) {
+            this.repo = repo;
         }
 
-        public MaxxamMadeStandardController(IRepository<MaxxamMadeStandard> repoStandard) {
-            this.repoStandard = repoStandard;
-        }
-
-        // GET: MaxxamMadeStandards
-        [Route("InHouseStandard")]
+        // GET: MaxxamMadeReagents
+        [Route("InHouseReagent")]
         public ActionResult Index() {
-            var standards = repoStandard.Get();
-            List<MaxxamMadeStandardViewModel> list = new List<MaxxamMadeStandardViewModel>();
+            var reagents = repo.Get();
 
-            foreach (var item in standards) {
-                list.Add(new MaxxamMadeStandardViewModel() {
-                    MaxxamMadeStandardId = item.MaxxamMadeStandardId,
+            List<PreparedReagentViewModel> list = new List<PreparedReagentViewModel>();
+
+            foreach (var item in reagents) {
+                list.Add(new PreparedReagentViewModel() {
+                    MaxxamMadeReagentId = item.PreparedReagentId,
                     MaxxamId = item.MaxxamId,
-                    MaxxamMadeStandardName = item.MaxxamMadeStandardName,
                     IdCode = item.IdCode,
-                    LastModifiedBy = item.LastModifiedBy,
-                    Purity = item.Purity,
-                    SolventUsed = item.SolventUsed
+                    MaxxamMadeReagentName = item.PreparedReagentName,
+                    LastModifiedBy = item.LastModifiedBy
                 });
             }
+
             //iterating through the associated InventoryItem and retrieving the appropriate data
             //this is faster than LINQ
             int counter = 0;
-            foreach (var standard in standards) {
-                foreach (var invItem in standard.InventoryItems) {
-                    if (standard.MaxxamMadeStandardId == invItem.MaxxamMadeStandard.MaxxamMadeStandardId) {
+            foreach (var reagent in reagents) {
+                foreach (var invItem in reagent.InventoryItems) {
+                    if (reagent.PreparedReagentId == invItem.PreparedReagent.PreparedReagentId) {
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
                         //list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
+                        list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
                         list[counter].IsExpired = invItem.ExpiryDate.Value.Date >= DateTime.Today;
                         list[counter].DateOpened = invItem.DateOpened;
@@ -70,83 +70,84 @@ namespace TMNT.Controllers {
             return View(list);
         }
 
-        // GET: MaxxamMadeStandards/Details/5
+        // GET: MaxxamMadeReagents/Details/5
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MaxxamMadeStandard maxxamMadeStandard = db.MaxxamMadeStandard.Find(id);
-            if (maxxamMadeStandard == null) {
+            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
-            return View(maxxamMadeStandard);
+            return View(maxxamMadeReagent);
         }
 
-        // GET: MaxxamMadeStandards/Create
-        [Route("InHouseStandard/Create")]
+        // GET: MaxxamMadeReagents/Create
+        [Route("InHouseReagent/Create")]
         public ActionResult Create() {
             return View();
         }
 
-        // POST: MaxxamMadeStandards/Create
+        // POST: MaxxamMadeReagents/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("InHouseStandard/Create")]
-        public ActionResult Create([Bind(Include = "MaxxamMadeStandardId,LotNumber,IdCode,MaxxamMadeStandardName,SolventUsed,SolventSupplierName,Purity,LastModifiedBy")] MaxxamMadeStandard maxxamMadeStandard) {
+        [Route("InHouseReagent/Create")]
+        public ActionResult Create([Bind(Include = "MaxxamMadeReagentId,LotNumber,IdCode,MaxxamMadeReagentName,LastModifiedBy")] PreparedReagent preparedReagent) {
             if (ModelState.IsValid) {
-                db.MaxxamMadeStandard.Add(maxxamMadeStandard);
+                db.PreparedReagent.Add(preparedReagent);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(maxxamMadeStandard);
+
+            return View(preparedReagent);
         }
 
-        // GET: MaxxamMadeStandards/Edit/5
+        // GET: MaxxamMadeReagents/Edit/5
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MaxxamMadeStandard maxxamMadeStandard = db.MaxxamMadeStandard.Find(id);
-            if (maxxamMadeStandard == null) {
+            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
-            return View(maxxamMadeStandard);
+            return View(maxxamMadeReagent);
         }
 
-        // POST: MaxxamMadeStandards/Edit/5
+        // POST: MaxxamMadeReagents/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaxxamMadeStandardId,LotNumber,IdCode,MaxxamMadeStandardName,SolventUsed,SolventSupplierName,Purity,LastModifiedBy")] MaxxamMadeStandard maxxamMadeStandard) {
+        public ActionResult Edit([Bind(Include = "MaxxamMadeReagentId,LotNumber,IdCode,MaxxamMadeReagentName,LastModifiedBy")] PreparedReagent maxxamMadeReagent) {
             if (ModelState.IsValid) {
-                db.Entry(maxxamMadeStandard).State = EntityState.Modified;
+                db.Entry(maxxamMadeReagent).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(maxxamMadeStandard);
+            return View(maxxamMadeReagent);
         }
 
-        // GET: MaxxamMadeStandards/Delete/5
+        // GET: MaxxamMadeReagents/Delete/5
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MaxxamMadeStandard maxxamMadeStandard = db.MaxxamMadeStandard.Find(id);
-            if (maxxamMadeStandard == null) {
+            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
-            return View(maxxamMadeStandard);
+            return View(maxxamMadeReagent);
         }
 
-        // POST: MaxxamMadeStandards/Delete/5
+        // POST: MaxxamMadeReagents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            MaxxamMadeStandard maxxamMadeStandard = db.MaxxamMadeStandard.Find(id);
-            db.MaxxamMadeStandard.Remove(maxxamMadeStandard);
+            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            db.PreparedReagent.Remove(maxxamMadeReagent);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -48,8 +48,8 @@ namespace TMNT.Models {
         public DbSet<Unit> Units { get; set; }
         public DbSet<CertificateOfAnalysis> CertificatesOfAnalysis { get; set; }
         public DbSet<MSDS> MSDS { get; set; }
-        public DbSet<MaxxamMadeReagent> MaxxamMadeReagent { get; set; }
-        public DbSet<MaxxamMadeStandard> MaxxamMadeStandard { get; set; }
+        public DbSet<PreparedReagent> PreparedReagent { get; set; }
+        public DbSet<PreparedStandard> PreparedStandard { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
 
 
