@@ -50,21 +50,21 @@ $(function () {
                 case "Reagent":
                     //display only reagent lot numbers
                     OptReagent.removeClass('opt');
-                    OptLabel.text("Reagent Lot Numbers");
+                    OptLabel.text("Reagent ID Codes");
                     if (!OptStandard.hasClass('opt')) { OptStandard.addClass('opt'); }
                     if (!OptIntStandard.hasClass('opt')) { OptIntStandard.addClass('opt'); }
                     break;
                 case "Standard":
                     //display only standard lot numbers
                     OptStandard.removeClass('opt');
-                    OptLabel.text("Standard Lot Numbers");
+                    OptLabel.text("Standard ID Codes");
                     if (!OptReagent.hasClass('opt')) { OptReagent.addClass('opt'); }
                     if (!OptIntStandard.hasClass('opt')) { OptIntStandard.addClass('opt'); }
                     break;
                 case "Intermediate Standard":
                     //display only intermediate standard maxxam id's
                     OptIntStandard.removeClass('opt');
-                    OptLabel.text("Intermediate Standard Maxxam Id's");
+                    OptLabel.text("Intermediate Standard ID Codes");
                     if (!OptReagent.hasClass('opt')) { OptReagent.addClass('opt'); }
                     if (!OptStandard.hasClass('opt')) { OptStandard.addClass('opt'); }
                     break;
