@@ -33,7 +33,7 @@ namespace TMNT.Controllers {
                 deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment);
             }
 
-            var cofas = inventoryRepo.Select(item => item.CertificatesOfAnalysis).Count();
+            var cofas = new CertificateOfAnalysisRepository().Get().Count();//inventoryRepo.Select(item => item.CertificatesOfAnalysis).Count();
 
             if (userDepartment == null) {
                 ModelState.AddModelError("", "User is not designated a department");
@@ -52,7 +52,7 @@ namespace TMNT.Controllers {
             };
 
             switch (model.Role) {
-                case "Lab Technician":
+                case "Analyst":
                     //lab technician dashboard
                     break;
                 case "Department Head":
