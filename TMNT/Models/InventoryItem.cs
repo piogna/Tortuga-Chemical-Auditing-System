@@ -32,7 +32,7 @@ namespace TMNT.Models {
         public int NumberOfBottles { get; set; }
         public string InitialAmount { get; set; }
         public int? DaysUntilExpired { get; set; }
-
+        public string OtherUnitExplained { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
 

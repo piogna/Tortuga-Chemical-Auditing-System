@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201511061651447_RenameObjects.Designer.cs">
       <DependentUpon>201511061651447_RenameObjects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511061824163_OtherUnitExplained.cs" />
+    <Compile Include="Migrations\201511061824163_OtherUnitExplained.Designer.cs">
+      <DependentUpon>201511061824163_OtherUnitExplained.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -622,6 +626,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511061651447_RenameObjects.resx">
       <DependentUpon>201511061651447_RenameObjects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511061824163_OtherUnitExplained.resx">
+      <DependentUpon>201511061824163_OtherUnitExplained.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
