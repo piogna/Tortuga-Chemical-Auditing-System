@@ -222,7 +222,7 @@ namespace TMNT.Controllers {
             model.DepartmentNames = departments
                 .GroupBy(item => item.DepartmentName)
                 .Select(item => item.First().DepartmentName).ToList();//.Select(item => item.DepartmentName).GroupBy(item => item.).ToList();
-            model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment)).Select(item => item.SubDepartment).ToList();
+            model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).Select(item => item.SubDepartment).ToList();
 
             return model;
         }
