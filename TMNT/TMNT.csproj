@@ -278,6 +278,14 @@
     <Compile Include="Migrations\201511061910372_ConcentrationOtherUnitExplained.Designer.cs">
       <DependentUpon>201511061910372_ConcentrationOtherUnitExplained.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511062016173_DeviceNewFields.cs" />
+    <Compile Include="Migrations\201511062016173_DeviceNewFields.Designer.cs">
+      <DependentUpon>201511062016173_DeviceNewFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511062024077_ColumnNameChangesAndThings.cs" />
+    <Compile Include="Migrations\201511062024077_ColumnNameChangesAndThings.Designer.cs">
+      <DependentUpon>201511062024077_ColumnNameChangesAndThings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -636,6 +644,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511061910372_ConcentrationOtherUnitExplained.resx">
       <DependentUpon>201511061910372_ConcentrationOtherUnitExplained.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511062016173_DeviceNewFields.resx">
+      <DependentUpon>201511062016173_DeviceNewFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511062024077_ColumnNameChangesAndThings.resx">
+      <DependentUpon>201511062024077_ColumnNameChangesAndThings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

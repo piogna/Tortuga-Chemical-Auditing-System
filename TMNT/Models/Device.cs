@@ -12,6 +12,10 @@ namespace TMNT.Models {
         [Display(Name="Type")]
         public string DeviceType { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
+        public int NumberOfDecimals { get; set; }
+        public int AmountLimitOne { get; set; }
+        public int AmountLimitTwo { get; set; }
+        public int AmountLimitThree { get; set; }
 
         [Required]
         public virtual Department Department { get; set; }
