@@ -47,14 +47,22 @@ namespace TMNT.Models.ViewModels {
     }
 
     public class BalanceCreateViewModel {
-        [Display(Name = "Device Code")]
+        [Required(ErrorMessage = "Device Code is Required"), Display(Name = "Device Code")]
         public string DeviceCode { get; set; }
-        [Display(Name = "Department Name")]
+        [Required(ErrorMessage = "Department Name is Required"), Display(Name = "Department Name")]
         public string DepartmentName { get; set; }
-        [Display(Name = "Sub Department")]
+        [Required(ErrorMessage = "Sub Department is Required"), Display(Name = "Sub Department")]
         public string SubDepartment { get; set; }
-        [Display(Name = "Location Name")]
+        [Required(ErrorMessage = "Location Name is Required"), Display(Name = "Location Name")]
         public string LocationName { get; set; }
+        [Required(ErrorMessage = "Number of Decimals is Required"), Display(Name = "Number of Decimals")]
+        public int NumberOfDecimals { get; set; }
+        [Required(ErrorMessage = "First Weight Limit is Required"), Display(Name = "First Weight Limit")]
+        public int WeightLimitOne { get; set; }
+        [Required(ErrorMessage = "Second Weight Limit is Required"), Display(Name = "Second Weight Limit")]
+        public int WeightLimitTwo { get; set; }
+        [Required(ErrorMessage = "Third Weight Limit is Required"), Display(Name = "Third Weight Limit")]
+        public int WeightLimitThree { get; set; }
 
         //properties to help populate the view
         public List<string> LocationNames { get; set; }

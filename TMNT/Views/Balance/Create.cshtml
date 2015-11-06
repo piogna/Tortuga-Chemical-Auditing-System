@@ -6,7 +6,14 @@
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <style>
+        .form-group {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    </style>
 }
+
 
 @using (Html.BeginForm("Create", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -94,13 +101,46 @@
                                         @Html.ValidationMessageFor(model => model.SubDepartment)
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <div class="col-xs-12" id="reagent-next-fix">
-                                        <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.NumberOfDecimals, new { htmlAttributes = new { @placeholder = "# of Decimals", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
                                     </div>
-                                    <div class="col-xs-12 pull-right">
-                                        <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                    @Html.ValidationMessageFor(model => model.NumberOfDecimals)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.WeightLimitOne, new { htmlAttributes = new { @placeholder = "First Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
                                     </div>
+                                    @Html.ValidationMessageFor(model => model.WeightLimitOne)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.WeightLimitTwo, new { htmlAttributes = new { @placeholder = "Second Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.WeightLimitTwo)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.WeightLimitThree, new { htmlAttributes = new { @placeholder = "Third Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.WeightLimitThree)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-12" id="reagent-next-fix">
+                                    <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
+                                </div>
+                                <div class="col-xs-12 pull-right">
+                                    <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
                                 </div>
                             </div>
                         </div>
