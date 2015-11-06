@@ -9,6 +9,7 @@ namespace TMNT.Models {
         public string DepartmentName { get; set; }
         [Display(Name = "Sub Department")]
         public string SubDepartment { get; set; }
+        public string SubDepartmentCode { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Device> Devices { get; set; }
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }
