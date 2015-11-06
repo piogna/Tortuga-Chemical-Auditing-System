@@ -46,10 +46,6 @@
         input[type=checkbox]:hover {
             cursor: pointer;
         }
-
-        .hide-element {
-            display:none;
-        }
     </style>
 }
 
@@ -167,7 +163,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
-                                        <select data-placeholder="Units.." name="AmountUnit" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                        <select data-placeholder="Units.." name="AmountUnit" id="WeightUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
                                                     <option value="@item.UnitShorthandName">
@@ -188,7 +184,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div id="other-unit-wrapper" class="form-group hide-element">
+                                <div id="other-unit-wrapper" class="form-group hide">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
@@ -200,7 +196,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="Concentration" id="Concentration" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Concentration" />
-                                        <select data-placeholder="Units.." name="ConcentrationUnit" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                        <select data-placeholder="Units.." name="ConcentrationUnit" id="ConcentrationUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
                                                     <option value="@item.UnitShorthandName">
@@ -220,6 +216,13 @@
                                             </optgroup>
                                         </select>
                                     </div>
+                                </div>
+                                <div id="conc-other-unit-wrapper" class="form-group hide">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ConcentrationOtherUnitExplained)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">

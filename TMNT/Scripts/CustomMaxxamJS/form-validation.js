@@ -14,21 +14,43 @@ $(function () {
     var otherUnitWrapper = $("#other-unit-wrapper");
     var otherUnitExplained = $("#OtherUnitExplained");
 
-    $('#Units').on('change', function () {
-        var options = $('#Units').find(":selected");
+    $('#WeightUnits').on('change', function () {
+        var options = $(this).find(":selected");
 
         if (options.length === 0) {
-            otherUnitWrapper.addClass("hide-element");
+            otherUnitWrapper.addClass("hide");
             otherUnitExplained.removeClass("required-field");
         }
 
         options.each(function () {
             if ($(this).text() === "Other") {
-                otherUnitWrapper.removeClass("hide-element");
+                otherUnitWrapper.removeClass("hide");
                 otherUnitExplained.addClass("required-field");
             } else {
-                otherUnitWrapper.addClass("hide-element");
+                otherUnitWrapper.addClass("hide");
                 otherUnitExplained.removeClass("required-field");
+            }
+        });
+    });
+
+    var concOtherUnitWrapper = $('#conc-other-unit-wrapper');
+    var concOtherUnitExplained = $("#ConcentrationOtherUnitExplained");
+
+    $('#ConcentrationUnits').on('change', function () {
+        var options = $(this).find(":selected");
+
+        if (options.length === 0) {
+            concOtherUnitWrapper.addClass("hide");
+            concOtherUnitExplained.removeClass("required-field");
+        }
+
+        options.each(function () {
+            if ($(this).text() === "Other") {
+                concOtherUnitWrapper.removeClass("hide");
+                concOtherUnitExplained.addClass("required-field");
+            } else {
+                concOtherUnitWrapper.addClass("hide");
+                concOtherUnitExplained.removeClass("required-field");
             }
         });
     });

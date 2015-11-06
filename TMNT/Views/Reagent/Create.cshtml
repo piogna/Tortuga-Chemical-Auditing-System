@@ -50,10 +50,6 @@
         div.chosen-container {
             width: 50% !important;
         }
-
-        .hide-element {
-            display:none;
-        }
     </style>
 }
 
@@ -182,7 +178,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div id="other-unit-wrapper" class="form-group hide-element">
+                                <div id="other-unit-wrapper" class="form-group hide">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
