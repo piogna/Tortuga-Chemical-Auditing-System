@@ -33,6 +33,7 @@ namespace TMNT.Models {
         public string InitialAmount { get; set; }
         public int? DaysUntilExpired { get; set; }
         public string OtherUnitExplained { get; set; }
+        public string ConcentrationOtherUnitExplained { get; set; }
 
         public virtual ICollection<Location> Locations { get; set; }
 
