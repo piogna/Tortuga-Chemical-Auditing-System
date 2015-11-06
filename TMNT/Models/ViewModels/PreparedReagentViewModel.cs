@@ -6,7 +6,7 @@ namespace TMNT.Models.ViewModels {
     public class PreparedReagentViewModel {
 
         //reagent properties
-        public int MaxxamMadeReagentId { get; set; }
+        public int PreparedReagentId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Created")]
@@ -14,7 +14,7 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Reagent Name")]
-        public string MaxxamMadeReagentName { get; set; }
+        public string PreparedReagentName { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
         [DataType(DataType.Date), Display(Name = "Date Last Modified")]
@@ -54,9 +54,5 @@ namespace TMNT.Models.ViewModels {
         public Department Department { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
-        public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
-        public List<MSDS> AllMSDS { get; set; }
-
-        //public List<object> ItemsWhereReagentUsed { get; set; }
     }
 }

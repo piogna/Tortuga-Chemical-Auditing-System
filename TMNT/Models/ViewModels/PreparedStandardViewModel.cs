@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class PreparedStandardViewModel {
-        public int MaxxamMadeStandardId { get; set; }
+        public int PreparedStandardId { get; set; }
 
         //stock standard properties
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [Display(Name = "Standard Name")]
-        public string MaxxamMadeStandardName { get; set; }
+        public string PreparedStandardName { get; set; }
         [Display(Name = "Date Opened")]
         public DateTime? DateOpened { get; set; }
         [Display(Name = "Created By")]
@@ -60,8 +60,6 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }
-
-        public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
-        public List<MSDS> AllMSDS { get; set; }
+        public List<PrepListItem> PrepListItems { get; set; }
     }
 }

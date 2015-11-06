@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TMNT.Filters;
 using TMNT.Models;
@@ -28,16 +27,16 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeStandards
-        [Route("InHouseStandard")]
+        [Route("PreparedStandard")]
         public ActionResult Index() {
             var standards = repoStandard.Get();
             List<PreparedStandardViewModel> list = new List<PreparedStandardViewModel>();
 
             foreach (var item in standards) {
                 list.Add(new PreparedStandardViewModel() {
-                    MaxxamMadeStandardId = item.PreparedStandardId,
+                    PreparedStandardId = item.PreparedStandardId,
                     MaxxamId = item.MaxxamId,
-                    MaxxamMadeStandardName = item.PreparedStandardName,
+                    PreparedStandardName = item.PreparedStandardName,
                     IdCode = item.IdCode,
                     LastModifiedBy = item.LastModifiedBy,
                     Purity = item.Purity,
@@ -71,6 +70,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeStandards/Details/5
+        [Route("PreparedStandard/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,7 +83,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeStandards/Create
-        [Route("InHouseStandard/Create")]
+        [Route("PreparedStandard/Create")]
         public ActionResult Create() {
             return View();
         }
@@ -93,8 +93,8 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("InHouseStandard/Create")]
-        public ActionResult Create([Bind(Include = "MaxxamMadeStandardId,LotNumber,IdCode,MaxxamMadeStandardName,SolventUsed,SolventSupplierName,Purity,LastModifiedBy")] PreparedStandard maxxamMadeStandard) {
+        [Route("PreparedStandard/Create")]
+        public ActionResult Create([Bind(Include = "PreparedStandardId,LotNumber,IdCode,PreparedStandardName,SolventUsed,Purity,LastModifiedBy")] PreparedStandard maxxamMadeStandard) {
             if (ModelState.IsValid) {
                 db.PreparedStandard.Add(maxxamMadeStandard);
                 db.SaveChanges();
@@ -104,6 +104,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeStandards/Edit/5
+        [Route("PreparedStandard/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,16 +121,18 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaxxamMadeStandardId,LotNumber,IdCode,MaxxamMadeStandardName,SolventUsed,SolventSupplierName,Purity,LastModifiedBy")] PreparedStandard maxxamMadeStandard) {
+        [Route("PreparedStandard/Edit/{id?}")]
+        public ActionResult Edit([Bind(Include = "PreparedStandardId,LotNumber,IdCode,PreparedStandardName,SolventUsed,Purity,LastModifiedBy")] PreparedStandard preparedStandard) {
             if (ModelState.IsValid) {
-                db.Entry(maxxamMadeStandard).State = EntityState.Modified;
+                db.Entry(preparedStandard).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(maxxamMadeStandard);
+            return View(preparedStandard);
         }
 
         // GET: MaxxamMadeStandards/Delete/5
+        [Route("PreparedStandard/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -144,6 +147,7 @@ namespace TMNT.Controllers {
         // POST: MaxxamMadeStandards/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("PreparedStandard/Delete/{id}")]
         public ActionResult DeleteConfirmed(int id) {
             PreparedStandard maxxamMadeStandard = db.PreparedStandard.Find(id);
             db.PreparedStandard.Remove(maxxamMadeStandard);

@@ -11,18 +11,18 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            In-House Standards
+            Prepared Standards
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> In-House Standards
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Prepared Standards
             </li>
         </ol>
     </div>
 </div>
 
 <p>
-    @Html.ActionLink("New In-House Standard", "Create", "MaxxamMadeStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("New Prepared Standard", "Create", "PreparedStandard", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
@@ -32,7 +32,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
+                @Html.DisplayNameFor(model => model.PreparedStandardName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
@@ -58,12 +58,12 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.MaxxamMadeStandardId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.MaxxamMadeStandardId }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PreparedStandardId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PreparedStandardId }) |
                     <a href="#">Print Label</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaxxamMadeStandardName)
+                    @Html.DisplayFor(modelItem => item.PreparedStandardName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
@@ -90,7 +90,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamMadeStandardName)
+                @Html.DisplayNameFor(model => model.PreparedStandardName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)

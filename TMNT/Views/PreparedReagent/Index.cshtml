@@ -11,18 +11,18 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">
-            In-House Reagents
+            Prepared Reagents
         </h1>
         <ol class="breadcrumb">
             <li class="active">
-                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> In-House Reagents
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Prepared Reagents
             </li>
         </ol>
     </div>
 </div>
 
 <p>
-    @Html.ActionLink("New In-House Reagent", "Create", "MaxxamMadeReagent", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("New Prepared Reagent", "Create", "PreparedReagent", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
@@ -32,7 +32,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
+                @Html.DisplayNameFor(model => model.PreparedReagentName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
@@ -58,12 +58,12 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.MaxxamMadeReagentId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.MaxxamMadeReagentId }) |
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PreparedReagentId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PreparedReagentId }) |
                     <a href="#">Print Label</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaxxamMadeReagentName)
+                    @Html.DisplayFor(modelItem => item.PreparedReagentName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
@@ -90,7 +90,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
+                @Html.DisplayNameFor(model => model.PreparedReagentName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateCreated)
@@ -113,51 +113,4 @@
         </tr>
     </tfoot>
 </table>
-
-
-
 @Scripts.Render("~/datatables")
-
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LotNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MaxxamMadeReagentName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastModifiedBy)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LotNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MaxxamMadeReagentName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastModifiedBy)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MaxxamMadeReagentId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MaxxamMadeReagentId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MaxxamMadeReagentId })
-        </td>
-    </tr>
-}
-
-</table>*@

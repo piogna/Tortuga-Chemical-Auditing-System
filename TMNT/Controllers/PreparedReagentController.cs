@@ -27,7 +27,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents
-        [Route("InHouseReagent")]
+        [Route("PreparedReagent")]
         public ActionResult Index() {
             var reagents = repo.Get();
 
@@ -35,10 +35,10 @@ namespace TMNT.Controllers {
 
             foreach (var item in reagents) {
                 list.Add(new PreparedReagentViewModel() {
-                    MaxxamMadeReagentId = item.PreparedReagentId,
+                    PreparedReagentId = item.PreparedReagentId,
                     MaxxamId = item.MaxxamId,
                     IdCode = item.IdCode,
-                    MaxxamMadeReagentName = item.PreparedReagentName,
+                    PreparedReagentName = item.PreparedReagentName,
                     LastModifiedBy = item.LastModifiedBy
                 });
             }
@@ -71,6 +71,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Details/5
+        [Route("Reagent/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -83,7 +84,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Create
-        [Route("InHouseReagent/Create")]
+        [Route("PreparedReagent/Create")]
         public ActionResult Create() {
             return View();
         }
@@ -93,8 +94,8 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("InHouseReagent/Create")]
-        public ActionResult Create([Bind(Include = "MaxxamMadeReagentId,LotNumber,IdCode,MaxxamMadeReagentName,LastModifiedBy")] PreparedReagent preparedReagent) {
+        [Route("PreparedReagent/Create")]
+        public ActionResult Create([Bind(Include = "PreparedReagentId,LotNumber,IdCode,PreparedReagentName,LastModifiedBy")] PreparedReagent preparedReagent) {
             if (ModelState.IsValid) {
                 db.PreparedReagent.Add(preparedReagent);
                 db.SaveChanges();
@@ -105,6 +106,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Edit/5
+        [Route("Reagent/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -121,7 +123,8 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaxxamMadeReagentId,LotNumber,IdCode,MaxxamMadeReagentName,LastModifiedBy")] PreparedReagent maxxamMadeReagent) {
+        [Route("Reagent/Edit/{id?}")]
+        public ActionResult Edit([Bind(Include = "PreparedReagentId,LotNumber,IdCode,PreparedReagentName,LastModifiedBy")] PreparedReagent maxxamMadeReagent) {
             if (ModelState.IsValid) {
                 db.Entry(maxxamMadeReagent).State = EntityState.Modified;
                 db.SaveChanges();
@@ -131,6 +134,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Delete/5
+        [Route("Reagent/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -145,6 +149,7 @@ namespace TMNT.Controllers {
         // POST: MaxxamMadeReagents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Route("Reagent/Details/{id}")]
         public ActionResult DeleteConfirmed(int id) {
             PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
             db.PreparedReagent.Remove(maxxamMadeReagent);
