@@ -7,11 +7,14 @@ namespace TMNT.Models.ViewModels {
         public string Type { get; set; }
         [Display(Name = "Expiry Date")]
         public string ExpiryDate { get; set; }
-        [Display(Name = "Date Opened")]
-        public string DateOpened { get; set; }
+        //[Display(Name = "Date Opened")]
+        //public string DateOpened { get; set; }
+        [Display(Name = "ID Code")]
+        public string IdCode { get; set; }
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         public string Department { get; set; }
+        public bool IsExpired { get; set; }
     }
 
     public class ReportDeviceVerificationViewModel {

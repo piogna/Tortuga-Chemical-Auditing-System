@@ -65,20 +65,29 @@ namespace TMNT.Controllers {
         [Route("Report/ExpiringInventoryReportInformation")]
         public ActionResult ExpiringInventoryReportInformation() {
             var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
-                .Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today))
+                .Where(item => item.ExpiryDate < DateTime.Today.AddDays(30))// && !(item.ExpiryDate < DateTime.Today))
                 .Select(item => new ReportExpiringStockViewModel() {
                     DaysUntilExpired = item.ExpiryDate == null 
                         ? "TBD" :
                             (item.ExpiryDate - DateTime.Today).Value.Days == 0
-                                ? "Expires Today"
-                                : (item.ExpiryDate - DateTime.Today).Value.Days.ToString(),
+                                ? "Expires Today" :
+                                    (item.ExpiryDate - DateTime.Today).Value.Days < 0
+                                        ? "Expired"
+                                        : (item.ExpiryDate - DateTime.Today).Value.Days.ToString(),
                     Type = item.Type,
                     ExpiryDate = item.ExpiryDate == null
                                 ? "TBD"
                                 : item.ExpiryDate.ToString().Split(' ')[0],
-                    DateOpened = item.DateOpened == null ?
-                                    "TBD" :
-                                    item.DateOpened.ToString().Split(' ')[0],
+                    IdCode = item.StockReagent != null
+                                ? item.StockReagent.IdCode
+                                : item.StockStandard != null
+                                    ? item.StockStandard.IdCode
+                                    : item.IntermediateStandard.IdCode != null
+                                        ? item.IntermediateStandard.IdCode
+                                        : "Error",
+                    //DateOpened = item.DateOpened == null ?
+                    //                "TBD" :
+                    //                item.DateOpened.ToString().Split(' ')[0],
                     SupplierName = item.SupplierName,
                     Department = item.Department.DepartmentName
                 })
