@@ -126,7 +126,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate,InitialAmount,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
+        public ActionResult Create([Bind(Include = "CatalogueCode,MSDSNotes,SupplierName,ReagentName,StorageRequirements,Grade,UsedFor,LotNumber,GradeAdditionalNotes,NumberOfBottles,ExpiryDate,InitialAmount,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained")]
                 StockReagentCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
@@ -189,6 +189,7 @@ namespace TMNT.Controllers {
                 SupplierName = model.SupplierName,
                 NumberOfBottles = model.NumberOfBottles,
                 InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
+                OtherUnitExplained = model.OtherUnitExplained,
                 DaysUntilExpired = model.DaysUntilExpired
             };
 

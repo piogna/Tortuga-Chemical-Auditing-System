@@ -84,6 +84,8 @@ namespace TMNT.Models.ViewModels {
         public string InitialAmountUnits { get; set; }
         public string InitialConcentrationUnits { get; set; }
         public int Concentration { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
 
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
         public List<MSDS> AllMSDS { get; set; }
@@ -155,6 +157,8 @@ namespace TMNT.Models.ViewModels {
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         public Unit Unit { get; set; }
         public Department Department { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
 
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
         public List<MSDS> AllMSDS { get; set; }

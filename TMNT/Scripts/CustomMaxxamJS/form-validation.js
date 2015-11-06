@@ -11,6 +11,28 @@ $(function () {
     var buttonMessageSectionTwo = $('#button-message-s2');
     var formIsValid = true;
 
+    var otherUnitWrapper = $("#other-unit-wrapper");
+    var otherUnitExplained = $("#OtherUnitExplained");
+
+    $('#Units').on('change', function () {
+        var options = $('#Units').find(":selected");
+
+        if (options.length === 0) {
+            otherUnitWrapper.addClass("hide-element");
+            otherUnitExplained.removeClass("required-field");
+        }
+
+        options.each(function () {
+            if ($(this).text() === "Other") {
+                otherUnitWrapper.removeClass("hide-element");
+                otherUnitExplained.addClass("required-field");
+            } else {
+                otherUnitWrapper.addClass("hide-element");
+                otherUnitExplained.removeClass("required-field");
+            }
+        });
+    });
+
     $('#section-bar-1').on('change keyup paste', '.required-field', function () {
         formIsValid = true;
         requiredField.each(function () {

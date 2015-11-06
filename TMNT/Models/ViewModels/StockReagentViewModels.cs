@@ -80,6 +80,8 @@ namespace TMNT.Models.ViewModels {
         public Department Department { get; set; }
         [Display(Name = "Number of Bottles")]
         public int NumberOfBottles { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
@@ -137,6 +139,8 @@ namespace TMNT.Models.ViewModels {
         public int NumberOfBottles { get; set; }
         public int InitialAmount { get; set; }
         public string InitialAmountUnits { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }

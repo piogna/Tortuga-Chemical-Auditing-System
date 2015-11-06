@@ -46,6 +46,10 @@
         input[type=checkbox]:hover {
             cursor: pointer;
         }
+
+        .hide-element {
+            display:none;
+        }
     </style>
 }
 
@@ -183,6 +187,13 @@
                                             </optgroup>
                                         </select>
                                     </div>
+                                </div>
+                                <div id="other-unit-wrapper" class="form-group hide-element">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.OtherUnitExplained)
                                 </div>
                                 <!--CONCENTRATION-->
                                 <div class="form-group">

@@ -77,6 +77,7 @@ namespace TMNT.Utils {
                 SupplierName = model.SupplierName,
                 NumberOfBottles = model.NumberOfBottles,
                 InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
+                OtherUnitExplained = model.OtherUnitExplained,
                 DaysUntilExpired = model.DaysUntilExpired
             };
 
