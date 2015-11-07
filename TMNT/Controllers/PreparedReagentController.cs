@@ -52,7 +52,6 @@ namespace TMNT.Controllers {
                         list[counter].CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
-                        //list[counter].Unit = invItem.Unit;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
                         list[counter].Grade = invItem.Grade;
                         list[counter].ExpiryDate = invItem.ExpiryDate;
@@ -106,7 +105,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Edit/5
-        [Route("Reagent/Edit/{id?}")]
+        [Route("PreparedReagent/Edit/{id?}")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -123,7 +122,7 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Reagent/Edit/{id?}")]
+        [Route("PreparedReagent/Edit/{id?}")]
         public ActionResult Edit([Bind(Include = "PreparedReagentId,LotNumber,IdCode,PreparedReagentName,LastModifiedBy")] PreparedReagent maxxamMadeReagent) {
             if (ModelState.IsValid) {
                 db.Entry(maxxamMadeReagent).State = EntityState.Modified;
@@ -134,7 +133,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Delete/5
-        [Route("Reagent/Delete/{id?}")]
+        [Route("PreparedReagent/Delete/{id?}")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -149,7 +148,7 @@ namespace TMNT.Controllers {
         // POST: MaxxamMadeReagents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Route("Reagent/Details/{id}")]
+        [Route("PreparedReagent/Delete/{id}")]
         public ActionResult DeleteConfirmed(int id) {
             PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
             db.PreparedReagent.Remove(maxxamMadeReagent);
