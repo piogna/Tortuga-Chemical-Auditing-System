@@ -52,7 +52,7 @@ namespace TMNT.Models.ViewModels {
         [Required(ErrorMessage = "Department Name is Required"), Display(Name = "Department Name")]
         public string DepartmentName { get; set; }
         [Required(ErrorMessage = "Sub Department is Required"), Display(Name = "Sub Department")]
-        public string SubDepartment { get; set; }
+        public string SubDepartmentName { get; set; }
         [Required(ErrorMessage = "Location Name is Required"), Display(Name = "Location Name")]
         public string LocationName { get; set; }
         [Required(ErrorMessage = "Number of Decimals is Required"), Display(Name = "Number of Decimals")]

@@ -116,10 +116,7 @@ namespace TMNT.Controllers {
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         // GET: /Standard/Create
         public ActionResult Create() {
-            var model = new StockStandardCreateViewModel();
-            SetStockStandard(model);
-
-            return View(model);
+            return View(SetStockStandard(new StockStandardCreateViewModel()));
         }
 
         // POST: /Standard/Create
@@ -144,8 +141,7 @@ namespace TMNT.Controllers {
 
             if (doesCatalogueCodeExist) {
                 ModelState.AddModelError("", "The Catalogue Code provided is not unique. If the Catalogue Code provided is in fact correct, add the item as a new Lot Number under the existing Catalogue Code.");
-                SetStockStandard(model);
-                return View(model);
+                return View(SetStockStandard(model));
             }
 
             var devicesUsed = Request.Form["Devices"];
@@ -155,8 +151,7 @@ namespace TMNT.Controllers {
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
-                SetStockStandard(model);
-                return View(model);
+                return View(SetStockStandard(model));
             }
 
             model = BuildReagentOrStandard.BuildStandard(model, devicesUsed, AmountUnit, ConcentrationUnit, uploadCofA, uploadMSDS);
@@ -168,16 +163,13 @@ namespace TMNT.Controllers {
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + createStandard.StockStandardName + " failed. Please double check all inputs and try again.");
-                    SetStockStandard(model);
-                    return View(model);
+                    return View(SetStockStandard(model));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    SetStockStandard(model);
-                    return View(model);
+                    return View(SetStockStandard(model));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    SetStockStandard(model);
-                    return View(model);
+                    return View(SetStockStandard(model));
                 case CheckModelState.Valid:
                     if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                         //save pressed
@@ -188,8 +180,7 @@ namespace TMNT.Controllers {
                     }
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    SetStockStandard(model);
-                    return View(model);
+                    return View(SetStockStandard(model));
             }
         }
 

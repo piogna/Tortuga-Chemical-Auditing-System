@@ -114,9 +114,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Create")]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
         public ActionResult Create() {
-            var model = new StockReagentCreateViewModel();
-
-            return View(SetStockReagent(model));
+            return View(SetStockReagent(new StockReagentCreateViewModel()));
         }
 
         // POST: /Reagent/Create
@@ -130,8 +128,7 @@ namespace TMNT.Controllers {
                 StockReagentCreateViewModel model, string[] Unit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {
-                SetStockReagent(model);
-                return View(model);
+                return View(SetStockReagent(model));
             }
 
             //last line of defense for number of bottles
@@ -228,16 +225,13 @@ namespace TMNT.Controllers {
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
-                    SetStockReagent(model);
-                    return View(model);
+                    return View(SetStockReagent(model));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    SetStockReagent(model);
-                    return View(model);
+                    return View(SetStockReagent(model));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    SetStockReagent(model);
-                    return View(model);
+                    return View(SetStockReagent(model));
                 case CheckModelState.Valid:
                     if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                         //save pressed
@@ -248,8 +242,7 @@ namespace TMNT.Controllers {
                     }
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    SetStockReagent(model);
-                    return View(model);
+                    return View(SetStockReagent(model));
             }
         }
 

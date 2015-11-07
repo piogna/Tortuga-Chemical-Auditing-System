@@ -14,7 +14,7 @@ namespace TMNT.Utils {
         /// <param name="scale"></param>
         /// <returns></returns>
         public static Device SetBalanceToUnverified(Device scale) {
-            if (scale.DeviceVerifications.Count > 0) {
+            if (scale.DeviceVerifications != null && scale.DeviceVerifications.Count > 0) {
                 var test = new DeviceVerificationRepostory(DbContextSingleton.Instance).Get()
                     .Where(item => item.Device == scale)
                     .OrderByDescending(item => item.VerifiedOn)

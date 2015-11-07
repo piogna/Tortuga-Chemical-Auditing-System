@@ -9,6 +9,7 @@ using TMNT.Models.ViewModels;
 using TMNT.Utils;
 using TMNT.Helpers;
 using TMNT.Filters;
+using TMNT.Models.Enums;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -85,15 +86,61 @@ namespace TMNT.Controllers {
 
         [Route("Balance/Create")]
         public ActionResult Create() {
-            var model = new BalanceCreateViewModel();
-            return View(SetBalance(model));
+            return View(SetBalance(new BalanceCreateViewModel()));
         }
 
         [Route("Balance/Create")]
         [HttpPost]
-        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName")] BalanceVerificationViewModel balance) {
-            SetBalance(new BalanceCreateViewModel());
-            return View();
+        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree")] BalanceCreateViewModel balance, string submit) {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            if (ModelState.IsValid) {
+                var deviceRepo = new DeviceRepository();
+
+                var doesDeviceAlreadyExist = deviceRepo.Get().Any(item => item != null && item.DeviceCode.Equals(balance.DeviceCode));
+
+                if (doesDeviceAlreadyExist) {
+                    ModelState.AddModelError("", "The Device Code provided is not unique. Please try again.");
+                    return View(SetBalance(balance));
+                }
+
+                var device = new Device() {
+                    AmountLimitOne = balance.WeightLimitOne,
+                    AmountLimitTwo = balance.WeightLimitTwo,
+                    AmountLimitThree = balance.WeightLimitThree,
+                    DeviceCode = balance.DeviceCode,
+                    NumberOfDecimals = balance.NumberOfDecimals,
+                    Status = "Needs Verification",
+                    IsVerified = false,
+                    DeviceType = "Balance",
+                    Department = new DepartmentRepository().Get().Where(item => item.DepartmentName.Equals(balance.DepartmentName) && item.SubDepartment.Equals(balance.SubDepartmentName)).First()
+                };
+
+                var result = deviceRepo.Create(device);
+
+                switch (result) {
+                    case CheckModelState.Invalid:
+                        ModelState.AddModelError("", "The creation of the balance failed. Please double check all inputs and try again.");
+                        return View(SetBalance(balance));
+                    case CheckModelState.DataError:
+                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                        return View(SetBalance(balance));
+                    case CheckModelState.Error:
+                        ModelState.AddModelError("", "There was an error. Please try again.");
+                        return View(SetBalance(balance));
+                    case CheckModelState.Valid:
+                        if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
+                            //save pressed
+                            return RedirectToAction("Index");
+                        } else {
+                            //save & new pressed
+                            return RedirectToAction("Create");
+                        }
+                    default:
+                        ModelState.AddModelError("", "An unknown error occurred.");
+                        return View(SetBalance(balance));
+                }
+            }
+            return View(SetBalance(new BalanceCreateViewModel()));
         }
 
         // GET: /ScaleTest/Create
@@ -127,12 +174,12 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
         public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceVerificationViewModel balancetest) {
-            string selectedValue = Request.Form["Type"];
-            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
-
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
+                string selectedValue = Request.Form["Type"];
+                balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
+
                 var balance = repo.Get(balancetest.BalanceId);
                 balance.IsVerified = true;
 

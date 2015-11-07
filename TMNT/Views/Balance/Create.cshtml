@@ -45,7 +45,7 @@
                         <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
                     </ul>
                 </nav>
-                @Html.ValidationSummary(true)
+
                 <div class="content-wrap">
                     <section id="section-bar-1" class="section">
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -90,7 +90,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select id="storage-locations" name="SubDepartment" class="form-control no-border-radius required-field input-summary">
+                                        <select id="SubDepartmentName" name="SubDepartmentName" class="form-control no-border-radius required-field input-summary">
                                             <option value="">Sub Departments..</option>
                                             @foreach (var item in Model.SubDepartmentNames) {
                                                 <option value="@item">
@@ -98,7 +98,7 @@
                                                 </option>
                                             }
                                         </select>
-                                        @Html.ValidationMessageFor(model => model.SubDepartment)
+                                        @Html.ValidationMessageFor(model => model.SubDepartmentName)
                                     </div>
                                 </div>
                             </div>
