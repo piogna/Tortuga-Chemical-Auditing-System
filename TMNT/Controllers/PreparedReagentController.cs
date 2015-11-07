@@ -71,7 +71,7 @@ namespace TMNT.Controllers {
         }
 
         // GET: MaxxamMadeReagents/Details/5
-        [Route("Reagent/Details/{id?}")]
+        [Route("PreparedReagent/Details/{id?}")]
         public ActionResult Details(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
