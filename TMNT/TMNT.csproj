@@ -360,10 +360,6 @@
     <Compile Include="Utils\DbContextSingleton.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\TMNT.mdf" />
-    <Content Include="App_Data\TMNT_log.ldf">
-      <DependentUpon>TMNT.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -562,8 +558,6 @@
     <Content Include="Views\Home\AdminIndex.cshtml" />
     <Content Include="Views\Shared\_SectionHeader.cshtml" />
     <Content Include="Views\Manage\ChangePasswordFirstTime.cshtml" />
-    <Content Include="Views\Ideas\Create.cshtml" />
-    <Content Include="Views\Ideas\Index.cshtml" />
     <Content Include="Views\Account\InsufficientPrivileges.cshtml" />
     <Content Include="Views\Feedback\Create.cshtml" />
     <Content Include="Views\Feedback\Index.cshtml" />
