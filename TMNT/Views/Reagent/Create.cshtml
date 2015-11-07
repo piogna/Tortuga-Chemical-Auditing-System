@@ -157,7 +157,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
-                                        <select data-placeholder="Units.." name="Unit" id="Units" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                        <select data-placeholder="Units.." name="Unit" id="WeightUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
                                                     <option value="@item.UnitShorthandName">
@@ -354,7 +354,7 @@
             maximumSelectionLength: 2
         });
 
-        $("#Units").chosen({
+        $("#WeightUnits").chosen({
             max_selected_options: 2,
             placeholder: "Units.."
         });
