@@ -104,9 +104,9 @@ namespace TMNT.Controllers {
                 }
 
                 var device = new Device() {
-                    //AmountLimitOne = balance.WeightLimitOne.ToString(),
-                    //AmountLimitTwo = balance.WeightLimitTwo.ToString(),
-                    //AmountLimitThree = balance.WeightLimitThree.ToString(),
+                    AmountLimitOne = balance.WeightLimitOne.ToString(),
+                    AmountLimitTwo = balance.WeightLimitTwo.ToString(),
+                    AmountLimitThree = balance.WeightLimitThree.ToString(),
                     DeviceCode = balance.DeviceCode,
                     NumberOfDecimals = balance.NumberOfDecimals,
                     Status = "Needs Verification",
