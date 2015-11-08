@@ -286,6 +286,10 @@
     <Compile Include="Migrations\201511062024077_ColumnNameChangesAndThings.Designer.cs">
       <DependentUpon>201511062024077_ColumnNameChangesAndThings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511081831226_DropDeviceColumns.cs" />
+    <Compile Include="Migrations\201511081831226_DropDeviceColumns.Designer.cs">
+      <DependentUpon>201511081831226_DropDeviceColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -644,6 +648,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511062024077_ColumnNameChangesAndThings.resx">
       <DependentUpon>201511062024077_ColumnNameChangesAndThings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511081831226_DropDeviceColumns.resx">
+      <DependentUpon>201511081831226_DropDeviceColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -104,9 +104,9 @@ namespace TMNT.Controllers {
                 }
 
                 var device = new Device() {
-                    AmountLimitOne = balance.WeightLimitOne,
-                    AmountLimitTwo = balance.WeightLimitTwo,
-                    AmountLimitThree = balance.WeightLimitThree,
+                    //AmountLimitOne = balance.WeightLimitOne.ToString(),
+                    //AmountLimitTwo = balance.WeightLimitTwo.ToString(),
+                    //AmountLimitThree = balance.WeightLimitThree.ToString(),
                     DeviceCode = balance.DeviceCode,
                     NumberOfDecimals = balance.NumberOfDecimals,
                     Status = "Needs Verification",
@@ -262,6 +262,7 @@ namespace TMNT.Controllers {
                 .GroupBy(item => item.DepartmentName)
                 .Select(item => item.First().DepartmentName).ToList();
             model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).Select(item => item.SubDepartment).ToList();
+            model.WeightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
 
             return model;
         }
