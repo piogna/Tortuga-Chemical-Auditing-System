@@ -257,11 +257,15 @@ namespace TMNT.Controllers {
             var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
 
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
-            model.DepartmentNames = departments
+            model.Departments = departments
                 .Where(item => !item.DepartmentName.Equals("Quality Assurance"))
                 .GroupBy(item => item.DepartmentName)
-                .Select(item => item.First().DepartmentName).ToList();
-            model.SubDepartmentNames = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).Select(item => item.SubDepartment).ToList();
+                .Select(item => item.First()).ToList();
+                //.ToList();
+            //.Where(item => !item.DepartmentName.Equals("Quality Assurance"))
+            //.GroupBy(item => item.DepartmentName)
+            //.Select(item => item.First().DepartmentName).ToList();
+            model.SubDepartments = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).ToList();
             model.WeightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
 
             return model;

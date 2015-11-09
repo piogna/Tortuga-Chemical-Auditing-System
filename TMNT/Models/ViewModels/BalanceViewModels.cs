@@ -66,8 +66,8 @@ namespace TMNT.Models.ViewModels {
 
         //properties to help populate the view
         public List<string> LocationNames { get; set; }
-        public List<string> DepartmentNames { get; set; }
-        public List<string> SubDepartmentNames { get; set; }
+        public List<Department> Departments { get; set; }
+        public List<Department> SubDepartments { get; set; }
         public List<string> WeightUnits { get; set; }
     }
 
