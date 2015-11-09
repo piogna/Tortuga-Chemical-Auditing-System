@@ -167,10 +167,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\ExpiringStockApiController.cs" />
-    <Compile Include="Api\LowStockApiController.cs" />
     <Compile Include="Api\ReportsDevicesApiController.cs" />
-    <Compile Include="Api\StandardApiController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -294,6 +291,10 @@
     <Compile Include="Migrations\201511081834232_RebuildDeviceColumns.Designer.cs">
       <DependentUpon>201511081834232_RebuildDeviceColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511091912570_DeviceIsArchived.cs" />
+    <Compile Include="Migrations\201511091912570_DeviceIsArchived.Designer.cs">
+      <DependentUpon>201511091912570_DeviceIsArchived.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -302,12 +303,6 @@
     <Compile Include="Models\DeviceTest.cs" />
     <Compile Include="Models\DeviceVerification.cs" />
     <Compile Include="Models\Enums\CheckModelState.cs" />
-    <Compile Include="Models\FakeModels\FakeDeviceTest.cs" />
-    <Compile Include="Models\FakeModels\FakeExpiringStandards.cs" />
-    <Compile Include="Models\FakeModels\FakeInventoryItem.cs" />
-    <Compile Include="Models\FakeModels\FakeLowStockStandards.cs" />
-    <Compile Include="Models\FakeRepository\FakeExpiringStandardsRepository.cs" />
-    <Compile Include="Models\FakeRepository\FakeLowStockRepository.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\PreparedReagent.cs" />
@@ -580,6 +575,7 @@
     <Content Include="Views\WorkingStandard\Details.cshtml" />
     <Content Include="Views\WorkingStandard\Edit.cshtml" />
     <Content Include="Views\WorkingStandard\Index.cshtml" />
+    <Content Include="Views\Reagent\Topup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -658,6 +654,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511081834232_RebuildDeviceColumns.resx">
       <DependentUpon>201511081834232_RebuildDeviceColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511091912570_DeviceIsArchived.resx">
+      <DependentUpon>201511091912570_DeviceIsArchived.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

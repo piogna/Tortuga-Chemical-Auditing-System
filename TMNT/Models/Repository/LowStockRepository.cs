@@ -20,11 +20,11 @@ namespace TMNT.Models.Repository {
             throw new NotImplementedException();
         }
 
-        public void Update(InventoryItem t) {
+        public CheckModelState Update(InventoryItem t) {
             throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 

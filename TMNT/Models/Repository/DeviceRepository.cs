@@ -4,6 +4,7 @@ using TMNT.Utils;
 using System.Data.Entity;
 using System;
 using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
@@ -29,24 +30,46 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
                 return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(Device t) {
+        public CheckModelState Update(Device t) {
             try {
                 db.Entry(t).State = EntityState.Modified;
-                db.SaveChanges();
-            } catch (Exception ex) {
-
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            db.Devices.Remove(db.Devices.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            var device = db.Devices.Find(i);
+
+            if (device == null) {
+                return CheckModelState.Error;
+            }
+
+            try {
+                device.IsArchived = true;
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

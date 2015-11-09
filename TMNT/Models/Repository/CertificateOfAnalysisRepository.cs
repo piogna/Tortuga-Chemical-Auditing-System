@@ -24,11 +24,11 @@ namespace TMNT.Models.Repository {
             throw new NotImplementedException();
         }
 
-        public void Update(CertificateOfAnalysis t) {
+        public CheckModelState Update(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 

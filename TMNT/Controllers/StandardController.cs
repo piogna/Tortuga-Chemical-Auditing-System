@@ -318,11 +318,12 @@ namespace TMNT.Controllers {
         private StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var userDepartment = HelperMethods.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
-            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
-            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
 
             return model;
         }

@@ -35,14 +35,12 @@ namespace TMNT.Models.Repository {
             return CheckModelState.Invalid;
         }
 
-        public void Update(Supplier t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+        public CheckModelState Update(Supplier t) {
+            throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
-            db.Suppliers.Remove(db.Suppliers.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            throw new NotImplementedException();
         }
 
         public void Dispose() {

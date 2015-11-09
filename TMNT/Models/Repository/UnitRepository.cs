@@ -20,20 +20,18 @@ namespace TMNT.Models.Repository {
         }
 
         public Unit Get(int? i) {
-            return _db.Units
-                .Where(item => item.UnitId == i)
-                .FirstOrDefault();
+            return _db.Units.Find(i);
         }
 
         public CheckModelState Create(Unit t) {
             throw new NotImplementedException();
         }
 
-        public void Update(Unit t) {
+        public CheckModelState Update(Unit t) {
             throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 

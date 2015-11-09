@@ -11,6 +11,7 @@ using TMNT.Models.Repository;
 using System.Net.Mail;
 using System.Net;
 using System.Configuration;
+using TMNT.Utils;
 
 namespace TMNT.Controllers {
     [Authorize]
@@ -167,7 +168,7 @@ namespace TMNT.Controllers {
         [Route("Account/Register")]
         [AllowAnonymous]
         public ActionResult Register() {
-            return View(new RegisterViewModel());
+            return View(SetRegistration(new RegisterViewModel()));
         }
 
         //
@@ -501,6 +502,22 @@ namespace TMNT.Controllers {
             }
 
             base.Dispose(disposing);
+        }
+
+        private RegisterViewModel SetRegistration(RegisterViewModel model) {
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
+            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+
+            model.LocationNames = locations.Select(item => item.LocationName).ToList();
+            model.Departments = departments
+                .Where(item => !item.DepartmentName.Equals("Quality Assurance"))
+                .GroupBy(item => item.DepartmentName)
+                .Select(item => item.First()).ToList();
+            model.SubDepartments = departments
+                .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
+                .ToList();
+
+            return model;
         }
 
         #region Helpers

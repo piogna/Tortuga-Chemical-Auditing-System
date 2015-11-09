@@ -4,6 +4,7 @@ using TMNT.Utils;
 using System.Data.Entity;
 using TMNT.Models.Enums;
 using System;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class LocationRepository : IRepository<Location> {
@@ -24,27 +25,25 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(Location t) {
-            db.Locations.Add(t);
-            db.SaveChanges();
             try {
                 db.Locations.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(Location t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+        public CheckModelState Update(Location t) {
+            throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
-            db.Locations.Remove(db.Locations.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            throw new NotImplementedException();
         }
 
         public void Dispose() {

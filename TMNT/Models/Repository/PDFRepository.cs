@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using TMNT.Models.Enums;
 using TMNT.Utils;
@@ -16,13 +17,15 @@ namespace TMNT.Models.Repository {
                 if (_db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 
@@ -38,7 +41,7 @@ namespace TMNT.Models.Repository {
             return _db.CertificatesOfAnalysis.Find(i);
         }
 
-        public void Update(CertificateOfAnalysis t) {
+        public CheckModelState Update(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
     }
@@ -53,13 +56,15 @@ namespace TMNT.Models.Repository {
                 if (_db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Invalid;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 
@@ -75,13 +80,8 @@ namespace TMNT.Models.Repository {
             return _db.MSDS.Find(i);
         }
 
-        public void Update(MSDS t) {
-            try {
-                _db.Entry(t).State = EntityState.Modified;
-                _db.SaveChanges();
-            } catch (Exception ex) {
-
-            }
+        public CheckModelState Update(MSDS t) {
+            throw new NotImplementedException();
         }
     }
 }

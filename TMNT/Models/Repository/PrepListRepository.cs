@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using TMNT.Models.Enums;
@@ -29,18 +30,19 @@ namespace TMNT.Models.Repository {
                 if (_db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(PrepList t) {
-            _db.Entry(t).State = EntityState.Modified;
-            _db.SaveChanges();
+        public CheckModelState Update(PrepList t) {
+            throw new NotImplementedException();
         }
 
-        public void Delete(int? i) {
+        public CheckModelState Delete(int? i) {
             throw new NotImplementedException();
         }
 

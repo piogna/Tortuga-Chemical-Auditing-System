@@ -3,7 +3,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
-using TMNT.Models.FakeRepository;
 using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
@@ -11,7 +10,8 @@ namespace TMNT.Controllers {
 
         private IRepository<InventoryItem> repo;
 
-        public InventoryItemController() : this(new InventoryItemRepository()) {
+        public InventoryItemController()
+            : this(new InventoryItemRepository()) {
 
         }
 
@@ -31,7 +31,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);// db.InventoryItems.Find(id);
+            InventoryItem inventoryitem = repo.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -50,26 +50,19 @@ namespace TMNT.Controllers {
         [Route("InventoryItem/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem, HttpPostedFileBase upload)
-        {
+        public ActionResult Create([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem, HttpPostedFileBase upload) {
             if (ModelState.IsValid) {
-                if (upload != null)
-                {
-                    var cofa = new CertificateOfAnalysis()
-                    {
+                if (upload != null) {
+                    var cofa = new CertificateOfAnalysis() {
                         FileName = upload.FileName,
                         ContentType = upload.ContentType,
                         DateAdded = DateTime.Today
                     };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream)) {
                         cofa.Content = reader.ReadBytes(upload.ContentLength);
                     }
                     inventoryitem.CertificatesOfAnalysis.Add(cofa);
-
                 }
-                //db.InventoryItems.Add(inventoryitem);
-                //db.SaveChanges();
                 repo.Create(inventoryitem);
                 return RedirectToAction("Index");
             }
@@ -83,7 +76,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);//db.InventoryItems.Find(id);
+            InventoryItem inventoryitem = repo.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -98,8 +91,6 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem) {
             if (ModelState.IsValid) {
-                //db.Entry(inventoryitem).State = EntityState.Modified;
-                //db.SaveChanges();
                 repo.Update(inventoryitem);
                 return RedirectToAction("Index");
             }
@@ -112,7 +103,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);//db.InventoryItems.Find(id);
+            InventoryItem inventoryitem = repo.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -124,9 +115,6 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            //InventoryItem inventoryitem = db.InventoryItems.Find(id);
-            //db.InventoryItems.Remove(inventoryitem);
-            //db.SaveChanges();
             repo.Delete(id);
             return RedirectToAction("Index");
         }

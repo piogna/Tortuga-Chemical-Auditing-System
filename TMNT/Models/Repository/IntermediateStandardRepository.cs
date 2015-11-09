@@ -5,6 +5,7 @@ using TMNT.Utils;
 using TMNT.Models.Enums;
 using System;
 using System.Data.Entity.Validation;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class IntermediateStandardRepository : IRepository<IntermediateStandard> {
@@ -30,24 +31,40 @@ namespace TMNT.Models.Repository {
                 if (_db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
                 return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(IntermediateStandard t) {
+        public CheckModelState Update(IntermediateStandard t) {
             try {
                 _db.Entry(t).State = EntityState.Modified;
-                _db.SaveChanges();
-            } catch (DbEntityValidationException ex) {
-                
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            _db.IntermediateStandards.Remove(_db.IntermediateStandards.Find(i));
-            _db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            try {
+                _db.IntermediateStandards.Remove(_db.IntermediateStandards.Find(i));//change to archive in the future?
+                if (_db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

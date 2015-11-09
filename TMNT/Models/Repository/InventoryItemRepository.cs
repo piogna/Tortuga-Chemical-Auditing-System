@@ -4,6 +4,7 @@ using System.Data.Entity;
 using TMNT.Utils;
 using System;
 using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
@@ -51,18 +52,32 @@ namespace TMNT.Models.Repository {
             return CheckModelState.Invalid;
         }
 
-        public void Update(InventoryItem t) {
+        public CheckModelState Update(InventoryItem t) {
             try {
                 db.Entry(t).State = EntityState.Modified;
-                db.SaveChanges();
-            } catch (System.Data.Entity.Validation.DbEntityValidationException ex) {
-
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            db.InventoryItems.Remove(db.InventoryItems.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            try {
+                db.InventoryItems.Remove(db.InventoryItems.Find(i));//change to archive in the future?
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMNT.Utils;
 using System.Data.Entity;
 using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class PreparedStandardRepository : IRepository<PreparedStandard> {
@@ -28,20 +29,40 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(PreparedStandard t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+        public CheckModelState Update(PreparedStandard t) {
+            try {
+                db.Entry(t).State = EntityState.Modified;
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            db.PreparedStandard.Remove(db.PreparedStandard.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            try {
+                db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

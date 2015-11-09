@@ -4,6 +4,7 @@ using System.Linq;
 using TMNT.Utils;
 using System.Data.Entity;
 using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
     public class PreparedReagentRepository : IRepository<PreparedReagent> {
@@ -28,20 +29,40 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (Exception ex) {
-
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(PreparedReagent t) {
-            db.Entry(t).State = EntityState.Modified;
-            db.SaveChanges();
+        public CheckModelState Update(PreparedReagent t) {
+            try {
+                db.Entry(t).State = EntityState.Modified;
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            db.PreparedReagent.Remove(db.PreparedReagent.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            try {
+                db.PreparedReagent.Remove(db.PreparedReagent.Find(i));//change to archive in the future?
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

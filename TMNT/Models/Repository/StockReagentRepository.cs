@@ -45,22 +45,40 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException ex) {
+            } catch (DataException) {
                 return CheckModelState.DataError;
-            } catch (Exception ex) {
+            } catch (Exception) {
                 return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
         }
 
-        public void Update(StockReagent reagent) {
-            db.Entry(reagent).State = EntityState.Modified;
-            db.SaveChanges();
+        public CheckModelState Update(StockReagent t) {
+            try {
+                db.Entry(t).State = EntityState.Modified;
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
-        public void Delete(int? i) {
-            db.StockReagents.Remove(db.StockReagents.Find(i));
-            db.SaveChanges();
+        public CheckModelState Delete(int? i) {
+            try {
+                db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
+                if (db.SaveChanges() > 0) {
+                    return CheckModelState.Valid;
+                }
+            } catch (DataException) {
+                return CheckModelState.DataError;
+            } catch (Exception) {
+                return CheckModelState.Error;
+            }
+            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

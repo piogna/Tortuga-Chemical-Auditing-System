@@ -61,48 +61,59 @@
                     }
                 </select>
             </div>
-            @*@Html.LabelFor(m => m.Location.LocationName, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Location.LocationName, new { @class = "form-control" })
-                </div>*@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon no-border-radius"><i class="fa fa-location-arrow fa-fw"></i></span>
-                <select class="form-control" name="DepartmentName">
-                    <option value="">
-                        Choose a Department..
-                    </option>
-                    @foreach (var item in Model.DepartmentNames) {
-                        <option value="@item">
-                            @item
+                <div class="input-group-addon addon-required" title="Required Field"></div>
+                <select id="department-names" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
+                    <option value="">Departments..</option>
+                    @foreach (var item in Model.Departments) {
+                        <option value="@item.DepartmentName">
+                            @item.DepartmentName
                         </option>
                     }
                 </select>
             </div>
-            @*@Html.LabelFor(m => m.Department.DepartmentName, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Department.DepartmentName, new { @class = "form-control" })
-                </div>*@
+            @Html.ValidationMessageFor(model => model.DepartmentName)
         </div>
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon no-border-radius"><i class="fa fa-sitemap fa-fw"></i></span>
-                <select class="form-control" name="SubDepartment">
-                    <option value="">
-                        Choose a Sub Department..
-                    </option>
-                    @foreach (var item in Model.SubDepartments) {
-                        <option value="@item">
-                            @item
-                        </option>
-                    }
+                <select id="SubDepartmentName" disabled="disabled" name="SubDepartmentName" class="form-control no-border-radius required-field input-summary">
+                    <option value="">Sub Departments..</option>
+                    <optgroup class="hide opt-organics" label="Organics Sub Departments">
+                        @foreach (var item in Model.SubDepartments) {
+                            if (item.DepartmentName.Equals("Organics")) {
+                                <option value="@item.SubDepartment">
+                                    @item.SubDepartment
+                                </option>
+                            }
+                        }
+                    </optgroup>
+                    <optgroup class="hide opt-inorganics" label="Inorganics Sub Departments">
+                        @foreach (var item in Model.SubDepartments) {
+                            if (item.DepartmentName.Equals("Inorganics")) {
+                                <option value="@item.SubDepartment">
+                                    @item.SubDepartment
+                                </option>
+                            }
+                        }
+                    </optgroup>
+                    <optgroup label="Other">
+                        <option value="None">No Sub Department</option>
+                    </optgroup>
                 </select>
+                @*<select class="form-control" name="SubDepartment">
+                        <option value="">
+                            Choose a Sub Department..
+                        </option>
+                        @foreach (var item in Model.SubDepartments) {
+                            <option value="@item.SubDepartment">
+                                @item.SubDepartment
+                            </option>
+                        }
+                    </select>*@
             </div>
-            @*@Html.LabelFor(m => m.Department.SubDepartment, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Department.SubDepartment, new { @class = "form-control" })
-                </div>*@
         </div>
         <div class="form-group">
             <div class="input-group">
@@ -118,23 +129,7 @@
                     }
                 </select>
             </div>
-            @*@Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Role, new { @class = "form-control" })
-                </div>*@
         </div>
-        @*<div class="form-group">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                </div>
-            </div>*@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="reset" class="btn btn-warning" value="Clear Form" />
@@ -144,3 +139,61 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var locationNames = $('#location-names');
+            var departmentNames = $('#department-names');
+            var subDepartmentNames = $('#SubDepartmentName');
+            var optOrganics = $('.opt-organics');
+            var optInorganics = $('.opt-inorganics');
+
+            locationNames.on('change', function () {
+                if ($(this).val()) {
+                    if (departmentNames.attr("disabled", "disabled")) {
+                        departmentNames.removeAttr("disabled");
+                    }
+                } else {
+                    if (!subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.attr("disabled", "disabled")
+                    }
+                    departmentNames.attr("disabled", "disabled");
+                }
+            });
+
+            departmentNames.on('change', function () {
+                var deptValues = $(this).val();
+
+                if ($(this).val()) {
+                    //reset
+                    subDepartmentNames.val("");
+                    switch (deptValues) {
+                        case "Organics":
+                            optOrganics.removeClass("hide");
+                            if (!optInorganics.hasClass('hide')) { optInorganics.addClass('hide'); }
+                            break;
+                        case "Inorganics":
+                            optInorganics.removeClass("hide");
+                            if (!optOrganics.hasClass('hide')) { optOrganics.addClass('hide'); }
+                            break;
+                        default:
+                            alert("Something went wrong. Refresh the page and try again. If the problem persists, contact your administrator.");
+                            break;
+                    }
+
+                    if (subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.removeAttr("disabled");
+                    } else {
+                        subDepartmentNames.attr("disabled", "disabled");
+                    }
+                } else {
+                    if (!subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.attr("disabled", "disabled");
+                        subDepartmentNames.val("");
+                    }
+                }
+            });
+        });
+    </script>
+}

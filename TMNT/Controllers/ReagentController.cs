@@ -247,8 +247,23 @@ namespace TMNT.Controllers {
         }
 
         // GET: /Reagent/Edit/5
+        [Route("Reagent/Topup/{id?}")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
+        public ActionResult Topup(int? id) {
+            return View(repo.Get(id));
+        }
+
+        [Route("Reagent/Topup/{id?}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
+        public ActionResult Topup(int? id) {
+            return View(repo.Get(id));
+        }
+
+        // GET: /Reagent/Edit/5
         [Route("Reagent/Edit/{id?}")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Edit(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -284,7 +299,7 @@ namespace TMNT.Controllers {
         [Route("Reagent/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var user = HelperMethods.GetCurrentUser();
             var errors = ModelState.Values.SelectMany(v => v.Errors);
@@ -356,7 +371,7 @@ namespace TMNT.Controllers {
 
         // GET: /Reagent/Delete/5
         [Route("Reagent/Delete/{id?}")]
-        [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Delete(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -381,11 +396,12 @@ namespace TMNT.Controllers {
         private StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var userDepartment = HelperMethods.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
-            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
-            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
+            model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();
 
             return model;
         }

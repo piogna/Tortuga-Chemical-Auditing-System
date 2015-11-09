@@ -16,6 +16,7 @@ namespace TMNT.Models {
         public string AmountLimitTwo { get; set; }
         [Required]
         public string AmountLimitThree { get; set; }
+        public bool IsArchived { get; set; }
 
         [Required]
         public virtual Department Department { get; set; }

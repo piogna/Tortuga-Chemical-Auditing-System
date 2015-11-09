@@ -111,20 +111,17 @@ namespace TMNT.Models {
         [Required]
         [Display(Name = "Role")]
         public string Role { get; set; }
-        //[Required]
         [Display(Name = "Location")]
         public string LocationName { get; set; }
 
-        //[Required]
-        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 8)]
         [DataType(DataType.Password)]
-        //[Display(Name = "Password")]
         public string Password { get; set; }
 
+        //properties to help populate the view
         public bool IsFirstTimeLogin { get; set; }
-        public List<string> LocationNames = new List<string>() { "Burnaby", "Mississauga" };
-        public List<string> DepartmentNames = new List<string>() { "Organics", "Inorganics" };
-        public List<string> SubDepartments = new List<string>() { "Volatiles", "Semi-Volatiles", "Hydropcarbons", "Metals", "Wet Chemistry", "Autoanalyzer" };
+        public List<string> LocationNames { get; set; }// = new List<string>() { "Burnaby", "Campobello" };
+        public List<Department> Departments { get; set; }// = new List<string>() { "Organics", "Inorganics" };
+        public List<Department> SubDepartments { get; set; }// = new List<string>() { "Volatiles", "Semi-Volatiles", "Hydropcarbons", "Metals", "Wet Chemistry", "Autoanalyzer" };
         public List<string> RoleNames = new List<string>() { "Administrator", "Department Head", "Manager", "Supervisor", "Analyst", "Quality Assurance" };
 
         //[DataType(DataType.Password)]

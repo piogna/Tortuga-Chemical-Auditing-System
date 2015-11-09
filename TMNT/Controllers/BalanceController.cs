@@ -30,7 +30,7 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var department = HelperMethods.GetUserDepartment();
 
-            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department));
+            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department) && !item.IsArchived);
             var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
@@ -261,11 +261,9 @@ namespace TMNT.Controllers {
                 .Where(item => !item.DepartmentName.Equals("Quality Assurance"))
                 .GroupBy(item => item.DepartmentName)
                 .Select(item => item.First()).ToList();
-                //.ToList();
-            //.Where(item => !item.DepartmentName.Equals("Quality Assurance"))
-            //.GroupBy(item => item.DepartmentName)
-            //.Select(item => item.First().DepartmentName).ToList();
-            model.SubDepartments = departments.Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance")).ToList();
+            model.SubDepartments = departments
+                .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
+                .ToList();
             model.WeightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
 
             return model;

@@ -8,8 +8,8 @@ namespace TMNT.Models.Repository {
         IEnumerable<T> Get();
         T Get(int? i);
         CheckModelState Create(T t);
-        void Update(T t);
-        void Delete(int? i);
+        CheckModelState Update(T t);
+        CheckModelState Delete(int? i);
         void Dispose();
     }
 }
