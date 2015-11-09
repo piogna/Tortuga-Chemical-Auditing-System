@@ -257,8 +257,8 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
-        public ActionResult Topup(int? id) {
-            return View(repo.Get(id));
+        public ActionResult Topup(StockReagent reagent) {
+            return View();
         }
 
         // GET: /Reagent/Edit/5
