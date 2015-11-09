@@ -26,11 +26,6 @@ $(function () {
 
     if ($('#recipe-table tbody tr').length == 0) {
         RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Prep List Item</td></tr>");
-    }
-
-    //LotNumber.on('change', function () {
-    //    alert("test");
-    //});
 
     //building the appropriate list of lot numbers
     ChemicalType.on('change', function () {
