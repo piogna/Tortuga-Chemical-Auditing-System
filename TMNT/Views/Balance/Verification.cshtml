@@ -87,10 +87,10 @@
 
                     //write record to table
                     append = "";
-                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
-                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
-                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value=''/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value=''/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
 
                     alert("Verification failed. The form has been reset and a record has been made in the verification table.");
@@ -125,10 +125,10 @@
                         //verification done
                         text += "<li style='color:#5cb85c'>You can now save the verification and use this balance!</li>";
                         append = "";
-                        append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                                "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                                 "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
-                                "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Pass'/></td>";
+                        append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                                "<td><input name='WeightTwo' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                                 "<td><input name='WeightThree' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                                "<td><input name='PassOrFail' style='border:none;background:transparent;color:#5cb85c;' type='text' readonly='readonly' value='Pass'/></td>";
                         verificationTable.append(append);
                         save.removeAttr("disabled");
                     }
@@ -144,10 +144,10 @@
 
                     //write record to table
                     append = "";
-                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
-                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
 
                     alert("Verification failed. The form has been reset and a record has been made in the verification table.");
@@ -177,10 +177,10 @@
 
                     //verification done
                     append = "";
-                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
-                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Pass'/></td>";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#5cb85c;' type='text' readonly='readonly' value='Pass'/></td>";
                     verificationTable.append(append);
                     save.removeAttr("disabled");
                 } else {
@@ -197,7 +197,7 @@
                     append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
                             "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
                              "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
-                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
 
                     alert("Verification failed. The form has been reset and a record has been made in the verification table.");
@@ -342,7 +342,7 @@
                             </div>
                         </div>
                         <div class="container section-table-results container-border hidden">
-                            <table id="verification-table" class="table table-striped table-bordered">
+                            <table id="verification-table" class="table table-striped table-bordered summary-table">
                                 <thead>
                                     <tr>
                                         <th>Weight One Result</th>
@@ -351,7 +351,7 @@
                                         <th>Pass/Fail</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody style="font-size:14px;"></tbody>
                             </table>
                         </div>
                         <div class="text-center">
