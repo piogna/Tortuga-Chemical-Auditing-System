@@ -42,8 +42,6 @@ namespace TMNT.Models {
         public virtual ICollection<CertificateOfAnalysis> CertificatesOfAnalysis { get; set; }
         public virtual ICollection<MSDS> MSDS { get; set; }
         //foreign keys
-        //Supplier is not in use at this time as we're not sure if all their information is required. an input field may suffice and is what's in use for now
-        public virtual Supplier Supplier { get; set; }
         public virtual Department Department { get; set; }
         public virtual StockStandard StockStandard { get; set; }
         public virtual StockReagent StockReagent { get; set; }

@@ -44,7 +44,6 @@ namespace TMNT.Models {
         public DbSet<PrepList> PrepLists { get; set; }
         public DbSet<PrepListItem> PrepListItems { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<CertificateOfAnalysis> CertificatesOfAnalysis { get; set; }
         public DbSet<MSDS> MSDS { get; set; }

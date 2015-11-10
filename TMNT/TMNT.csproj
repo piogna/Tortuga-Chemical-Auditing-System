@@ -315,6 +315,10 @@
     <Compile Include="Migrations\201511101513571_FixWeightIdField.Designer.cs">
       <DependentUpon>201511101513571_FixWeightIdField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511102357189_SupplierRemovedFromDb.cs" />
+    <Compile Include="Migrations\201511102357189_SupplierRemovedFromDb.Designer.cs">
+      <DependentUpon>201511102357189_SupplierRemovedFromDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -353,13 +357,11 @@
     <Compile Include="Models\Repository\StockStandardApiRepository.cs" />
     <Compile Include="Models\Repository\StockReagentRepository.cs" />
     <Compile Include="Models\Repository\StockStandardRepository.cs" />
-    <Compile Include="Models\Repository\SupplierRepository.cs" />
     <Compile Include="Models\Repository\UnitRepository.cs" />
     <Compile Include="Models\Repository\WorkingStandardRepository.cs" />
     <Compile Include="Models\SpikingStandard.cs" />
     <Compile Include="Models\StockReagent.cs" />
     <Compile Include="Models\StockStandard.cs" />
-    <Compile Include="Models\Supplier.cs" />
     <Compile Include="Models\SurrogateSpikingStandard.cs" />
     <Compile Include="Models\Unit.cs" />
     <Compile Include="Models\UserSettings.cs" />
@@ -692,6 +694,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511101513571_FixWeightIdField.resx">
       <DependentUpon>201511101513571_FixWeightIdField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511102357189_SupplierRemovedFromDb.resx">
+      <DependentUpon>201511102357189_SupplierRemovedFromDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
