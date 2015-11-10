@@ -123,7 +123,7 @@
                         validateThree.removeAttr("disabled");
                     } else if (parseFloat(numberOfTests.val()) === 2) {
                         //verification done
-                        text += "<li>You can now save the verification and use this balance!</li>";
+                        text += "<li style='color:#5cb85c'>You can now save the verification and use this balance!</li>";
                         append = "";
                         append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
                                 "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
@@ -157,29 +157,29 @@
 
         validateThree.on('click', function (e) {
             e.preventDefault();
-            weightTwoVal = parseFloat(weightTwo.val());
-            var weightLimitTwoVal = parseFloat(limitTwo.val());
+            weightThreeVal = parseFloat(weightThree.val());
+            var weightLimitThreeVal = parseFloat(limitThree.val());
 
-            if (isNaN(weightLimitTwoVal)) {
+            if (isNaN(weightLimitThreeVal)) {
                 //highly likely the input wasn't a number, provide error message
                 alert("Weight one must be filled");
             } else {
                 //is a valid number, proceed
-                var variance = ((weightLimitTwoVal - weightTwoVal) / weightLimitTwoVal * 100).toFixed(2);
+                var variance = ((weightLimitThreeVal - weightThreeVal) / weightLimitThreeVal * 100).toFixed(2);
                 if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
 
                 if (!(variance > CONST_TWO_PERCENT)) {
                     //valid range, first verification passed
-                    var text = "<li style='color:#5cb85c'>Third weight passed</li><li>You can now save the verification and use this balance!</li>";
+                    var text = "<li style='color:#5cb85c'>Third weight passed</li><li style='color:#5cb85c'>You can now save the verification and use this balance!</li>";
                     message.append(text);
-                    weightTwo.attr('readonly', 'readonly');
-                    validateTwo.attr('disabled', 'disabled');
+                    weightThree.attr('readonly', 'readonly');
+                    validateThree.attr('disabled', 'disabled');
 
                     //verification done
                     append = "";
                     append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
                             "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThree + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
                             "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Pass'/></td>";
                     verificationTable.append(append);
                     save.removeAttr("disabled");
@@ -196,7 +196,7 @@
                     append = "";
                     append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
                             "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
                             "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
 
@@ -242,46 +242,43 @@
                     <section id="section-bar-1">
                         @Html.Partial("_SectionHeader", "Pick Balance to Verify")
                         <div class="container">
-                            <div class="form-group">
-                                <div class="col-md-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control" } })
+                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control required-field no-border-radius" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                            <option>No Location Selected</option>
-                                            <optgroup label="Location">
-                                                @foreach (var item in ViewBag.Locations) {
-                                                    if (item == ViewBag.SelectedLocation) {
-                                                        <option selected>
-                                                            @item
-                                                        </option>
-                                                    } else {
-                                                        <option value="@item">
-                                                            @item
-                                                        </option>
-                                                    }
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <div class="input-group-addon addon-required" title="Required Field"></div>
+                                    <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
+                                        <option>No Location Selected</option>
+                                        <optgroup label="Location">
+                                            @foreach (var item in ViewBag.Locations) {
+                                                if (item == ViewBag.SelectedLocation) {
+                                                    <option selected>
+                                                        @item
+                                                    </option>
+                                                } else {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
                                                 }
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-lg-4">
-                                        <div class="input-group">
-                                            <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.WeightId, new { htmlAttributes = new { @placeholder = "Weight ID", @class = "input-summary form-control" } })
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.WeightId)
-                                    </div>
+                                            }
+                                        </optgroup>
+                                    </select>
                                 </div>
                             </div>
+                            <div class="input-group">
+                                <div class="input-group-addon addon-required" title="Required Field"></div>
+                                @Html.EditorFor(model => model.WeightId, new { htmlAttributes = new { @placeholder = "Weight ID", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.WeightId)
                         </div>
+
                         @Html.Partial("_SectionHeader", "Start Balance Verification")
                         <div class="container container-border section-test">
                             <div class="form-group">
@@ -291,64 +288,38 @@
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one", @type = "number" } })
                                         <div class="input-group-addon addon-weight">
-                                            @Html.TextBoxFor(model => model.WeightLimitOne, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" } )
+                                            @Html.TextBoxFor(model => model.WeightLimitOne, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
                                         </div>
                                         <a href="#" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightOne)
-                                    @*<div class="input-group col-lg-9">
-                                        <div class="checkbox">
-                                            <label class="form-control no-border"><input class="level-clean" type="checkbox" style="" />Level/Clean</label>
-                                        </div>
-                                    </div>
-                                    <div class="input-group col-lg-2">
-                                        <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                    </div>*@
                                 </div>
-                                <div id="">
-                                    <!-- Weight Two -->
+                                <!-- Weight Two -->
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required"></div>
+                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two", @type = "number" } })
+                                        <div class="input-group-addon addon-weight">
+                                            @Html.TextBoxFor(model => model.WeightLimitTwo, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                        </div>
+                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.WeightTwo)
+                                </div>
+                                @if (Model.NumberOfTestsToVerify == 3) {
+                                        <!-- Weight Three -->
                                     <div class="col-lg-4">
                                         <div class="input-group">
-                                            <div id="add-required-1" class="input-group-addon"></div>
-                                            @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two", @type = "number" } })
+                                            <div class="input-group-addon addon-required"></div>
+                                            @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three", @type = "number" } })
                                             <div class="input-group-addon addon-weight">
-                                                @Html.TextBoxFor(model => model.WeightLimitTwo, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                                @Html.TextBoxFor(model => model.WeightLimitThree, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
                                             </div>
                                             <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                         </div>
-                                        @Html.ValidationMessageFor(model => model.WeightTwo)
-                                        @*<div class="input-group col-lg-9">
-                                            <div class="checkbox">
-                                                <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
-                                            </div>
-                                        </div>
-                                        <div class="input-group col-lg-2">
-                                            <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                        </div>*@
+                                        @Html.ValidationMessageFor(model => model.WeightThree)
                                     </div>
-                                    @if (Model.NumberOfTestsToVerify == 3) {
-                                        <!-- Weight Three -->
-                                        <div class="col-lg-4">
-                                            <div class="input-group">
-                                                <div id="add-required-2" class="input-group-addon"></div>
-                                                @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three", @type = "number" } })
-                                                <div class="input-group-addon addon-weight">
-                                                    @Html.TextBoxFor(model => model.WeightLimitThree, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
-                                                </div>
-                                                <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
-                                            </div>
-                                            @Html.ValidationMessageFor(model => model.WeightThree)
-                                            @*<div class="input-group col-lg-9">
-                                                <div class="checkbox">
-                                                    <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
-                                                </div>
-                                            </div>
-                                            <div class="input-group col-lg-2">
-                                                <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                            </div>*@
-                                        </div>
-                                    }
-                                </div>
+                                }
                             </div>
                             <div class="form-group">
                                 <div class="col-lg-6">
@@ -380,9 +351,7 @@
                                         <th>Pass/Fail</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                         <div class="text-center">
@@ -392,6 +361,7 @@
                     </section>
                 </div>
             </div>
+
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>
