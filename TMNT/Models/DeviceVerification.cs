@@ -13,6 +13,7 @@ namespace TMNT.Models {
         public double? WeightTwo { get; set; }
         public double? WeightThree { get; set; }
         public bool DidTestPass { get; set; }
+        public string WeightId { get; set; }
 
         public ICollection<DeviceTest> DeviceTests { get; set; }
 

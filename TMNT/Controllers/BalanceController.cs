@@ -40,10 +40,11 @@ namespace TMNT.Controllers {
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
                     DepartmentName = item.Department.DepartmentName,
-                    LastVerifiedBy = item.DeviceVerifications//last verified by
+                    LastVerifiedBy = item.DeviceVerifications == null ? "N/A" :
+                                item.DeviceVerifications
                                 .Where(x => x.Device.Equals(item))
                                 .Count() == 0 ?
-                                    null :
+                                    "N/A" :
                                     item.DeviceVerifications
                                         .Where(x => x.Device.Equals(item))
                                         .OrderBy(x => x.VerifiedOn)
@@ -86,12 +87,12 @@ namespace TMNT.Controllers {
 
         [Route("Balance/Create")]
         public ActionResult Create() {
-            return View(SetBalance(new BalanceCreateViewModel()));
+            return View(SetCreateBalance(new BalanceCreateViewModel()));
         }
 
         [Route("Balance/Create")]
         [HttpPost]
-        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree")] BalanceCreateViewModel balance, string submit) {
+        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree,NumberOfTestsToVerify")] BalanceCreateViewModel balance, string submit) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 var deviceRepo = new DeviceRepository();
@@ -100,7 +101,7 @@ namespace TMNT.Controllers {
 
                 if (doesDeviceAlreadyExist) {
                     ModelState.AddModelError("", "The Device Code provided is not unique. Please try again.");
-                    return View(SetBalance(balance));
+                    return View(SetCreateBalance(balance));
                 }
 
                 var device = new Device() {
@@ -112,6 +113,7 @@ namespace TMNT.Controllers {
                     Status = "Needs Verification",
                     IsVerified = false,
                     DeviceType = "Balance",
+                    NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                     Department = new DepartmentRepository().Get().Where(item => item.DepartmentName.Equals(balance.DepartmentName) && item.SubDepartment.Equals(balance.SubDepartmentName)).First()
                 };
 
@@ -120,13 +122,13 @@ namespace TMNT.Controllers {
                 switch (result) {
                     case CheckModelState.Invalid:
                         ModelState.AddModelError("", "The creation of the balance failed. Please double check all inputs and try again.");
-                        return View(SetBalance(balance));
+                        return View(SetCreateBalance(balance));
                     case CheckModelState.DataError:
                         ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                        return View(SetBalance(balance));
+                        return View(SetCreateBalance(balance));
                     case CheckModelState.Error:
                         ModelState.AddModelError("", "There was an error. Please try again.");
-                        return View(SetBalance(balance));
+                        return View(SetCreateBalance(balance));
                     case CheckModelState.Valid:
                         if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                             //save pressed
@@ -137,10 +139,10 @@ namespace TMNT.Controllers {
                         }
                     default:
                         ModelState.AddModelError("", "An unknown error occurred.");
-                        return View(SetBalance(balance));
+                        return View(SetCreateBalance(balance));
                 }
             }
-            return View(SetBalance(new BalanceCreateViewModel()));
+            return View(SetCreateBalance(new BalanceCreateViewModel()));
         }
 
         // GET: /ScaleTest/Create
@@ -159,12 +161,18 @@ namespace TMNT.Controllers {
 
             ViewBag.DeviceCode = balance.DeviceCode;
             ViewBag.SelectedLocation = balance.Department.Location.LocationName;
-            
-            return View(new BalanceVerificationViewModel() {
+
+            var device = new BalanceVerificationViewModel() {
                 BalanceId = balance.DeviceId,
                 Location = balance.Department.Location,
-                DeviceCode = balance.DeviceCode
-            });
+                DeviceCode = balance.DeviceCode,
+                NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
+                WeightLimitOne = balance.AmountLimitOne,
+                WeightLimitTwo = balance.AmountLimitTwo,
+                WeightLimitThree = balance.AmountLimitThree
+            };
+
+            return View(device);
         }
 
         // POST: /ScaleTest/Create
@@ -173,7 +181,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments")] BalanceVerificationViewModel balancetest) {
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments,WeightId")] BalanceVerificationViewModel balancetest) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
@@ -252,7 +260,7 @@ namespace TMNT.Controllers {
             return RedirectToAction("Index");
         }
 
-        private BalanceCreateViewModel SetBalance(BalanceCreateViewModel model) {
+        private BalanceCreateViewModel SetCreateBalance(BalanceCreateViewModel model) {
             var locations = new LocationRepository(DbContextSingleton.Instance).Get();
             var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
 
@@ -265,6 +273,13 @@ namespace TMNT.Controllers {
                 .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
                 .ToList();
             model.WeightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
+
+            return model;
+        }
+
+        private BalanceVerificationViewModel SetVerificationBalance(BalanceVerificationViewModel model) {
+
+            //TODO use in post method of verification
 
             return model;
         }

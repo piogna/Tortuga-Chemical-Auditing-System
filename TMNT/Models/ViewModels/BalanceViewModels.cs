@@ -40,7 +40,14 @@ namespace TMNT.Models.ViewModels {
         public string LastVerifiedBy { get; set; }//full name
         public virtual Department Department { get; set; }
         [Display(Name = "Last Verified By")]
-        public virtual ApplicationUser User { get; set; }
+        public string VerifiedBy { get; set; }
+        public string WeightId { get; set; }
+
+
+        public int NumberOfTestsToVerify { get; set; }
+        public string WeightLimitOne { get; set; }
+        public string WeightLimitTwo { get; set; }
+        public string WeightLimitThree { get; set; }
 
         //for details
         public List<DeviceVerification> DeviceVerifications { get; set; }
@@ -63,6 +70,8 @@ namespace TMNT.Models.ViewModels {
         public int WeightLimitTwo { get; set; }
         [Required(ErrorMessage = "Third Weight Limit is Required"), Display(Name = "Third Weight Limit")]
         public int WeightLimitThree { get; set; }
+        [Required(ErrorMessage = "Number of Tests is Required"), Display(Name = "Number of Tests")]
+        public int NumberOfTestsToVerify { get; set; }
 
         //properties to help populate the view
         public List<string> LocationNames { get; set; }

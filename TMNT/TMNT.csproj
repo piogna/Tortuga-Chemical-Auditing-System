@@ -303,6 +303,18 @@
     <Compile Include="Migrations\201511100428455_CleanUpWorkingStandardFields.Designer.cs">
       <DependentUpon>201511100428455_CleanUpWorkingStandardFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511101350288_NumberOfTestsToVerifyBalance.cs" />
+    <Compile Include="Migrations\201511101350288_NumberOfTestsToVerifyBalance.Designer.cs">
+      <DependentUpon>201511101350288_NumberOfTestsToVerifyBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511101409423_WeightIdField.cs" />
+    <Compile Include="Migrations\201511101409423_WeightIdField.Designer.cs">
+      <DependentUpon>201511101409423_WeightIdField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511101513571_FixWeightIdField.cs" />
+    <Compile Include="Migrations\201511101513571_FixWeightIdField.Designer.cs">
+      <DependentUpon>201511101513571_FixWeightIdField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -671,6 +683,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511100428455_CleanUpWorkingStandardFields.resx">
       <DependentUpon>201511100428455_CleanUpWorkingStandardFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511101350288_NumberOfTestsToVerifyBalance.resx">
+      <DependentUpon>201511101350288_NumberOfTestsToVerifyBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511101409423_WeightIdField.resx">
+      <DependentUpon>201511101409423_WeightIdField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511101513571_FixWeightIdField.resx">
+      <DependentUpon>201511101513571_FixWeightIdField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -10,6 +10,7 @@ namespace TMNT.Models {
         public string DeviceType { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
         public int NumberOfDecimals { get; set; }
+        public int NumberOfTestsToVerify { get; set; }
         [Required]
         public string AmountLimitOne { get; set; }
         [Required]
