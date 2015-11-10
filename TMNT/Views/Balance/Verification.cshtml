@@ -78,6 +78,9 @@
                     weightOne.attr('readonly', 'readonly');
                     validateOne.attr('disabled', 'disabled');
                     //weight two is now ready to use
+                    if (weightTwo.attr("readonly", "readonly")) {
+                        weightTwo.removeAttr("readonly");
+                    }
                     weightTwo.removeAttr("disabled");
                     validateTwo.removeAttr("disabled");
 
@@ -187,10 +190,13 @@
                     //invalid range, second verification failed
                     weightOne.val("");
                     weightTwo.val("");
-                    weightTwo.attr('disabled', 'disabled');
-                    validateTwo.attr('disabled', 'disabled');
+                    weightThree.val("");
                     weightOne.removeAttr("readonly");
-                    validateOne.removeAttr('disabled');
+                    validateOne.removeAttr("disabled");
+                    weightTwo.attr("disabled", "disabled");
+                    validateTwo.attr('disabled', 'disabled');
+                    weightThree.attr("disabled", "disabled");
+                    validateThree.attr("disabled", "disabled");
 
                     //write record to table
                     append = "";
