@@ -299,6 +299,10 @@
     <Compile Include="Migrations\201511100353125_WorkingStandardRemovedDiscardDate.Designer.cs">
       <DependentUpon>201511100353125_WorkingStandardRemovedDiscardDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511100428455_CleanUpWorkingStandardFields.cs" />
+    <Compile Include="Migrations\201511100428455_CleanUpWorkingStandardFields.Designer.cs">
+      <DependentUpon>201511100428455_CleanUpWorkingStandardFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -664,6 +668,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511100353125_WorkingStandardRemovedDiscardDate.resx">
       <DependentUpon>201511100353125_WorkingStandardRemovedDiscardDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511100428455_CleanUpWorkingStandardFields.resx">
+      <DependentUpon>201511100428455_CleanUpWorkingStandardFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
