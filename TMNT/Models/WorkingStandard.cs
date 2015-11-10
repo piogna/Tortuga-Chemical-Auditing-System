@@ -4,16 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
     public class WorkingStandard {
+        public WorkingStandard() {
+            InventoryItems = new List<InventoryItem>();
+        }
         [Key]
         public int WorkingStandardId { get; set; }
         [Required]
         public string IdCode { get; set; }
-        [Required]
-        public DateTime PreparationDate { get; set; }
-        [Required]
-        public int Source { get; set; }
-        [Required]
-        public double Grade { get; set; }
         [Required]
         public string MaxxamId { get; set; }
         public string Replaces { get; set; }
@@ -23,7 +20,6 @@ namespace TMNT.Models {
         public string LastModifiedBy { get; set; }
         public string SafetyNotes { get; set; }
         public int FinalVolume { get; set; }
-        public DateTime DateCreated { get; set; }
 
         //foreign keys
         [Required]

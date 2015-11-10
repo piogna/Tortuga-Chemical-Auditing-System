@@ -7,7 +7,6 @@ namespace TMNT.Models {
         public IntermediateStandard() {
             InventoryItems = new List<InventoryItem>();
         }
-
         [Key]
         public int IntermediateStandardId { get; set; }
         public string IdCode { get; set; }
