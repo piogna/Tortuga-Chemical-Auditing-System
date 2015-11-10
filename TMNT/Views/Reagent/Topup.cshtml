@@ -1,5 +1,276 @@
-﻿@model TMNT.Models.StockReagent
+﻿@model TMNT.Models.ViewModels.StockReagentTopUpViewModel
 
 @{
-    ViewBag.Title = "Top-up";
+    ViewBag.Title = "Details";
+}
+
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/Datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <style>
+        .form-group {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    </style>
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1>
+            Top-up @Model.ReagentName
+        </h1>
+        <ol class="breadcrumb no-border-radius">
+            <li class="active">
+                <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-flask"></i> Stock Reagents / <i class="fa fa-clipboard"></i> Top-up @Model.ReagentName
+            </li>
+        </ol>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index", "Reagent", null, htmlAttributes: new { @class = "btn btn-default" })
+</p>
+
+<hr />
+
+@Html.Partial("_SectionHeader", "Location Information")
+
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.Location.LocationName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.Location.LocationName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.Location.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.Location.Address), @Html.DisplayFor(model => model.Department.Location.PostalCode) <br />
+                @Html.DisplayFor(model => model.Department.Location.City), @Html.DisplayFor(model => model.Department.Location.Province)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.Location.PhoneNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.Location.PhoneNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.Location.FaxNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.Location.FaxNumber)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.DepartmentName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.DepartmentName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.SubDepartment)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.SubDepartment)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@Html.Partial("_SectionHeader", "Reagent Information")
+
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.IdCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CatalogueCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CatalogueCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ReagentName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReagentName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CertificateOfAnalysis)
+            </dt>
+
+            <dd>
+                @Html.ActionLink("View Cerificate of Analysis", "ViewPDF", "PDFViewer", new { id = Model.CertificateOfAnalysis.CertificateOfAnalysisId, type = "CofA" }, htmlAttributes: new { @target = "_blank" })
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MSDS)
+            </dt>
+
+            <dd>
+                @Html.ActionLink("View SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
+            </dd>
+        </dl>
+
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DateReceived)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateReceived)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateOpened)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateOpened)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumberOfBottles)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NumberOfBottles)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SupplierName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DateModified)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateModified)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModifiedBy)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastModifiedBy)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Grade)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Grade)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.GradeAdditionalNotes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.GradeAdditionalNotes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UsedFor)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UsedFor)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+@Html.Partial("_SectionHeader", "Required Fields to Complete Form")
+
+<div class="container">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="col-md-12">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon addon-required" title="Required Field"></div>
+                    @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field", @Value = "" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.LotNumber)
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon addon-required" title="Required Field"></div>
+                    <div class="input-group-addon">
+                        <div style="margin-top:-5px;" class="checkbox">
+                            <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
+                        </div>
+                    </div>
+                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                    @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                </div>
+                @Html.ValidationMessageFor(model => model.ExpiryDate)
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/datatables")
+    <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('#ExpiryDate').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
+            });
+        });
+    </script>
 }

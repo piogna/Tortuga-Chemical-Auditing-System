@@ -250,7 +250,49 @@ namespace TMNT.Controllers {
         [Route("Reagent/Topup/{id?}")]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Topup(int? id) {
-            return View(repo.Get(id));
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            StockReagent stockreagent = repo.Get(id);
+
+            if (stockreagent == null) {
+                return HttpNotFound();
+            }
+
+            var vReagent = new StockReagentTopUpViewModel() {
+                ReagentId = stockreagent.ReagentId,
+                LotNumber = stockreagent.LotNumber,
+                IdCode = stockreagent.IdCode,
+                ReagentName = stockreagent.ReagentName,
+                LastModifiedBy = stockreagent.LastModifiedBy
+            };
+
+            foreach (var invItem in stockreagent.InventoryItems) {
+                if (stockreagent.ReagentId == invItem.StockReagent.ReagentId) {
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
+                    vReagent.DateCreated = invItem.DateCreated;
+                    vReagent.DateModified = invItem.DateModified;
+                    vReagent.CreatedBy = invItem.CreatedBy;
+                    vReagent.ExpiryDate = invItem.ExpiryDate;
+                    vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.UsedFor = invItem.UsedFor;
+                    vReagent.Department = invItem.Department;
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
+                    vReagent.Grade = invItem.Grade;
+                    vReagent.GradeAdditionalNotes = invItem.GradeAdditionalNotes;
+                    vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
+                    //vReagent.IsExpired = invItem.ExpiryDate < DateTime.Today;
+                    //vReagent.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
+                    vReagent.SupplierName = invItem.SupplierName;
+                    vReagent.NumberOfBottles = invItem.NumberOfBottles;
+                    vReagent.InitialAmount = invItem.InitialAmount == null ? invItem.InitialAmount = "N/A" : invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
+                    vReagent.DateReceived = invItem.DateReceived;
+                }
+            }
+            return View(vReagent);
         }
 
         [Route("Reagent/Topup/{id?}")]
