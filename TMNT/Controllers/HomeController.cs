@@ -21,16 +21,14 @@ namespace TMNT.Controllers {
             IEnumerable<InventoryItem> inventoryRepo = null;
             IEnumerable<Device> deviceRepo = null;
 
-            new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment).Count();
-
             //quality assurance can see everything
             if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
                 inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
-                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified);
+                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && !item.IsArchived);
             } else {
                 inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get()
                     .Where(item => item.Department == userDepartment);
-                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment);
+                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment && !item.IsArchived);
             }
 
             var cofas = new CertificateOfAnalysisRepository().Get().Where(item => item.InventoryItem.Department == userDepartment).Count();//inventoryRepo.Select(item => item.CertificatesOfAnalysis).Count();

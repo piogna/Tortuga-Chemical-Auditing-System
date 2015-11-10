@@ -61,6 +61,7 @@ namespace TMNT.Models.Repository {
 
             try {
                 device.IsArchived = true;
+                db.Entry(device).State = EntityState.Modified;
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
