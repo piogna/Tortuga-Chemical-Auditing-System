@@ -24,7 +24,6 @@ namespace TMNT.Models {
         public string SafetyNotes { get; set; }
         public int FinalVolume { get; set; }
         public DateTime DateCreated { get; set; }
-        public DateTime DiscardDate { get; set; }
 
         //foreign keys
         [Required]
