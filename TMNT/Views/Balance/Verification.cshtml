@@ -11,6 +11,7 @@
         .container-border {
             border: 1px solid #eee;
             border-top:none;
+            min-height:289px;
         }
         .tab {
             cursor: pointer;
@@ -40,106 +41,167 @@
             $('.btn-success').css('float', 'right');
         }
 
-        var validateOne = $('.weight-validate').first();
-        var validateTwo = $('.weight-validate').eq(1);
-        var validateThree = $('.weight-validate').eq(2);
-
-        var passOrFailOne = $('.pass-or-fail').first();
-        var passOrFailTwo = $('.pass-or-fail').eq(1);
-        var passOrFailThree = $('.pass-or-fail').eq(2);
+        var validateOne = $('.weight-validate').first(), validateTwo = $('.weight-validate').eq(1), validateThree = $('.weight-validate').eq(2);
+        var passOrFailOne = $('.pass-or-fail').first(), passOrFailTwo = $('.pass-or-fail').eq(1), passOrFailThree = $('.pass-or-fail').eq(2);
+        var limitOne = $('.weight-limit').first(), limitTwo = $('.weight-limit').eq(1), limitThree = $('.weight-limit').eq(2);
+        var weightOneVal = 0, weightTwoVal = 0, weightThreeVal = 0;
+        var CONST_TWO_PERCENT = 2.00;
+        var numberOfTests = $('#NumberOfTestsToVerify');
 
         //var levelCleanOne = $('.level-clean').first();
-        var levelCleanTwo = $('.level-clean').eq(1);
-        var levelCleanThree = $('.level-clean').eq(2);
+        //var levelCleanTwo = $('.level-clean').eq(1);
+        //var levelCleanThree = $('.level-clean').eq(2);
 
-        var weightOne = $('.weight-one');
-        var weightTwo = $('.weight-two');
-        var weightThree = $('.weight-three');
-
+        var weightOne = $('.weight-one'), weightTwo = $('.weight-two'), weightThree = $('.weight-three');
         var message = $('#success-error-msg > ul');
+        var verificationTable = $('#verification-table'), append;
+        var save = $('input[type=submit]');
 
-        //weight must be within 2% of 0.5000 to pass. if not, two other inputs will apear to pass the verification.
-        $(validateOne).on('click', function (e) {
+        validateOne.on('click', function (e) {
             e.preventDefault();
-            weightOne.attr('readonly', 'readonly');
-            var weightOneVal = parseFloat($('.weight-one').val());
             $('#placeholder').text("");
-            message.parent().css('padding-left', '0');
-            validateOne.attr('disabled', 'disabled');
+            weightOneVal = parseFloat(weightOne.val());
+            var weightLimitOneVal = parseFloat(limitOne.val());
 
-            if (weightOneVal > 0.4990 && weightOneVal < .5010) {
-                //pass
-                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
-                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
-                message.append(text);
+            if (isNaN(weightOneVal)) {
+                //highly likely the input wasn't a number, provide error message
+                alert("Weight one must be filled");
             } else {
-                //fail
-                var text = "<li style='color:red'>The first measurement failed because it was off by more than the alloted 2% variance.</i>";
-                message.append(text);
+                //is a valid number, proceed
+                var variance = ((weightLimitOneVal - weightOneVal) / weightLimitOneVal * 100).toFixed(2);
+                if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
 
-                passOrFailOne.first().text("Fail").css('color', 'red');
+                if (!(variance > CONST_TWO_PERCENT)) {
+                    //valid range, first verification passed
+                    var text = "<li style='color:#5cb85c'>First weight passed</li>";
+                    message.append(text);
+                    weightOne.attr('readonly', 'readonly');
+                    validateOne.attr('disabled', 'disabled');
+                    //weight two is now ready to use
+                    weightTwo.removeAttr("disabled");
+                    validateTwo.removeAttr("disabled");
 
-                validateThree.attr('disabled', 'disabled');
+                } else {
+                    //invalid range, first verification failed
+                    weightOne.val("");
 
-                $('#add-required-1').addClass('addon-required');
+                    //write record to table
+                    append = "";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                    verificationTable.append(append);
 
-                $('#additional-weights').css('opacity', '1.0');
-                weightTwo.removeAttr("disabled");
-                validateTwo.removeAttr("disabled");
-                levelCleanTwo.removeAttr("disabled");
-            }
-        });
-        //second verification if first fails
-        $(validateTwo).on('click', function (e) {
-            e.preventDefault();
-            weightTwo.attr('readonly', 'readonly');
-            validateTwo.attr('disabled', 'disabled');
-
-            var weightTwoVal = parseFloat($('.weight-two').val());
-
-            if (weightTwoVal > 9.7990 && weightTwoVal < 10.2001) {
-                //pass
-                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
-                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
-                message.append(text);
-
-                passOrFailTwo.first().text("Pass!").css('color', '#5cb85c');
-                validateThree.attr('disabled', 'disabled');
-                weightThree.attr('readonly', 'readonly');
-            } else {
-                //fail
-                var text = "<li style='color:red'>The second measurement failed because it was off by more than the alloted 2% variance.</i>";
-                message.append(text);
-
-                validateThree.removeAttr('disabled');
-                weightThree.removeAttr('disabled');
-                levelCleanThree.removeAttr("disabled");
-
-                $('#add-required-2').addClass('addon-required');
-                passOrFailTwo.first().text("Fail").css('color', 'red');
+                    alert("Verification failed. The form has been reset and a record has been made in the verification table.");
+                }
             }
         });
 
-        $(validateThree).on('click', function (e) {
+        validateTwo.on('click', function (e) {
             e.preventDefault();
+            weightTwoVal = parseFloat(weightTwo.val());
+            var weightLimitTwoVal = parseFloat(limitTwo.val());
 
-            weightThree.attr('readonly', 'readonly');
-            validateThree.attr('disabled', 'disabled');
-
-            var weightThreeVal = parseFloat($('.weight-three').val());
-
-            if (weightThreeVal > 97.9990 && weightThreeVal < 102.0001) {
-                passOrFailOne.first().text("Pass!").css('color', '#5cb85c');
-                var text = "<li style='color:#5cb85c'>The weight is accepted. Please click on 'next' to now verify the balance.</i>";
-                message.append(text);
-
-                passOrFailThree.first().text("Pass!").css('color', '#5cb85c');
+            if (isNaN(weightLimitTwoVal)) {
+                //highly likely the input wasn't a number, provide error message
+                alert("Weight one must be filled");
             } else {
-                var text = "<li style='color:red'>The third measurement failed because it was off by more than the alloted 2% variance." +
-                    "<span style='font-weight:bold;'>Due to all three weights failing, this balance <span style='text-decoration:underline;'>cannot be used</span> for any record keeping until further notice.</i>";
-                message.append(text);
+                //is a valid number, proceed
+                var variance = ((weightLimitTwoVal - weightTwoVal) / weightLimitTwoVal * 100).toFixed(2);
+                if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
 
-                passOrFailThree.first().text("Fail").css('color', 'red');
+                if (!(variance > CONST_TWO_PERCENT)) {
+                    //valid range, first verification passed
+                    var text = "<li style='color:#5cb85c'>Second weight passed</li>";
+                    weightTwo.attr('readonly', 'readonly');
+                    validateTwo.attr('disabled', 'disabled');
+
+                    if (parseFloat(numberOfTests.val()) > 2) {
+                        //weight three is now ready to use
+                        weightThree.removeAttr("disabled");
+                        validateThree.removeAttr("disabled");
+                    } else if (parseFloat(numberOfTests.val()) === 2) {
+                        //verification done
+                        text += "<li>You can now save the verification and use this balance!</li>";
+                        append = "";
+                        append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                                "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                                 "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                                "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Pass'/></td>";
+                        verificationTable.append(append);
+                        save.removeAttr("disabled");
+                    }
+                    message.append(text);
+                } else {
+                    //invalid range, second verification failed
+                    weightOne.val("");
+                    weightTwo.val("");
+                    weightTwo.attr('disabled', 'disabled');
+                    validateTwo.attr('disabled', 'disabled');
+                    weightOne.removeAttr("readonly");
+                    validateOne.removeAttr('disabled');
+
+                    //write record to table
+                    append = "";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                    verificationTable.append(append);
+
+                    alert("Verification failed. The form has been reset and a record has been made in the verification table.");
+                }
+            }
+        });
+
+        validateThree.on('click', function (e) {
+            e.preventDefault();
+            weightTwoVal = parseFloat(weightTwo.val());
+            var weightLimitTwoVal = parseFloat(limitTwo.val());
+
+            if (isNaN(weightLimitTwoVal)) {
+                //highly likely the input wasn't a number, provide error message
+                alert("Weight one must be filled");
+            } else {
+                //is a valid number, proceed
+                var variance = ((weightLimitTwoVal - weightTwoVal) / weightLimitTwoVal * 100).toFixed(2);
+                if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
+
+                if (!(variance > CONST_TWO_PERCENT)) {
+                    //valid range, first verification passed
+                    var text = "<li style='color:#5cb85c'>Third weight passed</li><li>You can now save the verification and use this balance!</li>";
+                    message.append(text);
+                    weightTwo.attr('readonly', 'readonly');
+                    validateTwo.attr('disabled', 'disabled');
+
+                    //verification done
+                    append = "";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThree + "'/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Pass'/></td>";
+                    verificationTable.append(append);
+                    save.removeAttr("disabled");
+                } else {
+                    //invalid range, second verification failed
+                    weightOne.val("");
+                    weightTwo.val("");
+                    weightTwo.attr('disabled', 'disabled');
+                    validateTwo.attr('disabled', 'disabled');
+                    weightOne.removeAttr("readonly");
+                    validateOne.removeAttr('disabled');
+
+                    //write record to table
+                    append = "";
+                    append += "<tr><td><input name='WeightOne'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                            "<td><input name='WeightTwo' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                             "<td><input name='WeightThree' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value=''/></td>" +
+                            "<td><input name='PassOrFail' style='border:none;background:transparent;color:#3a87ad;' type='text' readonly='readonly' value='Fail'/></td>";
+                    verificationTable.append(append);
+
+                    alert("Verification failed. The form has been reset and a record has been made in the verification table.");
+                }
             }
         });
     });
@@ -147,6 +209,7 @@
 
 @using (Html.BeginForm(Html.BeginForm("CreateVerification", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" }))) {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.NumberOfTestsToVerify)
 
     <div class="form-horizontal">
 
@@ -226,63 +289,65 @@
                                 <div class="col-lg-4">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one" } })
-                                        @Html.ValidationMessageFor(model => model.WeightOne)
+                                        @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one", @type = "number" } })
                                         <div class="input-group-addon addon-weight">
                                             @Html.TextBoxFor(model => model.WeightLimitOne, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" } )
                                         </div>
                                         <a href="#" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                     </div>
-                                    <div class="input-group col-lg-9">
+                                    @Html.ValidationMessageFor(model => model.WeightOne)
+                                    @*<div class="input-group col-lg-9">
                                         <div class="checkbox">
                                             <label class="form-control no-border"><input class="level-clean" type="checkbox" style="" />Level/Clean</label>
                                         </div>
                                     </div>
                                     <div class="input-group col-lg-2">
                                         <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                    </div>
+                                    </div>*@
                                 </div>
-                                <div id="additional-weights">
+                                <div id="">
                                     <!-- Weight Two -->
                                     <div class="col-lg-4">
                                         <div class="input-group">
                                             <div id="add-required-1" class="input-group-addon"></div>
-                                            @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two" } })
-                                            @Html.ValidationMessageFor(model => model.WeightTwo)
+                                            @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two", @type = "number" } })
                                             <div class="input-group-addon addon-weight">
                                                 @Html.TextBoxFor(model => model.WeightLimitTwo, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
                                             </div>
                                             <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                         </div>
-                                        <div class="input-group col-lg-9">
+                                        @Html.ValidationMessageFor(model => model.WeightTwo)
+                                        @*<div class="input-group col-lg-9">
                                             <div class="checkbox">
                                                 <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
                                             </div>
                                         </div>
                                         <div class="input-group col-lg-2">
                                             <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                        </div>
+                                        </div>*@
                                     </div>
-                                    <!-- Weight Three -->
-                                    <div class="col-lg-4">
-                                        <div class="input-group">
-                                            <div id="add-required-2" class="input-group-addon"></div>
-                                            @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three" } })
+                                    @if (Model.NumberOfTestsToVerify == 3) {
+                                        <!-- Weight Three -->
+                                        <div class="col-lg-4">
+                                            <div class="input-group">
+                                                <div id="add-required-2" class="input-group-addon"></div>
+                                                @Html.EditorFor(model => model.WeightThree, new { htmlAttributes = new { @placeholder = "Weight Three", @disabled = "disabled", @class = "input-summary form-control weight-three", @type = "number" } })
+                                                <div class="input-group-addon addon-weight">
+                                                    @Html.TextBoxFor(model => model.WeightLimitThree, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                                </div>
+                                                <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
+                                            </div>
                                             @Html.ValidationMessageFor(model => model.WeightThree)
-                                            <div class="input-group-addon addon-weight">
-                                                @Html.TextBoxFor(model => model.WeightLimitThree, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                            @*<div class="input-group col-lg-9">
+                                                <div class="checkbox">
+                                                    <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
+                                                </div>
                                             </div>
-                                            <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
+                                            <div class="input-group col-lg-2">
+                                                <div class="form-control no-border pass-or-fail" style="float:right;"></div>
+                                            </div>*@
                                         </div>
-                                        <div class="input-group col-lg-9">
-                                            <div class="checkbox">
-                                                <label class="form-control no-border"><input class="level-clean" disabled="disabled" type="checkbox" style="" />Level/Clean</label>
-                                            </div>
-                                        </div>
-                                        <div class="input-group col-lg-2">
-                                            <div class="form-control no-border pass-or-fail" style="float:right;"></div>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
                             </div>
                             <div class="form-group">
@@ -301,12 +366,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <input type="submit" class="btn btn-primary pull-right" value="Save" />
+                                    <input type="submit" disabled="disabled" class="btn btn-primary pull-right" value="Save" />
                                 </div>
                             </div>
                         </div>
                         <div class="container section-table-results container-border hidden">
-                            <table class="table table-striped table-bordered">
+                            <table id="verification-table" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Weight One Result</th>
