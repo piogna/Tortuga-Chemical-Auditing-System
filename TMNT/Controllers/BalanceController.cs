@@ -181,34 +181,72 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments,WeightId")] BalanceVerificationViewModel balancetest) {
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments,WeightId")] BalanceVerificationViewModel balancetest,
+            string[] WeightOneTable, string[] WeightTwoTable, string[] WeightThreeTable, string[] PassOrFailTable) {
 
-            if (ModelState.IsValid) {
-                string selectedValue = Request.Form["Type"];
-                balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
+            if (!ModelState.IsValid) {
+                var errors = ModelState.Where(item => item.Value.Errors.Any());
+                return View(SetVerificationBalance(balancetest));
+            }
 
-                var balance = repo.Get(balancetest.BalanceId);
-                balance.IsVerified = true;
+            if (WeightOneTable == null || WeightTwoTable == null || WeightThreeTable == null || PassOrFailTable == null) {
+                ModelState.AddModelError("", "Writing the device verification failed. Make sure the device verification is complete and try again.");
+                return View(SetVerificationBalance(balancetest));
+            }
+            //if all 3 arrays are not of equal length, return to view with an error message
+            if (!(WeightOneTable.Length == WeightTwoTable.Length) || !(WeightThreeTable.Length == PassOrFailTable.Length)) {
+                ModelState.AddModelError("", "Writing the device verification failed. Make sure the device verification is complete and try again.");
+                return View(SetVerificationBalance(balancetest));
+            }
+            
+            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
 
-                DeviceVerification verification = new DeviceVerification() {
-                    DidTestPass = true,
+            var balance = repo.Get(balancetest.BalanceId);
+            var result = CheckModelState.Invalid;
+            var user = HelperMethods.GetCurrentUser();
+            var verification = new DeviceVerification();
+
+            foreach (var item in PassOrFailTable) {
+                verification = new DeviceVerification() {
+                    DidTestPass = item.Equals("Pass") ? true : false,
                     VerifiedOn = DateTime.Today,
                     WeightOne = balancetest.WeightOne,
                     WeightTwo = balancetest.WeightTwo,
                     WeightThree = balancetest.WeightThree,
+                    WeightId = balancetest.WeightId,
                     Device = repo.Get(balancetest.BalanceId),
-                    User = HelperMethods.GetCurrentUser()
+                    User = user
                 };
 
-                new DeviceVerificationRepostory().Create(verification);
+                result = new DeviceVerificationRepostory().Create(verification);
 
+                if (result != CheckModelState.Valid) {
+                    //writing to db didn't work, break from loop
+                    break;
+                }
+                //add verification to the balance
                 balance.DeviceVerifications.Add(verification);
-                repo.Update(balance);
-
-                return RedirectToAction("Index");
             }
-            return View(balancetest);
+
+            switch (result) {
+                case CheckModelState.Invalid:
+                    ModelState.AddModelError("", "The verification of " + balancetest.DeviceCode + " failed. Please double check all inputs and try again.");
+                    return View(SetVerificationBalance(balancetest));
+                case CheckModelState.DataError:
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                    return View(SetVerificationBalance(balancetest));
+                case CheckModelState.Error:
+                    ModelState.AddModelError("", "There was an error. Please try again.");
+                    return View(SetVerificationBalance(balancetest));
+                case CheckModelState.Valid:
+                    balance.IsVerified = verification.DidTestPass;
+                    repo.Update(balance);
+                    //save pressed
+                    return RedirectToAction("Index");
+                default:
+                    ModelState.AddModelError("", "An unknown error occurred.");
+                    return View(SetVerificationBalance(balancetest));
+            }
         }
 
         // GET: /ScaleTest/Edit/5
@@ -255,9 +293,32 @@ namespace TMNT.Controllers {
         [Route("Balance/Delete/{id?}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int? id) {
-            repo.Delete(id);
-            return RedirectToAction("Index");
+        public ActionResult DeleteConfirmed(int? id, string submit) {
+            //don't want to delete, return to index
+            if (submit.Contains("No")) {
+                return RedirectToAction("Index");
+            }
+
+            var device = repo.Get(id);
+            var result = repo.Delete(id);
+
+            switch (result) {
+                case CheckModelState.Invalid:
+                    ModelState.AddModelError("", "The verification of " + device.DeviceCode + " failed. Please double check all inputs and try again.");
+                    return View(device);
+                case CheckModelState.DataError:
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                    return View(device);
+                case CheckModelState.Error:
+                    ModelState.AddModelError("", "There was an error. Please try again.");
+                    return View(device);
+                case CheckModelState.Valid:
+                    //save pressed
+                    return RedirectToAction("Index");
+                default:
+                    ModelState.AddModelError("", "An unknown error occurred.");
+                    return View(device);
+            }
         }
 
         private BalanceCreateViewModel SetCreateBalance(BalanceCreateViewModel model) {

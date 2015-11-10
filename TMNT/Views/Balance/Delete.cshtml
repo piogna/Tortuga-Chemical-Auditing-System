@@ -4,21 +4,38 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+@using (Html.BeginForm("Delete", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>DeviceTest</h4>
-    <hr />
-    <dl class="dl-horizontal">
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>
+                    Archive Balance
+                </h1>
+                <ol class="breadcrumb no-border-radius">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-wrench"></i> Devices / <i class="fa fa-balance-scale"></i> Balances / <i class="fa fa-archive"></i> Archive Balance
+                    </li>
+                </ol>
+            </div>
         </div>
-    }
-</div>
+
+        <p>
+            @Html.ActionLink("Back to List", "Index", "Balance", null, htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="jumbotron text-center">
+            <h2 style="font-weight:bold;">Are You Sure?</h2>
+            <p>
+                Once archived, this device will no longer be usable. All data relating to this device will still be available. Continue?
+            </p>
+            <div class="col-md-12 text-center">
+                <input type="submit" name="submit" class="btn" value="No, I Have Changed My Mind" />
+                <input type="submit" name="submit" class="btn btn-danger" value="Yes, Archive" />
+            </div>
+        </div>
+    </div>
+}
