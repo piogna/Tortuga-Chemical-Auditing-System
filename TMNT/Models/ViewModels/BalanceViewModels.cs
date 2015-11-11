@@ -16,9 +16,9 @@ namespace TMNT.Models.ViewModels {
     }
 
     public class BalanceVerificationViewModel {
-        [Required(ErrorMessage="The balance ID is required"), Display(Name="Balance ID")]
+        [Required(ErrorMessage = "Balance ID is Required"), Display(Name="Balance ID")]
         public int BalanceId { get; set; }
-        [Required, Display(Name="Device Code")]
+        [Required(ErrorMessage = "Device Code is Required"), Display(Name="Device Code")]
         public string DeviceCode { get; set; }
         public Location Location { get; set; }
         [Display(Name="Level/Clean")]
@@ -38,12 +38,12 @@ namespace TMNT.Models.ViewModels {
         public string Status { get; set; }//in good standing, getting repaired etc
         [Display(Name = "Last Verified By")]
         public string LastVerifiedBy { get; set; }//full name
-        public virtual Department Department { get; set; }
+        public Department Department { get; set; }
         [Display(Name = "Last Verified By")]
         public string VerifiedBy { get; set; }
+        [Required(ErrorMessage = "Weight ID is Required")]
         public string WeightId { get; set; }
-
-
+        
         public int NumberOfTestsToVerify { get; set; }
         public string WeightLimitOne { get; set; }
         public string WeightLimitTwo { get; set; }
