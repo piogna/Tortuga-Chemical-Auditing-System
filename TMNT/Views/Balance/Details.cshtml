@@ -27,6 +27,57 @@
 
 <hr />
 
+@Html.Partial("_SectionHeader", "Location Information")
+
+<div class="container">
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Location.LocationName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Location.LocationName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Location.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Location.Address), @Html.DisplayFor(model => model.Location.PostalCode) <br />
+                @Html.DisplayFor(model => model.Location.City), @Html.DisplayFor(model => model.Location.Province)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Location.PhoneNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Location.PhoneNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Location.FaxNumber)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Location.FaxNumber)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.DepartmentName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.DepartmentName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Department.SubDepartment)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Department.SubDepartment)
+            </dd>
+        </dl>
+    </div>
+</div>
+
 @Html.Partial("_SectionHeader", "Balance Information")
 
 <div class="container">
