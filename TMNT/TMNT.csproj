@@ -556,11 +556,6 @@
     <Content Include="Views\Standard\Details.cshtml" />
     <Content Include="Views\Standard\Edit.cshtml" />
     <Content Include="Views\Standard\Index.cshtml" />
-    <Content Include="Views\Supplier\Create.cshtml" />
-    <Content Include="Views\Supplier\Delete.cshtml" />
-    <Content Include="Views\Supplier\Details.cshtml" />
-    <Content Include="Views\Supplier\Edit.cshtml" />
-    <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\AdminController\Create.cshtml" />
     <Content Include="Views\AdminController\Delete.cshtml" />
     <Content Include="Views\AdminController\Details.cshtml" />

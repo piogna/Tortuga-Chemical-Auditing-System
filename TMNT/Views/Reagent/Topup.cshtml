@@ -13,6 +13,14 @@
             margin-left: 0 !important;
             margin-right: 0 !important;
         }
+
+        .fix-dt-padding {
+            padding-top:6px;
+        }
+
+        .fix-dd-margin {
+            margin-bottom:4px;
+        }
     </style>
 }
 
@@ -92,44 +100,36 @@
 <div class="container">
     <div class="col-md-6">
         <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.IdCode)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.IdCode)
-            </dd>
-
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.CatalogueCode)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.CatalogueCode)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.CatalogueCode, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.ReagentName)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.ReagentName)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.ReagentName, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.DateCreated)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateCreated)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.DateCreated, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.CreatedBy)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.CreatedBy)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.CreatedBy, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
             <dt>
@@ -152,76 +152,68 @@
     </div>
     <div class="col-md-6">
         <dl class="dl-horizontal">
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.DateReceived)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateReceived)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.DateReceived, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.DateOpened)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.DateOpened)
-            </dd>
-
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.NumberOfBottles)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.NumberOfBottles)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.NumberOfBottles, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.SupplierName)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.SupplierName)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.SupplierName, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.DateModified)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateModified)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.DateModified, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.LastModifiedBy)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.LastModifiedBy)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.LastModifiedBy, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.Grade)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Grade)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.Grade, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.GradeAdditionalNotes)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.GradeAdditionalNotes)
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.GradeAdditionalNotes, new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
-            <dt>
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.UsedFor)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.UsedFor)
+                @Html.TextBoxFor(model => model.UsedFor, new { @readonly = "readonly", @class = "form-control" })
             </dd>
         </dl>
     </div>
@@ -230,33 +222,36 @@
 @Html.Partial("_SectionHeader", "Required Fields to Complete Form")
 
 <div class="container">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="col-md-12">
-        <div class="col-lg-6">
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon addon-required" title="Required Field"></div>
-                    @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field", @Value = "" } })
-                </div>
-                @Html.ValidationMessageFor(model => model.LotNumber)
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-addon addon-required" title="Required Field"></div>
-                    <div class="input-group-addon">
-                        <div style="margin-top:-5px;" class="checkbox">
-                            <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
-                        </div>
+        <div class="col-md-12">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                        @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field", @Value = "" } })
                     </div>
-                    @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                    @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                    @Html.ValidationMessageFor(model => model.LotNumber)
                 </div>
-                @Html.ValidationMessageFor(model => model.ExpiryDate)
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                        <div class="input-group-addon">
+                            <div style="margin-top:-5px;" class="checkbox">
+                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
+                            </div>
+                        </div>
+                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.ExpiryDate)
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     @Scripts.Render("~/datatables")
     <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
