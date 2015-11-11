@@ -51,7 +51,7 @@
                 </dd>
             } else {
                 <dd>
-                    Not Verified
+                    Verified
                     <span class="fa fa-check-circle text-success"></span>
                 </dd>
             }
@@ -92,6 +92,7 @@
                 <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
                 <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
                 <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
+                <th>Test Result</th>
             </tr>
         </thead>
         <tbody>
@@ -106,10 +107,15 @@
                         } else {
                             <td>@item.WeightTwo</td>
                         }
-                        @if (item.WeightTwo == null) {
+                        @if (item.WeightThree == null) {
                             <td>N/A</td>
                         } else {
                             <td>@item.WeightThree</td>
+                        }
+                        @if (item.DidTestPass) {
+                            <td class="text-success">Pass</td>
+                        } else {
+                            <td class="text-danger">Fail</td>
                         }
                     </tr>
                 }
@@ -122,6 +128,7 @@
                 <th>@Html.DisplayNameFor(model => model.WeightOne)</th>
                 <th>@Html.DisplayNameFor(model => model.WeightTwo)</th>
                 <th>@Html.DisplayNameFor(model => model.WeightThree)</th>
+                <th>Test Result</th>
             </tr>
         </tfoot>
     </table>
