@@ -263,8 +263,8 @@
                                     <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
                                         <option>No Location Selected</option>
                                         <optgroup label="Location">
-                                            @foreach (var item in ViewBag.Locations) {
-                                                if (item == ViewBag.SelectedLocation) {
+                                            @foreach (var item in Model.LocationNames) {
+                                                if (item == Model.CurrentLocation) {
                                                     <option selected>
                                                         @item
                                                     </option>

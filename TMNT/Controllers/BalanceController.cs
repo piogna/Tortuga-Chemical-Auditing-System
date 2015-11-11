@@ -149,8 +149,8 @@ namespace TMNT.Controllers {
         [Route("Balance/Verification")]
         public ActionResult VerificationUnspecified() {
             //sending all Locations to the view
-            ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
-            return View("Verification");
+            //ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
+            return View("Verification", SetVerificationBalance(new BalanceVerificationViewModel()));
         }
 
         [Route("Balance/Verification/{id?}")]
@@ -159,19 +159,16 @@ namespace TMNT.Controllers {
             ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
             var balance = repo.Get(id);
 
-            ViewBag.DeviceCode = balance.DeviceCode;
-            ViewBag.SelectedLocation = balance.Department.Location.LocationName;
-
             var device = new BalanceVerificationViewModel() {
                 BalanceId = balance.DeviceId,
                 Location = balance.Department.Location,
                 DeviceCode = balance.DeviceCode,
+                CurrentLocation = balance.Department.Location.LocationName,
                 NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                 WeightLimitOne = balance.AmountLimitOne,
                 WeightLimitTwo = balance.AmountLimitTwo,
                 WeightLimitThree = balance.AmountLimitThree
             };
-
             return View(device);
         }
 
@@ -186,17 +183,17 @@ namespace TMNT.Controllers {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
-                return View(SetVerificationBalance(balancetest));
+                return View("Verification", SetVerificationBalance(balancetest));
             }
 
             if (WeightOneTable == null || WeightTwoTable == null || WeightThreeTable == null || PassOrFailTable == null) {
                 ModelState.AddModelError("", "Writing the device verification failed. Make sure the device verification is complete and try again.");
-                return View(SetVerificationBalance(balancetest));
+                return View("Verification", SetVerificationBalance(balancetest));
             }
             //if all 3 arrays are not of equal length, return to view with an error message
             if (!(WeightOneTable.Length == WeightTwoTable.Length) || !(WeightThreeTable.Length == PassOrFailTable.Length)) {
                 ModelState.AddModelError("", "Writing the device verification failed. Make sure the device verification is complete and try again.");
-                return View(SetVerificationBalance(balancetest));
+                return View("Verification", SetVerificationBalance(balancetest));
             }
             
             balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
@@ -231,13 +228,13 @@ namespace TMNT.Controllers {
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The verification of " + balancetest.DeviceCode + " failed. Please double check all inputs and try again.");
-                    return View(SetVerificationBalance(balancetest));
+                    return View("Verification", SetVerificationBalance(balancetest));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    return View(SetVerificationBalance(balancetest));
+                    return View("Verification", SetVerificationBalance(balancetest));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    return View(SetVerificationBalance(balancetest));
+                    return View("Verification", SetVerificationBalance(balancetest));
                 case CheckModelState.Valid:
                     balance.IsVerified = verification.DidTestPass;
                     repo.Update(balance);
@@ -245,7 +242,7 @@ namespace TMNT.Controllers {
                     return RedirectToAction("Index");
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    return View(SetVerificationBalance(balancetest));
+                    return View("Verification", SetVerificationBalance(balancetest));
             }
         }
 
@@ -339,8 +336,13 @@ namespace TMNT.Controllers {
         }
 
         private BalanceVerificationViewModel SetVerificationBalance(BalanceVerificationViewModel model) {
-
             //TODO use in post method of verification
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
+            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+            
+            model.LocationNames = locations.Select(item => item.LocationName).ToList();
+            model.DeviceCode = model.DeviceCode;
+            model.CurrentLocation = model.CurrentLocation;
 
             return model;
         }

@@ -49,6 +49,10 @@ namespace TMNT.Models.ViewModels {
         public string WeightLimitTwo { get; set; }
         public string WeightLimitThree { get; set; }
 
+        //properties to populate view
+        public List<string> LocationNames { get; set; }
+        public string CurrentLocation { get; set; }
+
         //for details
         public List<DeviceVerification> DeviceVerifications { get; set; }
     }
