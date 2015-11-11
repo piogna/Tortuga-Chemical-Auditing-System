@@ -97,8 +97,7 @@ namespace TMNT.Controllers {
                     if (user.IsFirstTimeLogin) {
                         return RedirectToAction("ChangePasswordFirstTime", "Manage");
                     }
-
-                    //ViewBag.User = DbContextSingleton.Instance.Users.FirstOrDefault(x => x.Id == user).Department;
+                    
                     //setting the "Remember Me?" checkbox
                     if (model.RememberMe) {
                         // is authenticated so save cookie
@@ -205,32 +204,29 @@ namespace TMNT.Controllers {
                     }
 
                     //send email to new user with username and default password
-                    string username = ConfigurationManager.AppSettings["smtp-username"];
-                    string password = ConfigurationManager.AppSettings["smtp-password"];
-                    try {
-                        using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
-                            message.Body = "Welcome to Maxxam, " + model.FirstName + " " + model.LastName +  "!<br/><br/>" +
-                            "Click the link below to login to your account with the following credentials. You will be asked to change your password immediately (minimum 8 characters).<br/><br/>" +
-                            "Username: " + model.UserName + "<br/>" +
-                            "Password: " + model.Password + "<br/><br/>" +
-                            "http://142.55.49.127";
+                    //string username = ConfigurationManager.AppSettings["smtp-username"];
+                    //string password = ConfigurationManager.AppSettings["smtp-password"];
+                    //try {
+                    //    using (MailMessage message = new MailMessage("admin@maxxam.ca", model.Email, "Maxxam New Account - " + model.FirstName, "")) {
+                    //        message.Body = "Welcome to Maxxam, " + model.FirstName + " " + model.LastName +  "!<br/><br/>" +
+                    //        "Click the link below to login to your account with the following credentials. You will be asked to change your password immediately (minimum 8 characters).<br/><br/>" +
+                    //        "Username: " + model.UserName + "<br/>" +
+                    //        "Password: " + model.Password + "<br/><br/>" +
+                    //        "http://142.55.49.127";
 
-                            message.IsBodyHtml = true;
+                    //        message.IsBodyHtml = true;
 
-                            using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587)) {
-                                client.UseDefaultCredentials = false;
-                                client.Credentials = new NetworkCredential(username, password);
-                                client.EnableSsl = true;
+                    //        using (SmtpClient client = new SmtpClient("smtp.gmail.com", 587)) {
+                    //            client.UseDefaultCredentials = false;
+                    //            client.Credentials = new NetworkCredential(username, password);
+                    //            client.EnableSsl = true;
 
-                                client.Send(message);
-                            }
-                        }
-                    } catch (Exception ex) {
+                    //            client.Send(message);
+                    //        }
+                    //    }
+                    //} catch (Exception ex) {
 
-                    }
-                    
-                    //UserManager.AddToRole(model.UserName, model.Role);//breaking the application
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //}
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -251,7 +247,7 @@ namespace TMNT.Controllers {
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(SetRegistration(model));
         }
 
         //

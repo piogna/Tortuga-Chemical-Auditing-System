@@ -50,7 +50,7 @@
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon no-border-radius"><i class="fa fa-map-marker fa-fw"></i></span>
-                <select class="form-control" name="LocationName">
+                <select id="LocationName" class="form-control" name="LocationName">
                     <option value="">
                         Choose a Location..
                     </option>
@@ -64,8 +64,8 @@
         </div>
         <div class="form-group">
             <div class="input-group">
-                <div class="input-group-addon addon-required" title="Required Field"></div>
-                <select id="department-names" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
+                <span class="input-group-addon no-border-radius"><i class="fa fa-adjust fa-fw"></i></span>
+                <select id="DepartmentName" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
                     <option value="">Departments..</option>
                     @foreach (var item in Model.Departments) {
                         <option value="@item.DepartmentName">
@@ -79,7 +79,7 @@
         <div class="form-group">
             <div class="input-group">
                 <span class="input-group-addon no-border-radius"><i class="fa fa-sitemap fa-fw"></i></span>
-                <select id="SubDepartmentName" disabled="disabled" name="SubDepartmentName" class="form-control no-border-radius required-field input-summary">
+                <select id="SubDepartment" disabled="disabled" name="SubDepartment" class="form-control no-border-radius required-field input-summary">
                     <option value="">Sub Departments..</option>
                     <optgroup class="hide opt-organics" label="Organics Sub Departments">
                         @foreach (var item in Model.SubDepartments) {
@@ -103,16 +103,6 @@
                         <option value="None">No Sub Department</option>
                     </optgroup>
                 </select>
-                @*<select class="form-control" name="SubDepartment">
-                        <option value="">
-                            Choose a Sub Department..
-                        </option>
-                        @foreach (var item in Model.SubDepartments) {
-                            <option value="@item.SubDepartment">
-                                @item.SubDepartment
-                            </option>
-                        }
-                    </select>*@
             </div>
         </div>
         <div class="form-group">
@@ -143,9 +133,9 @@
 @section Scripts {
     <script>
         $(function () {
-            var locationNames = $('#location-names');
-            var departmentNames = $('#department-names');
-            var subDepartmentNames = $('#SubDepartmentName');
+            var locationNames = $('#LocationName');
+            var departmentNames = $('#DepartmentName');
+            var subDepartmentNames = $('#SubDepartment');
             var optOrganics = $('.opt-organics');
             var optInorganics = $('.opt-inorganics');
 
