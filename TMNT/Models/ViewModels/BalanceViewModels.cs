@@ -85,6 +85,21 @@ namespace TMNT.Models.ViewModels {
     }
 
     public class BalanceDetailsViewModel {
+        [Required(ErrorMessage = "Balance ID is Required"), Display(Name = "Balance ID")]
+        public int BalanceId { get; set; }
+        [Required(ErrorMessage = "Device Code is Required"), Display(Name = "Device Code")]
+        public string DeviceCode { get; set; }
+        public Location Location { get; set; }
+        public Department Department { get; set; }
+        [Display(Name = "Verification Standing")]
+        public bool IsVerified { get; set; }
+        public string Status { get; set; }//in good standing, getting repaired etc
 
+        [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
+        public DateTime? LastVerified { get; set; }
+        [Display(Name = "Last Verified By")]
+        public string LastVerifiedBy { get; set; }//full name
+
+        public List<DeviceVerification> DeviceVerifications { get; set; }
     }
 }

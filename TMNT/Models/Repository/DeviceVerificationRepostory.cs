@@ -29,7 +29,7 @@ namespace TMNT.Models.Repository {
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException) {
+            } catch (DataException ex) {
                 return CheckModelState.DataError;
             } catch (Exception) {
                 return CheckModelState.Error;

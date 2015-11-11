@@ -278,11 +278,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="input-group">
-                                <div class="input-group-addon addon-required" title="Required Field"></div>
-                                @Html.EditorFor(model => model.WeightId, new { htmlAttributes = new { @placeholder = "Weight ID", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.WeightId, new { htmlAttributes = new { @placeholder = "Weight ID", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.WeightId)
+                                </div>
                             </div>
-                            @Html.ValidationMessageFor(model => model.WeightId)
                         </div>
 
                         @Html.Partial("_SectionHeader", "Start Balance Verification")

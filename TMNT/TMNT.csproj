@@ -323,6 +323,10 @@
     <Compile Include="Migrations\201511110003475_RemovingMoreUselessFields.Designer.cs">
       <DependentUpon>201511110003475_RemovingMoreUselessFields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511111535515_removedRequiredAttributesOnDevice.cs" />
+    <Compile Include="Migrations\201511111535515_removedRequiredAttributesOnDevice.Designer.cs">
+      <DependentUpon>201511111535515_removedRequiredAttributesOnDevice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -699,6 +703,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511110003475_RemovingMoreUselessFields.resx">
       <DependentUpon>201511110003475_RemovingMoreUselessFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511111535515_removedRequiredAttributesOnDevice.resx">
+      <DependentUpon>201511111535515_removedRequiredAttributesOnDevice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

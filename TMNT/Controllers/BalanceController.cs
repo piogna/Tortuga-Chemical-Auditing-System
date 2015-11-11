@@ -68,7 +68,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
 
-            BalanceVerificationViewModel balanceData = new BalanceVerificationViewModel() {
+            BalanceDetailsViewModel balanceData = new BalanceDetailsViewModel() {
                 BalanceId = device.DeviceId,
                 Department = device.Department,
                 DeviceCode = device.DeviceCode,
@@ -78,7 +78,7 @@ namespace TMNT.Controllers {
             };
 
             if (device.DeviceVerifications.Count > 0) {
-                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn).ToList();
+                balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn.Value.Date).ToList();
                 balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
                 balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.UserName).First();
             }
@@ -156,7 +156,7 @@ namespace TMNT.Controllers {
         [Route("Balance/Verification/{id?}")]
         public ActionResult Verification(int? id) {
             //sending all Locations to the view
-            ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
             var balance = repo.Get(id);
 
             var device = new BalanceVerificationViewModel() {
@@ -164,6 +164,7 @@ namespace TMNT.Controllers {
                 Location = balance.Department.Location,
                 DeviceCode = balance.DeviceCode,
                 CurrentLocation = balance.Department.Location.LocationName,
+                LocationNames = locations,
                 NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                 WeightLimitOne = balance.AmountLimitOne,
                 WeightLimitTwo = balance.AmountLimitTwo,
@@ -195,23 +196,22 @@ namespace TMNT.Controllers {
                 ModelState.AddModelError("", "Writing the device verification failed. Make sure the device verification is complete and try again.");
                 return View("Verification", SetVerificationBalance(balancetest));
             }
-            
-            balancetest.BalanceId = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).Select(item => item.DeviceId).First();
 
-            var balance = repo.Get(balancetest.BalanceId);
+            var balance = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).First();
             var result = CheckModelState.Invalid;
             var user = HelperMethods.GetCurrentUser();
             var verification = new DeviceVerification();
 
-            foreach (var item in PassOrFailTable) {
+            //arrays are aligned, so let's use a traditional for-loop
+            for (int i = 0; i < PassOrFailTable.Length; i++) {
                 verification = new DeviceVerification() {
-                    DidTestPass = item.Equals("Pass") ? true : false,
+                    DidTestPass = PassOrFailTable[i].Equals("Pass") ? true : false,
                     VerifiedOn = DateTime.Today,
-                    WeightOne = balancetest.WeightOne,
-                    WeightTwo = balancetest.WeightTwo,
-                    WeightThree = balancetest.WeightThree,
+                    WeightOne = string.IsNullOrEmpty(WeightOneTable[i]) ? (double?)null : Convert.ToDouble(WeightOneTable[i]),
+                    WeightTwo = string.IsNullOrEmpty(WeightTwoTable[i]) ? (double?)null : Convert.ToDouble(WeightTwoTable[i]),
+                    WeightThree = string.IsNullOrEmpty(WeightThreeTable[i]) ? (double?)null : Convert.ToDouble(WeightThreeTable[i]),
                     WeightId = balancetest.WeightId,
-                    Device = repo.Get(balancetest.BalanceId),
+                    Device = balance,
                     User = user
                 };
 
@@ -237,6 +237,7 @@ namespace TMNT.Controllers {
                     return View("Verification", SetVerificationBalance(balancetest));
                 case CheckModelState.Valid:
                     balance.IsVerified = verification.DidTestPass;
+                    balance.Status = "In Good Standing";
                     repo.Update(balance);
                     //save pressed
                     return RedirectToAction("Index");

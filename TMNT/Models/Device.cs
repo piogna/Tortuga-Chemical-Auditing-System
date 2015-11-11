@@ -11,11 +11,8 @@ namespace TMNT.Models {
         public string Status { get; set; }//in good standing, getting repaired etc
         public int NumberOfDecimals { get; set; }
         public int NumberOfTestsToVerify { get; set; }
-        [Required]
         public string AmountLimitOne { get; set; }
-        [Required]
         public string AmountLimitTwo { get; set; }
-        [Required]
         public string AmountLimitThree { get; set; }
         public bool IsArchived { get; set; }
 
