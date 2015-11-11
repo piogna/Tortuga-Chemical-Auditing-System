@@ -319,6 +319,10 @@
     <Compile Include="Migrations\201511102357189_SupplierRemovedFromDb.Designer.cs">
       <DependentUpon>201511102357189_SupplierRemovedFromDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511110003475_RemovingMoreUselessFields.cs" />
+    <Compile Include="Migrations\201511110003475_RemovingMoreUselessFields.Designer.cs">
+      <DependentUpon>201511110003475_RemovingMoreUselessFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -697,6 +701,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511102357189_SupplierRemovedFromDb.resx">
       <DependentUpon>201511102357189_SupplierRemovedFromDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511110003475_RemovingMoreUselessFields.resx">
+      <DependentUpon>201511110003475_RemovingMoreUselessFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

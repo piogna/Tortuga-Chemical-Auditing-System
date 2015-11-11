@@ -16,9 +16,6 @@ namespace TMNT.Models {
         public string PhoneNumber { get; set; }
         [Display(Name = "Fax Number")]
         public string FaxNumber { get; set; }
-        public string Website { get; set; }
-
-        public virtual ICollection<InventoryLocation> InventoryLocations { get; set; }
         public virtual ICollection<Department> Departments { get; set; }
     }
 }

@@ -35,8 +35,6 @@ namespace TMNT.Models {
         public string OtherUnitExplained { get; set; }
         public string ConcentrationOtherUnitExplained { get; set; }
 
-        public virtual ICollection<Location> Locations { get; set; }
-
         public virtual ICollection<SpikingStandard> SpikingStandards { get; set; }
         public virtual ICollection<SurrogateSpikingStandard> SurrogateSpikingStandards { get; set; }
         public virtual ICollection<CertificateOfAnalysis> CertificatesOfAnalysis { get; set; }
