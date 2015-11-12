@@ -33,7 +33,7 @@ namespace TMNT.Models.ViewModels {
         public string Comments { get; set; }
         [Display(Name = "Verification Standing")]
         public bool IsVerified { get; set; }
-        [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
+        [Display(Name = "Last Verified"), DataType(DataType.Date)]
         public DateTime? LastVerified { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
         [Display(Name = "Last Verified By")]
@@ -43,7 +43,7 @@ namespace TMNT.Models.ViewModels {
         public string VerifiedBy { get; set; }
         [Required(ErrorMessage = "Weight ID is Required")]
         public string WeightId { get; set; }
-        
+
         public int NumberOfTestsToVerify { get; set; }
         public string WeightLimitOne { get; set; }
         public string WeightLimitTwo { get; set; }
@@ -52,6 +52,7 @@ namespace TMNT.Models.ViewModels {
         //properties to populate view
         public List<string> LocationNames { get; set; }
         public string CurrentLocation { get; set; }
+        public int NumberOfDecimals { get; set; }
 
         //for details
         public List<DeviceVerification> DeviceVerifications { get; set; }
@@ -94,6 +95,8 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Verification Standing")]
         public bool IsVerified { get; set; }
         public string Status { get; set; }//in good standing, getting repaired etc
+        [Display(Name = "Number of Decimals")]
+        public int NumberOfDecimals { get; set; }
 
         [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
         public DateTime? LastVerified { get; set; }

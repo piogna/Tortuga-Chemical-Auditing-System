@@ -74,7 +74,8 @@ namespace TMNT.Controllers {
                 DeviceCode = device.DeviceCode,
                 IsVerified = device.IsVerified,
                 Location = device.Department.Location,
-                Status = device.Status
+                Status = device.Status,
+                NumberOfDecimals = device.NumberOfDecimals
             };
 
             if (device.DeviceVerifications.Count > 0) {
@@ -149,7 +150,6 @@ namespace TMNT.Controllers {
         [Route("Balance/Verification")]
         public ActionResult VerificationUnspecified() {
             //sending all Locations to the view
-            //ViewBag.Locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
             return View("Verification", SetVerificationBalance(new BalanceVerificationViewModel()));
         }
 
@@ -168,7 +168,8 @@ namespace TMNT.Controllers {
                 NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                 WeightLimitOne = balance.AmountLimitOne,
                 WeightLimitTwo = balance.AmountLimitTwo,
-                WeightLimitThree = balance.AmountLimitThree
+                WeightLimitThree = balance.AmountLimitThree,
+                NumberOfDecimals = balance.NumberOfDecimals
             };
             return View(device);
         }
@@ -342,8 +343,10 @@ namespace TMNT.Controllers {
             var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
             
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
+            model.Department = departments.Where(item => item.DepartmentId == model.Department.DepartmentId).First();
             model.DeviceCode = model.DeviceCode;
             model.CurrentLocation = model.CurrentLocation;
+            model.NumberOfDecimals = model.NumberOfDecimals;
 
             return model;
         }

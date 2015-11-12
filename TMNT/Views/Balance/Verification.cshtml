@@ -17,8 +17,8 @@
             cursor: pointer;
             position:relative;
             border: 1px solid #cfcfcf;
-            padding: 6px 0 6px 0;
-            width:15%;
+            padding: 15px 0 15px 0;
+            width:25%;
             display:inline-block;
             border-top:#fff;
             background:#fff;
@@ -46,7 +46,7 @@
         var limitOne = $('.weight-limit').first(), limitTwo = $('.weight-limit').eq(1), limitThree = $('.weight-limit').eq(2);
         var weightOneVal = 0, weightTwoVal = 0, weightThreeVal = 0;
         var CONST_TWO_PERCENT = 2.00;
-        var numberOfTests = $('#NumberOfTestsToVerify');
+        var numberOfTests = $('#NumberOfTestsToVerify'), numberOfDecimals = !isNaN($('#NumberOfDecimals').val()) ? parseInt($('#NumberOfDecimals').val()) : 1;
 
         //var levelCleanOne = $('.level-clean').first();
         //var levelCleanTwo = $('.level-clean').eq(1);
@@ -90,7 +90,7 @@
 
                     //write record to table
                     append = "";
-                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
+                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value='" + weightOneVal.toFixed(numberOfDecimals) + "'/></td>" +
                             "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value=''/></td>" +
                              "<td><input name='WeightThreeTable' style='border:none;background:transparent;width:80%;' type='text' readonly='readonly' value=''/></td>" +
                             "<td><input name='PassOrFailTable' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
@@ -128,8 +128,8 @@
                         //verification done
                         text += "<li style='color:#5cb85c'>You can now save the verification and use this balance!</li>";
                         append = "";
-                        append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                                "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                        append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal.toFixed(numberOfDecimals) + "'/></td>" +
+                                "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal.toFixed(numberOfDecimals) + "'/></td>" +
                                  "<td><input name='WeightThreeTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value=''/></td>" +
                                 "<td><input name='PassOrFailTable' style='border:none;background:transparent;color:#5cb85c;' type='text' readonly='readonly' value='Pass'/></td>";
                         verificationTable.append(append);
@@ -147,8 +147,8 @@
 
                     //write record to table
                     append = "";
-                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
+                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal.toFixed(numberOfDecimals) + "'/></td>" +
+                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal.toFixed(numberOfDecimals) + "'/></td>" +
                              "<td><input name='WeightThreeTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value=''/></td>" +
                             "<td><input name='PassOrFailTable' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
@@ -180,9 +180,9 @@
 
                     //verification done
                     append = "";
-                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThreeTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
+                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightOneVal.toFixed(numberOfDecimals) + "'/></td>" +
+                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightTwoVal.toFixed(numberOfDecimals) + "'/></td>" +
+                             "<td><input name='WeightThreeTable' style='border:none;background:transparent;width:80%' type='text' readonly='readonly' value='" + weightThreeVal.toFixed(numberOfDecimals) + "'/></td>" +
                             "<td><input name='PassOrFailTable' style='border:none;background:transparent;color:#5cb85c;' type='text' readonly='readonly' value='Pass'/></td>";
                     verificationTable.append(append);
                     save.removeAttr("disabled");
@@ -200,9 +200,9 @@
 
                     //write record to table
                     append = "";
-                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal + "'/></td>" +
-                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal + "'/></td>" +
-                             "<td><input name='WeightThreeTable' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal + "'/></td>" +
+                    append += "<tr><td><input name='WeightOneTable'style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightOneVal.toFixed(numberOfDecimals) + "'/></td>" +
+                            "<td><input name='WeightTwoTable' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightTwoVal.toFixed(numberOfDecimals) + "'/></td>" +
+                             "<td><input name='WeightThreeTable' style='border:none;background:transparent;color:#3a87ad;width:80%' type='text' readonly='readonly' value='" + weightThreeVal.toFixed(numberOfDecimals) + "'/></td>" +
                             "<td><input name='PassOrFailTable' style='border:none;background:transparent;color:red;' type='text' readonly='readonly' value='Fail'/></td>";
                     verificationTable.append(append);
 
@@ -216,6 +216,7 @@
 @using (Html.BeginForm("CreateVerification", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.NumberOfTestsToVerify)
+    @Html.HiddenFor(model => model.NumberOfDecimals)
 
     <div class="form-horizontal">
 

@@ -22,6 +22,7 @@ namespace TMNT.Utils {
                     .First();
                 if (test.Value.Date < DateTime.Today) {
                     scale.IsVerified = false;
+                    scale.Status = "Needs Verification";
                     new DeviceRepository(DbContextSingleton.Instance).Update(scale);
                 }
             }
