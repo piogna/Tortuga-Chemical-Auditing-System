@@ -203,20 +203,7 @@
                                                         @item
                                                     </option>
                                                 }
-                                                @*@foreach (var item in Model.WeightUnits) {
-                                                <option value="@item.UnitShorthandName">
-                                                    @item.UnitShorthandName
-                                                </option>
-                                                }*@
                                             </optgroup>
-                                            @*
-                                            <optgroup label="Volumes">
-                                                @foreach (var item in Model.VolumetricUnits) {
-                                                <option value="@item.UnitShorthandName">
-                                                    @item.UnitShorthandName
-                                                </option>
-                                                }
-                                            </optgroup>*@
                                             <optgroup label="Other">
                                                 <option value="Other">Other</option>
                                             </optgroup>
@@ -398,7 +385,7 @@
             });
 
             $("#ConcentrationUnits").chosen({
-                max_selected_options: 2,
+                max_selected_options: 1,
                 placeholder: "Units.."
             });
 

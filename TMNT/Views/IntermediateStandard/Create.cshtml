@@ -133,7 +133,7 @@
                                     <hr />
                                     <!-- tabs to show either compounds or solvents/acids -->
                                     @*<div class="col-md-6 tab tab-selected text-center" id="compounds">Compounds</div>
-                                    <div class="col-md-6 tab tab-unselected text-center" id="solvents">Solvents/Acids</div>*@
+                                        <div class="col-md-6 tab tab-unselected text-center" id="solvents">Solvents/Acids</div>*@
                                     <div id="compound-section">
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
@@ -221,26 +221,26 @@
                                     </div>
                                     <!-- Solvents/Acids -->
                                     @*<div id="solvent-section">
-                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input">
-                    <div class="input-group">
-                        <div class="input-group-addon"></div>
-                        <select name="Solvents" id="SolventAcid" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
-                            <option value="">Choose Chemical Type</option>
-                            <optgroup label="Item Type">
-                                <option value="Solvent">Solvent</option>
-                                <option value="Acid">Acid</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
+                                            <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"></div>
+                                                    <select name="Solvents" id="SolventAcid" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
+                                                        <option value="">Choose Chemical Type</option>
+                                                        <optgroup label="Item Type">
+                                                            <option value="Solvent">Solvent</option>
+                                                            <option value="Acid">Acid</option>
+                                                        </optgroup>
+                                                    </select>
+                                                </div>
+                                            </div>
 
-                <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input" id="solvent-input-container">
-                    <div class="input-group">
-                        <div class="input-group-addon"></div>
-                        <input name="Solvent" id="Solvent" type="text" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Solvent/Acid Name" />
-                    </div>
-                </div>
-            </div>*@
+                                            <div class="form-group zero-left-right-margin solvent-input-container-display solvent-input" id="solvent-input-container">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"></div>
+                                                    <input name="Solvent" id="Solvent" type="text" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Solvent/Acid Name" />
+                                                </div>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -347,18 +347,11 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
-                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
-                                            <optgroup label="Weights">
-                                                @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                            <optgroup label="Volumes">
-                                                @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
+                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="FinalConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            <optgroup label="Units">
+                                                @foreach (var item in Model.ConcentrationUnits) {
+                                                    <option value="@item">
+                                                        @item
                                                     </option>
                                                 }
                                             </optgroup>
@@ -495,6 +488,11 @@
 
             $(".Units").chosen({
                 max_selected_options: 2,
+                placeholder: "Units.."
+            });
+
+            $("#FinalConcentrationUnits").chosen({
+                max_selected_options: 1,
                 placeholder: "Units.."
             });
 
