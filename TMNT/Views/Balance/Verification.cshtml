@@ -253,7 +253,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control required-field no-border-radius" } })
+                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Balance ID", @class = "input-summary form-control required-field no-border-radius", @readonly = "readonly" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
@@ -261,22 +261,7 @@
                             <div class="col-md-4">
                                 <div class="input-group">
                                     <div class="input-group-addon addon-required" title="Required Field"></div>
-                                    <select name="Type" class="input-xlarge-fuid input-summary form-control valid no-border-radius">
-                                        <option>No Location Selected</option>
-                                        <optgroup label="Location">
-                                            @foreach (var item in Model.LocationNames) {
-                                                if (item == Model.CurrentLocation) {
-                                                    <option selected>
-                                                        @item
-                                                    </option>
-                                                } else {
-                                                    <option value="@item">
-                                                        @item
-                                                    </option>
-                                                }
-                                            }
-                                        </optgroup>
-                                    </select>
+                                    @Html.EditorFor(model => model.CurrentLocation, new { htmlAttributes = new { @placeholder = "Location", @class = "input-summary form-control required-field no-border-radius", @readonly = "readonly" } })
                                 </div>
                             </div>
                             <div class="col-md-4">
