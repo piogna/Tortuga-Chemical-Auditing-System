@@ -163,19 +163,19 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
-                                        <select data-placeholder="Units.." name="AmountUnit" id="WeightUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                        <select data-placeholder="Units.." name="AmountUnit" id="WeightUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
-                                                    </option>
+                                                <option value="@item.UnitShorthandName">
+                                                    @item.UnitShorthandName
+                                                </option>
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumes">
                                                 @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
-                                                    </option>
+                                                <option value="@item.UnitShorthandName">
+                                                    @item.UnitShorthandName
+                                                </option>
                                                 }
                                             </optgroup>
                                             <optgroup label="Other">
@@ -196,21 +196,27 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
                                         <input name="Concentration" id="Concentration" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Concentration" />
-                                        <select data-placeholder="Units.." name="ConcentrationUnit" id="ConcentrationUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
-                                            <optgroup label="Weights">
-                                                @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
+                                        <select data-placeholder="Units.." name="ConcentrationUnit" id="ConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
+                                            <optgroup label="Units">
+                                                @foreach (var item in Model.ConcentrationUnits) {
+                                                    <option value="@item">
+                                                        @item
                                                     </option>
                                                 }
+                                                @*@foreach (var item in Model.WeightUnits) {
+                                                <option value="@item.UnitShorthandName">
+                                                    @item.UnitShorthandName
+                                                </option>
+                                                }*@
                                             </optgroup>
+                                            @*
                                             <optgroup label="Volumes">
                                                 @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
-                                                    </option>
+                                                <option value="@item.UnitShorthandName">
+                                                    @item.UnitShorthandName
+                                                </option>
                                                 }
-                                            </optgroup>
+                                            </optgroup>*@
                                             <optgroup label="Other">
                                                 <option value="Other">Other</option>
                                             </optgroup>
@@ -250,28 +256,28 @@
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in Model.BalanceDevices) {
-                                                    if (@item.IsVerified) {
-                                                        <option value="@item.DeviceCode">
-                                                            @item.DeviceCode
-                                                        </option>
-                                                    } else {
-                                                        <option disabled="disabled" value="@item.DeviceCode">
-                                                            @item.DeviceCode - Not Verified
-                                                        </option>
-                                                    }
+                                                if (@item.IsVerified) {
+                                                <option value="@item.DeviceCode">
+                                                    @item.DeviceCode
+                                                </option>
+                                                } else {
+                                                <option disabled="disabled" value="@item.DeviceCode">
+                                                    @item.DeviceCode - Not Verified
+                                                </option>
+                                                }
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
                                                 @foreach (var item in Model.VolumetricDevices) {
-                                                    if (@item.IsVerified) {
-                                                        <option value="@item.DeviceCode">
-                                                            @item.DeviceCode
-                                                        </option>
-                                                    } else {
-                                                        <option disabled="disabled" value="@item.DeviceCode">
-                                                            @item.DeviceCode - Not Verified
-                                                        </option>
-                                                    }
+                                                if (@item.IsVerified) {
+                                                <option value="@item.DeviceCode">
+                                                    @item.DeviceCode
+                                                </option>
+                                                } else {
+                                                <option disabled="disabled" value="@item.DeviceCode">
+                                                    @item.DeviceCode - Not Verified
+                                                </option>
+                                                }
                                                 }
                                                 <option value="VOL902-W">VOL902-W</option>
                                                 <option value="None">No Device Used</option>
@@ -386,7 +392,12 @@
                 maximumSelectionLength: 2
             });
 
-            $(".Units").chosen({
+            $("#WeightUnits").chosen({
+                max_selected_options: 2,
+                placeholder: "Units.."
+            });
+
+            $("#ConcentrationUnits").chosen({
                 max_selected_options: 2,
                 placeholder: "Units.."
             });
