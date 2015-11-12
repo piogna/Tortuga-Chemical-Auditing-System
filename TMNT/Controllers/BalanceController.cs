@@ -146,13 +146,6 @@ namespace TMNT.Controllers {
             return View(SetCreateBalance(new BalanceCreateViewModel()));
         }
 
-        // GET: /ScaleTest/Create
-        [Route("Balance/Verification")]
-        public ActionResult VerificationUnspecified() {
-            //sending all Locations to the view
-            return View("Verification", SetVerificationBalance(new BalanceVerificationViewModel()));
-        }
-
         [Route("Balance/Verification/{id?}")]
         public ActionResult Verification(int? id) {
             //sending all Locations to the view
