@@ -4,8 +4,19 @@
     ViewBag.Title = "Not Found";
 }
 <style>
-    h1 {
-        font-size:26em !important;
+
+    #four-oh-four {
+        -webkit-transform: rotate(45deg);
+        font-size: 18em !important;
+        margin-bottom:60px;
+    }
+
+    @@media screen and (min-width:650px) {
+        #four-oh-four {
+            -webkit-transform: none;
+            font-size: 26em !important;
+            margin-bottom:0;
+        }
     }
 
     p {
@@ -13,12 +24,13 @@
     }
 
     .list-title {
-        font-size:1.5em;
+        font-size:2.2em;
         font-weight:bold;
     }
 
     li {
-        font-size:1.1em;
+        font-size:1.4em;
+        display:inline;
     }
 
     .sm-margin-top {
@@ -35,11 +47,63 @@
 
     li a {
         color: #fff;
+        border:1px solid white;
+        padding:5px 40px 5px 40px;
     }
 
     li a:hover {
-        color: #953B65;
+        color: #428bca;
+        background:#fff;
     }
+
+    li a:active {
+        color: #fff;
+        background:#953B65;
+    }
+
+    #wrapper {
+        background:#428bca;
+        height:100%;
+        color:#fff;
+        text-align:center;
+    }
+
+    @@media screen and (min-width: 992px) {
+        body {
+            overflow-y: hidden;
+        }
+
+        #wrapper {
+            text-align: initial;
+        }
+
+        .list-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        li {
+            font-size: 1.1em;
+            display: list-item;
+        }
+
+            li a {
+                color: #fff;
+                border: none;
+                padding-left: 10px;
+            }
+
+                li a:hover {
+                    color: #953B65;
+                    background:none;
+                }
+
+                li a:active {
+                    color: #953B65;
+                    background: none;
+                }
+    }
+
 </style>
 <!DOCTYPE html>
 
@@ -59,20 +123,20 @@
     <![endif]-->
 
 </head>
-<body style="overflow-y:hidden;">
+<body>
     <div> 
         @*<a href="..">
             <img src="../Content/Images/404-error.png" class="center" />
         </a>*@
 
         <div class="text-center error-top">
-            <h1>404</h1>
+            <h1 id="four-oh-four">404</h1>
             <p>Now that you're done trying to break the site, let us help you find your way</p>
         </div>
-        <div style="background:#428bca;height:100%;color:#fff;">
+        <div id="wrapper">
             <div class="container">
                 <div id="site-map-title" class="text-center sm-margin-top">Site Map</div>
-                <div class="col-xs-3">
+                <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li class="list-title sm-margin-top">Reagent</li>
                         <li>
@@ -90,7 +154,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li class="list-title sm-margin-top">Prepared Reagent</li>
                         <li>
@@ -108,7 +172,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li class="list-title sm-margin-top">Intermediate Standard</li>
                         <li>
@@ -126,7 +190,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-md-3">
                     <ul class="list-unstyled">
                         <li class="list-title sm-margin-top">Balance Devices</li>
                         <li>
