@@ -7,6 +7,10 @@
 
     #four-oh-four {
         -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
         font-size: 18em !important;
         margin-bottom:60px;
     }
@@ -14,8 +18,12 @@
     @@media screen and (min-width:650px) {
         #four-oh-four {
             -webkit-transform: none;
+            -ms-transform: none;
+            -moz-transform: none;
+            -o-transform: none;
+            transform: none;
             font-size: 26em !important;
-            margin-bottom:0;
+            margin-bottom: 0;
         }
     }
 
