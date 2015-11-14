@@ -132,7 +132,7 @@ namespace TMNT.Controllers {
             }
 
             //catalogue code must be unique - let's verify
-            bool doesCatalogueCodeExist = new InventoryItemRepository().Get()
+            bool doesCatalogueCodeExist = new InventoryItemRepository(DbContextSingleton.Instance).Get()
                 .Any(item => item.CatalogueCode != null && item.CatalogueCode.Equals(model.CatalogueCode));
 
             if (doesCatalogueCodeExist) {
@@ -151,7 +151,7 @@ namespace TMNT.Controllers {
 
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
-            var numOfItems = new InventoryItemRepository().Get().Count();
+            var numOfItems = new InventoryItemRepository(DbContextSingleton.Instance).Get().Count();
 
             if (uploadCofA != null) {
                 var cofa = new CertificateOfAnalysis() {
@@ -195,25 +195,25 @@ namespace TMNT.Controllers {
             //getting the enum result
 
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
-            StockReagent reagent = new StockReagent() {
-                LotNumber = model.LotNumber,
-                ReagentName = model.ReagentName,
-                Grade = model.Grade,
-                GradeAdditionalNotes = model.GradeAdditionalNotes,
-                DateReceived = model.DateReceived,
-                DateOpened = null,
-                DaysUntilExpired = model.DaysUntilExpired,
-                ExpiryDate = model.ExpiryDate,
-                DateCreated = DateTime.Today,
-                CreatedBy = user.UserName,
-                DateModified = null,
-                CatalogueCode = model.CatalogueCode
-            };
+            StockReagent reagent = null;
 
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
-
-                    reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
+                    reagent = new StockReagent() {
+                        LotNumber = model.LotNumber,
+                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
+                        ReagentName = model.ReagentName,
+                        Grade = model.Grade,
+                        GradeAdditionalNotes = model.GradeAdditionalNotes,
+                        DateReceived = model.DateReceived,
+                        DateOpened = null,
+                        DaysUntilExpired = model.DaysUntilExpired,
+                        ExpiryDate = model.ExpiryDate,
+                        DateCreated = DateTime.Today,
+                        CreatedBy = user.UserName,
+                        DateModified = null,
+                        CatalogueCode = model.CatalogueCode
+                    };
 
                     reagent.InventoryItems.Add(inventoryItem);
                     result = repo.Create(reagent);
@@ -222,8 +222,22 @@ namespace TMNT.Controllers {
                     if (result != CheckModelState.Valid) { break; }
                 }
             } else {
-                reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber;//only 1 bottle, no need to concatenate
-
+                reagent = new StockReagent() {
+                    LotNumber = model.LotNumber,
+                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+                    ReagentName = model.ReagentName,
+                    Grade = model.Grade,
+                    GradeAdditionalNotes = model.GradeAdditionalNotes,
+                    DateReceived = model.DateReceived,
+                    DateOpened = null,
+                    DaysUntilExpired = model.DaysUntilExpired,
+                    ExpiryDate = model.ExpiryDate,
+                    DateCreated = DateTime.Today,
+                    CreatedBy = user.UserName,
+                    DateModified = null,
+                    CatalogueCode = model.CatalogueCode
+                };
+                
                 reagent.InventoryItems.Add(inventoryItem);
                 result = repo.Create(reagent);
             }
@@ -308,27 +322,26 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
-        public ActionResult Topup([Bind(Include = "ReagentId,NewMSDSNotes,NewLotNumber,NewExpiryDate,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
+        public ActionResult Topup([Bind(Include = "ReagentId,NewMSDSNotes,NewLotNumber,NewExpiryDate,NewDateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired,CatalogueCode")]
                 StockReagentTopUpViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
+            var reagent = repo.Get(model.ReagentId);
+
+            if (reagent == null) {
+                return HttpNotFound();
+            }
+
             if (!ModelState.IsValid) {
                 //handle error
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return View(SetTopupReagent(model, reagent));
             }
 
             var user = HelperMethods.GetCurrentUser();
+            var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             var department = HelperMethods.GetUserDepartment();
-            var numOfItems = new InventoryItemRepository().Get().Count();
-            var reagent = repo.Get(model.ReagentId);
+            var numOfItems = invRepo.Get().Count();
 
-            //set new propeties to create new entity based on old
-            //id set to 0 for entityframework to do its magic
-            reagent.ReagentId = 0;
-            reagent.ExpiryDate = model.NewExpiryDate;
-            reagent.LotNumber = model.NewLotNumber;
-            reagent.DateCreated = DateTime.Today;
-            reagent.CreatedBy = user.UserName;
-            reagent.DateOpened = null;
-            reagent.DateReceived = model.DateReceived;
+            model.NumberOfBottles = reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(reagent.CatalogueCode)).First().NumberOfBottles;
 
             //upload CofA and MSDS
             if (uploadCofA != null) {
@@ -340,7 +353,8 @@ namespace TMNT.Controllers {
                 using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
                     cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
                 }
-                model.CertificateOfAnalysis = cofa;
+                //model.CertificateOfAnalysis = cofa;
+                reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(reagent.CatalogueCode)).First().CertificatesOfAnalysis.Add(cofa);
             }
 
             if (uploadMSDS != null) {
@@ -353,46 +367,93 @@ namespace TMNT.Controllers {
                 using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
                     msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
                 }
-                model.MSDS = msds;
+                //model.MSDS = msds;
+                //reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(model.CatalogueCode)).First().MSDS.Add(msds);
+
+                var msdsRepo = new MSDSRepository(DbContextSingleton.Instance);
+
+                var oldSDS = msdsRepo.Get()
+                    .Where(item => item.InventoryItem.StockReagent != null && item.InventoryItem.StockReagent.CatalogueCode == reagent.CatalogueCode)
+                    .First();
+
+                oldSDS.Content = msds.Content;
+                oldSDS.FileName = msds.FileName;
+                oldSDS.ContentType = msds.ContentType;
+                oldSDS.DateAdded = DateTime.Today;
+
+                msdsRepo.Update(oldSDS);
             }
 
             //write record(s) to the db
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+            //set new propeties to create new entity based on old
+            StockReagent newReagent = null;
+            
 
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
-
-                    reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
-
+                    newReagent = new StockReagent() {
+                        ExpiryDate = model.NewExpiryDate,
+                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.NewLotNumber + "/" + i,//append number of bottles
+                        LotNumber = model.NewLotNumber,
+                        DateCreated = DateTime.Today,
+                        CreatedBy = user.UserName,
+                        CatalogueCode = reagent.CatalogueCode,
+                        Grade = reagent.Grade,
+                        GradeAdditionalNotes = reagent.GradeAdditionalNotes,
+                        DateModified = null,
+                        DaysUntilExpired = model.DaysUntilExpired,
+                        LastModifiedBy = null,
+                        ReagentName = reagent.ReagentName,
+                        //InventoryItems = reagent.InventoryItems,
+                        DateOpened = null,
+                        DateReceived = model.NewDateReceived
+                    };
                     //reagent.InventoryItems.Add(reagent.InventoryItems.Where(x => x.CatalogueCode.Equals(model.CatalogueCode)).First());
-                    result = repo.Create(reagent);
+                    result = repo.Create(newReagent);
 
                     //creation wasn't successful - break from loop and let switch statement handle the problem
                     if (result != CheckModelState.Valid) { break; }
                 }
             } else {
-                reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber;//only 1 bottle, no need to concatenate
+                newReagent = new StockReagent() {
+                    ExpiryDate = model.NewExpiryDate,
+                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.NewLotNumber,//only 1 bottle, no need to concatenate
+                    LotNumber = model.NewLotNumber,
+                    DateCreated = DateTime.Today,
+                    CreatedBy = user.UserName,
+                    CatalogueCode = reagent.CatalogueCode,
+                    Grade = reagent.Grade,
+                    GradeAdditionalNotes = reagent.GradeAdditionalNotes,
+                    DateModified = null,
+                    DaysUntilExpired = model.DaysUntilExpired,
+                    LastModifiedBy = null,
+                    ReagentName = reagent.ReagentName,
+                    InventoryItems = reagent.InventoryItems,
+                    DateOpened = null,
+                    DateReceived = model.NewDateReceived
+                };
 
                 //reagent.InventoryItems.Add(inventoryItem);
-                result = repo.Create(reagent);
+                result = repo.Create(newReagent);
             }
 
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
-                    return View(SetTopupReagent(model));
+                    return View(SetTopupReagent(model, reagent));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    return View(SetTopupReagent(model));
+                    return View(SetTopupReagent(model, reagent));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    return View(SetTopupReagent(model));
+                    return View(SetTopupReagent(model, reagent));
                 case CheckModelState.Valid:
                     //save pressed
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Index");
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    return View(SetTopupReagent(model));
+                    return View(SetTopupReagent(model, reagent));
             }
         }
 
@@ -541,12 +602,45 @@ namespace TMNT.Controllers {
             return model;
         }
 
-        private StockReagentTopUpViewModel SetTopupReagent(StockReagentTopUpViewModel model) {
+        private StockReagentTopUpViewModel SetTopupReagent(StockReagentTopUpViewModel model, StockReagent stockreagent) {
             var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();
+
+            var vReagent = new StockReagentTopUpViewModel() {
+                ReagentId = stockreagent.ReagentId,
+                LotNumber = stockreagent.LotNumber,
+                IdCode = stockreagent.IdCode,
+                ReagentName = stockreagent.ReagentName,
+                LastModifiedBy = stockreagent.LastModifiedBy,
+                Grade = stockreagent.Grade,
+                GradeAdditionalNotes = stockreagent.GradeAdditionalNotes,
+                DateReceived = stockreagent.DateReceived,
+                DateCreated = stockreagent.DateCreated,
+                CreatedBy = stockreagent.CreatedBy,
+                ExpiryDate = stockreagent.ExpiryDate,
+                DateModified = stockreagent.DateModified,
+                BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList(),
+                VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList()
+            };
+
+            foreach (var invItem in stockreagent.InventoryItems) {
+                if (stockreagent.ReagentId == invItem.StockReagent.ReagentId) {
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
+                    vReagent.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
+                    vReagent.UsedFor = invItem.UsedFor;
+                    vReagent.Department = invItem.Department;
+                    vReagent.CatalogueCode = invItem.CatalogueCode;
+                    vReagent.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
+                    vReagent.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
+                    vReagent.SupplierName = invItem.SupplierName;
+                    vReagent.NumberOfBottles = invItem.NumberOfBottles;
+                    vReagent.InitialAmount = invItem.InitialAmount == null ? invItem.InitialAmount = "N/A" : invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
+                }
+            }
 
             return model;
         }

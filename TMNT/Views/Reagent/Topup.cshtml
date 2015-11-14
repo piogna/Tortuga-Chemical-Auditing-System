@@ -138,6 +138,14 @@
             </dd>
 
             <dt class="fix-dt-padding">
+                @Html.DisplayNameFor(model => model.LotNumber)
+            </dt>
+
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.LotNumber, new { @readonly = "readonly", @class = "form-control" })
+            </dd>
+
+            <dt class="fix-dt-padding">
                 @Html.DisplayNameFor(model => model.ReagentName)
             </dt>
 
@@ -150,7 +158,7 @@
             </dt>
 
             <dd class="fix-dd-margin">
-                @Html.TextBoxFor(model => model.DateCreated, new { @readonly = "readonly", @class = "form-control" })
+                @Html.TextBoxFor(model => model.DateCreated.ToString().Split(' ')[0], new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
             <dt>
@@ -186,7 +194,7 @@
             </dt>
 
             <dd class="fix-dd-margin">
-                @Html.TextBoxFor(model => model.DateReceived, new { @readonly = "readonly", @class = "form-control" })
+                @Html.TextBoxFor(model => model.DateReceived.ToString().Split(' ')[0], new { @readonly = "readonly", @class = "form-control" })
             </dd>
 
             <dt class="fix-dt-padding">
@@ -262,7 +270,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                            @Html.EditorFor(model => model.NewLotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field-s2", @Value = "" } })
+                            @Html.EditorFor(model => model.NewLotNumber, new { htmlAttributes = new { @placeholder = "New Lot Number", @class = "input-summary form-control required-field-s2", @Value = "" } })
                         </div>
                         @Html.ValidationMessageFor(model => model.NewLotNumber)
                     </div>
@@ -279,6 +287,14 @@
                             <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                         </div>
                         @Html.ValidationMessageFor(model => model.NewExpiryDate)
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                            @Html.EditorFor(model => model.NewDateReceived, new { htmlAttributes = new { @placeholder = "Date Received", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
+                            <div class="input-group-addon input-group-addon-md">Date Received</div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.NewDateReceived)
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -322,7 +338,7 @@
                         <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default" accept=".pdf" />
                         <div class="input-group-addon input-group-addon-md">Upload CofA</div>
                     </div>
-                    @Html.ValidationMessageFor(model => model.CertificateOfAnalysis)
+                    @Html.ValidationMessageFor(model => model.NewCertificateOfAnalysis)
                 </div>
             </div>
         </div>
@@ -335,14 +351,14 @@
             <div class="col-md-12">
                 <div class="col-lg-6">
                     <div class="input-group">
-                        <div class="input-group-addon" title="Required Field"></div>
+                        <div class="input-group-addon"></div>
                         <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default" accept=".pdf" />
                         <div class="input-group-addon input-group-addon-md">Upload SDS</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="input-group">
-                        <div class="input-group-addon" title="Required Field"></div>
+                        <div class="input-group-addon"></div>
                         @Html.EditorFor(model => model.NewMSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;content:''", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius", @maxlength = 50 } })
                     </div>
                     @Html.ValidationMessageFor(model => model.NewMSDSNotes)
@@ -377,6 +393,16 @@
             $('#NewExpiryDate').datepicker({
                 format: "yyyy-mm-dd",
                 startDate: "Today",
+                startView: 2,
+                todayBtn: "linked",
+                clearBtn: true,
+                orientation: "bottom auto",
+                autoclose: true
+            });
+
+            $('#NewDateReceived').datepicker({
+                format: "yyyy-mm-dd",
+                endDate: "Today",
                 startView: 2,
                 todayBtn: "linked",
                 clearBtn: true,

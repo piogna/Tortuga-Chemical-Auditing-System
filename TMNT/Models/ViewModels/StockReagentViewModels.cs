@@ -198,7 +198,7 @@ namespace TMNT.Models.ViewModels {
         public string GradeAdditionalNotes { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Required(ErrorMessage = "Certificate of Analysis is Required"), Display(Name = "Certificate of Analysis")]
+        [Display(Name = "Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
@@ -218,12 +218,16 @@ namespace TMNT.Models.ViewModels {
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
 
         //fields being returned to replace
+        [Display(Name = "Certificate of Analysis")]
+        public CertificateOfAnalysis NewCertificateOfAnalysis { get; set; }
         [Display(Name = "SDS")]
         public MSDS NewMSDS { get; set; }
         [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string NewMSDSNotes { get; set; }
         [Required(ErrorMessage = "Expiry Date is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime? NewExpiryDate { get; set; }
+        [Required(ErrorMessage = "Date Received is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
+        public DateTime NewDateReceived { get; set; }
         [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
         public string NewLotNumber { get; set; }
     }

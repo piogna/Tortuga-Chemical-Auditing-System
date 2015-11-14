@@ -47,7 +47,7 @@ namespace TMNT.Models.Repository {
                 }
             } catch (DataException ex) {
                 return CheckModelState.DataError;
-            } catch (Exception) {
+            } catch (Exception ex) {
                 return CheckModelState.Error;
             }
             return CheckModelState.Invalid;
