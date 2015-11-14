@@ -120,10 +120,10 @@ namespace TMNT.Models.ViewModels
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
-        public List<string> ChemicalTypes = new List<string>() { "Reagent", "Standard", "Working Standard" };
+        public List<string> ChemicalTypes = new List<string>() { "Reagent", "Standard", "Intermediate Standard" };
         public List<InventoryItem> StockReagents { get; set; }
         public List<InventoryItem> StockStandards { get; set; }
-        public List<InventoryItem> WorkingStandards { get; set; }
+        public List<InventoryItem> IntermediateStandards { get; set; }
         public IEnumerable<Device> BalanceDevices { get; set; }
         public IEnumerable<Device> VolumetricDevices { get; set; }
         public List<Unit> WeightUnits { get; set; }

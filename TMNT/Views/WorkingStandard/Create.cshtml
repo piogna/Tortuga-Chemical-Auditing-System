@@ -156,8 +156,11 @@
                                                 <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
                                                     <option class="opt-label" value="">Select a Chemical Type First</option>
                                                     <optgroup class="opt opt-reagent" label="Reagents">
+                                                        @if (Model.StockReagents.Count == 0) {
+                                                            <option disabled="disabled" value="">No ID Codes</option>
+                                                        }
                                                         @foreach (var item in Model.StockReagents) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                            if (item.StockReagent.ExpiryDate < DateTime.Today) {
                                                                 <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber - Expired</option>
                                                             } else {
                                                                 <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
@@ -165,20 +168,26 @@
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-standard" label="Standards">
+                                                        @if (Model.StockStandards.Count == 0) {
+                                                            <option disabled="disabled" value="">No ID Codes</option>
+                                                        }
                                                         @foreach (var item in Model.StockStandards) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                            if (item.StockStandard.ExpiryDate < DateTime.Today) {
                                                                 <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber - Expired</option>
                                                             } else {
                                                                 <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
                                                             }
                                                         }
                                                     </optgroup>
-                                                    <optgroup class="opt opt-int-standard" label="Working Standards">
-                                                        @foreach (var item in Model.WorkingStandards) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.WorkingStandard.MaxxamId">@item.WorkingStandard.MaxxamId - Expired</option>
+                                                    <optgroup class="opt opt-int-standard" label="Intermediate Standards">
+                                                        @if (Model.IntermediateStandards.Count == 0) {
+                                                            <option disabled="disabled" value="">No ID Codes</option>
+                                                        }
+                                                        @foreach (var item in Model.IntermediateStandards) {
+                                                            if (item.IntermediateStandard.ExpiryDate < DateTime.Today) {
+                                                                <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId - Expired</option>
                                                             } else {
-                                                                <option value="@item.WorkingStandard.MaxxamId">@item.WorkingStandard.MaxxamId</option>
+                                                                <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId</option>
                                                             }
                                                         }
                                                     </optgroup>
@@ -480,7 +489,7 @@
     <script src="~/Scripts/select2.min.js"></script>
     <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
     <script src="~/Scripts/chosen.jquery.min.js"></script>
-    <script src="~/Scripts/CustomMaxxamJS/Working-standard-form-validation.js"></script>
+    <script src="~/Scripts/CustomMaxxamJS/intermediate-standard-form-validation.js"></script>
 
     <script>
         $(function () {

@@ -426,7 +426,7 @@ namespace TMNT.Controllers {
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             model.OtherUnit = units.Where(item => item.UnitType.Equals("Other")).FirstOrDefault();
-            model.WorkingStandards = items.Where(item => item.WorkingStandard != null && item.Department == department).ToList();
+            model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null && item.Department == department).ToList();
             model.StockStandards = items.Where(item => item.StockStandard != null && item.Department == department).ToList();
             model.StockReagents = items.Where(item => item.StockReagent != null && item.Department == department).ToList();
 
