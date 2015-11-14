@@ -1,13 +1,45 @@
 ﻿
 @{
-    Layout = null;
+    Layout = "";
+    ViewBag.Title = "Not Found";
 }
 <style>
-    img.center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    } 
+    h1 {
+        font-size:26em !important;
+    }
+
+    p {
+        font-size:1.5em !important;
+    }
+
+    .list-title {
+        font-size:1.5em;
+        font-weight:bold;
+    }
+
+    li {
+        font-size:1.1em;
+    }
+
+    .sm-margin-top {
+        margin-top:20px;
+    }
+
+    #site-map-title {
+        font-size:2.5em;
+    }
+
+    .error-top {
+        color:#428bca;
+    }
+
+    li a {
+        color: #fff;
+    }
+
+    li a:hover {
+        color: #953B65;
+    }
 </style>
 <!DOCTYPE html>
 
@@ -27,11 +59,93 @@
     <![endif]-->
 
 </head>
-<body style="background-color: #216AA0">
+<body style="overflow-y:hidden;">
     <div> 
-        <a href="..">
+        @*<a href="..">
             <img src="../Content/Images/404-error.png" class="center" />
-        </a>
+        </a>*@
+
+        <div class="text-center error-top">
+            <h1>404</h1>
+            <p>Now that you're done trying to break the site, let us help you find your way</p>
+        </div>
+        <div style="background:#428bca;height:100%;color:#fff;">
+            <div class="container">
+                <div id="site-map-title" class="text-center sm-margin-top">Site Map</div>
+                <div class="col-xs-3">
+                    <ul class="list-unstyled">
+                        <li class="list-title sm-margin-top">Reagent</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/Reagent">Index</a></li>
+                                <li><a href="/Reagent/Create">Create</a></li>
+                            </ul>
+                        </li>
+                        <li class="list-title sm-margin-top">Standard</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/Standard">Index</a></li>
+                                <li><a href="/Standard/Create">Create</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-3">
+                    <ul class="list-unstyled">
+                        <li class="list-title sm-margin-top">Prepared Reagent</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/PreparedReagent">Index</a></li>
+                                <li><a href="#">Create</a></li>
+                            </ul>
+                        </li>
+                        <li class="list-title sm-margin-top">Prepared Standard</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/PreparedStandard">Index</a></li>
+                                <li><a href="#">Create</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-3">
+                    <ul class="list-unstyled">
+                        <li class="list-title sm-margin-top">Intermediate Standard</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/IntermediateStandard">Index</a></li>
+                                <li><a href="/IntermediateStandard/Create">Create</a></li>
+                            </ul>
+                        </li>
+                        <li class="list-title sm-margin-top">Working Standard</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/WorkingStandard">Index</a></li>
+                                <li><a href="/WorkingStandard/Create">Create</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-xs-3">
+                    <ul class="list-unstyled">
+                        <li class="list-title sm-margin-top">Balance Devices</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/Balances">Index</a></li>
+                                <li><a href="/Balances/Create">Create</a></li>
+                            </ul>
+                        </li>
+                        <li class="list-title sm-margin-top">Volumetric Devices</li>
+                        <li>
+                            <ul class="list-unstyled">
+                                <li><a href="/Volumetric">Index</a></li>
+                                <li><a href="#">Create</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

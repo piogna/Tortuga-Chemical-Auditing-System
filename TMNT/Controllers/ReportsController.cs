@@ -65,19 +65,26 @@ namespace TMNT.Controllers {
         [Route("Report/ExpiringInventoryReportInformation")]
         public ActionResult ExpiringInventoryReportInformation() {
             var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
-                .Where(item => item.ExpiryDate < DateTime.Today.AddDays(30))// && !(item.ExpiryDate < DateTime.Today))
+                .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.WorkingStandard != null && item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30))
+
                 .Select(item => new ReportExpiringStockViewModel() {
-                    DaysUntilExpired = item.ExpiryDate == null 
-                        ? "TBD" :
-                            (item.ExpiryDate - DateTime.Today).Value.Days == 0
-                                ? "Expires Today" :
-                                    (item.ExpiryDate - DateTime.Today).Value.Days < 0
-                                        ? "Expired"
-                                        : (item.ExpiryDate - DateTime.Today).Value.Days.ToString(),
+                    //reagent
+                    //DaysUntilExpired = item.StockReagent.ExpiryDate == null
+                    //    ? "TBD" :
+                    //        (item.StockReagent.ExpiryDate - DateTime.Today).Value.Days == 0
+                    //            ? "Expires Today" :
+                    //                (item.StockReagent.ExpiryDate - DateTime.Today).Value.Days < 0
+                    //                    ? "Expired"
+                    //                    : (item.StockReagent.ExpiryDate - DateTime.Today).Value.Days.ToString(),
+
+
                     Type = item.Type,
-                    ExpiryDate = item.ExpiryDate == null
+                    ExpiryDate = item.StockReagent.ExpiryDate == null
                                 ? "TBD"
-                                : item.ExpiryDate.ToString().Split(' ')[0],
+                                : item.StockReagent.ExpiryDate.ToString().Split(' ')[0],
                     IdCode = item.StockReagent != null
                                 ? item.StockReagent.IdCode
                                 : item.StockStandard != null
@@ -85,13 +92,45 @@ namespace TMNT.Controllers {
                                     : item.IntermediateStandard.IdCode != null
                                         ? item.IntermediateStandard.IdCode
                                         : "Error",
-                    //DateOpened = item.DateOpened == null ?
-                    //                "TBD" :
-                    //                item.DateOpened.ToString().Split(' ')[0],
                     SupplierName = item.SupplierName,
                     Department = item.Department.DepartmentName
                 })
                 .ToList();
+
+            var expiringInventory2 = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+                .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
+                        item.WorkingStandard != null && item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30))
+                        .ToList();
+
+            //getting all days until expiry where expiry date is not null
+            var reagentExpiryDates = expiringInventory2.Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate != null).Select(item => (item.StockReagent.ExpiryDate - DateTime.Today).Value.Days).ToList();
+            var standardExpiryDates = expiringInventory2.Where(item => item.StockStandard != null && item.StockStandard.ExpiryDate != null).Select(item => (item.StockStandard.ExpiryDate - DateTime.Today).Value.Days).ToList();
+            var intStandardExpiryDates = expiringInventory2.Where(item => item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate != null).Select(item => (item.IntermediateStandard.ExpiryDate - DateTime.Today).Value.Days).ToList();
+            var workingStandardExpiryDates = expiringInventory2.Where(item => item.WorkingStandard != null && item.WorkingStandard.ExpiryDate != null).Select(item => (item.WorkingStandard.ExpiryDate - DateTime.Today).Value.Days).ToList();
+
+            int counter = 0;
+            foreach (var item in expiringInventory) {
+                //TODO set days until expired
+                switch (item.Type) {
+                    case "Reagent":
+                        item.DaysUntilExpired = reagentExpiryDates[counter].ToString();
+                        break;
+                    case "Standard":
+                        item.DaysUntilExpired = standardExpiryDates[counter].ToString();
+                        break;
+                    case "Intermediate Standard":
+                        item.DaysUntilExpired = intStandardExpiryDates[counter].ToString();
+                        break;
+                    case "Working Standard":
+                        item.DaysUntilExpired = workingStandardExpiryDates[counter].ToString();
+                        break;
+                    default:
+                        //error maybe?
+                        break;
+                }
+            }
 
             return Json(expiringInventory, JsonRequestBehavior.AllowGet);
         }

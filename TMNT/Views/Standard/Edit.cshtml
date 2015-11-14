@@ -32,10 +32,10 @@
 
 @using (Html.BeginForm("Edit", "Standard", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.StockStandardId)
 
     <div class="container">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="col-md-5">
             <div class="form-group">
                 <div class="input-group input-full-width">

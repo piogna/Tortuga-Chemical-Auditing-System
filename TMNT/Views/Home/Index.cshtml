@@ -383,8 +383,8 @@
                         <thead>
                             <tr>
                                 <th>Item Type</th>
-                                <th>Date Expired</th>
                                 <th>Supplier</th>
+                                <th>Date Expired</th>
                                 <th>ID Code</th>
                                 <th>Details</th>
                             </tr>
@@ -396,12 +396,12 @@
                                         @item.Type
                                     </td>
                                     <td>
-                                        @item.ExpiryDate.ToString().Split(' ')[0]
-                                    </td>
-                                    <td>
                                         @item.SupplierName
                                     </td>
                                     @if (@item.StockReagent != null) {
+                                        <td>
+                                            @item.StockReagent.ExpiryDate
+                                        </td>
                                         <td>
                                             @item.StockReagent.IdCode
                                         </td>
@@ -416,6 +416,9 @@
                                         </td>
                                     } else if (@item.StockStandard != null) {
                                         <td>
+                                            @item.StockStandard.ExpiryDate
+                                        </td>
+                                        <td>
                                             @item.StockStandard.IdCode
                                         </td>
                                         <td>
@@ -429,6 +432,9 @@
                                         </td>
                                     } else if (@item.IntermediateStandard != null) {
                                         <td>
+                                            @item.IntermediateStandard.ExpiryDate
+                                        </td>
+                                        <td>
                                             @item.IntermediateStandard.IdCode
                                         </td>
                                         <td>
@@ -440,6 +446,8 @@
                                                 </div>
                                             </a>
                                         </td>
+                                    } else if (@item.WorkingStandard != null) {
+                                        //TODO insert needed code here when needed
                                     }
                                 </tr>
                             }
@@ -447,8 +455,8 @@
                         <tfoot>
                             <tr>
                                 <th>Item Type</th>
-                                <th>Date Expired</th>
                                 <th>Supplier</th>
+                                <th>Date Expired</th>
                                 <th>ID Code</th>
                                 <th>Details</th>
                             </tr>

@@ -3,9 +3,11 @@
 @{
     ViewBag.Title = "Details";
 }
+@Scripts.Render("~/bundles/jqueryval")
 
 @section AddToHead {
     @Styles.Render("~/maxxam-forms")
+    <link href="~/Content/chosen.css" rel="stylesheet" />
     <link href="../../Content/dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/Datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
     <style>
@@ -15,15 +17,42 @@
         }
 
         .fix-dt-padding {
-            padding-top:6px;
+            padding-top: 6px;
         }
 
         .fix-dd-margin {
-            margin-bottom:4px;
+            margin-bottom: 4px;
+        }
+
+        ul.chosen-choices {
+            border: 1px solid #ccc !important;
+            background-image: none !important;
+        }
+
+        li.search-field {
+            padding-top: 3px !important;
+            height: 32px !important;
+            padding-left: 5px !important;
+            font-size: 14px !important;
+        }
+
+        li.search-choice {
+            margin: 5px 5px 3px 0 !important;
+        }
+
+        div.chosen-container {
+            width: 100% !important;
+        }
+
+        #button-row {
+            margin-top: 100px;
+        }
+
+        .disabled {
+            border:none !important;
         }
     </style>
 }
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -139,6 +168,14 @@
             <dd>
                 @Html.ActionLink("View SDS", "ViewPDF", "PDFViewer", new { id = Model.MSDS.MSDSId, type = "MSDS" }, htmlAttributes: new { @target = "_blank" })
             </dd>
+
+            <dt class="fix-dt-padding">
+                @Html.DisplayNameFor(model => model.MSDSNotes)
+            </dt>
+
+            <dd class="fix-dd-margin">
+                @Html.TextBoxFor(model => model.MSDSNotes, new { @readonly = "readonly", @class = "form-control" })
+            </dd>
         </dl>
 
     </div>
@@ -213,43 +250,125 @@
 
 @Html.Partial("_SectionHeader", "Required Fields to Complete Form")
 
-<div class="container">
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@using (Html.BeginForm("Topup", "Reagent", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ReagentId)
 
-        <div class="col-md-12">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                        @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field", @Value = "" } })
-                    </div>
-                    @Html.ValidationMessageFor(model => model.LotNumber)
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                        <div class="input-group-addon">
-                            <div style="margin-top:-5px;" class="checkbox">
-                                <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
-                            </div>
+    <div class="container">
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-12">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                            @Html.EditorFor(model => model.NewLotNumber, new { htmlAttributes = new { @placeholder = "Lot Number", @class = "input-summary form-control required-field-s2", @Value = "" } })
                         </div>
-                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                        @Html.ValidationMessageFor(model => model.NewLotNumber)
                     </div>
-                    @Html.ValidationMessageFor(model => model.ExpiryDate)
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                            <div class="input-group-addon">
+                                <div style="margin-top:-5px;" class="checkbox">
+                                    <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
+                                </div>
+                            </div>
+                            @Html.EditorFor(model => model.NewExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field-s2", @Value = "", @type = "text" } })
+                            @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field-s2", @Value = "", @type = "hidden" } })
+                            <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.NewExpiryDate)
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                            <select id="device-selector" data-placeholder="Devices.." name="Devices" class="select2 form-control no-border-radius required-field-s2 input-summary" multiple="multiple">
+                                <optgroup label="Balance ID's">
+                                    @foreach (var item in Model.BalanceDevices) {
+                                        if (@item.IsVerified) {
+                                            <option value="@item.DeviceCode">
+                                                @item.DeviceCode
+                                            </option>
+                                        } else {
+                                            <option disabled="disabled" value="@item.DeviceCode">
+                                                @item.DeviceCode - Not Verified
+                                            </option>
+                                        }
+                                    }
+                                </optgroup>
+                                <optgroup label="Volumetric ID's">
+                                    @foreach (var item in Model.VolumetricDevices) {
+                                        if (@item.IsVerified) {
+                                            <option value="@item.DeviceCode">
+                                                @item.DeviceCode
+                                            </option>
+                                        } else {
+                                            <option disabled="disabled" value="@item.DeviceCode">
+                                                @item.DeviceCode - Not Verified
+                                            </option>
+                                        }
+                                    }
+                                    <option value="VOL902-W">VOL902-W</option>
+                                    <option value="None">No Device Used</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    @Html.Partial("_SectionHeader", "Update SDS Information")
+
+    <div class="container">
+        <div class="form-horizontal">
+            <div class="col-md-12">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-addon" title="Required Field"></div>
+                        <input type="file" id="MSDS" name="uploadMSDS" class="form-control btn btn-default" accept=".pdf" />
+                        <div class="input-group-addon input-group-addon-md">Upload SDS</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-addon" title="Required Field"></div>
+                        @Html.EditorFor(model => model.NewMSDSNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;content:''", @placeholder = "SDS Notes", @class = "input-summary form-control no-border-radius", @maxlength = 50 } })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.NewMSDSNotes)
+                </div>
+            </div>
+            <div class="row" id="button-row">
+                <div class="col-md-12 text-center">
+                    <input type="button" href='#section-bar-2' value="Cancel" class="btn btn-warning previous-section" />
+                    <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                    <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default center-block active"><input type="radio">Print Label</label>
+                        <label class="btn btn-default center-block"><input type="radio">Don't Print Label</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @section Scripts {
     @Scripts.Render("~/datatables")
     <script src="~/Scripts/DatePickerJS/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
     <script>
         $(function () {
-            $('#ExpiryDate').datepicker({
+            $("#device-selector").chosen({
+                max_selected_options: 2,
+                placeholder: "Devices.."
+            });
+
+            $('#NewExpiryDate').datepicker({
                 format: "yyyy-mm-dd",
                 startDate: "Today",
                 startView: 2,
@@ -260,4 +379,5 @@
             });
         });
     </script>
+
 }

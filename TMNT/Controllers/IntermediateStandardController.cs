@@ -39,13 +39,13 @@ namespace TMNT.Controllers {
                 if (item.IntermediateStandard != null && item.Department == userDepartment) {
                     lIntStandards.Add(new IntermediateStandardIndexViewModel() {
                         IntermediateStandardId = item.IntermediateStandard.IntermediateStandardId,
-                        CreatedBy = item.CreatedBy,
-                        DateCreated = item.DateCreated,
-                        ExpiryDate = item.ExpiryDate,
+                        CreatedBy = item.IntermediateStandard.CreatedBy,
+                        DateCreated = item.IntermediateStandard.DateCreated,
+                        ExpiryDate = item.IntermediateStandard.ExpiryDate,
                         IdCode = item.IntermediateStandard.IdCode,
-                        MaxxamId = item.IntermediateStandard.MaxxamId,
-                        IsExpired = item.ExpiryDate < DateTime.Today,
-                        IsExpiring = item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)
+                        DateOpened = item.IntermediateStandard.DateOpened,
+                        IsExpired = item.IntermediateStandard.ExpiryDate < DateTime.Today,
+                        IsExpiring = item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.IntermediateStandard.ExpiryDate < DateTime.Today)
                     });
                 }
             }
@@ -85,20 +85,20 @@ namespace TMNT.Controllers {
                 IdCode = intermediatestandard.IdCode,
                 MaxxamId = intermediatestandard.MaxxamId,
                 LastModifiedBy = intermediatestandard.LastModifiedBy,
-                Concentration = intermediatestandard.FinalConcentration
+                Concentration = intermediatestandard.FinalConcentration,
+                ExpiryDate = intermediatestandard.ExpiryDate,
+                DateModified = intermediatestandard.DateModified,
+                DateOpened = intermediatestandard.DateOpened,
+                DateCreated = intermediatestandard.DateCreated,
+                CreatedBy = intermediatestandard.CreatedBy
             };
 
             foreach (var invItem in intermediatestandard.InventoryItems) {
                 if (invItem.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId) {
-                    vIntermediateStandard.ExpiryDate = invItem.ExpiryDate;
-                    vIntermediateStandard.DateOpened = invItem.DateOpened;
-                    vIntermediateStandard.DateCreated = invItem.DateCreated;
-                    vIntermediateStandard.CreatedBy = invItem.CreatedBy;
-                    vIntermediateStandard.DateModified = invItem.DateModified;
                     vIntermediateStandard.Department = invItem.Department;
                     vIntermediateStandard.UsedFor = invItem.UsedFor;
-                    vIntermediateStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
-                    vIntermediateStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
+                    vIntermediateStandard.IsExpired = invItem.IntermediateStandard.ExpiryDate < DateTime.Today;
+                    vIntermediateStandard.IsExpiring = invItem.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.IntermediateStandard.ExpiryDate < DateTime.Today);
                     vIntermediateStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
@@ -220,14 +220,14 @@ namespace TMNT.Controllers {
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
                     var reagent = item as StockReagent;
-                    var invItem = reagent.InventoryItems.First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
 
-                    if (invItem.DateOpened == null) {
-                        invItem.DateOpened = DateTime.Today;
+                    if (invItem.StockReagent.DateOpened == null) {
+                        invItem.StockReagent.DateOpened = DateTime.Today;
                     }
 
-                    if (invItem.ExpiryDate == null) {
-                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    if (invItem.StockReagent.ExpiryDate == null) {
+                        invItem.StockReagent.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockReagent.DaysUntilExpired));
                     }
                     invRepo.Update(invItem);
 
@@ -237,14 +237,14 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is StockStandard) {
                     var standard = item as StockStandard;
-                    var invItem = standard.InventoryItems.First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode.Equals(standard.CatalogueCode)).First();
 
-                    if (invItem.DateOpened == null) {
-                        invItem.DateOpened = DateTime.Today;
+                    if (invItem.StockStandard.DateOpened == null) {
+                        invItem.StockStandard.DateOpened = DateTime.Today;
                     }
 
-                    if (invItem.ExpiryDate == null) {
-                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    if (invItem.StockStandard.ExpiryDate == null) {
+                        invItem.StockStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockStandard.DaysUntilExpired));
                     }
                     invRepo.Update(invItem);
 
@@ -256,12 +256,12 @@ namespace TMNT.Controllers {
                     var intStandard = item as IntermediateStandard;
                     var invItem = intStandard.InventoryItems.First();
 
-                    if (invItem.DateOpened == null) {
-                        invItem.DateOpened = DateTime.Today;
+                    if (invItem.IntermediateStandard.DateOpened == null) {
+                        invItem.IntermediateStandard.DateOpened = DateTime.Today;
                     }
 
-                    if (invItem.ExpiryDate == null) {
-                        invItem.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.DaysUntilExpired));
+                    if (invItem.IntermediateStandard.ExpiryDate == null) {
+                        invItem.IntermediateStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.IntermediateStandard.DaysUntilExpired));
                     }
                     invRepo.Update(invItem);
 
@@ -288,24 +288,23 @@ namespace TMNT.Controllers {
                 IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
+                CreatedBy = user.UserName,
+                DateCreated = DateTime.Today,
+                ExpiryDate = model.ExpiryDate,
+                DaysUntilExpired = model.DaysUntilExpired,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
             };
 
             InventoryItem inventoryItem = new InventoryItem() {
-                CreatedBy = user.UserName,
-                DateReceived = DateTime.Today,//giving this a default value, otherwise errors - never to be looked at
-                DateCreated = DateTime.Today,
                 Department = department,
                 IntermediateStandard = intermediatestandard,
                 Type = "Intermediate Standard",
                 StorageRequirements = model.StorageRequirements,
                 UsedFor = model.UsedFor,
-                ExpiryDate = model.ExpiryDate,
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
                 InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
-                DaysUntilExpired = model.DaysUntilExpired
             };
 
             //creating the prep list and the intermediate standard
@@ -362,7 +361,7 @@ namespace TMNT.Controllers {
 
             foreach (var item in intermediatestandard.InventoryItems) {
                 if (item.IntermediateStandard.IntermediateStandardId == model.IntermediateStandardId) {
-                    model.ExpiryDate = item.ExpiryDate;
+                    model.ExpiryDate = item.IntermediateStandard.ExpiryDate;
                 }
             }
             return View(model);
@@ -386,12 +385,11 @@ namespace TMNT.Controllers {
                 IntermediateStandard updateStandard = invItem.IntermediateStandard;
                 updateStandard.IdCode = intermediatestandard.IdCode;
                 updateStandard.MaxxamId = intermediatestandard.MaxxamId;
+                updateStandard.DateModified = DateTime.Today;
+                updateStandard.ExpiryDate = intermediatestandard.ExpiryDate;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
 
                 repo.Update(updateStandard);
-
-                invItem.DateModified = DateTime.Today;
-                invItem.ExpiryDate = intermediatestandard.ExpiryDate;
                 
                 inventoryRepo.Update(invItem);
                 return RedirectToAction("Index");

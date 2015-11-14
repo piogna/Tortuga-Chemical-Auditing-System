@@ -35,7 +35,7 @@
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamId)
+                @Html.DisplayNameFor(model => model.DateOpened)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Replaces)
@@ -65,15 +65,35 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MaxxamId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Replaces)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReplacedBy)
-                </td>
+                @if (item.DateOpened == null) {
+                    <td>
+                        TBD
+                        <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                    </td>
+                } else {
+                    @Html.DisplayFor(modelItem => item.DateOpened)
+                }
+
+                @if (item.Replaces == null) {
+                    <td>
+                        N/A
+                    </td>
+                } else {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Replaces)
+                    </td>
+                }
+                
+                @if (item.ReplacedBy == null) {
+                    <td>
+                        N/A
+                    </td>
+                } else {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReplacedBy)
+                    </td>
+                }
+
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>
@@ -111,7 +131,7 @@
                 @Html.DisplayNameFor(model => model.DateCreated)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxxamId)
+                @Html.DisplayNameFor(model => model.DateOpened)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Replaces)

@@ -119,14 +119,14 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.NumberOfDecimals, new { htmlAttributes = new { @placeholder = "Number of Decimals", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        @Html.EditorFor(model => model.NumberOfDecimals, new { htmlAttributes = new { @placeholder = "Number of Decimals", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 1, @max = 10 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.NumberOfDecimals)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.NumberOfTestsToVerify, new { htmlAttributes = new { @placeholder = "Number of Tests to Verify", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        <label class="radio-inline"><input type="radio" name="NumberOfTestsToVerify" value="2" checked="checked">Two Verifications</label>
+                                        <label class="radio-inline"><input type="radio" name="NumberOfTestsToVerify" value="3">Three Verifications</label>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.NumberOfTestsToVerify)
                                 </div>
@@ -135,21 +135,21 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitOne, new { htmlAttributes = new { @placeholder = "First Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        @Html.EditorFor(model => model.WeightLimitOne, new { htmlAttributes = new { @placeholder = "First Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitOne)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitTwo, new { htmlAttributes = new { @placeholder = "Second Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        @Html.EditorFor(model => model.WeightLimitTwo, new { htmlAttributes = new { @placeholder = "Second Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitTwo)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitThree, new { htmlAttributes = new { @placeholder = "Third Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "" } })
+                                        <div class="input-group-addon" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.WeightLimitThree, new { htmlAttributes = new { @placeholder = "Third Weight Limit", @disabled = "disabled", @class = "input-summary form-control no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitThree)
                                 </div>
@@ -164,7 +164,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </section>
                     <section id="section-bar-2">
                         <div class="form-group">
@@ -201,11 +200,19 @@
 
     <script>
         $(function () {
-            var locationNames = $('#location-names');
-            var departmentNames = $('#department-names');
-            var subDepartmentNames = $('#SubDepartmentName');
-            var optOrganics = $('.opt-organics');
-            var optInorganics = $('.opt-inorganics');
+            var locationNames = $('#location-names'), departmentNames = $('#department-names'), subDepartmentNames = $('#SubDepartmentName');
+            var optOrganics = $('.opt-organics'), optInorganics = $('.opt-inorganics');
+            var rdoGroup = $('input[name=NumberOfTestsToVerify]:radio');
+            var weightThreeLimit = $('#WeightLimitThree');
+
+            rdoGroup.on('click', function () {
+                if ($(this).val() === "2") {
+                    weightThreeLimit.attr("disabled", "disabled");
+                } else {
+                    weightThreeLimit.removeAttr("disabled");
+                    weightThreeLimit.val("");
+                }
+            });
 
             locationNames.on('change', function () {
                 if ($(this).val()) {

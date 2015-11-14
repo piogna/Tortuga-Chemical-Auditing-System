@@ -157,7 +157,7 @@
                                                     <option class="opt-label" value="">Select a Chemical Type First</option>
                                                     <optgroup class="opt opt-reagent" label="Reagents">
                                                         @foreach (var item in Model.StockReagents) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                            if (item.StockReagent.ExpiryDate < DateTime.Today) {
                                                                 <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode - Expired</option>
                                                             } else {
                                                                 <option value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode</option>
@@ -166,7 +166,7 @@
                                                     </optgroup>
                                                     <optgroup class="opt opt-standard" label="Standards">
                                                         @foreach (var item in Model.StockStandards) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                            if (item.StockStandard.ExpiryDate < DateTime.Today) {
                                                                 <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode - Expired</option>
                                                             } else {
                                                                 <option value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode</option>
@@ -175,7 +175,7 @@
                                                     </optgroup>
                                                     <optgroup class="opt opt-int-standard" label="Intermediate Standards">
                                                         @foreach (var item in Model.IntermediateStandards) {
-                                                            if (item.ExpiryDate < DateTime.Today) {
+                                                            if (item.IntermediateStandard.ExpiryDate < DateTime.Today) {
                                                                 <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode - Expired</option>
                                                             } else {
                                                                 <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode</option>
@@ -188,7 +188,7 @@
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
                                                 <div class="input-group-addon"></div>
-                                                <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
+                                                <input name="Amount" id="Amount" type="number" min="0.01" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
                                             </div>
                                         </div>
                                         <div class="form-group zero-left-right-margin">
@@ -320,7 +320,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
                                         <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
@@ -346,7 +346,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
                                         <select data-placeholder="Units.." name="FinalConcentrationUnits" id="FinalConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                             <optgroup label="Units">
                                                 @foreach (var item in Model.ConcentrationUnits) {
@@ -371,9 +371,11 @@
                                             </div>
                                         </div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden", @min = 1 } })                                        
+                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                    @Html.ValidationMessageFor(model => model.DaysUntilExpired)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">

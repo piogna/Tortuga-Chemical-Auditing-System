@@ -85,7 +85,6 @@ namespace TMNT.Models.ViewModels {
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
-        public List<MSDS> AllMSDS { get; set; }
     }
 
     public class StockReagentCreateViewModel {
@@ -144,7 +143,6 @@ namespace TMNT.Models.ViewModels {
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
-        public List<MSDS> AllMSDS { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
@@ -166,7 +164,7 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Reagent Name")]
+        [Display(Name = "Reagent Name")]
         public string ReagentName { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
@@ -174,31 +172,31 @@ namespace TMNT.Models.ViewModels {
         public DateTime? DateModified { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
-        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
+        [Display(Name = "Lot #")]
         public string LotNumber { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Days Until Expired")]
         public int? DaysUntilExpired { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Date Received"), DataType(DataType.Date)]
+        [Display(Name = "Date Received"), DataType(DataType.Date)]
         public DateTime DateReceived { get; set; }
         public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory poperties
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]
+        [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
-        [Required(ErrorMessage = "Storage Requirements is Required"), Display(Name = "Storage Req's")]
+        [Display(Name = "Storage Req's")]
         public string StorageRequirements { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
+        [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
         public string MSDSNotes { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Catalogue Code")]
+        [Display(Name = "Catalogue Code")]
         public string CatalogueCode { get; set; }
         [Display(Name = "Inventory Item Name")]
         public string InventoryItemName { get; set; }
         public string Grade { get; set; }
         [Display(Name = "Grade Additional Notes")]
         public string GradeAdditionalNotes { get; set; }
-        [Required(ErrorMessage = "{0} is Required"), Display(Name = "Used For"), DataType(DataType.MultilineText)]
+        [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
         [Display(Name = "Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
@@ -212,10 +210,22 @@ namespace TMNT.Models.ViewModels {
         public string InitialAmountUnits { get; set; }
         [Display(Name = "Other Unit Follow-up")]
         public string OtherUnitExplained { get; set; }
+        
+        public List<Device> BalanceDevices { get; set; }
+        public List<Device> VolumetricDevices { get; set; }
 
         public List<PrepListItem> PrepListItems { get; set; }
         public List<CertificateOfAnalysis> AllCertificatesOfAnalysis { get; set; }
-        public List<MSDS> AllMSDS { get; set; }
+
+        //fields being returned to replace
+        [Display(Name = "SDS")]
+        public MSDS NewMSDS { get; set; }
+        [Display(Name = "SDS Notes"), DataType(DataType.MultilineText)]
+        public string NewMSDSNotes { get; set; }
+        [Required(ErrorMessage = "Expiry Date is Required"), Display(Name = "Expiry Date"), DataType(DataType.Date)]
+        public DateTime? NewExpiryDate { get; set; }
+        [Required(ErrorMessage = "Lot Number is Required"), Display(Name = "Lot #")]
+        public string NewLotNumber { get; set; }
     }
 
     public class StockReagentEditViewModel {

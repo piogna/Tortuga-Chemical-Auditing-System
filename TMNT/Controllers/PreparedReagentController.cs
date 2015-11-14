@@ -39,7 +39,13 @@ namespace TMNT.Controllers {
                     MaxxamId = item.MaxxamId,
                     IdCode = item.IdCode,
                     PreparedReagentName = item.PreparedReagentName,
-                    LastModifiedBy = item.LastModifiedBy
+                    LastModifiedBy = item.LastModifiedBy,
+                    Grade = item.Grade,
+                    ExpiryDate = item.ExpiryDate,
+                    DateOpened = item.DateOpened,
+                    DateCreated = item.DateCreated,
+                    CreatedBy = item.CreatedBy,
+                    DateModified = item.DateModified
                 });
             }
 
@@ -53,15 +59,9 @@ namespace TMNT.Controllers {
                         list[counter].MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                         list[counter].UsedFor = invItem.UsedFor;
                         list[counter].CatalogueCode = invItem.CatalogueCode;
-                        list[counter].Grade = invItem.Grade;
-                        list[counter].ExpiryDate = invItem.ExpiryDate;
-                        list[counter].IsExpired = invItem.ExpiryDate.Value.Date >= DateTime.Today;
-                        list[counter].DateOpened = invItem.DateOpened;
-                        list[counter].IsOpened = invItem.DateOpened != null;
+                        list[counter].IsExpired = invItem.PreparedReagent.ExpiryDate.Value.Date >= DateTime.Today;
+                        list[counter].IsOpened = invItem.PreparedReagent.DateOpened != null;
                         list[counter].SupplierName = invItem.SupplierName;
-                        list[counter].DateCreated = invItem.DateCreated;
-                        list[counter].CreatedBy = invItem.CreatedBy;
-                        list[counter].DateModified = invItem.DateModified;
                     }
                 }
                 counter++;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
@@ -15,6 +16,21 @@ namespace TMNT.Models {
         public string SolventSupplierName { get; set; }
         public double Purity { get; set; }
         public string LastModifiedBy { get; set; }
+
+        //shared
+
+        [DataType(DataType.Date)]
+        public DateTime DateReceived { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DateOpened { get; set; }
+        public int? DaysUntilExpired { get; set; }
+        public string CreatedBy { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateCreated { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? ExpiryDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DateModified { get; set; }
 
         //foreign keys
         public virtual ICollection<InventoryItem> InventoryItems { get; set; }

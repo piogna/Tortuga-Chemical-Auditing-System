@@ -79,13 +79,17 @@ $(function () {
     $('#IsExpiryDateBasedOnDays').on('change', function () {
         var expiryDays = $('#DaysUntilExpired');
         var expiryDate = $('#ExpiryDate');
+        var newExpiryDate = $('#NewExpiryDate');
 
         if (this.checked) {
             expiryDate.attr('type', 'hidden');
+            newExpiryDate.attr('type', 'hidden');
             expiryDays.attr('type', 'number');
             expiryDate.val("");
+            newExpiryDate.val("");
         } else {
             expiryDate.attr('type', 'text');
+            newExpiryDate.attr('type', 'text');
             expiryDays.attr('type', 'hidden');
             expiryDays.val("");
         }

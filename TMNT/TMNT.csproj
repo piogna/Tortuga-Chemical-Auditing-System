@@ -327,6 +327,18 @@
     <Compile Include="Migrations\201511111535515_removedRequiredAttributesOnDevice.Designer.cs">
       <DependentUpon>201511111535515_removedRequiredAttributesOnDevice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511130044022_ReAlignDatabase.cs" />
+    <Compile Include="Migrations\201511130044022_ReAlignDatabase.Designer.cs">
+      <DependentUpon>201511130044022_ReAlignDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511140036500_AttemptReagentFix.cs" />
+    <Compile Include="Migrations\201511140036500_AttemptReagentFix.Designer.cs">
+      <DependentUpon>201511140036500_AttemptReagentFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511140125341_StandardCatalogueCode.cs" />
+    <Compile Include="Migrations\201511140125341_StandardCatalogueCode.Designer.cs">
+      <DependentUpon>201511140125341_StandardCatalogueCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -706,6 +718,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511111535515_removedRequiredAttributesOnDevice.resx">
       <DependentUpon>201511111535515_removedRequiredAttributesOnDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511130044022_ReAlignDatabase.resx">
+      <DependentUpon>201511130044022_ReAlignDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511140036500_AttemptReagentFix.resx">
+      <DependentUpon>201511140036500_AttemptReagentFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511140125341_StandardCatalogueCode.resx">
+      <DependentUpon>201511140125341_StandardCatalogueCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

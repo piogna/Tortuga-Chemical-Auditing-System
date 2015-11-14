@@ -71,9 +71,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CatalogueCode)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOpened)
-                </td>
+                    @if (item.DateOpened == null) {
+                        <td>
+                            TBD
+                            <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                        </td>
+                    } else {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOpened)
+                        </td>
+                    }
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>

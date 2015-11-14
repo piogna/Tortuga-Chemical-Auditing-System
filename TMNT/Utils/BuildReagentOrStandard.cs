@@ -60,16 +60,11 @@ namespace TMNT.Utils {
             return model;
         }
 
-        public static InventoryItem BuildStandardInventoryItem(StockStandardCreateViewModel model, Department department, ApplicationUser user) {
+        public static InventoryItem BuildStandardInventoryItem(StockStandardCreateViewModel model, Department department) {
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode.ToUpper(),
                 Department = department,
                 UsedFor = model.UsedFor,
-                CreatedBy = user.UserName,
-                ExpiryDate = model.ExpiryDate,
-                DateReceived = model.DateReceived,
-                DateCreated = DateTime.Today,
-                DateModified = null,
                 Type = "Standard",
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
@@ -78,7 +73,7 @@ namespace TMNT.Utils {
                 NumberOfBottles = model.NumberOfBottles,
                 InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
                 OtherUnitExplained = model.OtherUnitExplained,
-                DaysUntilExpired = model.DaysUntilExpired
+                ConcentrationOtherUnitExplained = model.ConcentrationOtherUnitExplained
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
@@ -87,21 +82,29 @@ namespace TMNT.Utils {
             return inventoryItem;
         }
 
-        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, Department department) {
-            StockStandard createStandard = null;
+        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, Department department, string user) {
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
             StockStandardRepository repo = new StockStandardRepository(DbContextSingleton.Instance);
 
+            StockStandard createStandard = new StockStandard() {
+                LotNumber = model.LotNumber,
+                StockStandardName = model.StockStandardName,
+                Purity = model.Purity,
+                SolventUsed = model.SolventUsed,
+                Concentration = model.Concentration.ToString() + " " + model.InitialConcentrationUnits,
+                DateReceived = model.DateReceived,
+                DateCreated = DateTime.Today,
+                DateOpened = null,
+                DaysUntilExpired = model.DaysUntilExpired,
+                ExpiryDate = model.ExpiryDate,
+                CreatedBy = user,
+                DateModified = null,
+                CatalogueCode = model.CatalogueCode
+            };
+
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
-                    createStandard = new StockStandard() {
-                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
-                        LotNumber = model.LotNumber,
-                        StockStandardName = model.StockStandardName,
-                        Purity = model.Purity,
-                        SolventUsed = model.SolventUsed,
-                        Concentration = model.Concentration.ToString() + " "
-                    };
+                    createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
 
                     createStandard.InventoryItems.Add(inventoryItem);
                     result = repo.Create(createStandard);
@@ -110,14 +113,7 @@ namespace TMNT.Utils {
                     if (result != CheckModelState.Valid) { break; }
                 }
             } else {
-                createStandard = new StockStandard() {
-                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
-                    LotNumber = model.LotNumber,
-                    StockStandardName = model.StockStandardName,
-                    Purity = model.Purity,
-                    SolventUsed = model.SolventUsed,
-                    Concentration = model.Concentration.ToString() + " " + model.InitialConcentrationUnits
-                };
+                createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber;//only 1 bottle, no need to concatenate
 
                 createStandard.InventoryItems.Add(inventoryItem);
                 result = repo.Create(createStandard);

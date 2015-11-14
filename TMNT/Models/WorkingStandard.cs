@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
@@ -19,6 +20,20 @@ namespace TMNT.Models {
         public string LastModifiedBy { get; set; }
         public string SafetyNotes { get; set; }
         public int FinalVolume { get; set; }
+
+        //shared
+        [DataType(DataType.Date)]
+        public DateTime? DateOpened { get; set; }
+        public int? DaysUntilExpired { get; set; }
+        public string CreatedBy { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateCreated { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? ExpiryDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? DateModified { get; set; }
+        
+
         //foreign keys
         [Required]
         public virtual PrepList PrepList { get; set; }

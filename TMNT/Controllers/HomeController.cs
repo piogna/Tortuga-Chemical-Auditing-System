@@ -38,8 +38,17 @@ namespace TMNT.Controllers {
             }
 
             var model = new DashboardViewModel() {
-                ExpiringItemsCount = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)).Count(),
-                ExpiredItems = inventoryRepo.Where(item => item.ExpiryDate < DateTime.Today),
+                ExpiringItemsCount = inventoryRepo
+                                .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockReagent.ExpiryDate < DateTime.Today) ||
+                                item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockStandard.ExpiryDate < DateTime.Today) ||
+                                item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.IntermediateStandard.ExpiryDate < DateTime.Today) ||
+                                item.WorkingStandard != null && item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.WorkingStandard.ExpiryDate < DateTime.Today))
+                                .Count(),
+                ExpiredItems = inventoryRepo
+                                .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today ||
+                                item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today ||
+                                item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today ||
+                                item.WorkingStandard != null && item.WorkingStandard.ExpiryDate < DateTime.Today),
                 CertificatesCount = cofas,
                 PendingVerificationCount = deviceRepo.Count(),
                 DepartmentName = userDepartment.DepartmentName,

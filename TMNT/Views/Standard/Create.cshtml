@@ -109,9 +109,11 @@
                                             </div>
                                         </div>
                                         @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                        @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden", @min = 1 } })                                        
+                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
+                                    @Html.ValidationMessageFor(model => model.DaysUntilExpired)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -162,7 +164,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required"></div>
-                                        <input name="InitialAmount" id="Amount" type="number" min="0" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
+                                        <input name="InitialAmount" id="Amount" type="number" min="0.01" style="width:50%;" autocomplete="off" class="form-control input-summary text-box single-line no-border-radius required-field" placeholder="Amount Purchased" />
                                         <select data-placeholder="Units.." name="AmountUnit" id="WeightUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {

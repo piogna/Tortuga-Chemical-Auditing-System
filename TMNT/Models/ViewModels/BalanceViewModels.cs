@@ -73,7 +73,7 @@ namespace TMNT.Models.ViewModels {
         public int WeightLimitOne { get; set; }
         [Required(ErrorMessage = "Second Weight Limit is Required"), Display(Name = "Second Weight Limit")]
         public int WeightLimitTwo { get; set; }
-        [Required(ErrorMessage = "Third Weight Limit is Required"), Display(Name = "Third Weight Limit")]
+        [Display(Name = "Third Weight Limit")]
         public int WeightLimitThree { get; set; }
         [Required(ErrorMessage = "Number of Tests is Required"), Display(Name = "Number of Tests")]
         public int NumberOfTestsToVerify { get; set; }

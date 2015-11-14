@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models {
@@ -12,26 +11,12 @@ namespace TMNT.Models {
         [Key]
         public int InventoryItemId { get; set; }
         public string CatalogueCode { get; set; }
-        public string Grade { get; set; }
-        public string GradeAdditionalNotes { get; set; }
         public string UsedFor { get; set; }
         public string Type { get; set; }
         public string SupplierName { get; set; }
-        public string CreatedBy { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? DateOpened { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime DateCreated { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? ExpiryDate { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? DateModified { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime DateReceived { get; set; }
         public string StorageRequirements { get; set; }
         public int NumberOfBottles { get; set; }
         public string InitialAmount { get; set; }
-        public int? DaysUntilExpired { get; set; }
         public string OtherUnitExplained { get; set; }
         public string ConcentrationOtherUnitExplained { get; set; }
 

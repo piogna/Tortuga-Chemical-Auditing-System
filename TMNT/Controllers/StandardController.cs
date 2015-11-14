@@ -43,16 +43,16 @@ namespace TMNT.Controllers {
                 if (item.StockStandard != null) {
                     lStandards.Add(new StockStandardIndexViewModel() {
                         StockStandardId = item.StockStandard.StockStandardId,
-                        CreatedBy = item.CreatedBy,
+                        CreatedBy = item.StockStandard.CreatedBy,
                         CatalogueCode = item.CatalogueCode,
-                        DateCreated = item.DateCreated,
-                        DateOpened = item.DateOpened,
-                        ExpiryDate = item.ExpiryDate,
+                        DateCreated = item.StockStandard.DateCreated,
+                        DateOpened = item.StockStandard.DateOpened,
+                        ExpiryDate = item.StockStandard.ExpiryDate,
                         IdCode = item.StockStandard.IdCode,
                         LotNumber = item.StockStandard.LotNumber,
                         StockStandardName = item.StockStandard.StockStandardName,
-                        IsExpired = item.ExpiryDate < DateTime.Today,
-                        IsExpiring = item.ExpiryDate < DateTime.Today.AddDays(30) && !(item.ExpiryDate < DateTime.Today)
+                        IsExpired = item.StockStandard.ExpiryDate < DateTime.Today,
+                        IsExpiring = item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockStandard.ExpiryDate < DateTime.Today)
                     });
                 }
             }
@@ -84,16 +84,17 @@ namespace TMNT.Controllers {
                 LastModifiedBy = standard.LastModifiedBy,
                 SolventUsed = standard.SolventUsed,
                 Concentration = standard.Concentration,
-                Purity = standard.Purity
+                Purity = standard.Purity,
+                ExpiryDate = standard.ExpiryDate,
+                DateOpened = standard.DateOpened,
+                DateCreated = standard.DateCreated,
+                CreatedBy = standard.CreatedBy,
+                DateModified = standard.DateModified,
+                DateReceived = standard.DateReceived
             };
 
             foreach (var invItem in standard.InventoryItems) {
                 if (invItem.StockStandard.StockStandardId == standard.StockStandardId) {
-                    vStandard.ExpiryDate = invItem.ExpiryDate;
-                    vStandard.DateOpened = invItem.DateOpened;
-                    vStandard.DateCreated = invItem.DateCreated;
-                    vStandard.CreatedBy = invItem.CreatedBy;
-                    vStandard.DateModified = invItem.DateModified;
                     vStandard.CertificateOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.MSDS = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First();
                     vStandard.UsedFor = invItem.UsedFor;
@@ -102,10 +103,9 @@ namespace TMNT.Controllers {
                     vStandard.AllCertificatesOfAnalysis = invItem.CertificatesOfAnalysis.OrderByDescending(x => x.DateAdded).Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).ToList();
                     vStandard.MSDSNotes = invItem.MSDS.Where(x => x.InventoryItem.InventoryItemId == invItem.InventoryItemId).First().MSDSNotes;
                     vStandard.SupplierName = invItem.SupplierName;
-                    vStandard.IsExpired = invItem.ExpiryDate < DateTime.Today;
-                    vStandard.IsExpiring = invItem.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.ExpiryDate < DateTime.Today);
+                    vStandard.IsExpired = invItem.StockStandard.ExpiryDate < DateTime.Today;
+                    vStandard.IsExpiring = invItem.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.StockStandard.ExpiryDate < DateTime.Today);
                     vStandard.NumberOfBottles = invItem.NumberOfBottles;
-                    vStandard.DateReceived = invItem.DateReceived;
                     vStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
@@ -155,10 +155,10 @@ namespace TMNT.Controllers {
             }
 
             model = BuildReagentOrStandard.BuildStandard(model, devicesUsed, AmountUnit, ConcentrationUnit, uploadCofA, uploadMSDS);
-            InventoryItem inventoryItem = BuildReagentOrStandard.BuildStandardInventoryItem(model, department, user);
+            InventoryItem inventoryItem = BuildReagentOrStandard.BuildStandardInventoryItem(model, department);
 
             StockStandard createStandard = null;
-            CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department);
+            CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department, user.UserName);
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -203,14 +203,14 @@ namespace TMNT.Controllers {
                 LotNumber = stockstandard.LotNumber,
                 StockStandardName = stockstandard.StockStandardName,
                 IdCode = stockstandard.IdCode,
+                DateCreated = stockstandard.DateCreated,
+                ExpiryDate = stockstandard.ExpiryDate,
                 CertificateOfAnalysis = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.CertificatesOfAnalysis.OrderBy(y => y.DateAdded).First()).First(),
                 MSDS = stockstandard.InventoryItems.Where(x => x.StockStandard.StockStandardId == stockstandard.StockStandardId).Select(x => x.MSDS.OrderBy(y => y.DateAdded).First()).First()
             };
 
             foreach (var item in stockstandard.InventoryItems) {
-                model.DateCreated = item.DateCreated;
                 model.SupplierName = item.SupplierName;
-                model.ExpiryDate = item.ExpiryDate;
             }
             return View(model);
         }
@@ -237,6 +237,8 @@ namespace TMNT.Controllers {
                 updateStandard.IdCode = stockstandard.IdCode;
                 updateStandard.LotNumber = stockstandard.LotNumber;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
+                updateStandard.DateModified = DateTime.Today;
+                updateStandard.ExpiryDate = stockstandard.ExpiryDate;
 
                 repo.Update(updateStandard);
 
@@ -280,10 +282,7 @@ namespace TMNT.Controllers {
                     msdsRepo.Update(oldSDS);
                 }
 
-                invItem.DateModified = DateTime.Today;
                 invItem.SupplierName = stockstandard.SupplierName;
-                invItem.ExpiryDate = stockstandard.ExpiryDate;
-
                 inventoryRepo.Update(invItem);
 
                 return RedirectToAction("Details", new { id = stockstandard.StockStandardId });

@@ -34,9 +34,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.StockStandardName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CatalogueCode)
             </th>
@@ -68,18 +65,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.StockStandardName)
                 </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
-                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.CatalogueCode)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LotNumber)
                 </td>
-                <td>
+                @if (item.DateOpened == null) {
+                    <td>
+                        TBD
+                        <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                    </td>
+                } else {
                     @Html.DisplayFor(modelItem => item.DateOpened)
-                </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
                 </td>
@@ -125,9 +124,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.StockStandardName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CatalogueCode)
             </th>
