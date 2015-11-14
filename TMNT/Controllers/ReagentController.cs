@@ -131,6 +131,15 @@ namespace TMNT.Controllers {
                 return View(SetStockReagent(model));
             }
 
+            //catalogue code must be unique - let's verify
+            bool doesCatalogueCodeExist = new InventoryItemRepository().Get()
+                .Any(item => item.CatalogueCode != null && item.CatalogueCode.Equals(model.CatalogueCode));
+
+            if (doesCatalogueCodeExist) {
+                ModelState.AddModelError("", "The Catalogue Code provided is not unique. If the Catalogue Code provided is in fact correct, add the item as a new Lot Number under the existing Catalogue Code.");
+                return View(SetStockReagent(model));
+            }
+
             //last line of defense for number of bottles
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
@@ -306,11 +315,85 @@ namespace TMNT.Controllers {
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
             }
 
+            var user = HelperMethods.GetCurrentUser();
+            var department = HelperMethods.GetUserDepartment();
+            var numOfItems = new InventoryItemRepository().Get().Count();
             var reagent = repo.Get(model.ReagentId);
 
+            //set new propeties to create new entity based on old
+            //id set to 0 for entityframework to do its magic
+            reagent.ReagentId = 0;
+            reagent.ExpiryDate = model.NewExpiryDate;
+            reagent.LotNumber = model.NewLotNumber;
+            reagent.DateCreated = DateTime.Today;
+            reagent.CreatedBy = user.UserName;
+            reagent.DateOpened = null;
+            reagent.DateReceived = model.DateReceived;
 
+            //upload CofA and MSDS
+            if (uploadCofA != null) {
+                var cofa = new CertificateOfAnalysis() {
+                    FileName = uploadCofA.FileName,
+                    ContentType = uploadCofA.ContentType,
+                    DateAdded = DateTime.Today
+                };
+                using (var reader = new System.IO.BinaryReader(uploadCofA.InputStream)) {
+                    cofa.Content = reader.ReadBytes(uploadCofA.ContentLength);
+                }
+                model.CertificateOfAnalysis = cofa;
+            }
 
-            return View();
+            if (uploadMSDS != null) {
+                var msds = new MSDS() {
+                    FileName = uploadMSDS.FileName,
+                    ContentType = uploadMSDS.ContentType,
+                    DateAdded = DateTime.Today,
+                    MSDSNotes = model.MSDSNotes
+                };
+                using (var reader = new System.IO.BinaryReader(uploadMSDS.InputStream)) {
+                    msds.Content = reader.ReadBytes(uploadMSDS.ContentLength);
+                }
+                model.MSDS = msds;
+            }
+
+            //write record(s) to the db
+            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+
+            if (model.NumberOfBottles > 1) {
+                for (int i = 1; i <= model.NumberOfBottles; i++) {
+
+                    reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
+
+                    //reagent.InventoryItems.Add(reagent.InventoryItems.Where(x => x.CatalogueCode.Equals(model.CatalogueCode)).First());
+                    result = repo.Create(reagent);
+
+                    //creation wasn't successful - break from loop and let switch statement handle the problem
+                    if (result != CheckModelState.Valid) { break; }
+                }
+            } else {
+                reagent.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber;//only 1 bottle, no need to concatenate
+
+                //reagent.InventoryItems.Add(inventoryItem);
+                result = repo.Create(reagent);
+            }
+
+            switch (result) {
+                case CheckModelState.Invalid:
+                    ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
+                    return View(SetTopupReagent(model));
+                case CheckModelState.DataError:
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
+                    return View(SetTopupReagent(model));
+                case CheckModelState.Error:
+                    ModelState.AddModelError("", "There was an error. Please try again.");
+                    return View(SetTopupReagent(model));
+                case CheckModelState.Valid:
+                    //save pressed
+                    return RedirectToAction("Create");
+                default:
+                    ModelState.AddModelError("", "An unknown error occurred.");
+                    return View(SetTopupReagent(model));
+            }
         }
 
         // GET: /Reagent/Edit/5

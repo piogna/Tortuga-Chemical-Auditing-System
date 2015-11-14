@@ -129,10 +129,9 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "StockStandardName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
                     StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (!ModelState.IsValid) {
-                SetStockStandard(model);
-                return View(model);
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return View(SetStockStandard(model));
             }
 
             //catalogue code must be unique - let's verify

@@ -61,7 +61,7 @@
             e.preventDefault();
             $('#placeholder').text("");
             weightOneVal = parseFloat(weightOne.val());
-            var weightLimitOneVal = parseFloat(limitOne.val());
+            var weightLimitOneVal = parseFloat(limitOne.val().split(" ")[0]);
 
             if (isNaN(weightOneVal)) {
                 //highly likely the input wasn't a number, provide error message
@@ -104,7 +104,7 @@
         validateTwo.on('click', function (e) {
             e.preventDefault();
             weightTwoVal = parseFloat(weightTwo.val());
-            var weightLimitTwoVal = parseFloat(limitTwo.val());
+            var weightLimitTwoVal = parseFloat(limitTwo.val().split(" ")[0]);
 
             if (isNaN(weightLimitTwoVal)) {
                 //highly likely the input wasn't a number, provide error message
@@ -161,7 +161,7 @@
         validateThree.on('click', function (e) {
             e.preventDefault();
             weightThreeVal = parseFloat(weightThree.val());
-            var weightLimitThreeVal = parseFloat(limitThree.val());
+            var weightLimitThreeVal = parseFloat(limitThree.val().split(" ")[0]);
 
             if (isNaN(weightLimitThreeVal)) {
                 //highly likely the input wasn't a number, provide error message
@@ -246,7 +246,7 @@
                 </nav>
                 <div class="content-wrap">
                     <section id="section-bar-1">
-                        @Html.Partial("_SectionHeader", "Pick Balance to Verify")
+                        @Html.Partial("_SectionHeader", "Balance to Verify")
                         <div class="container">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="col-md-4">
@@ -273,6 +273,12 @@
                                     @Html.ValidationMessageFor(model => model.WeightId)
                                 </div>
                             </div>
+                        </div>
+
+                        @Html.Partial("_SectionHeader", "Instructions")
+                        <div class="container">
+                            If the measurement is outside the tolerance range, check the balance for cleanliness and level, re-zero and take a second measurement.
+                            In the case of continued failure, place "Out of Service" sign, and notify supervisor and QA.
                         </div>
 
                         @Html.Partial("_SectionHeader", "Start Balance Verification")

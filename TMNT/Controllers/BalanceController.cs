@@ -159,9 +159,9 @@ namespace TMNT.Controllers {
                 CurrentLocation = balance.Department.Location.LocationName,
                 LocationNames = locations,
                 NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
-                WeightLimitOne = balance.AmountLimitOne,
-                WeightLimitTwo = balance.AmountLimitTwo,
-                WeightLimitThree = balance.AmountLimitThree,
+                WeightLimitOne = balance.AmountLimitOne + " g",
+                WeightLimitTwo = balance.AmountLimitTwo + " g ",
+                WeightLimitThree = balance.AmountLimitThree == null ? null : balance.AmountLimitThree + " g",
                 NumberOfDecimals = balance.NumberOfDecimals
             };
             return View(device);

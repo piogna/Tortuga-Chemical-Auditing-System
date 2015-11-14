@@ -322,6 +322,7 @@
                         <input type="file" id="CertificateOfAnalysis" name="uploadCofA" class="form-control btn btn-default" accept=".pdf" />
                         <div class="input-group-addon input-group-addon-md">Upload CofA</div>
                     </div>
+                    @Html.ValidationMessageFor(model => model.CertificateOfAnalysis)
                 </div>
             </div>
         </div>

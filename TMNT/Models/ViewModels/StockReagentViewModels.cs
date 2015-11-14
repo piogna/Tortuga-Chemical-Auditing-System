@@ -198,7 +198,7 @@ namespace TMNT.Models.ViewModels {
         public string GradeAdditionalNotes { get; set; }
         [Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Display(Name = "Certificate of Analysis")]
+        [Required(ErrorMessage = "Certificate of Analysis is Required"), Display(Name = "Certificate of Analysis")]
         public CertificateOfAnalysis CertificateOfAnalysis { get; set; }
         [Display(Name = "SDS")]
         public MSDS MSDS { get; set; }
