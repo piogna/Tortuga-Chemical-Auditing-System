@@ -300,7 +300,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Topup([Bind(Include = "ReagentId,NewMSDSNotes,NewLotNumber,NewExpiryDate,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
-                StockReagentTopUpViewModel model) {
+                StockReagentTopUpViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             if (!ModelState.IsValid) {
                 //handle error
                 var errors = ModelState.Values.SelectMany(v => v.Errors);
