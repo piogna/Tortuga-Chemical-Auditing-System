@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using TMNT.Models.Enums;
 using TMNT.Utils;
 
@@ -10,6 +9,12 @@ namespace TMNT.Models.Repository {
     public class CofARepository : IRepository<CertificateOfAnalysis> {
 
         private ApplicationDbContext _db = DbContextSingleton.Instance;
+
+        public CofARepository() { }
+
+        public CofARepository(ApplicationDbContext db) {
+            _db = db;
+        }
 
         public CheckModelState Create(CertificateOfAnalysis t) {
             try {
@@ -49,6 +54,12 @@ namespace TMNT.Models.Repository {
     public class MSDSRepository : IRepository<MSDS> {
 
         private ApplicationDbContext _db = DbContextSingleton.Instance;
+
+        public MSDSRepository() { }
+
+        public MSDSRepository(ApplicationDbContext db) {
+            _db = db;
+        }
 
         public CheckModelState Create(MSDS t) {
             try {
