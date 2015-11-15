@@ -434,6 +434,7 @@
     <Content Include="Content\Images\chemistry-woman.jpg" />
     <Content Include="Content\Images\maxxam.png" />
     <Content Include="Content\Images\stroke7pixeden.svg" />
+    <Content Include="Content\Images\syringe-icon.png" />
     <Content Include="Content\Images\underConstruction.jpg" />
     <Content Include="Content\login-styles.css" />
     <Content Include="Content\maxxam-forms.css" />

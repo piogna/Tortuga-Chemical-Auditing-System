@@ -70,6 +70,7 @@ namespace TMNT.Controllers {
             }
 
             StockReagent reagent = repo.Get(id);
+            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
 
             if (reagent == null) {
                 return HttpNotFound();
@@ -105,6 +106,8 @@ namespace TMNT.Controllers {
                     vReagent.SupplierName = invItem.SupplierName;
                     vReagent.NumberOfBottles = invItem.NumberOfBottles;
                     vReagent.InitialAmount = invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
+                    vReagent.DeviceOne = invItem.FirstDeviceUsed == null ? null : deviceRepo.Get().Where(item => item == invItem.FirstDeviceUsed).First();
+                    vReagent.DeviceTwo = invItem.SecondDeviceUsed == null ? null : deviceRepo.Get().Where(item => item == invItem.SecondDeviceUsed).First();
                 }
             }
             return View(vReagent);
@@ -131,8 +134,10 @@ namespace TMNT.Controllers {
                 return View(SetStockReagent(model));
             }
 
+            var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+
             //catalogue code must be unique - let's verify
-            bool doesCatalogueCodeExist = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+            bool doesCatalogueCodeExist = invRepo.Get()
                 .Any(item => item.CatalogueCode != null && item.CatalogueCode.Equals(model.CatalogueCode));
 
             if (doesCatalogueCodeExist) {
@@ -149,9 +154,24 @@ namespace TMNT.Controllers {
                 model.InitialAmountUnits += "/" + Unit[1];
             }
 
+            var devicesUsed = Request.Form["Devices"];
+            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
+
+
+            if (devicesUsed == null) {
+                ModelState.AddModelError("", "You must select a device that was used.");
+                return View(SetStockReagent(model));
+            }
+
+            if (devicesUsed.Contains(",")) {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+                model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
+            } else {
+                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+            }
+
             var user = HelperMethods.GetCurrentUser();
-            var department = HelperMethods.GetUserDepartment();
-            var numOfItems = new InventoryItemRepository(DbContextSingleton.Instance).Get().Count();
+            var numOfItems = invRepo.Get().Count();
 
             if (uploadCofA != null) {
                 var cofa = new CertificateOfAnalysis() {
@@ -180,7 +200,7 @@ namespace TMNT.Controllers {
 
             InventoryItem inventoryItem = new InventoryItem() {
                 CatalogueCode = model.CatalogueCode.ToUpper(),
-                Department = department,
+                Department = user.Department,
                 UsedFor = model.UsedFor,
                 Type = "Reagent",
                 StorageRequirements = model.StorageRequirements,
@@ -188,6 +208,8 @@ namespace TMNT.Controllers {
                 NumberOfBottles = model.NumberOfBottles,
                 InitialAmount = model.InitialAmount.ToString() + " " + model.InitialAmountUnits,
                 OtherUnitExplained = model.OtherUnitExplained,
+                FirstDeviceUsed = model.DeviceOne,
+                SecondDeviceUsed = model.DeviceTwo
             };
 
             inventoryItem.MSDS.Add(model.MSDS);
@@ -199,7 +221,7 @@ namespace TMNT.Controllers {
 
             reagent = new StockReagent() {
                 LotNumber = model.LotNumber,
-                IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles,//append number of bottles
+                IdCode = user.Department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles,//append number of bottles
                 ReagentName = model.ReagentName,
                 Grade = model.Grade,
                 GradeAdditionalNotes = model.GradeAdditionalNotes,

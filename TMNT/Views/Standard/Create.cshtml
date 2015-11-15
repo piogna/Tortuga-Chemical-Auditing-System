@@ -245,30 +245,29 @@
                                         <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field input-summary" multiple="multiple">
                                             <optgroup label="Balance ID's">
                                                 @foreach (var item in Model.BalanceDevices) {
-                                                if (@item.IsVerified) {
-                                                <option value="@item.DeviceCode">
-                                                    @item.DeviceCode
-                                                </option>
-                                                } else {
-                                                <option disabled="disabled" value="@item.DeviceCode">
-                                                    @item.DeviceCode - Not Verified
-                                                </option>
-                                                }
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
                                                 }
                                             </optgroup>
                                             <optgroup label="Volumetric ID's">
                                                 @foreach (var item in Model.VolumetricDevices) {
-                                                if (@item.IsVerified) {
-                                                <option value="@item.DeviceCode">
-                                                    @item.DeviceCode
-                                                </option>
-                                                } else {
-                                                <option disabled="disabled" value="@item.DeviceCode">
-                                                    @item.DeviceCode - Not Verified
-                                                </option>
+                                                    if (@item.IsVerified) {
+                                                        <option value="@item.DeviceCode">
+                                                            @item.DeviceCode
+                                                        </option>
+                                                    } else {
+                                                        <option disabled="disabled" value="@item.DeviceCode">
+                                                            @item.DeviceCode - Not Verified
+                                                        </option>
+                                                    }
                                                 }
-                                                }
-                                                <option value="VOL902-W">VOL902-W</option>
                                                 <option value="None">No Device Used</option>
                                             </optgroup>
                                         </select>

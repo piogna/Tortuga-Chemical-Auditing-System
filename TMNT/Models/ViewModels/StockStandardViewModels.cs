@@ -59,7 +59,6 @@ namespace TMNT.Models.ViewModels {
         public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory properties
-        public List<Device> DevicesUsed { get; set; }
         public Device DeviceOne { get; set; }
         public Device DeviceTwo { get; set; }
         [Required(ErrorMessage = "Storage Requirements is Required"), Display(Name = "Storage Req's")]

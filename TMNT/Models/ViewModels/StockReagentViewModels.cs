@@ -57,6 +57,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsOpened { get; set; }
 
         //inventory poperties
+        public Device DeviceOne { get; set; }
+        public Device DeviceTwo { get; set; }
         [Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         [Display(Name = "Storage Req's")]
@@ -113,6 +115,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsExpiryDateBasedOnDays { get; set; }
 
         //inventory poperties
+        public Device DeviceOne { get; set; }
+        public Device DeviceTwo { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Supplier")]
         public string SupplierName { get; set; }
         [Required(ErrorMessage = "Storage Requirements is Required"), Display(Name = "Storage Req's")]

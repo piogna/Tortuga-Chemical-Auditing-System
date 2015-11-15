@@ -264,6 +264,45 @@
     </div>
 </div>
 
+@Html.Partial("_SectionHeader", "Devices Used")
+
+<div class="container">
+    @if (Model.DeviceOne == null) {
+        <div>No devices used</div>
+    } else {
+        <div class="col-md-6 text-center">
+            <h3>Balance</h3>
+            <hr />
+                @if (Model.DeviceOne.DeviceType.Equals("Balance")) {
+                    <span class=" fa fa-5x fa-balance-scale"></span>
+                    <p style="font-size:18px;margin-top:10px;">
+                        @Html.DisplayFor(model => model.DeviceOne.DeviceCode)
+                    </p>
+                } else if (Model.DeviceTwo != null && Model.DeviceTwo.DeviceType.Equals("Balance")) {
+                    <span class=" fa fa-5x fa-balance-scale"></span>
+                    <p style="font-size:18px;margin-top:10px;">
+                        @Html.DisplayFor(model => model.DeviceTwo.DeviceCode)
+                    </p>
+                }
+        </div>
+        <div class="col-md-6 text-center">
+            <h3>Volumetric</h3>
+            <hr />
+                @if (Model.DeviceOne.DeviceType.Equals("Volumetric")) {
+                    <img src = "../../Content/Images/syringe-icon.png" style="width:75px;" />
+                    <p style="font-size:18px;margin-top:10px;">
+                        @Html.DisplayFor(model => model.DeviceOne.DeviceCode)
+                    </p>
+                } else if (Model.DeviceTwo != null && Model.DeviceTwo.DeviceType.Equals("Volumetric")) {
+                    <img src="../../Content/Images/syringe-icon.png" style="width:75px;" />
+                    <p style="font-size:18px;margin-top:10px;">
+                        @Html.DisplayFor(model => model.DeviceTwo.DeviceCode)
+                    </p>
+                }
+        </div>
+    }
+</div>
+
 @Html.Partial("_SectionHeader", "All Certificates of Analysis for " + @Model.IdCode)
 
 <div class="container">
