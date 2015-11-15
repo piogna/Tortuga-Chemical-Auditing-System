@@ -70,7 +70,7 @@ namespace TMNT.Controllers {
             }
 
             StockReagent reagent = repo.Get(id);
-            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
+            var deviceRepo = new BalanceDeviceRepository(DbContextSingleton.Instance);
 
             if (reagent == null) {
                 return HttpNotFound();
@@ -155,7 +155,7 @@ namespace TMNT.Controllers {
             }
 
             var devicesUsed = Request.Form["Devices"];
-            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
+            var deviceRepo = new BalanceDeviceRepository(DbContextSingleton.Instance);
 
 
             if (devicesUsed == null) {
@@ -321,7 +321,7 @@ namespace TMNT.Controllers {
                 return HttpNotFound();
             }
             
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var devices = new BalanceDeviceRepository(DbContextSingleton.Instance).Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             var vReagent = new StockReagentTopUpViewModel() {
@@ -632,7 +632,7 @@ namespace TMNT.Controllers {
 
         private StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var devices = new BalanceDeviceRepository(DbContextSingleton.Instance).Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
@@ -644,7 +644,7 @@ namespace TMNT.Controllers {
         }
 
         private StockReagentTopUpViewModel SetTopupReagent(StockReagentTopUpViewModel model, StockReagent stockreagent) {
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var devices = new BalanceDeviceRepository(DbContextSingleton.Instance).Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();

@@ -315,7 +315,7 @@ namespace TMNT.Controllers {
 
         private StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var devices = new BalanceDeviceRepository(DbContextSingleton.Instance).Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();

@@ -18,7 +18,7 @@ namespace TMNT.Controllers {
 
         private IRepository<Device> repo;
         public BalanceController()
-            : this(new DeviceRepository(DbContextSingleton.Instance)) {
+            : this(new BalanceDeviceRepository(DbContextSingleton.Instance)) {
         }
 
         public BalanceController(IRepository<Device> repo) {
@@ -30,7 +30,7 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var department = HelperMethods.GetUserDepartment();
 
-            var balances = repo.Get().Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(department) && !item.IsArchived);
+            var balances = repo.Get().Where(item => item.Department.Equals(department) && !item.IsArchived);
             var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
@@ -96,7 +96,7 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree,NumberOfTestsToVerify")] BalanceCreateViewModel balance, string submit) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                var deviceRepo = new DeviceRepository();
+                var deviceRepo = new BalanceDeviceRepository();
 
                 var doesDeviceAlreadyExist = deviceRepo.Get().Any(item => item != null && item.DeviceCode.Equals(balance.DeviceCode));
 

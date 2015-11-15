@@ -20,7 +20,7 @@ namespace TMNT.Controllers {
 
         private IRepository<Device> repo;
         public VolumetricController()
-            : this(new DeviceRepository(DbContextSingleton.Instance)) {
+            : this(new BalanceDeviceRepository(DbContextSingleton.Instance)) {
         }
 
         public VolumetricController(IRepository<Device> repo) {

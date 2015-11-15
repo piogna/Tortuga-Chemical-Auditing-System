@@ -11,7 +11,7 @@ namespace TMNT.Utils {
 
         /* Standard Code */
         public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            var deviceRepo = new DeviceRepository();
+            var deviceRepo = new BalanceDeviceRepository();
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             if (devicesUsed.Contains(",")) {

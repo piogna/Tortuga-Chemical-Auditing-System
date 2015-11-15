@@ -143,7 +143,7 @@ namespace TMNT.Controllers {
             
             //setting the devices used
             var devicesUsed = Request.Form["Devices"];
-            var deviceRepo = new DeviceRepository();
+            var deviceRepo = new BalanceDeviceRepository();
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
@@ -423,7 +423,7 @@ namespace TMNT.Controllers {
         private IntermediateStandardCreateViewModel SetIntermediateStandard(IntermediateStandardCreateViewModel model) {
             var department = HelperMethods.GetUserDepartment();
             var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
+            var devices = new BalanceDeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
 
             List<InventoryItem> items = new InventoryItemRepository().Get()
                 .Where(item => item.Department == department)

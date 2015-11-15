@@ -16,6 +16,13 @@ namespace TMNT.Models {
         public string AmountLimitThree { get; set; }
         public bool IsArchived { get; set; }
 
+        //volumetric properties
+        public string VolumetricDeviceType { get; set; }
+        public string Categorization { get; set; }
+        public string Frequency { get; set; }
+        public string Volume { get; set; }
+        public string AcceptanceCriteria { get; set; }
+
         [Required]
         public virtual Department Department { get; set; }
 

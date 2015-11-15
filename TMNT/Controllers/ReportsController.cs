@@ -43,12 +43,12 @@ namespace TMNT.Controllers {
             var user = Helpers.HelperMethods.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
-            return View(new DeviceRepository().Get().ToList());
+            return View(new BalanceDeviceRepository().Get().ToList());
         }
 
         [Route("Report/DeviceReportInformation")]
         public ActionResult DeviceReportInformation() {
-            var devices = new DeviceRepository().Get().ToList();
+            var devices = new BalanceDeviceRepository().Get().ToList();
 
             var output = devices
                 .Select(item => new ReportDeviceVerificationViewModel() {

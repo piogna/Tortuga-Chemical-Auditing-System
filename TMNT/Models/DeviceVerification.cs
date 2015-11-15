@@ -12,6 +12,9 @@ namespace TMNT.Models {
         public double? WeightOne { get; set; }
         public double? WeightTwo { get; set; }
         public double? WeightThree { get; set; }
+        public double? VolumeOne { get; set; }
+        public double? VolumeTwo { get; set; }
+        public double? VolumeThree { get; set; }
         public bool DidTestPass { get; set; }
         public string WeightId { get; set; }
 
