@@ -274,7 +274,7 @@
             <h3>Balance</h3>
             <hr />
                 @if (Model.DeviceOne.DeviceType.Equals("Balance")) {
-                    <span class=" fa fa-5x fa-balance-scale"></span>
+                    <span class="fa fa-5x fa-balance-scale"></span>
                     <p style="font-size:18px;margin-top:10px;">
                         @Html.DisplayFor(model => model.DeviceOne.DeviceCode)
                     </p>
@@ -297,6 +297,11 @@
                     <img src="../../Content/Images/syringe-icon.png" style="width:75px;" />
                     <p style="font-size:18px;margin-top:10px;">
                         @Html.DisplayFor(model => model.DeviceTwo.DeviceCode)
+                    </p>
+                } else {
+                    <span class="fa fa-5x fa-ban"></span>
+                    <p style="font-size:18px;margin-top:10px;">
+                        None Used
                     </p>
                 }
         </div>
