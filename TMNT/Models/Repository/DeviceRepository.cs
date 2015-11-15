@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using TMNT.Utils;
-using System.Data.Entity;
-using System;
 using TMNT.Models.Enums;
-using System.Data;
+using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
-    public class BalanceDeviceRepository : IRepository<Device> {
+    public class DeviceRepository : IRepository<Device> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
-        public BalanceDeviceRepository() { }
+        public DeviceRepository() { }
 
-        public BalanceDeviceRepository(ApplicationDbContext db) {
+        public DeviceRepository(ApplicationDbContext db) {
             this.db = db;
         }
 
         public IEnumerable<Device> Get() {
-            return db.Devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
+            return db.Devices.ToList();
         }
 
         public Device Get(int? i) {
@@ -25,53 +23,15 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(Device t) {
-            try {
-                db.Devices.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            throw new NotImplementedException();
         }
 
         public CheckModelState Update(Device t) {
-            try {
-                db.Entry(t).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            throw new NotImplementedException();
         }
 
         public CheckModelState Delete(int? i) {
-            var device = db.Devices.Find(i);
-
-            if (device == null) {
-                return CheckModelState.Error;
-            }
-
-            try {
-                device.IsArchived = true;
-                device.Status = "Archived";
-                db.Entry(device).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            throw new NotImplementedException();
         }
 
         public void Dispose() {

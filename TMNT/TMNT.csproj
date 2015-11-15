@@ -381,6 +381,7 @@
     <Compile Include="Models\PrepListItem.cs" />
     <Compile Include="Models\Repository\CertificateOfAnalysisRepository.cs" />
     <Compile Include="Models\Repository\DepartmentRepository.cs" />
+    <Compile Include="Models\Repository\BalanceDeviceRepository.cs" />
     <Compile Include="Models\Repository\DeviceRepository.cs" />
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />

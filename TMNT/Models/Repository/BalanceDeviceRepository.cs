@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using TMNT.Models.Enums;
 using TMNT.Utils;
+using System.Data.Entity;
+using System;
+using TMNT.Models.Enums;
+using System.Data;
 
 namespace TMNT.Models.Repository {
-    public class VolumetricDeviceRepository : IRepository<Device> {
-
+    public class BalanceDeviceRepository : IRepository<Device> {
         private ApplicationDbContext db = DbContextSingleton.Instance;
 
-        public VolumetricDeviceRepository() { }
+        public BalanceDeviceRepository() { }
 
-        public VolumetricDeviceRepository(ApplicationDbContext db) {
+        public BalanceDeviceRepository(ApplicationDbContext db) {
             this.db = db;
         }
 
         public IEnumerable<Device> Get() {
-            return db.Devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            return db.Devices.Where(item => item.DeviceType.Equals("Balance")).ToList();
         }
 
         public Device Get(int? i) {
             return db.Devices.Find(i);
         }
+
         public CheckModelState Create(Device t) {
             try {
                 db.Devices.Add(t);
@@ -75,7 +75,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Dispose() {
-            throw new NotImplementedException();
+            db.Dispose();
         }
     }
 }

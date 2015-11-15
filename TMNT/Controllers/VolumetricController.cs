@@ -20,7 +20,7 @@ namespace TMNT.Controllers {
 
         private IRepository<Device> repo;
         public VolumetricController()
-            : this(new BalanceDeviceRepository(DbContextSingleton.Instance)) {
+            : this(new VolumetricDeviceRepository(DbContextSingleton.Instance)) {
         }
 
         public VolumetricController(IRepository<Device> repo) {
@@ -32,7 +32,7 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var department = HelperMethods.GetUserDepartment();
 
-            var volumetrics = repo.Get().Where(item => item.DeviceType.Equals("Volumetric") && item.Department.Equals(department));
+            var volumetrics = repo.Get().Where(item => item.Department.Equals(department));
             var viewModels = new List<VolumetricIndexViewModel>();
 
             foreach (var item in volumetrics) {
@@ -130,12 +130,5 @@ namespace TMNT.Controllers {
             repo.Delete(id);
             return RedirectToAction("Index");
         }
-
-        //protected override void Dispose(bool disposing) {
-        //    if (disposing) {
-        //        repo.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }
