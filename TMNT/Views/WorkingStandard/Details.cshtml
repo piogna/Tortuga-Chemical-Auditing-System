@@ -117,42 +117,6 @@
             <dd>
                 @Html.DisplayFor(model => model.DateOpened)
             </dd>
-
-            @if (Model.Replaces == null) {
-                <dt>
-                    Replaces
-                </dt>
-
-                <dd>
-                    N/A
-                </dd>
-            } else {
-                <dt>
-                    @Html.DisplayNameFor(model => model.Replaces)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Replaces)
-                </dd>
-            }
-
-            @if (Model.Replaces == null) {
-                <dt>
-                    Replaced By
-                </dt>
-
-                <dd>
-                    N/A
-                </dd>
-            } else {
-                <dt>
-                    @Html.DisplayNameFor(model => model.ReplacedBy)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.ReplacedBy)
-                </dd>
-            }
         </dl>
     </div>
     <div class="col-md-6">

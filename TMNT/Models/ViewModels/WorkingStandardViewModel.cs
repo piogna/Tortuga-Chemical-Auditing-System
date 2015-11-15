@@ -7,9 +7,6 @@ namespace TMNT.Models.ViewModels
     public class WorkingStandardIndexViewModel
     {
         public int WorkingStandardId { get; set; }
-        public string Replaces { get; set; }
-        [Display(Name = "Replaced By")]
-        public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [Display(Name = "Maxxam Id")]
@@ -33,9 +30,6 @@ namespace TMNT.Models.ViewModels
     public class WorkingStandardDetailsViewModel
     {
         public int WorkingStandardId { get; set; }
-        public string Replaces { get; set; }
-        [Display(Name = "Replaced By")]
-        public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [DataType(DataType.Date), Display(Name = "Expiry Date")]
@@ -74,9 +68,6 @@ namespace TMNT.Models.ViewModels
     public class WorkingStandardCreateViewModel
     {
         public int WorkingStandardId { get; set; }
-        public string Replaces { get; set; }
-        [Display(Name = "Replaced By")]
-        public string ReplacedBy { get; set; }
         [Display(Name = "Final Concentration")]
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]
@@ -145,9 +136,6 @@ namespace TMNT.Models.ViewModels
     public class WorkingStandardEditViewModel
     {
         public int WorkingStandardId { get; set; }
-        public string Replaces { get; set; }
-        [Display(Name = "Replaced By")]
-        public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [Display(Name = "Maxxam Id")]

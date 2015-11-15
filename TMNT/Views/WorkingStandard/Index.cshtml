@@ -22,7 +22,7 @@
 </div>
 
 <p>
-    @Html.ActionLink("New Working", "Create", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("New Working Standard", "Create", "WorkingStandard", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
@@ -36,12 +36,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaxxamId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Replaces)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)
@@ -67,12 +61,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MaxxamId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Replaces)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReplacedBy)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
@@ -107,12 +95,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MaxxamId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Replaces)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReplacedBy)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdCode)

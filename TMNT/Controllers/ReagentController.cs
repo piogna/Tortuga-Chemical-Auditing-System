@@ -197,50 +197,69 @@ namespace TMNT.Controllers {
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
             StockReagent reagent = null;
 
-            if (model.NumberOfBottles > 1) {
-                for (int i = 1; i <= model.NumberOfBottles; i++) {
-                    reagent = new StockReagent() {
-                        LotNumber = model.LotNumber,
-                        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
-                        ReagentName = model.ReagentName,
-                        Grade = model.Grade,
-                        GradeAdditionalNotes = model.GradeAdditionalNotes,
-                        DateReceived = model.DateReceived,
-                        DateOpened = null,
-                        DaysUntilExpired = model.DaysUntilExpired,
-                        ExpiryDate = model.ExpiryDate,
-                        DateCreated = DateTime.Today,
-                        CreatedBy = user.UserName,
-                        DateModified = null,
-                        CatalogueCode = model.CatalogueCode
-                    };
+            reagent = new StockReagent() {
+                LotNumber = model.LotNumber,
+                IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles,//append number of bottles
+                ReagentName = model.ReagentName,
+                Grade = model.Grade,
+                GradeAdditionalNotes = model.GradeAdditionalNotes,
+                DateReceived = model.DateReceived,
+                DateOpened = null,
+                DaysUntilExpired = model.DaysUntilExpired,
+                ExpiryDate = model.ExpiryDate,
+                DateCreated = DateTime.Today,
+                CreatedBy = user.UserName,
+                DateModified = null,
+                CatalogueCode = model.CatalogueCode
+            };
 
-                    reagent.InventoryItems.Add(inventoryItem);
-                    result = repo.Create(reagent);
+            reagent.InventoryItems.Add(inventoryItem);
+            result = repo.Create(reagent);
 
-                    //creation wasn't successful - break from loop and let switch statement handle the problem
-                    if (result != CheckModelState.Valid) { break; }
-                }
-            } else {
-                reagent = new StockReagent() {
-                    LotNumber = model.LotNumber,
-                    IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
-                    ReagentName = model.ReagentName,
-                    Grade = model.Grade,
-                    GradeAdditionalNotes = model.GradeAdditionalNotes,
-                    DateReceived = model.DateReceived,
-                    DateOpened = null,
-                    DaysUntilExpired = model.DaysUntilExpired,
-                    ExpiryDate = model.ExpiryDate,
-                    DateCreated = DateTime.Today,
-                    CreatedBy = user.UserName,
-                    DateModified = null,
-                    CatalogueCode = model.CatalogueCode
-                };
-                
-                reagent.InventoryItems.Add(inventoryItem);
-                result = repo.Create(reagent);
-            }
+            //if (model.NumberOfBottles > 1) {
+            //    for (int i = 1; i <= model.NumberOfBottles; i++) {
+            //        reagent = new StockReagent() {
+            //            LotNumber = model.LotNumber,
+            //            IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i,//append number of bottles
+            //            ReagentName = model.ReagentName,
+            //            Grade = model.Grade,
+            //            GradeAdditionalNotes = model.GradeAdditionalNotes,
+            //            DateReceived = model.DateReceived,
+            //            DateOpened = null,
+            //            DaysUntilExpired = model.DaysUntilExpired,
+            //            ExpiryDate = model.ExpiryDate,
+            //            DateCreated = DateTime.Today,
+            //            CreatedBy = user.UserName,
+            //            DateModified = null,
+            //            CatalogueCode = model.CatalogueCode
+            //        };
+
+            //        reagent.InventoryItems.Add(inventoryItem);
+            //        result = repo.Create(reagent);
+
+            //        //creation wasn't successful - break from loop and let switch statement handle the problem
+            //        if (result != CheckModelState.Valid) { break; }
+            //    }
+            //} else {
+            //    reagent = new StockReagent() {
+            //        LotNumber = model.LotNumber,
+            //        IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber,//only 1 bottle, no need to concatenate
+            //        ReagentName = model.ReagentName,
+            //        Grade = model.Grade,
+            //        GradeAdditionalNotes = model.GradeAdditionalNotes,
+            //        DateReceived = model.DateReceived,
+            //        DateOpened = null,
+            //        DaysUntilExpired = model.DaysUntilExpired,
+            //        ExpiryDate = model.ExpiryDate,
+            //        DateCreated = DateTime.Today,
+            //        CreatedBy = user.UserName,
+            //        DateModified = null,
+            //        CatalogueCode = model.CatalogueCode
+            //    };
+
+            //    reagent.InventoryItems.Add(inventoryItem);
+            //    result = repo.Create(reagent);
+            //}
 
             switch (result) {
                 case CheckModelState.Invalid:

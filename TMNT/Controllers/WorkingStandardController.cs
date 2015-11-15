@@ -71,8 +71,6 @@ namespace TMNT.Controllers {
 
             var vWorkingStandard = new WorkingStandardDetailsViewModel() {
                 WorkingStandardId = workingStandard.WorkingStandardId,
-                Replaces = workingStandard.Replaces,
-                ReplacedBy = workingStandard.ReplacedBy,
                 PrepList = workingStandard.PrepList,
                 PrepListItems = workingStandard.PrepList.PrepListItems.ToList(),
                 IdCode = workingStandard.IdCode,
@@ -276,7 +274,6 @@ namespace TMNT.Controllers {
             WorkingStandard Workingstandard = new WorkingStandard() {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
-                FinalVolume = model.FinalVolume,
                 MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
                 IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
@@ -284,9 +281,7 @@ namespace TMNT.Controllers {
                 CreatedBy = user.UserName,
                 DateCreated = DateTime.Today,
                 ExpiryDate = model.ExpiryDate,
-                DaysUntilExpired = model.DaysUntilExpired,
-                Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
-                ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
+                DaysUntilExpired = model.DaysUntilExpired
             };
 
             InventoryItem inventoryItem = new InventoryItem() {
@@ -346,8 +341,6 @@ namespace TMNT.Controllers {
 
             WorkingStandardEditViewModel model = new WorkingStandardEditViewModel() {
                 WorkingStandardId = Workingstandard.WorkingStandardId,
-                Replaces = Workingstandard.Replaces,
-                ReplacedBy = Workingstandard.ReplacedBy,
                 IdCode = Workingstandard.IdCode,
                 MaxxamId = Workingstandard.MaxxamId
             };
