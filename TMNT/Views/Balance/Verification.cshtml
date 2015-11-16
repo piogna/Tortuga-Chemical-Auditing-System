@@ -1,7 +1,7 @@
 ﻿@model TMNT.Models.ViewModels.BalanceVerificationViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Verification";
 }
 
 @section AddToHead {
@@ -18,18 +18,23 @@
             position:relative;
             border: 1px solid #cfcfcf;
             padding: 15px 0 15px 0;
-            width:25%;
             display:inline-block;
             border-top:#fff;
             background:#fff;
             margin-top:-1px;
         }
+
         .tab-unselected {
             background: #cfcfcf;
         }
 
         .weight-limit {
             height:20px;
+        }
+
+        .form-group {
+            margin-left:0 !important;
+            margin-right:0 !important;
         }
     </style>
 }
@@ -47,10 +52,6 @@
         var weightOneVal = 0, weightTwoVal = 0, weightThreeVal = 0;
         var CONST_TWO_PERCENT = 2.00;
         var numberOfTests = $('#NumberOfTestsToVerify'), numberOfDecimals = !isNaN($('#NumberOfDecimals').val()) ? parseInt($('#NumberOfDecimals').val()) : 1;
-
-        //var levelCleanOne = $('.level-clean').first();
-        //var levelCleanTwo = $('.level-clean').eq(1);
-        //var levelCleanThree = $('.level-clean').eq(2);
 
         var weightOne = $('.weight-one'), weightTwo = $('.weight-two'), weightThree = $('.weight-three');
         var message = $('#success-error-msg > ul');
@@ -259,9 +260,11 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="input-group">
-                                    <div class="input-group-addon addon-required" title="Required Field"></div>
-                                    @Html.EditorFor(model => model.CurrentLocation, new { htmlAttributes = new { @placeholder = "Location", @class = "input-summary form-control required-field no-border-radius", @readonly = "readonly" } })
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.CurrentLocation, new { htmlAttributes = new { @placeholder = "Location", @class = "input-summary form-control required-field no-border-radius", @readonly = "readonly" } })
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -286,27 +289,31 @@
                             <div class="form-group">
                                 <!-- Weight One -->
                                 <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one", @type = "number" } })
-                                        <div class="input-group-addon addon-weight">
-                                            @Html.TextBoxFor(model => model.WeightLimitOne, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required" title="Required Field"></div>
+                                            @Html.EditorFor(model => model.WeightOne, new { htmlAttributes = new { @placeholder = "Weight One", @class = "input-summary form-control weight-one", @type = "number" } })
+                                            <div class="input-group-addon addon-weight">
+                                                @Html.TextBoxFor(model => model.WeightLimitOne, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                            </div>
+                                            <a href="#" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                         </div>
-                                        <a href="#" class="no-border-radius btn btn-success weight-validate">Verify</a>
+                                        @Html.ValidationMessageFor(model => model.WeightOne)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.WeightOne)
                                 </div>
                                 <!-- Weight Two -->
                                 <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <div class="input-group-addon addon-required"></div>
-                                        @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two", @type = "number" } })
-                                        <div class="input-group-addon addon-weight">
-                                            @Html.TextBoxFor(model => model.WeightLimitTwo, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon addon-required"></div>
+                                            @Html.EditorFor(model => model.WeightTwo, new { htmlAttributes = new { @placeholder = "Weight Two", @disabled = "disabled", @class = "input-summary form-control weight-two", @type = "number" } })
+                                            <div class="input-group-addon addon-weight">
+                                                @Html.TextBoxFor(model => model.WeightLimitTwo, new { @readonly = "readonly", @class = "input-summary form-control weight-limit" })
+                                            </div>
+                                            <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
                                         </div>
-                                        <a href="#" disabled="disabled" class="no-border-radius btn btn-success weight-validate">Verify</a>
+                                        @Html.ValidationMessageFor(model => model.WeightTwo)
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.WeightTwo)
                                 </div>
                                 @if (Model.NumberOfTestsToVerify == 3) {
                                         <!-- Weight Three -->

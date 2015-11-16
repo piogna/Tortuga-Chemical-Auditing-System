@@ -38,10 +38,7 @@
         }
 
         li.search-field {
-            padding-top: 3px !important;
-            height: 32px !important;
             padding-left: 5px !important;
-            font-size: 14px !important;
         }
 
         li.search-choice {
@@ -101,8 +98,8 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.DateReceived, new { htmlAttributes = new { @placeholder = "Date Received", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
-                                        <div class="input-group-addon input-group-addon-md">Date Received</div>
+                                        @Html.EditorFor(model => model.DateReceived, new { htmlAttributes = new { @placeholder = "Click to Select Date Received", @class = "input-summary form-control required-field no-border-radius date-input", @Value = "", @type = "text" } })
+                                        @*<div class="input-group-addon input-group-addon-md">Date Received</div>*@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DateReceived)
                                 </div>
@@ -114,9 +111,9 @@
                                                 <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
                                             </div>
                                         </div>
-                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
+                                        @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Expiry Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
                                         @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden", @min = 1 } })
-                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                        @*<div class="input-group-addon input-group-addon-md">Expiry Date</div>*@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.ExpiryDate)
                                     @Html.ValidationMessageFor(model => model.DaysUntilExpired)
