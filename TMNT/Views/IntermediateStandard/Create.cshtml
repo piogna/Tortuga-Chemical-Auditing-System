@@ -281,20 +281,6 @@
                             <div class="col-md-5-5">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces", @class = "input-summary form-control" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Replaces)
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.ReplacedBy, new { htmlAttributes = new { @placeholder = "Replaced By", @class = "input-summary form-control" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.ReplacedBy)
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
                                     </div>

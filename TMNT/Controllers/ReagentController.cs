@@ -88,7 +88,8 @@ namespace TMNT.Controllers {
                 DateCreated = reagent.DateCreated,
                 CreatedBy = reagent.CreatedBy,
                 ExpiryDate = reagent.ExpiryDate,
-                DateModified = reagent.DateModified
+                DateModified = reagent.DateModified,
+                DateOpened = reagent.DateOpened
             };
 
             foreach (var invItem in reagent.InventoryItems) {

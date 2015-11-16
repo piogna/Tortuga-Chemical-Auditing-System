@@ -114,9 +114,16 @@
                 @Html.DisplayNameFor(model => model.DateOpened)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateOpened)
-            </dd>
+            @if (Model.DateOpened == null) {
+                <dd>
+                    TBD
+                    <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.DateOpened)
+                </dd>
+            }
 
             @if (Model.Replaces == null) {
                 <dt>
