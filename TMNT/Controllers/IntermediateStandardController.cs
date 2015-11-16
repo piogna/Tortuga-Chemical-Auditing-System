@@ -313,6 +313,7 @@ namespace TMNT.Controllers {
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
                 OtherUnitExplained = model.OtherUnitExplained,
+                SupplierName = "Maxxam",
                 ConcentrationOtherUnitExplained = model.ConcentrationOtherUnitExplained,
                 InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
             };

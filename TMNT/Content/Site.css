@@ -1,35 +1,6 @@
-﻿/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}*/
-
-/* Set padding to keep content from hitting the edges */
-/*.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}*/
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-/*.dl-horizontal dt {
-    white-space: normal;
-}*/
-
-/* Set width on the form input elements since they're 100% wide by default */
-/*input,
-select,
-textarea {
-    max-width: 280px;
-}*/
-
-
-/* Maxxam Media Queries */
+﻿/* Maxxam Media Queries */
 @media (max-width: 993px) {
-    .table-index tr td:not(:nth-of-type(-n+3)) {
-        display: none;
-    }
-
+    .table-index tr td:not(:nth-of-type(-n+3)),
     .table-index tr th:not(:nth-of-type(-n+3)) {
         display: none;
     }
@@ -38,30 +9,26 @@ textarea {
         display: none;
     }
 
-    .table-home tr td:nth-child(3) {
-        display: none;
-    }
-
-    .table-home tr th:nth-child(3) {
-        display: none;
-    }
-
-    .table-home tr td:nth-child(4) {
-        display: none;
-    }
-
+    .table-home tr th:nth-child(3),
+    .table-home tr td:nth-child(3),
+    .table-home tr td:nth-child(4),
     .table-home tr th:nth-child(4) {
         display: none;
     }
 
-    #table-all tr td:not(:nth-of-type(-n+2)) {
-        display: none;
-    }
-
+    #table-all tr td:not(:nth-of-type(-n+2)),
     #table-all tr th:not(:nth-of-type(-n+2)) {
         display: none;
     }
 
+    .table-balance-details tr th:nth-child(3), 
+    .table-balance-details tr td:nth-child(3),
+    .table-balance-details tr th:nth-child(4), 
+    .table-balance-details tr td:nth-child(4),
+    .table-balance-details tr th:nth-child(5), 
+    .table-balance-details tr td:nth-child(5) {
+        display:none;
+    }
 
     .table-responsive {
         overflow-x:hidden !important;
@@ -70,36 +37,18 @@ textarea {
 }
 
 @media (min-width: 993px) and (max-width: 1094px) {
-    .table-home tr td:nth-child(3) {
-        display: none;
-    }
-
-    .table-home tr th:nth-child(3) {
-        display: none;
-    }
-
-    .table-index tr td:nth-child(7) {
-        display: none;
-    }
-
-    .table-index tr th:nth-child(7) {
-        display: none;
-    }
-
-    .table-home tr td:nth-child(7) {
-        display: none;
-    }
-
+    .table-home tr td:nth-child(3),
+    .table-home tr th:nth-child(3),
+    .table-index tr td:nth-child(7),
+    .table-index tr th:nth-child(7),
+    .table-home tr td:nth-child(7),
     .table-home tr th:nth-child(7) {
         display: none;
     }
 }
 
 @media (min-width: 993px) and (max-width: 1200px) {
-    #table-all tr td:nth-child(4) {
-        display: none;
-    }
-
+    #table-all tr td:nth-child(4),
     #table-all tr th:nth-child(4) {
         display: none;
     }
@@ -165,13 +114,6 @@ textarea {
 .fix-right-col {
     margin-top:-1px;
 }
-
-/*.select2-selection .select2-selection--multiple {
-    height:35px !important;
-}
-.select2 .select2-container .select2-container--default {
-    height:35px !important;
-}*/
 
 .no-border-radius {
     border-radius: 0 !important;
