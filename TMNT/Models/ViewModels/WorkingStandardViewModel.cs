@@ -104,6 +104,10 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Safety Notes"), DataType(DataType.MultilineText)]
         public string SafetyNotes { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string ConcentrationOtherUnitExplained { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };

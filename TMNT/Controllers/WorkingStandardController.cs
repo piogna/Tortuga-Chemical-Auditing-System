@@ -111,7 +111,7 @@ namespace TMNT.Controllers {
         [Route("WorkingStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WorkingStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired")] WorkingStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "WorkingStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] WorkingStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -194,8 +194,8 @@ namespace TMNT.Controllers {
                             .Where(x => x.LotNumber.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
-                    } else if (type.Equals("Working Standard")) {
-                        var add = new WorkingStandardRepository(DbContextSingleton.Instance)
+                    } else if (type.Equals("Intermediate Standard")) {
+                        var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
                             .Get()
                             .Where(x => x.MaxxamId.Equals(lotNumber))
                             .FirstOrDefault();
@@ -211,15 +211,19 @@ namespace TMNT.Controllers {
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
                     var reagent = item as StockReagent;
-                    var invItem = reagent.InventoryItems.First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
 
                     if (invItem.StockReagent.DateOpened == null) {
                         invItem.StockReagent.DateOpened = DateTime.Today;
                     }
 
                     if (invItem.StockReagent.ExpiryDate == null) {
-                        invItem.StockReagent.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.WorkingStandard.DaysUntilExpired));
+                        invItem.StockReagent.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockReagent.DaysUntilExpired));
                     }
+
+                    invItem.StockReagent.LastModifiedBy = user.UserName;
+                    invItem.StockReagent.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
@@ -228,23 +232,27 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is StockStandard) {
                     var standard = item as StockStandard;
-                    var invItem = standard.InventoryItems.First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
 
                     if (invItem.StockStandard.DateOpened == null) {
                         invItem.StockStandard.DateOpened = DateTime.Today;
                     }
 
                     if (invItem.StockStandard.ExpiryDate == null) {
-                        invItem.StockStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.WorkingStandard.DaysUntilExpired));
+                        invItem.StockStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockStandard.DaysUntilExpired));
                     }
+
+                    invItem.StockStandard.LastModifiedBy = user.UserName;
+                    invItem.StockStandard.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
-                } else if (item is WorkingStandard) {
-                    var intStandard = item as WorkingStandard;
+                } else if (item is IntermediateStandard) {
+                    var intStandard = item as IntermediateStandard;
                     var invItem = intStandard.InventoryItems.First();
 
                     if (invItem.IntermediateStandard.DateOpened == null) {
@@ -252,12 +260,16 @@ namespace TMNT.Controllers {
                     }
 
                     if (invItem.IntermediateStandard.ExpiryDate == null) {
-                        invItem.IntermediateStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.WorkingStandard.DaysUntilExpired));
+                        invItem.IntermediateStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.IntermediateStandard.DaysUntilExpired));
                     }
+
+                    invItem.IntermediateStandard.LastModifiedBy = user.UserName;
+                    invItem.IntermediateStandard.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
-                        WorkingStandard = item as WorkingStandard,
+                        IntermediateStandard = item as IntermediateStandard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 }
@@ -274,8 +286,8 @@ namespace TMNT.Controllers {
             WorkingStandard Workingstandard = new WorkingStandard() {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
-                MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
-                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
+                MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1),// + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
+                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1),// + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
                 CreatedBy = user.UserName,
@@ -292,6 +304,8 @@ namespace TMNT.Controllers {
                 UsedFor = model.UsedFor,
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
+                OtherUnitExplained = model.OtherUnitExplained,
+                ConcentrationOtherUnitExplained = model.ConcentrationOtherUnitExplained,
                 InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits
             };
 
