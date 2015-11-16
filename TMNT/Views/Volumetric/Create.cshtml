@@ -1,61 +1,293 @@
-﻿@model TMNT.Models.Device
+﻿@model TMNT.Models.ViewModels.VolumetricCreateViewModel
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Device</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.DeviceCode, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DeviceCode, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsVerified, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsVerified)
-                    @Html.ValidationMessageFor(model => model.IsVerified, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DeviceType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DeviceType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DeviceType, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+@section AddToHead {
+    @Styles.Render("~/maxxam-forms")
+    <style>
+        .form-group {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    </style>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
+@using (Html.BeginForm("Create", "Volumetric", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    New Volumetric
+                </h1>
+                <ol class="breadcrumb">
+                    <li class="active">
+                        <i class="fa fa-dashboard"></i>@Html.ActionLink(" Dashboard", "Index", "Home") / <i class="fa fa-balance-scale"></i> New Volumetric
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <p>
+            @Html.ActionLink("Back to List", "Index", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
+        </p>
+
+        <section id="section-bar">
+            <div class="tabs tabs-style-bar">
+                <nav>
+                    <ul>
+                        <li class="section-list"><a href="#section-bar-1" class="icon icon-config"><span>Balance Info</span></a></li>
+                        <li><a href="#section-bar-2" class="icon icon-display"><span>Finalize</span></a></li>
+                    </ul>
+                </nav>
+
+                <div class="content-wrap">
+                    <section id="section-bar-1" class="section">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-md-12">
+                            @Html.Partial("_SectionHeader", "Set Location Information")
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Device Code", @class = "input-summary form-control required-field" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DeviceCode)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="location-names" name="LocationName" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Locations..</option>
+                                            @foreach (var item in Model.LocationNames) {
+                                                <option value="@item">
+                                                    @item
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.LocationName)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="department-names" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Departments..</option>
+                                            @foreach (var item in Model.Departments) {
+                                                <option value="@item.DepartmentName">
+                                                    @item.DepartmentName
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.DepartmentName)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="SubDepartmentName" disabled="disabled" name="SubDepartmentName" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Sub Departments..</option>
+                                            <optgroup class="hide opt-organics" label="Organics Sub Departments">
+                                                @foreach (var item in Model.SubDepartments) {
+                                                    if (item.DepartmentName.Equals("Organics")) {
+                                                        <option value="@item.SubDepartment">
+                                                            @item.SubDepartment
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                            <optgroup class="hide opt-inorganics" label="Inorganics Sub Departments">
+                                                @foreach (var item in Model.SubDepartments) {
+                                                    if (item.DepartmentName.Equals("Inorganics")) {
+                                                        <option value="@item.SubDepartment">
+                                                            @item.SubDepartment
+                                                        </option>
+                                                    }
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.SubDepartmentName)
+                                </div>
+                            </div>
+
+                            @Html.Partial("_SectionHeader", "Set Device Information")
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="DeviceTypes" name="VolumetricType" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Device Type..</option>
+                                            <optgroup class="opt-inorganics" label="Volumetric Device Types">
+                                                @foreach (var item in Model.DeviceTypes) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.VolumetricType)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="Categorizations" name="Categorization" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Categorization..</option>
+                                            <optgroup class="opt-inorganics" label="Categorizations">
+                                                @foreach (var item in Model.Categorizations) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Categorization)
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span id="acceptance-range">Acceptance Range: </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        <select id="Frequencies" name="Frequency" class="form-control no-border-radius required-field input-summary">
+                                            <option value="">Frequency..</option>
+                                            <optgroup class="opt-inorganics" label="Frequencies">
+                                                @foreach (var item in Model.Frequencies) {
+                                                    <option value="@item">
+                                                        @item
+                                                    </option>
+                                                }
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Frequency)
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.Volume, new { htmlAttributes = new { @placeholder = "Volume (µL)", @class = "input-summary form-control required-field" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Volume)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12" id="reagent-next-fix">
+                                    <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Next »</a>
+                                </div>
+                                <div class="col-xs-12 pull-right">
+                                    <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="section-bar-2">
+                        <div class="form-group">
+                            <div class="container">
+                                <table class="table table-bordered table-striped summary-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size:14px;"></tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <input type="button" href='#section-bar-2' value="Cancel" class="btn btn-warning previous-section" />
+                                    <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                                    <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+        @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () {
+            var locationNames = $('#location-names'), departmentNames = $('#department-names'), subDepartmentNames = $('#SubDepartmentName');
+            var optOrganics = $('.opt-organics'), optInorganics = $('.opt-inorganics');
+            var rdoGroup = $('input[name=NumberOfTestsToVerify]:radio');
+            var weightThreeLimit = $('#WeightLimitThree');
+
+            rdoGroup.on('click', function () {
+                if ($(this).val() === "2") {
+                    weightThreeLimit.attr("disabled", "disabled");
+                } else {
+                    weightThreeLimit.removeAttr("disabled");
+                    weightThreeLimit.val("");
+                }
+            });
+
+            locationNames.on('change', function () {
+                if ($(this).val()) {
+                    if (departmentNames.attr("disabled", "disabled")) {
+                        departmentNames.removeAttr("disabled");
+                    }
+                } else {
+                    if (!subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.attr("disabled", "disabled")
+                    }
+                    departmentNames.attr("disabled", "disabled");
+                }
+            });
+
+            departmentNames.on('change', function () {
+                var deptValues = $(this).val();
+
+                if ($(this).val()) {
+                    //reset
+                    subDepartmentNames.val("");
+                    switch (deptValues) {
+                        case "Organics":
+                            optOrganics.removeClass("hide");
+                            if (!optInorganics.hasClass('hide')) { optInorganics.addClass('hide'); }
+                            break;
+                        case "Inorganics":
+                            optInorganics.removeClass("hide");
+                            if (!optOrganics.hasClass('hide')) { optOrganics.addClass('hide'); }
+                            break;
+                        default:
+                            alert("Something went wrong. Refresh the page and try again. If the problem persists, contact your administrator.");
+                            break;
+                    }
+
+                    if (subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.removeAttr("disabled");
+                    } else {
+                        subDepartmentNames.attr("disabled", "disabled");
+                    }
+                } else {
+                    if (!subDepartmentNames.attr("disabled", "disabled")) {
+                        subDepartmentNames.attr("disabled", "disabled");
+                        subDepartmentNames.val("");
+                    }
+                }
+            });
+        });
+    </script>
+}

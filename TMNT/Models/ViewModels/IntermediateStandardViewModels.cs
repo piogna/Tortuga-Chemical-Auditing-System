@@ -113,6 +113,10 @@ namespace TMNT.Models.ViewModels {
         public DateTime DateCreated { get; set; }
         [Required(ErrorMessage = "{0} is Required"), Display(Name = "Safety Notes"), DataType(DataType.MultilineText)]
         public string SafetyNotes { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string OtherUnitExplained { get; set; }
+        [Display(Name = "Other Unit Follow-up")]
+        public string ConcentrationOtherUnitExplained { get; set; }
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
@@ -125,7 +129,7 @@ namespace TMNT.Models.ViewModels {
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
-        public List<string> ConcentrationUnits = new List<string>() { "mg/L", "ug/L", "ug/mL", "mg/mL", "ng/L" };
+        public List<string> ConcentrationUnits = new List<string>() { "mg/L", "µg/L", "µg/mL", "mg/mL", "ng/L" };
 
         public string[] Types { get; set; }
     }

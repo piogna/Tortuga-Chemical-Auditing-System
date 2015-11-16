@@ -126,7 +126,7 @@ namespace TMNT.Controllers {
         [Route("Standard/Create")]
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor,Quality Assurance")]
-        public ActionResult Create([Bind(Include = "StockStandardName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired")]
+        public ActionResult Create([Bind(Include = "StockStandardName,SupplierName,CatalogueCode,StorageRequirements,MSDSNotes,LotNumber,MSDSNotes,UsedFor,SolventUsed,Purity,ExpiryDate,NumberOfBottles,InitialAmount,Concentration,DateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")]
                     StockStandardCreateViewModel model, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, string submit) {
             //model isn't valid, return to the form
             if (!ModelState.IsValid) {

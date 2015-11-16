@@ -321,7 +321,7 @@
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
-                                        <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                        <select data-placeholder="Units.." name="TotalAmountUnits" id="WeightUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                             <optgroup label="Weights">
                                                 @foreach (var item in Model.WeightUnits) {
                                                     <option value="@item.UnitShorthandName">
@@ -343,11 +343,18 @@
                                     </div>
                                     @Html.ValidationMessageFor(model => model.TotalAmount)
                                 </div>
+                                <div id="other-unit-wrapper" class="form-group hide">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.OtherUnitExplained)
+                                </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
-                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="FinalConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="ConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                             <optgroup label="Units">
                                                 @foreach (var item in Model.ConcentrationUnits) {
                                                     <option value="@item">
@@ -361,6 +368,13 @@
                                         </select>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.FinalConcentration)
+                                </div>
+                                <div id="conc-other-unit-wrapper" class="form-group hide">
+                                    <div class="input-group">
+                                        <div class="input-group-addon addon-required" title="Required Field"></div>
+                                        @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.ConcentrationOtherUnitExplained)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -487,12 +501,12 @@
                 maximumSelectionLength: 2
             });
 
-            $(".Units").chosen({
-                max_selected_options: 2,
+            $("#ConcentrationUnits").chosen({
+                max_selected_options: 1,
                 placeholder: "Units.."
             });
 
-            $("#FinalConcentrationUnits").chosen({
+            $(".Units").chosen({
                 max_selected_options: 1,
                 placeholder: "Units.."
             });

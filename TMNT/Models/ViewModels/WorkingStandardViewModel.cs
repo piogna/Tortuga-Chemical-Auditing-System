@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TMNT.Models.ViewModels
-{
-    public class WorkingStandardIndexViewModel
-    {
+namespace TMNT.Models.ViewModels {
+    public class WorkingStandardIndexViewModel {
         public int WorkingStandardId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
@@ -27,8 +25,7 @@ namespace TMNT.Models.ViewModels
         public DateTime DateCreated { get; set; }
     }
 
-    public class WorkingStandardDetailsViewModel
-    {
+    public class WorkingStandardDetailsViewModel {
         public int WorkingStandardId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
@@ -65,8 +62,7 @@ namespace TMNT.Models.ViewModels
         public List<PrepListItem> PrepListItems { get; set; }
     }
 
-    public class WorkingStandardCreateViewModel
-    {
+    public class WorkingStandardCreateViewModel {
         public int WorkingStandardId { get; set; }
         [Display(Name = "Final Concentration")]
         public int FinalConcentration { get; set; }
@@ -120,12 +116,12 @@ namespace TMNT.Models.ViewModels
         public List<Unit> WeightUnits { get; set; }
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
+        public List<string> ConcentrationUnits = new List<string>() { "mg/L", "µg/L", "µg/mL", "mg/mL", "ng/L" };
 
         public string[] Types { get; set; }
     }
 
-    public class WorkingStandardPrepListsViewModel
-    {
+    public class WorkingStandardPrepListsViewModel {
         public string AmountsWithUnits { get; set; }
         public string Amount { get; set; }
         public string Unit { get; set; }
@@ -133,8 +129,7 @@ namespace TMNT.Models.ViewModels
         public string Type { get; set; }
     }
 
-    public class WorkingStandardEditViewModel
-    {
+    public class WorkingStandardEditViewModel {
         public int WorkingStandardId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
@@ -152,8 +147,7 @@ namespace TMNT.Models.ViewModels
         public string LastModifiedBy { get; set; }
     }
 
-    public class WorkingStandardPrepListItemsViewModel
-    {
+    public class WorkingStandardPrepListItemsViewModel {
         public string[] AmountsWithUnits { get; set; }
         public string[] Amounts { get; set; }
         public string[] LotNumbers { get; set; }

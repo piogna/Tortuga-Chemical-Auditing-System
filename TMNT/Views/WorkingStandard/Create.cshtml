@@ -156,38 +156,29 @@
                                                 <select name="LotNumbers" disabled="disabled" id="LotNumbers" class="type-validation input-xlarge-fuid form-control valid no-border-radius">
                                                     <option class="opt-label" value="">Select a Chemical Type First</option>
                                                     <optgroup class="opt opt-reagent" label="Reagents">
-                                                        @if (Model.StockReagents.Count == 0) {
-                                                            <option disabled="disabled" value="">No ID Codes</option>
-                                                        }
                                                         @foreach (var item in Model.StockReagents) {
                                                             if (item.StockReagent.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.LotNumber</option>
+                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode</option>
                                                             }
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-standard" label="Standards">
-                                                        @if (Model.StockStandards.Count == 0) {
-                                                            <option disabled="disabled" value="">No ID Codes</option>
-                                                        }
                                                         @foreach (var item in Model.StockStandards) {
                                                             if (item.StockStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.LotNumber</option>
+                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode</option>
                                                             }
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-int-standard" label="Intermediate Standards">
-                                                        @if (Model.IntermediateStandards.Count == 0) {
-                                                            <option disabled="disabled" value="">No ID Codes</option>
-                                                        }
                                                         @foreach (var item in Model.IntermediateStandards) {
                                                             if (item.IntermediateStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId - Expired</option>
+                                                                <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode - Expired</option>
                                                             } else {
-                                                                <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.MaxxamId</option>
+                                                                <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode</option>
                                                             }
                                                         }
                                                     </optgroup>
@@ -290,20 +281,6 @@
                             <div class="col-md-5-5">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.Replaces, new { htmlAttributes = new { @placeholder = "Replaces", @class = "input-summary form-control" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.Replaces)
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-addon"></div>
-                                        @Html.EditorFor(model => model.ReplacedBy, new { htmlAttributes = new { @placeholder = "Replaced By", @class = "input-summary form-control" } })
-                                    </div>
-                                    @Html.ValidationMessageFor(model => model.ReplacedBy)
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
                                         @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
                                     </div>
@@ -355,19 +332,12 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off" } })
-                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
-                                            <optgroup label="Weights">
-                                                @foreach (var item in Model.WeightUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
-                                                    </option>
-                                                }
-                                            </optgroup>
-                                            <optgroup label="Volumes">
-                                                @foreach (var item in Model.VolumetricUnits) {
-                                                    <option value="@item.UnitShorthandName">
-                                                        @item.UnitShorthandName
+                                        @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
+                                        <select data-placeholder="Units.." name="FinalConcentrationUnits" id="FinalConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            <optgroup label="Units">
+                                                @foreach (var item in Model.ConcentrationUnits) {
+                                                    <option value="@item">
+                                                        @item
                                                     </option>
                                                 }
                                             </optgroup>
@@ -503,6 +473,11 @@
 
             $(".Units").chosen({
                 max_selected_options: 2,
+                placeholder: "Units.."
+            });
+
+            $("#FinalConcentrationUnits").chosen({
+                max_selected_options: 1,
                 placeholder: "Units.."
             });
 

@@ -120,7 +120,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -220,7 +220,7 @@ namespace TMNT.Controllers {
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
                     var reagent = item as StockReagent;
-                    var invItem = invRepo.Get().Where(x => x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
 
                     if (invItem.StockReagent.DateOpened == null) {
                         invItem.StockReagent.DateOpened = DateTime.Today;
@@ -229,6 +229,10 @@ namespace TMNT.Controllers {
                     if (invItem.StockReagent.ExpiryDate == null) {
                         invItem.StockReagent.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockReagent.DaysUntilExpired));
                     }
+
+                    invItem.StockReagent.LastModifiedBy = user.UserName;
+                    invItem.StockReagent.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
@@ -237,7 +241,7 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is StockStandard) {
                     var standard = item as StockStandard;
-                    var invItem = invRepo.Get().Where(x => x.CatalogueCode.Equals(standard.CatalogueCode)).First();
+                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
 
                     if (invItem.StockStandard.DateOpened == null) {
                         invItem.StockStandard.DateOpened = DateTime.Today;
@@ -246,6 +250,10 @@ namespace TMNT.Controllers {
                     if (invItem.StockStandard.ExpiryDate == null) {
                         invItem.StockStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.StockStandard.DaysUntilExpired));
                     }
+
+                    invItem.StockStandard.LastModifiedBy = user.UserName;
+                    invItem.StockStandard.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
@@ -263,6 +271,10 @@ namespace TMNT.Controllers {
                     if (invItem.IntermediateStandard.ExpiryDate == null) {
                         invItem.IntermediateStandard.ExpiryDate = DateTime.Today.AddDays(Convert.ToInt32(invItem.IntermediateStandard.DaysUntilExpired));
                     }
+
+                    invItem.IntermediateStandard.LastModifiedBy = user.UserName;
+                    invItem.IntermediateStandard.DateModified = DateTime.Today;
+
                     invRepo.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
@@ -304,6 +316,8 @@ namespace TMNT.Controllers {
                 UsedFor = model.UsedFor,
                 FirstDeviceUsed = model.DeviceOne,
                 SecondDeviceUsed = model.DeviceTwo,
+                OtherUnitExplained = model.OtherUnitExplained,
+                ConcentrationOtherUnitExplained = model.ConcentrationOtherUnitExplained,
                 InitialAmount = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
             };
 

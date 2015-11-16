@@ -22,40 +22,10 @@
 </div>
 
 <p>
-    @Html.ActionLink("New Volumetric Verification", "VerificationUnspecified", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
-    @Html.ActionLink("Add New Volumetric Device", "Create", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
+    @Html.ActionLink("New Volumetric", "Create", "Volumetric", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
 
 <hr />
-
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DeviceCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsVerified)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeviceCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsVerified)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.VolumetricId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.VolumetricId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.VolumetricId })
-        </td>
-    </tr>
-}
-
-</table>*@
 
 <table id="myTable" class="table table-bordered table-striped">
     <thead>

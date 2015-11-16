@@ -113,7 +113,7 @@ namespace TMNT.Utils {
                     if (result != CheckModelState.Valid) { break; }
                 }
             } else {
-                createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber;//only 1 bottle, no need to concatenate
+                createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles;//only 1 bottle, no need to concatenate
 
                 createStandard.InventoryItems.Add(inventoryItem);
                 result = repo.Create(createStandard);

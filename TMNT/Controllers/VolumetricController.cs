@@ -68,8 +68,9 @@ namespace TMNT.Controllers {
         }
 
         // GET: Volumetric/Create
+        [Route("Volumetric/Create")]
         public ActionResult Create() {
-            return View();
+            return View(SetCreateVolumetric(new VolumetricCreateViewModel()));
         }
 
         // POST: Volumetric/Create
@@ -77,12 +78,34 @@ namespace TMNT.Controllers {
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("Volumetric/Create")]
         public ActionResult Create([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
             if (ModelState.IsValid) {
                 repo.Create(device);
                 return RedirectToAction("Index");
             }
 
+            return View(device);
+        }
+
+        [Route("Volumetric/Verification/{id?}")]
+        public ActionResult Verification(int? id) {
+            //sending all Locations to the view
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
+            var balance = repo.Get(id);
+
+            var device = new BalanceVerificationViewModel() {
+                BalanceId = balance.DeviceId,
+                Location = balance.Department.Location,
+                DeviceCode = balance.DeviceCode,
+                CurrentLocation = balance.Department.Location.LocationName,
+                LocationNames = locations,
+                NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
+                WeightLimitOne = balance.AmountLimitOne + " g",
+                WeightLimitTwo = balance.AmountLimitTwo + " g ",
+                WeightLimitThree = balance.AmountLimitThree == null ? null : balance.AmountLimitThree + " g",
+                NumberOfDecimals = balance.NumberOfDecimals
+            };
             return View(device);
         }
 
@@ -129,6 +152,22 @@ namespace TMNT.Controllers {
         public ActionResult DeleteConfirmed(int id) {
             repo.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        private VolumetricCreateViewModel SetCreateVolumetric(VolumetricCreateViewModel model) {
+            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
+            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+
+            model.LocationNames = locations.Select(item => item.LocationName).ToList();
+            model.Departments = departments
+                .Where(item => !item.DepartmentName.Equals("Quality Assurance"))
+                .GroupBy(item => item.DepartmentName)
+                .Select(item => item.First()).ToList();
+            model.SubDepartments = departments
+                .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
+                .ToList();
+
+            return model;
         }
     }
 }

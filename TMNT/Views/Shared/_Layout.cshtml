@@ -63,9 +63,9 @@
                         <li>
                             <a href="@Url.Action("ViewProfile", "Account", new { id = @HttpContext.Current.User.Identity.Name})"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li>
+                        @*<li>
                             <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
+                        </li>*@
                         <li class="divider"></li>
                         <li>
                             <a href='@Url.Action("LogOff", "Account")'><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -89,10 +89,10 @@
                                 <li>
                                     <a href="@Url.Action("Index", "Reagent")"><i class="fa fa-fw fa-flask"></i> Stock Reagents</a>
                                 </li>
-                                <li>
-                                    @*<a href='@Url.Action("Index", "PreparedReagent")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Reagents</a>*@
+                                @*<li>
+                                    <a href='@Url.Action("Index", "PreparedReagent")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Reagents</a>
                                     <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Reagents</a>
-                                </li>
+                                </li>*@
                             </ul>
                         </li>
                         <li>
@@ -101,18 +101,17 @@
                                 <li>
                                     <a href="@Url.Action("Index", "Standard")"><i class="fa fa-fw fa-flask"></i> Stock Standards</a>
                                 </li>
-                                <li>
-                                    @*<a href='@Url.Action("Index", "PreparedStandard")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Standards</a>*@
+                              @*<li>
+                                    <a href='@Url.Action("Index", "PreparedStandard")'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Standards</a>
                                     <a href='#'>&nbsp;<i class="fa fa-flask"></i>&nbsp; Prepared Standards</a>
-                                </li>
+                               </li>*@
                             </ul>
                         </li>
                         <li>
                             <a href="@Url.Action("Index", "IntermediateStandard")"><i class="fa fa-fw fa-flask"></i> Intermediate Standards</a>
                         </li>
                         <li>
-                            @*<a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>*@
-                            <a href="#"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
+                            <a href="@Url.Action("Index", "WorkingStandard")"><i class="fa fa-fw fa-flask"></i> Working Standards</a>
                         </li>
                         <!--TODO create new list item for Spiking Standards if User's Department == Organics-->
                         <li>
@@ -135,16 +134,16 @@
                                     <a href='@Url.Action("Index", "Balances")'><i class="fa fa-balance-scale"></i> Balances</a>
                                     @*<a href='#'><i class="fa fa-balance-scale"></i> Balances</a>*@
                                 </li>
-                                <li>
-                                    @*<a href='@Url.Action("Index", "SyringeTest")'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices</a>*@
+                                @*<li>
+                                    <a href='@Url.Action("Index", "SyringeTest")'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices</a>
                                     <a href='#'>&nbsp;<i class="fa fa-genderless"></i>&nbsp; Volumetric Devices</a>
-                                </li>
+                                </li>*@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li>
+                        @*<li>
                             <a href="@Url.Action("Index", "Feedback")"><i class="fa fa-fw fa-lightbulb-o"></i> Ideas</a>
-                        </li>
+                        </li>*@
                         <li>
                             <a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw fa-question-circle"></i> Help</a>
                         </li>
