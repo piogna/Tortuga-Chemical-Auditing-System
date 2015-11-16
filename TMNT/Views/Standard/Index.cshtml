@@ -77,7 +77,9 @@
                         <span class="fa fa-question-circle text-warning" title="To Be Determined"></span>
                     </td>
                 } else {
-                    @Html.DisplayFor(modelItem => item.DateOpened)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOpened)
+                    </td>
                 }
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCode)
