@@ -250,17 +250,29 @@
                 @Html.DisplayNameFor(model => model.DateModified)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateModified)
-            </dd>
+            @if (Model.DateModified == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.DateModified)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.LastModifiedBy)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.LastModifiedBy)
-            </dd>
+            @if (Model.LastModifiedBy == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.LastModifiedBy)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.UsedFor)

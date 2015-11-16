@@ -232,33 +232,57 @@
                 @Html.DisplayNameFor(model => model.DateModified)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.DateModified)
-            </dd>
+            @if (Model.DateModified == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.DateModified)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.LastModifiedBy)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.LastModifiedBy)
-            </dd>
+            @if (Model.LastModifiedBy == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.LastModifiedBy)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.Grade)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Grade)
-            </dd>
+            @if (Model.Grade == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.Grade)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.GradeAdditionalNotes)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.GradeAdditionalNotes)
-            </dd>
+            @if (Model.GradeAdditionalNotes == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.GradeAdditionalNotes)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.UsedFor)
