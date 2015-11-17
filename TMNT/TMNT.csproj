@@ -493,6 +493,7 @@
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\CapstonePublish.pubxml" />
     <None Include="Properties\PublishProfiles\MaxxamPublish.pubxml" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
