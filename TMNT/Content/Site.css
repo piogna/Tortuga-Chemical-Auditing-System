@@ -76,6 +76,10 @@
         padding: 14px 30px 14px 30px !important;
         font-size: 16px !important;
     }
+
+    .button-message-error {
+        font-size: 16px !important;
+    }
 }
 
 @media (min-width: 993px) and (max-width: 1094px) {
@@ -125,6 +129,10 @@
         padding: 14px 30px 14px 30px !important;
         font-size: 16px !important;
     }
+
+    .button-message-error {
+        font-size: 16px !important;
+    }
 }
 
 @media (min-width: 993px) and (max-width: 1200px) {
@@ -159,6 +167,10 @@
     li.search-choice {
         padding: 10px 20px 12px 15px !important;
         font-size: 15px !important;
+    }
+
+    .button-message-error {
+        font-size: 16px !important;
     }
 }
 
