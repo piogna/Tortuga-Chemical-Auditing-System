@@ -216,7 +216,7 @@ namespace TMNT.Controllers {
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
                     var reagent = item as StockReagent;
-                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
+                    var invItem = invRepo.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
 
                     if (invItem.StockReagent.DateOpened == null) {
                         invItem.StockReagent.DateOpened = DateTime.Today;
@@ -237,7 +237,7 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is StockStandard) {
                     var standard = item as StockStandard;
-                    var invItem = invRepo.Get().Where(x => x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
+                    var invItem = invRepo.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
 
                     if (invItem.StockStandard.DateOpened == null) {
                         invItem.StockStandard.DateOpened = DateTime.Today;
@@ -258,7 +258,8 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is IntermediateStandard) {
                     var intStandard = item as IntermediateStandard;
-                    var invItem = intStandard.InventoryItems.First();
+                    var invItem = invRepo.Get().Where(x => x.IntermediateStandard == intStandard).First();
+                    //var invItem = intStandard.InventoryItems.First();
 
                     if (invItem.IntermediateStandard.DateOpened == null) {
                         invItem.IntermediateStandard.DateOpened = DateTime.Today;
