@@ -427,6 +427,7 @@
     <Compile Include="Utils\DbContextSingleton.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\balance-verifications.json" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -493,6 +494,7 @@
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\json\balance-verifications.json" />
     <None Include="Properties\PublishProfiles\CapstonePublish.pubxml" />
     <None Include="Properties\PublishProfiles\MaxxamPublish.pubxml" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
@@ -637,6 +639,7 @@
     <Content Include="Views\WorkingStandard\Edit.cshtml" />
     <Content Include="Views\WorkingStandard\Index.cshtml" />
     <Content Include="Views\Reagent\Topup.cshtml" />
+    <Content Include="Views\Reports\DailyBalanceVerificationReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
