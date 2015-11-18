@@ -249,9 +249,11 @@
 
                 var text = "";
                 $.each(balanceJson.Balances, function (i, row) {
-                    text += "<tr>" +
-                                "<td>" + row.DeviceCode + "</td>" +
-                                "<td>" + row.LastVerifiedBy + "</td>";
+                    if (row.Verifications.length === 0) {
+                        text += "<tr>" +
+                                    "<td>" + row.DeviceCode + "</td>" +
+                                    "<td>" + row.LastVerifiedBy + "</td>";
+                    }
                 });
                 balanceTable.append(text);
                 return true;
