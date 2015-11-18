@@ -1,0 +1,145 @@
+﻿{
+  "Chemicals": [
+    {
+      "Type": "Reagent",
+      "Name": "Acetone",
+      "UsageCount":37,
+      "ExpiryDate":"2015-11-25",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-09-14"
+    },
+    {
+      "Type": "Standard",
+      "UsageCount":20,
+      "ExpiryDate":"2015-11-27",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2015-01-13"
+    },
+    {
+      "Type": "Intermediate Standard",
+      "UsageCount":6,
+      "ExpiryDate":"2015-11-27",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2013-07-19"
+    },
+    {
+      "Type": "Working Standard",
+      "UsageCount":15,
+      "ExpiryDate":"2015-11-28",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-02-05"
+    },
+    {
+      "Type": "Standard",
+      "UsageCount":42,
+      "ExpiryDate":"2015-11-30",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-04-21"
+    },
+    {
+      "Type": "Standard",
+      "UsageCount":29,
+      "ExpiryDate":"2015-11-30",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2013-12-21"
+    },
+    {
+      "Type": "Working Standard",
+      "UsageCount":4,
+      "ExpiryDate":"2015-12-01",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-01-25"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":12,
+      "ExpiryDate":"2015-12-02",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-05-02"
+    },
+    {
+      "Type": "Intermediate Standard",
+      "UsageCount":16,
+      "ExpiryDate":"2015-12-04",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-08-14"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":25,
+      "ExpiryDate":"2015-12-05",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-07-24"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":37,
+      "ExpiryDate":"2015-12-05",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-03-26"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":9,
+      "ExpiryDate":"2015-12-05",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-04-19"
+    },
+    {
+      "Type": "Standard",
+      "UsageCount":13,
+      "ExpiryDate":"2015-12-06",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-05-02"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":15,
+      "ExpiryDate":"2015-12-07",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-09-01"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":6,
+      "ExpiryDate":"2015-12-07",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-01-19"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":8,
+      "ExpiryDate":"2015-12-08",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2014-01-21"
+    },
+    {
+      "Type": "Standard",
+      "UsageCount":3,
+      "ExpiryDate":"2015-12-10",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2013-04-12"
+    },
+    {
+      "Type": "Reagent",
+      "UsageCount":11,
+      "ExpiryDate":"2015-12-11",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2013-11-19"
+    },
+    {
+      "Type": "Intermediate Standard",
+      "UsageCount":18,
+      "ExpiryDate":"2015-12-11",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2015-03-22"
+    },
+    {
+      "Type": "Working Standard",
+      "UsageCount":16,
+      "ExpiryDate":"2015-12-11",
+      "LotNumber":"476AB1-01",
+      "DateReceived":"2015-06-13"
+    }
+  ]
+}
