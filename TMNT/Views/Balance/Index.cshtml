@@ -41,7 +41,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.BalanceId }) |*@
                     @Html.ActionLink("Details", "Details", new { id = item.BalanceId }) |
                     @Html.ActionLink("Archive", "Delete", new { id = item.BalanceId })
                     @if (!@item.IsVerified) {
