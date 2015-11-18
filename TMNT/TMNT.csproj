@@ -641,6 +641,7 @@
     <Content Include="Views\Reagent\Topup.cshtml" />
     <Content Include="Views\Reports\DailyBalanceVerificationReport.cshtml" />
     <Content Include="Views\Reports\ReportDashboard.cshtml" />
+    <Content Include="Views\Reports\InventoryReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

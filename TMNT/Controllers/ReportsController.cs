@@ -75,6 +75,14 @@ namespace TMNT.Controllers {
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
+        [Route("Report/InventoryReport")]
+        public ActionResult InventoryReport() {
+            var user = Helpers.HelperMethods.GetCurrentUser();
+            ViewBag.User = user.FirstName + " " + user.LastName;
+
+            return View();
+        }
+
         [Route("Report/ExpiringInventoryReportInformation")]
         public ActionResult ExpiringInventoryReportInformation() {
             var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
