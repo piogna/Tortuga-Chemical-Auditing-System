@@ -1,5 +1,11 @@
 ﻿/* Maxxam Media Queries */
-@media (max-width: 993px) {
+@media screen and (max-width:767px) {
+    .navbar-top-links .dropdown-user {
+        left:0 !important;
+    }
+}
+
+@media screen and (max-width: 993px) {
     .table-index tr td:not(:nth-of-type(-n+3)),
     .table-index tr th:not(:nth-of-type(-n+3)) {
         display: none;
