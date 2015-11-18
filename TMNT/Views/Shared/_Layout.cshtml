@@ -115,17 +115,17 @@
                         </li>
                         <!--TODO create new list item for Spiking Standards if User's Department == Organics-->
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-file-text"></i> Reports<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <a href="@Url.Action("ReportDashboard", "Reports")" target="_blank"><i class="fa fa-fw fa-file-text"></i> Report Dashboard</a>
+                            @*<ul class="nav nav-second-level">
                                 <li>
                                     <a href='@Url.Action("DeviceVerificationReport", "Reports")' target="_blank">Device Verification Report</a>
-                                    @*<a href='#' target="_blank">Device Verification Report</a>*@
+                                    <a href='#' target="_blank">Device Verification Report</a>
                                 </li>
                                 <li>
-                                    @*<a href='@Url.Action("CalibrationReport", "Reports")'>Calibration Report</a>*@
+                                    <a href='@Url.Action("CalibrationReport", "Reports")'>Calibration Report</a>
                                     <a href='#'>Calibration Report</a>
                                 </li>
-                            </ul>
+                            </ul>*@
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Devices<span class="fa arrow"></span></a>

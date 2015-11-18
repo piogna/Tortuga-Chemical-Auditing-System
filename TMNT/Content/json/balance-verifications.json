@@ -1,206 +1,204 @@
 {
-  "November 19, 2015": {
-    "Balances": [
-      {
-        "DeviceCode": "PBS-01",
-        "Department": "Organics",
-        "Verifications": [
-          "Fail",
-          "Fail",
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-02",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-03",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-04",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-05",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-06",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-07",
-        "Department": "Organics",
-        "Verifications": [
-          "Fail",
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-08",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-09",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-10",
-        "Department": "Organics",
-        "Verifications": [],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-11",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-12",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-13",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-14",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-15",
-        "Department": "Organics",
-        "Verifications": [
-          "Fail",
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-16",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-17",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-18",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-19",
-        "Department": "Organics",
-        "Verifications": [],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-20",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-21",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-22",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-23",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-24",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      },
-      {
-        "DeviceCode": "PBS-25",
-        "Department": "Organics",
-        "Verifications": [
-          "Pass"
-        ],
-        "LastVerifiedBy": "drewkennedy"
-      }
-    ]
-  }
+  "Balances": [
+    {
+      "DeviceCode": "PBS-01",
+      "Department": "Organics",
+      "Verifications": [
+        "Fail",
+        "Fail",
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-02",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-03",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-04",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-05",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-06",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-07",
+      "Department": "Organics",
+      "Verifications": [
+        "Fail",
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-08",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-09",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-10",
+      "Department": "Organics",
+      "Verifications": [ ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-11",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-12",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-13",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-14",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-15",
+      "Department": "Organics",
+      "Verifications": [
+        "Fail",
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-16",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-17",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-18",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-19",
+      "Department": "Organics",
+      "Verifications": [ ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-20",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-21",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-22",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-23",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-24",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    },
+    {
+      "DeviceCode": "PBS-25",
+      "Department": "Organics",
+      "Verifications": [
+        "Pass"
+      ],
+      "LastVerifiedBy": "drewkennedy"
+    }
+  ]
 }

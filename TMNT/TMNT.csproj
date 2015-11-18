@@ -427,7 +427,6 @@
     <Compile Include="Utils\DbContextSingleton.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\balance-verifications.json" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -640,6 +639,7 @@
     <Content Include="Views\WorkingStandard\Index.cshtml" />
     <Content Include="Views\Reagent\Topup.cshtml" />
     <Content Include="Views\Reports\DailyBalanceVerificationReport.cshtml" />
+    <Content Include="Views\Reports\ReportDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

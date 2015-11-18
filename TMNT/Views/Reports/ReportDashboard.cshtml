@@ -1,0 +1,256 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Report Dashboard</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://www.flotcharts.org/flot/examples/examples.css" rel="stylesheet" type="text/css">
+    <link href="../../Content/dataTables.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: none;
+            font-size: 14px;
+        }
+
+        .demo-container {
+            border: none;
+            box-shadow: none;
+            margin: 0;
+            background: none;
+        }
+
+        .section-header {
+            background-color: #50769b;
+            margin-bottom: 15px;
+        }
+
+        .section-header-text {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .demo-container {
+            position: relative;
+            height: 300px;
+            margin: 0;
+            background: #fff;
+            border: none;
+            box-shadow: none;
+            width: 475px;
+        }
+
+        #content {
+            margin: 0;
+            width: 450px;
+            height: 325px;
+        }
+
+        #placeholder {
+            width: 450px;
+        }
+
+        .panel {
+            box-shadow: none;
+        }
+
+        .panel-heading {
+            border-bottom: 1px solid #eee;
+        }
+
+        .navbar-report {
+            background-color: #33566a;
+            border-color: #7a6a7b;
+        }
+
+        .navbar-title {
+            padding-left:10px;
+            color:#fff !important;
+            padding-bottom:5px;
+            letter-spacing:1px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-report navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+                <h3 class="navbar-title">
+                    Report Dashboard
+                </h3>
+        </div>
+        </nav>
+
+        <div class="container">
+            <div class="col-md-12 section-header">
+                <h4 class="section-header-text">Today's Balance Verification Results</h4>
+            </div>
+
+            <div class="col-md-7">
+                <div class="panel">
+                    <div class="panel-heading">
+                        Balance Verification Results
+                    </div>
+                    <div id="content">
+                        <div class="demo-container">
+                            <div id="placeholder" class="demo-placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="panel">
+                    <div class="panel-heading">
+                        Balances Not Verified Today
+                    </div>
+                    <div class="panel-body">
+                        <table id="myTable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Device Code</th>
+                                    <th>Last Verified By</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Device Code</th>
+                                    <th>Last Verified By</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-md-12">
+                <a href="@Url.Action("DailyBalanceVerificationReport")" target="_blank" class="btn btn-primary pull-right">Printable View</a>
+            </div>
+        </div>
+        <!-- Chemical Section -->
+        <div class="container">
+            <div class="col-md-12 section-header">
+                <h4 class="section-header-text">Chemical Data, Last 7 Days</h4>
+            </div>
+        </div>
+
+        <script src="~/Scripts/jquery-2.1.3.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/CustomMaxxamJS/execute-datatables.js"></script>
+        <script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
+        <script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.pie.js"></script>
+        <script>
+            $(function () {
+                var json;
+
+                function onDataReceived(data) {
+                    json = data;
+                }
+
+                //ajax call
+                var getBalanceAjaxData = $.ajax({
+                    type: "GET",
+                    url: "../../Content/json/balance-verifications.json",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: onDataReceived,
+                    error:
+                        function (xhr, status, error) {
+                            console.log("error");
+                        }
+                });
+
+                $.when(getBalanceAjaxData).done(function (x) {
+                    var placeholder = $("#placeholder"), devicesTable = $('#myTable');
+                    var passed = 0, failed = 0, notVerified = 0, tableRows = "";
+
+                    $.each(json.Balances, function (i, row) {
+                        if (row.Verifications.length == 0) {
+                            tableRows += "<tr>" +
+                                "<td>" + row.DeviceCode + "</td>" +
+                                "<td>" + row.LastVerifiedBy + "</td>"
+                            "</tr>";
+
+                            notVerified++;
+                        }
+                        $.each(row.Verifications, function (innerI, innerRow) {
+                            if (innerRow === "Pass") {
+                                passed++;
+                            } else if (innerRow === "Fail") {
+                                failed++;
+                            }
+                        })
+                    });
+
+                    devicesTable.append(tableRows);
+                    console.log("Passed: " + passed + ", Failed: " + failed + ", Other: " + notVerified);
+
+                    var data = [
+                        { label: "Passed", data: passed },
+                        { label: "Failed", data: failed },
+                        { label: "Not Verified", data: notVerified }
+                    ], series = data.length;
+
+                    $.plot(placeholder, data, {
+                        series: {
+                            pie: {
+                                show: true,
+                                radius: 3 / 4,
+                                label: {
+                                    show: true,
+                                    radius: 3 / 4,
+                                    //formatter: labelFormatter,
+                                    background: {
+                                        opacity: 0.5,
+                                        color: "#000"
+                                    }
+                                }
+                            }
+                        },
+                        legend: {
+                            show: false
+                        }
+                    });
+
+                    setCode([
+                        "$.plot('#placeholder', data, {",
+                        "    series: {",
+                        "        pie: {",
+                        "            show: true,",
+                        "            radius: 3/4,",
+                        "            label: {",
+                        "                show: true,",
+                        "                radius: 3/4,",
+                       // "                formatter: labelFormatter,",
+                        "                background: {",
+                        "                    opacity: 0.5,",
+                        "                    color: '#000'",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "    },",
+                        "    legend: {",
+                        "        show: false",
+                        "    }",
+                        "});"
+                    ]);
+                });
+            });
+        </script>
+</body>
+</html>

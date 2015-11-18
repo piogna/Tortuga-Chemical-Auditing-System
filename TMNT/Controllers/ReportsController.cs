@@ -38,8 +38,16 @@ namespace TMNT.Controllers {
             return View("CalibrationReport");
         }
 
+        [Route("ReportDashboard")]
+        public ActionResult ReportDashboard() {
+            return View();
+        }
+
         [Route("Report/DailyBalanceVerificationReport")]
         public ActionResult DailyBalanceVerificationReport() {
+            var user = Helpers.HelperMethods.GetCurrentUser();
+            ViewBag.User = user.FirstName + " " + user.LastName;
+
             return View();
         }
 
