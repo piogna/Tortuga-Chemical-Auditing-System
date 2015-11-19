@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security.Authentication;
 using System.Web;
 using System.Web.Http;
@@ -17,34 +18,39 @@ namespace TMNT {
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        //protected void Application_Error(object sender, EventArgs e) {
-        //    var exception = Server.GetLastError();
-        //    Server.ClearError();
-        //    var httpException = exception as HttpException;
+        protected void Application_Error(object sender, EventArgs e) {
+            var exception = Server.GetLastError();
 
-        //    //Logging goes here
+            using (var writer = new StreamWriter("error-log.txt")) {
+                writer.WriteLine(exception.StackTrace);
+            }
 
-        //    var routeData = new RouteData();
-        //    routeData.Values["controller"] = "Error";
-        //    routeData.Values["action"] = "Error";
+            Server.ClearError();
+            var httpException = exception as HttpException;
 
-        //    if (httpException != null) {
-        //        if (httpException.GetHttpCode() == 404) {
-        //            routeData.Values["action"] = "NotFound";
-        //        }
-        //        Response.StatusCode = httpException.GetHttpCode();
-        //    } else {
-        //        Response.StatusCode = 500;
-        //    }
+            //Logging goes here
 
-        //    // Avoid IIS7 getting involved
-        //    Response.TrySkipIisCustomErrors = true;
+            var routeData = new RouteData();
+            routeData.Values["controller"] = "Error";
+            routeData.Values["action"] = "Error";
 
-        //    // Execute the error controller
-        //    IController errorsController = new ErrorController();
-        //    HttpContextWrapper wrapper = new HttpContextWrapper(Context);
-        //    var rc = new RequestContext(wrapper, routeData);
-        //    errorsController.Execute(rc);
-        //}
+            if (httpException != null) {
+                if (httpException.GetHttpCode() == 404) {
+                    routeData.Values["action"] = "NotFound";
+                }
+                Response.StatusCode = httpException.GetHttpCode();
+            } else {
+                Response.StatusCode = 500;
+            }
+
+            // Avoid IIS7 getting involved
+            Response.TrySkipIisCustomErrors = true;
+
+            // Execute the error controller
+            IController errorsController = new ErrorController();
+            HttpContextWrapper wrapper = new HttpContextWrapper(Context);
+            var rc = new RequestContext(wrapper, routeData);
+            errorsController.Execute(rc);
+        }
     }
 }
