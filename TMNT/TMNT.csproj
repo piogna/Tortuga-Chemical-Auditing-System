@@ -588,7 +588,6 @@
     <Content Include="Views\Balance\Details.cshtml" />
     <Content Include="Views\Balance\Edit.cshtml" />
     <Content Include="Views\Balance\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />

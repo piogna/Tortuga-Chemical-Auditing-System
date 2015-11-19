@@ -40,17 +40,17 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(StockReagent t) {
-            try {
+            //try {
                 db.StockReagents.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException ex) {
+            //} catch (DataException ex) {
                 return CheckModelState.DataError;
-            } catch (Exception ex) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            //} catch (Exception ex) {
+            //    return CheckModelState.Error;
+            //}
+            //return CheckModelState.Invalid;
         }
 
         public CheckModelState Update(StockReagent t) {

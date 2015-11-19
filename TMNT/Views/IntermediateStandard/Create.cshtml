@@ -164,18 +164,18 @@
                                                     <optgroup class="opt opt-reagent" label="Reagents">
                                                         @foreach (var item in Model.StockReagents) {
                                                             if (item.StockReagent.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.ReagentName - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode</option>
+                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.ReagentName</option>
                                                             }
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-standard" label="Standards">
                                                         @foreach (var item in Model.StockStandards) {
                                                             if (item.StockStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.StockStandardName - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode</option>
+                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.StockStandardName</option>
                                                             }
                                                         }
                                                     </optgroup>
@@ -487,8 +487,8 @@
 
     <script>
         $(function () {
-            var compoundsTab = $('#compounds');
-            var solventsTab = $('#solvents');
+            //var compoundsTab = $('#compounds');
+            //var solventsTab = $('#solvents');
 
             $(".select2").select2({
                 placeholder: "Devices Used..",

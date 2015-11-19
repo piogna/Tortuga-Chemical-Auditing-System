@@ -25,16 +25,16 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(Device t) {
-            try {
+            //try {
                 db.Devices.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
+            //} catch (DataException) {
+            //    return CheckModelState.DataError;
+            //} catch (Exception) {
+            //    return CheckModelState.Error;
+            //}
             return CheckModelState.Invalid;
         }
 

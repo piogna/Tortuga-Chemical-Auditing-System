@@ -24,17 +24,17 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(DeviceVerification t) {
-            try {
+            //try {
                 db.DeviceVerifications.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException ex) {
+            //} catch (DataException ex) {
                 return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            //} catch (Exception) {
+             //   return CheckModelState.Error;
+            //}
+            //return CheckModelState.Invalid;
         }
 
         public CheckModelState Update(DeviceVerification t) {

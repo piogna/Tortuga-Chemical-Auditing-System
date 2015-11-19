@@ -29,17 +29,17 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(WorkingStandard t) {
-            try {
+            //try {
                 db.WorkingStandards.Add(t);
                 if (db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException) {
+            //} catch (DataException) {
                 return CheckModelState.Invalid;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+            //} catch (Exception) {
+            //    return CheckModelState.Error;
+            //}
+            //return CheckModelState.Invalid;
         }
 
         public CheckModelState Update(WorkingStandard t) {

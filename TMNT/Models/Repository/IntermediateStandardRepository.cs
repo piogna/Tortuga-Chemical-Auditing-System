@@ -26,16 +26,16 @@ namespace TMNT.Models.Repository {
         }
 
         public CheckModelState Create(IntermediateStandard t) {
-            try {
+            //try {
                 _db.IntermediateStandards.Add(t);
                 if (_db.SaveChanges() > 0) {
                     return CheckModelState.Valid;
                 }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
+            //} catch (DataException) {
+            //    return CheckModelState.DataError;
+            //} catch (Exception) {
+            //    return CheckModelState.Error;
+            //}
             return CheckModelState.Invalid;
         }
 

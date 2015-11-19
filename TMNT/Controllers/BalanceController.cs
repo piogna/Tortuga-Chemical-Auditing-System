@@ -47,7 +47,7 @@ namespace TMNT.Controllers {
                                     "N/A" :
                                     item.DeviceVerifications
                                         .Where(x => x.Device.Equals(item))
-                                        .OrderBy(x => x.VerifiedOn)
+                                        .OrderByDescending(x => x.VerifiedOn)
                                         .Select(x => x.User.UserName)
                                         .First()
                 });
