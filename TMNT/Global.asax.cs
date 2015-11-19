@@ -21,7 +21,7 @@ namespace TMNT {
         protected void Application_Error(object sender, EventArgs e) {
             var exception = Server.GetLastError();
 
-            using (var writer = new StreamWriter("error-log.txt")) {
+            using (var writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "App_Data\\" + "log\\" +  "logErrors.txt")) {
                 writer.WriteLine(exception.StackTrace);
             }
 
