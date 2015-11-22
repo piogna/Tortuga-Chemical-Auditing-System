@@ -8,24 +8,9 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
-
-        private static volatile InventoryItemRepository instance;
-        private static object syncRoot = new object();
+        private ApplicationDbContext db;
 
         public InventoryItemRepository() { }
-        
-        public static InventoryItemRepository InventoryItemRepositoryInstance {
-            get {
-                if (instance == null) {
-                    lock (syncRoot) {
-                        if (instance == null)
-                            instance = new InventoryItemRepository();
-                    }
-                }
-                return instance;
-            }
-        }
 
         public InventoryItemRepository(ApplicationDbContext db) {
             this.db = db;
@@ -40,44 +25,19 @@ namespace TMNT.Models.Repository {
             return db.InventoryItems.Find(i);
         }
 
-        public CheckModelState Create(InventoryItem t) {
-            try {
+        public void Create(InventoryItem t) {
                 db.InventoryItems.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (Exception ex) {
-
-            }
-            return CheckModelState.Invalid;
+                
         }
 
-        public CheckModelState Update(InventoryItem t) {
-            try {
+        public void Update(InventoryItem t) {
+            
                 db.Entry(t).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+                
         }
 
-        public CheckModelState Delete(int? i) {
-            try {
+        public void Delete(int? i) {
                 db.InventoryItems.Remove(db.InventoryItems.Find(i));//change to archive in the future?
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

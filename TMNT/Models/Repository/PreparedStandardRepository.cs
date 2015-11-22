@@ -23,46 +23,19 @@ namespace TMNT.Models.Repository {
             return db.PreparedStandard.Find(i);
         }
 
-        public CheckModelState Create(PreparedStandard t) {
-            try {
+        public void Create(PreparedStandard t) {
                 db.PreparedStandard.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
         }
 
-        public CheckModelState Update(PreparedStandard t) {
-            try {
+        public void Update(PreparedStandard t) {
                 db.Entry(t).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
         }
 
-        public CheckModelState Delete(int? i) {
-            try {
+        public void Delete(int? i) {
                 db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
         }
 
         public void Dispose() {

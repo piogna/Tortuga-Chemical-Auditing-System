@@ -5,30 +5,30 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class CertificateOfAnalysisRepository : IRepository<CertificateOfAnalysis> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public CertificateOfAnalysisRepository(ApplicationDbContext db) {
-            this.db = db;
+_db = db;
         }
 
         public CertificateOfAnalysisRepository() { }
 
         public IEnumerable<CertificateOfAnalysis> Get() {
-            return db.CertificatesOfAnalysis;
+            return _db.CertificatesOfAnalysis;
         }
 
         public CertificateOfAnalysis Get(int? i) {
-            return db.CertificatesOfAnalysis.Find(i);
+            return _db.CertificatesOfAnalysis.Find(i);
         }
-        public CheckModelState Create(CertificateOfAnalysis t) {
+        public void Create(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Update(CertificateOfAnalysis t) {
+        public void Update(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 

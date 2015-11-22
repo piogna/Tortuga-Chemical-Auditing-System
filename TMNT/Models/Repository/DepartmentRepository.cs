@@ -8,46 +8,35 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DepartmentRepository : IRepository<Department> {
-        ApplicationDbContext db = DbContextSingleton.Instance;
+        ApplicationDbContext _db;
 
         public DepartmentRepository() { }
 
         public DepartmentRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<Department> Get() {
-            return db.Departments.ToList();
+            return _db.Departments.ToList();
         }
 
         public Department Get(int? i) {
-            return db.Departments.Find(i);
+            return _db.Departments.Find(i);
         }
 
-        public CheckModelState Create(Department t) {
-            try {
-                db.Departments.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+        public void Create(Department t) {
+                _db.Departments.Add(t);
         }
 
-        public CheckModelState Update(Department t) {
+        public void Update(Department t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
         public void Dispose() {
-            db.Dispose();
         }
     }
 }

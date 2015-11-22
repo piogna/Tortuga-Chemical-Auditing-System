@@ -7,46 +7,35 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DeviceVerificationRepostory : IRepository<DeviceVerification> {
-        ApplicationDbContext db = DbContextSingleton.Instance;
+        ApplicationDbContext _db;
 
         public DeviceVerificationRepostory() { }
 
         public DeviceVerificationRepostory(ApplicationDbContext db) {
-            this.db = db;
+            _db = db;
         }
 
         public IEnumerable<DeviceVerification> Get() {
-            return db.DeviceVerifications.ToList();
+            return _db.DeviceVerifications.ToList();
         }
 
         public DeviceVerification Get(int? i) {
-            return db.DeviceVerifications.Find(i);
+            return _db.DeviceVerifications.Find(i);
         }
 
-        public CheckModelState Create(DeviceVerification t) {
-            //try {
-                db.DeviceVerifications.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            //} catch (DataException ex) {
-                return CheckModelState.DataError;
-            //} catch (Exception) {
-             //   return CheckModelState.Error;
-            //}
-            //return CheckModelState.Invalid;
+        public void Create(DeviceVerification t) {
+                _db.DeviceVerifications.Add(t);                
         }
 
-        public CheckModelState Update(DeviceVerification t) {
+        public void Update(DeviceVerification t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
         public void Dispose() {
-            db.Dispose();
         }
     }
 }

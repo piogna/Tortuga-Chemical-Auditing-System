@@ -6,36 +6,36 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db = DbContextSingleton.Instance;
 
         public DeviceRepository() { }
 
         public DeviceRepository(ApplicationDbContext db) {
-            this.db = db;
+_db = db;
         }
 
         public IEnumerable<Device> Get() {
-            return db.Devices.ToList();
+            return _db.Devices.ToList();
         }
 
         public Device Get(int? i) {
-            return db.Devices.Find(i);
+            return _db.Devices.Find(i);
         }
 
-        public CheckModelState Create(Device t) {
+        public void Create(Device t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Update(Device t) {
+        public void Update(Device t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
         public void Dispose() {
-            db.Dispose();
+            _db.Dispose();
         }
     }
 }

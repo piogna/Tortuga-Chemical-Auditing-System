@@ -9,7 +9,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class IntermediateStandardRepository : IRepository<IntermediateStandard> {
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public IntermediateStandardRepository() { }
 
@@ -25,46 +25,19 @@ namespace TMNT.Models.Repository {
             return _db.IntermediateStandards.Find(i);
         }
 
-        public CheckModelState Create(IntermediateStandard t) {
-            //try {
+        public void Create(IntermediateStandard t) {
                 _db.IntermediateStandards.Add(t);
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            //} catch (DataException) {
-            //    return CheckModelState.DataError;
-            //} catch (Exception) {
-            //    return CheckModelState.Error;
-            //}
-            return CheckModelState.Invalid;
         }
 
-        public CheckModelState Update(IntermediateStandard t) {
-            try {
+        public void Update(IntermediateStandard t) {
                 _db.Entry(t).State = EntityState.Modified;
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+                
         }
 
-        public CheckModelState Delete(int? i) {
-            try {
+        public void Delete(int? i) {
+            
                 _db.IntermediateStandards.Remove(_db.IntermediateStandards.Find(i));//change to archive in the future?
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+                
         }
 
         public void Dispose() {

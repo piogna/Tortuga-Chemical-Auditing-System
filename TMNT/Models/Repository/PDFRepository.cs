@@ -8,7 +8,7 @@ namespace TMNT.Models.Repository {
 
     public class CofARepository : IRepository<CertificateOfAnalysis> {
 
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public CofARepository() { }
 
@@ -16,21 +16,12 @@ namespace TMNT.Models.Repository {
             _db = db;
         }
 
-        public CheckModelState Create(CertificateOfAnalysis t) {
-            try {
+        public void Create(CertificateOfAnalysis t) {
                 _db.CertificatesOfAnalysis.Add(t);
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
@@ -46,14 +37,14 @@ namespace TMNT.Models.Repository {
             return _db.CertificatesOfAnalysis.Find(i);
         }
 
-        public CheckModelState Update(CertificateOfAnalysis t) {
+        public void Update(CertificateOfAnalysis t) {
             throw new NotImplementedException();
         }
     }
 
     public class MSDSRepository : IRepository<MSDS> {
 
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public MSDSRepository() { }
 
@@ -61,21 +52,11 @@ namespace TMNT.Models.Repository {
             _db = db;
         }
 
-        public CheckModelState Create(MSDS t) {
-            try {
+        public void Create(MSDS t) {
                 _db.MSDS.Add(t);
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Invalid;
-            }
-            return CheckModelState.Invalid;
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
@@ -91,7 +72,7 @@ namespace TMNT.Models.Repository {
             return _db.MSDS.Find(i);
         }
 
-        public CheckModelState Update(MSDS t) {
+        public void Update(MSDS t) {
             throw new NotImplementedException();
         }
     }

@@ -5,8 +5,12 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class LowStockRepository : IRepository<InventoryItem> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
+        public LowStockRepository(ApplicationDbContext db)
+        {
+            _db = db;
+        }
 
         public IEnumerable<InventoryItem> Get() {
             throw new NotImplementedException();
@@ -16,15 +20,15 @@ namespace TMNT.Models.Repository {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Create(InventoryItem t) {
+        public void Create(InventoryItem t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Update(InventoryItem t) {
+        public void Update(InventoryItem t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 

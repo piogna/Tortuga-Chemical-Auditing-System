@@ -8,7 +8,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class PreparedReagentRepository : IRepository<PreparedReagent> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext db;
 
         public PreparedReagentRepository() { }
         public PreparedReagentRepository(ApplicationDbContext db) {
@@ -23,46 +23,20 @@ namespace TMNT.Models.Repository {
             return db.PreparedReagent.Find(i);
         }
 
-        public CheckModelState Create(PreparedReagent t) {
-            try {
-                db.PreparedReagent.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+        public void Create(PreparedReagent t) {
+           db.PreparedReagent.Add(t);                
         }
 
-        public CheckModelState Update(PreparedReagent t) {
-            try {
+        public void Update(PreparedReagent t) {
                 db.Entry(t).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
         }
 
-        public CheckModelState Delete(int? i) {
-            try {
+        public void Delete(int? i) {
+
                 db.PreparedReagent.Remove(db.PreparedReagent.Find(i));//change to archive in the future?
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
+
+
         }
 
         public void Dispose() {

@@ -24,54 +24,17 @@ namespace TMNT.Models.Repository {
         public Device Get(int? i) {
             return db.Devices.Find(i);
         }
-        public CheckModelState Create(Device t) {
-            try {
+        public void Create(Device t) {
                 db.Devices.Add(t);
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
         }
 
-        public CheckModelState Update(Device t) {
-            try {
+        public void Update(Device t) {
                 db.Entry(t).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             var device = db.Devices.Find(i);
-
-            if (device == null) {
-                return CheckModelState.Error;
-            }
-
-            try {
-                device.IsArchived = true;
-                device.Status = "Archived";
                 db.Entry(device).State = EntityState.Modified;
-                if (db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
         }
 
         public void Dispose() {

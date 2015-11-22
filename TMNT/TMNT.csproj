@@ -398,6 +398,7 @@
     <Compile Include="Models\Repository\StockStandardApiRepository.cs" />
     <Compile Include="Models\Repository\StockReagentRepository.cs" />
     <Compile Include="Models\Repository\StockStandardRepository.cs" />
+    <Compile Include="Models\Repository\UnitOfWork.cs" />
     <Compile Include="Models\Repository\UnitRepository.cs" />
     <Compile Include="Models\Repository\VolumetricDeviceRepository.cs" />
     <Compile Include="Models\Repository\WorkingStandardRepository.cs" />

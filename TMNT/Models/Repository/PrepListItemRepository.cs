@@ -15,21 +15,11 @@ namespace TMNT.Models.Repository {
             this._db = db;
         }
 
-        public CheckModelState Create(PrepListItem t) {
-            try {
+        public void Create(PrepListItem t) {
                 _db.PrepListItems.Add(t);
-                if (_db.SaveChanges() > 0) {
-                    return CheckModelState.Valid;
-                }
-            } catch (DataException) {
-                return CheckModelState.DataError;
-            } catch (Exception) {
-                return CheckModelState.Error;
-            }
-            return CheckModelState.Invalid;
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
@@ -45,7 +35,7 @@ namespace TMNT.Models.Repository {
             return _db.PrepListItems.Find(i);
         }
 
-        public CheckModelState Update(PrepListItem t) {
+        public void Update(PrepListItem t) {
             throw new NotImplementedException();
         }
     }

@@ -23,15 +23,15 @@ namespace TMNT.Models.Repository {
             return _db.Units.Find(i);
         }
 
-        public CheckModelState Create(Unit t) {
+        public void Create(Unit t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Update(Unit t) {
+        public void Update(Unit t) {
             throw new NotImplementedException();
         }
 
-        public CheckModelState Delete(int? i) {
+        public void Delete(int? i) {
             throw new NotImplementedException();
         }
 
