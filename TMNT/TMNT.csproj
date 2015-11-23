@@ -384,6 +384,7 @@
     <Compile Include="Models\Repository\BalanceDeviceRepository.cs" />
     <Compile Include="Models\Repository\DeviceRepository.cs" />
     <Compile Include="Models\Repository\DeviceVerificationRepostory.cs" />
+    <Compile Include="Models\Repository\IUnitOfWork.cs" />
     <Compile Include="Models\Repository\LocationRepository.cs" />
     <Compile Include="Models\Repository\LowStockRepository.cs" />
     <Compile Include="Models\Repository\PreparedReagentRepository.cs" />

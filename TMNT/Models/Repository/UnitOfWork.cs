@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
+using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private ApplicationDbContext _db;
         private DeviceRepository _deviceRepository;
@@ -29,9 +33,14 @@ namespace TMNT.Models.Repository
         private VolumetricDeviceRepository _volumetricDeviceRepository;
         private WorkingStandardRepository _workingStandardRepository;
 
-        public UnitOfWork()
+        public UnitOfWork(ApplicationDbContext db)
         {
-            _db = new ApplicationDbContext();
+            _db = db;
+        }
+
+        public UnitOfWork() : this(new ApplicationDbContext())
+        {
+            
         }
 
         public DeviceRepository DeviceRepository
@@ -112,17 +121,6 @@ namespace TMNT.Models.Repository
                     _intermediateStandardRepository = new IntermediateStandardRepository(_db);
                 }
                 return _intermediateStandardRepository;
-            }
-        }
-        public InventoryItemRepository InventoryItemRepository
-        {
-            get
-            {
-                if (_inventoryItemRepository == null)
-                {
-                    _inventoryItemRepository = new InventoryItemRepository(_db);
-                }
-                return _inventoryItemRepository;
             }
         }
         public LocationRepository LocationRepository
@@ -269,13 +267,56 @@ namespace TMNT.Models.Repository
             }
         }
 
-        public void Commit()
+        public CheckModelState Commit()
         {
-            _db.SaveChanges();
+            try
+            {
+                _db.SaveChanges();
+                return CheckModelState.Valid;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return CheckModelState.ConcurrencyError;
+            }
+            catch (DbUpdateException)
+            {
+                return CheckModelState.UpdateError;
+            }
+            catch (DbEntityValidationException)
+            {
+                return CheckModelState.Invalid;
+            }
+            catch(ObjectDisposedException) 
+            {
+                return CheckModelState.Disposed;         
+            }
+            catch (DataException)
+            {
+                return CheckModelState.DataError;
+            }
+            catch (Exception)
+            {
+                return CheckModelState.Error;
+            }
         }
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
         public void Dispose()
         {
-            _db.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

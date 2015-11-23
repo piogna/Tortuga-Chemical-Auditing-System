@@ -16,13 +16,13 @@ namespace TMNT.Controllers {
     [PasswordChange]
     public class BalanceController : Controller {
 
-        private IRepository<Device> repo;
+        private UnitOfWork _uow;
         public BalanceController()
-            : this(new BalanceDeviceRepository(DbContextSingleton.Instance)) {
+            : this(new UnitOfWork()) {
         }
 
-        public BalanceController(IRepository<Device> repo) {
-            this.repo = repo;
+        public BalanceController(UnitOfWork uow) {
+            _uow = uow;
         }
 
         // GET: /ScaleTest/
@@ -30,7 +30,7 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var department = HelperMethods.GetUserDepartment();
 
-            var balances = repo.Get().Where(item => item.Department.Equals(department) && !item.IsArchived);
+            var balances = _uow.BalanceDeviceRepository.Get().Where(item => item.Department.Equals(department) && !item.IsArchived);
             var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
@@ -62,7 +62,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Device device = repo.Get(id);
+            Device device = _uow.BalanceDeviceRepository.Get(id);
 
             if (device == null) {
                 return HttpNotFound();
@@ -96,9 +96,8 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree,NumberOfTestsToVerify")] BalanceCreateViewModel balance, string submit) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                var deviceRepo = new BalanceDeviceRepository();
 
-                var doesDeviceAlreadyExist = deviceRepo.Get().Any(item => item != null && item.DeviceCode.Equals(balance.DeviceCode));
+                var doesDeviceAlreadyExist = _uow.BalanceDeviceRepository.Get().Any(item => item != null && item.DeviceCode.Equals(balance.DeviceCode));
 
                 if (doesDeviceAlreadyExist) {
                     ModelState.AddModelError("", "The Device Code provided is not unique. Please try again.");
@@ -115,10 +114,11 @@ namespace TMNT.Controllers {
                     IsVerified = false,
                     DeviceType = "Balance",
                     NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
-                    Department = new DepartmentRepository().Get().Where(item => item.DepartmentName.Equals(balance.DepartmentName) && item.SubDepartment.Equals(balance.SubDepartmentName)).First()
+                    Department = _uow.DepartmentRepository.Get().Where(item => item.DepartmentName.Equals(balance.DepartmentName) && item.SubDepartment.Equals(balance.SubDepartmentName)).First()
                 };
 
-                var result = deviceRepo.Create(device);
+                _uow.BalanceDeviceRepository.Create(device);
+                var result = _uow.Commit();
 
                 switch (result) {
                     case CheckModelState.Invalid:
@@ -149,8 +149,8 @@ namespace TMNT.Controllers {
         [Route("Balance/Verification/{id?}")]
         public ActionResult Verification(int? id) {
             //sending all Locations to the view
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
-            var balance = repo.Get(id);
+            var locations = _uow.LocationRepository.Get().Select(name => name.LocationName).ToList();
+            var balance = _uow.BalanceDeviceRepository.Get(id);
 
             var device = new BalanceVerificationViewModel() {
                 BalanceId = balance.DeviceId,
@@ -191,7 +191,7 @@ namespace TMNT.Controllers {
                 return View("Verification", SetVerificationBalance(balancetest));
             }
 
-            var balance = repo.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).First();
+            var balance = _uow.BalanceDeviceRepository.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).First();
             var result = CheckModelState.Invalid;
             var user = HelperMethods.GetCurrentUser();
             var verification = new DeviceVerification();
