@@ -13,6 +13,14 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class HomeController : Controller {
+        private UnitOfWork _uow;
+
+        public HomeController(UnitOfWork uow)
+        {
+            _uow = uow;
+        }
+
+        public HomeController() : this(new UnitOfWork()){}
 
         [Route("")]
         public ActionResult Index() {
@@ -23,12 +31,12 @@ namespace TMNT.Controllers {
 
             //quality assurance can see everything
             if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
-                inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get();
-                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && !item.IsArchived);
+                inventoryRepo = _uow.InventoryItemRepository.Get();
+                deviceRepo = _uow.DeviceRepository.Get().Where(item => !item.IsVerified && !item.IsArchived);
             } else {
-                inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+                inventoryRepo = _uow.InventoryItemRepository.Get()
                     .Where(item => item.Department == userDepartment);
-                deviceRepo = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => !item.IsVerified && item.Department == userDepartment && !item.IsArchived);
+                deviceRepo = _uow.DeviceRepository.Get().Where(item => !item.IsVerified && item.Department == userDepartment && !item.IsArchived);
             }
 
             var cofas = new CertificateOfAnalysisRepository().Get().Where(item => item.InventoryItem.Department == userDepartment).Count();

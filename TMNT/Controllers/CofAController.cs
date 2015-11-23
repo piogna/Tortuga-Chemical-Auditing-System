@@ -5,7 +5,16 @@ using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
     public class CofAController : Controller {
-        UnitOfWork _uow = new UnitOfWork();
+        private UnitOfWork _uow = new UnitOfWork();
+
+        public CofAController(UnitOfWork uow)
+        {
+            _uow = uow;
+        }
+        public CofAController() : this(new UnitOfWork())
+        {
+
+        }
 
         // GET: CofA
         [Route("CofA")]
