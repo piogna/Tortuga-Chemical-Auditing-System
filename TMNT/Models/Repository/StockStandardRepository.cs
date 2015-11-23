@@ -10,7 +10,7 @@ namespace TMNT.Models.Repository
 {
     public class StockStandardRepository : IRepository<StockStandard>
     {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext db;
 
         public StockStandardRepository() { }
 

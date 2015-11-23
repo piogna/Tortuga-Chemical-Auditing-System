@@ -26,18 +26,15 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(InventoryItem t) {
-                db.InventoryItems.Add(t);
-                
+            db.InventoryItems.Add(t);
         }
 
         public void Update(InventoryItem t) {
-            
-                db.Entry(t).State = EntityState.Modified;
-                
+            db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-                db.InventoryItems.Remove(db.InventoryItems.Find(i));//change to archive in the future?
+            db.InventoryItems.Remove(db.InventoryItems.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {
