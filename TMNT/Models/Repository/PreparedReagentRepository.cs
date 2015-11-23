@@ -24,19 +24,16 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(PreparedReagent t) {
-           db.PreparedReagent.Add(t);                
+            db.PreparedReagent.Add(t);
         }
 
         public void Update(PreparedReagent t) {
-                db.Entry(t).State = EntityState.Modified;
+            db.Entry(t).State = EntityState.Modified;
 
         }
 
         public void Delete(int? i) {
-
-                db.PreparedReagent.Remove(db.PreparedReagent.Find(i));//change to archive in the future?
-
-
+            db.PreparedReagent.Remove(db.PreparedReagent.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {

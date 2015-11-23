@@ -7,7 +7,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class LocationRepository : IRepository<Location> {
-        ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public LocationRepository() { }
 
@@ -24,8 +24,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(Location t) {
-                _db.Locations.Add(t);
-                
+            _db.Locations.Add(t);
         }
 
         public void Update(Location t) {

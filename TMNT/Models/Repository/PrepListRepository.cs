@@ -13,7 +13,7 @@ namespace TMNT.Models.Repository {
         public PrepListRepository() { }
 
         public PrepListRepository(ApplicationDbContext db) {
-_db = db;
+            _db = db;
         }
 
         public IEnumerable<PrepList> Get() {
@@ -25,8 +25,7 @@ _db = db;
         }
 
         public void Create(PrepList t) {
-                _db.PrepLists.Add(t);
-
+            _db.PrepLists.Add(t);
         }
 
         public void Update(PrepList t) {

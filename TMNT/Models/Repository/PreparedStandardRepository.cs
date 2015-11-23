@@ -7,7 +7,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class PreparedStandardRepository : IRepository<PreparedStandard> {
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext db;
 
         public PreparedStandardRepository() { }
 
@@ -24,18 +24,15 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(PreparedStandard t) {
-                db.PreparedStandard.Add(t);
-
+            db.PreparedStandard.Add(t);
         }
 
         public void Update(PreparedStandard t) {
-                db.Entry(t).State = EntityState.Modified;
-
+            db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-                db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
-
+            db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {

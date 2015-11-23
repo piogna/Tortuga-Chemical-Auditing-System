@@ -8,34 +8,34 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class StockReagentRepository : IRepository<StockReagent> {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public StockReagentRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<StockReagent> Get() {
-            return db.StockReagents.ToList();
+            return _db.StockReagents.ToList();
         }
 
         public StockReagent Get(int? i) {
-            return db.StockReagents.Find(i);
+            return _db.StockReagents.Find(i);
         }
 
         public void Create(StockReagent t) {
-                db.StockReagents.Add(t);
+            _db.StockReagents.Add(t);
         }
 
         public void Update(StockReagent t) {
-                db.Entry(t).State = EntityState.Modified;
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-                db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
+            _db.StockReagents.Remove(_db.StockReagents.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {
-            db.Dispose();
+            _db.Dispose();
         }
     }
 }

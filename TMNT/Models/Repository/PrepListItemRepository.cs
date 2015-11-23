@@ -7,7 +7,7 @@ using TMNT.Utils;
 namespace TMNT.Models.Repository {
     public class PrepListItemRepository : IRepository<PrepListItem> {
 
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public PrepListItemRepository() { }
 
@@ -16,7 +16,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(PrepListItem t) {
-                _db.PrepListItems.Add(t);
+            _db.PrepListItems.Add(t);
         }
 
         public void Delete(int? i) {

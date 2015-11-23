@@ -7,7 +7,7 @@ using TMNT.Utils;
 namespace TMNT.Models.Repository {
     /* Not using the database since units will remain static. List for better performance */
     public class UnitRepository : IRepository<Unit> {
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public UnitRepository() { }
 

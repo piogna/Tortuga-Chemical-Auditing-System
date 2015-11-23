@@ -8,7 +8,7 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DepartmentRepository : IRepository<Department> {
-        ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public DepartmentRepository() { }
 

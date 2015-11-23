@@ -8,7 +8,7 @@ namespace TMNT.Models.Repository {
         private ApplicationDbContext _db;
 
         public CertificateOfAnalysisRepository(ApplicationDbContext db) {
-_db = db;
+            _db = db;
         }
 
         public CertificateOfAnalysisRepository() { }
