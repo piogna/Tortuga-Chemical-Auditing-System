@@ -1,10 +1,11 @@
 ﻿using System.IO;
 using System.Web.Mvc;
 using TMNT.Models;
+using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
     public class CofAController : Controller {
-        ApplicationDbContext db = new ApplicationDbContext();
+        UnitOfWork _uow = new UnitOfWork();
 
         // GET: CofA
         [Route("CofA")]
@@ -14,7 +15,7 @@ namespace TMNT.Controllers {
 
         [Route("CofA/{id?}")]
         public ActionResult Get(int? id) {
-            CertificateOfAnalysis cofa = db.CertificatesOfAnalysis.Find(id);
+            CertificateOfAnalysis cofa = _uow.CofARepository.Get(id);
             MemoryStream ms = new MemoryStream(cofa.Content, 0, 0, true, true);
             Response.ContentType = cofa.ContentType;
             Response.AddHeader("content-disposition", "attachment;filename=" + cofa.FileName);
