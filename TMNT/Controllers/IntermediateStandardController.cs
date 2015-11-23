@@ -15,15 +15,14 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class IntermediateStandardController : Controller {
-        private IRepository<IntermediateStandard> repo;
+        private UnitOfWork _uow;
 
-        public IntermediateStandardController() : this(new IntermediateStandardRepository(DbContextSingleton.Instance)) {
-
+        public IntermediateStandardController(UnitOfWork uow)
+        {
+            _uow = uow;
         }
 
-        public IntermediateStandardController(IRepository<IntermediateStandard> repo) {
-            this.repo = repo;
-        }
+        public IntermediateStandardController() : this(new UnitOfWork()) { }
 
         // GET: /IntermediateStandard/
         [Route("IntermediateStandard")]
@@ -59,7 +58,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            IntermediateStandard intermediatestandard = repo.Get(id);
+            IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get(id);
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
@@ -139,7 +138,6 @@ namespace TMNT.Controllers {
             
             //setting the devices used
             var devicesUsed = Request.Form["Devices"];
-            var deviceRepo = new DeviceRepository();
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
@@ -148,10 +146,10 @@ namespace TMNT.Controllers {
             }
 
             if (devicesUsed.Contains(",")) {
-                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
-                model.DeviceTwo = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
+                model.DeviceOne = _uow.DeviceRepository.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+                model.DeviceTwo = _uow.DeviceRepository.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[1])).FirstOrDefault();
             } else {
-                model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
+                model.DeviceOne = _uow.DeviceRepository.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
             }
             //finsihed setting the devices used
 
@@ -168,11 +166,10 @@ namespace TMNT.Controllers {
             }
             //finished setting teh units to amount and concentration
 
-            var user = HelperMethods.GetCurrentUser();
-            var department = HelperMethods.GetUserDepartment();
-            var numOfItems = new InventoryItemRepository().Get().Count();
+            var user = _uow.GetCurrentUser();
+            var department = _uow.GetUserDepartment();
+            var numOfItems = _uow.InventoryItemRepository.Get().Count();
 
-            InventoryItemRepository invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
             //retrieving all table rows from recipe builder - replace with view model in the future
             IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
                 AmountsWithUnits = PrepListItemAmounts
@@ -188,19 +185,19 @@ namespace TMNT.Controllers {
             foreach (var lotNumber in prepListViewModel.LotNumbers) {
                 foreach (var type in prepListViewModel.Types) {
                     if (type.Equals("Reagent")) {
-                        var add = new StockReagentRepository(DbContextSingleton.Instance)
+                        var add = _uow.StockReagentRepository
                             .Get()
                             .Where(x => x.LotNumber.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type.Equals("Standard")) {
-                        var add = new StockStandardRepository(DbContextSingleton.Instance)
+                        var add = _uow.StockStandardRepository
                             .Get()
                             .Where(x => x.LotNumber.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     } else if (type.Equals("Intermediate Standard")) {
-                        var add = new IntermediateStandardRepository(DbContextSingleton.Instance)
+                        var add = _uow.IntermediateStandardRepository
                             .Get()
                             .Where(x => x.MaxxamId.Equals(lotNumber))
                             .FirstOrDefault();
@@ -216,7 +213,7 @@ namespace TMNT.Controllers {
             foreach (var item in reagentAndStandardContainer) {
                 if (item is StockReagent) {
                     var reagent = item as StockReagent;
-                    var invItem = invRepo.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
+                    var invItem = _uow.InventoryItemRepository.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(reagent.CatalogueCode)).First();
 
                     if (invItem.StockReagent.DateOpened == null) {
                         invItem.StockReagent.DateOpened = DateTime.Today;
@@ -229,7 +226,7 @@ namespace TMNT.Controllers {
                     invItem.StockReagent.LastModifiedBy = user.UserName;
                     invItem.StockReagent.DateModified = DateTime.Today;
 
-                    invRepo.Update(invItem);
+                    _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         StockReagent = item as StockReagent,
@@ -237,7 +234,7 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is StockStandard) {
                     var standard = item as StockStandard;
-                    var invItem = invRepo.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
+                    var invItem = _uow.InventoryItemRepository.Get().Where(x => x != null && x.CatalogueCode != null && x.CatalogueCode.Equals(standard.CatalogueCode)).First();
 
                     if (invItem.StockStandard.DateOpened == null) {
                         invItem.StockStandard.DateOpened = DateTime.Today;
@@ -250,7 +247,7 @@ namespace TMNT.Controllers {
                     invItem.StockStandard.LastModifiedBy = user.UserName;
                     invItem.StockStandard.DateModified = DateTime.Today;
 
-                    invRepo.Update(invItem);
+                    _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         StockStandard = item as StockStandard,
@@ -258,7 +255,7 @@ namespace TMNT.Controllers {
                     });
                 } else if (item is IntermediateStandard) {
                     var intStandard = item as IntermediateStandard;
-                    var invItem = invRepo.Get().Where(x => x.IntermediateStandard == intStandard).First();
+                    var invItem = _uow.InventoryItemRepository.Get().Where(x => x.IntermediateStandard == intStandard).First();
                     //var invItem = intStandard.InventoryItems.First();
 
                     if (invItem.IntermediateStandard.DateOpened == null) {
@@ -272,7 +269,7 @@ namespace TMNT.Controllers {
                     invItem.IntermediateStandard.LastModifiedBy = user.UserName;
                     invItem.IntermediateStandard.DateModified = DateTime.Today;
 
-                    invRepo.Update(invItem);
+                    _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
                         IntermediateStandard = item as IntermediateStandard,
@@ -294,7 +291,7 @@ namespace TMNT.Controllers {
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
                 FinalVolume = model.FinalVolume,
                 MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
-                IdCode = department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
+                IdCode = department.Location.LocationCode + "-" + (_uow.InventoryItemRepository.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
                 CreatedBy = user.UserName,
@@ -322,7 +319,9 @@ namespace TMNT.Controllers {
             //creating the prep list and the intermediate standard
             new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
             intermediatestandard.InventoryItems.Add(inventoryItem);
-            var result = repo.Create(intermediatestandard);
+            _uow.IntermediateStandardRepository.Create(intermediatestandard);
+
+            var result = _uow.Commit();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -358,7 +357,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntermediateStandard intermediatestandard = repo.Get(id);
+            IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get(id);
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
@@ -387,10 +386,10 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
-                InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
-                var user = HelperMethods.GetCurrentUser();
+                //InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+                var user = _uow.GetCurrentUser();
 
-                InventoryItem invItem = inventoryRepo.Get()
+                InventoryItem invItem = _uow.InventoryItemRepository.Get()
                         .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)
                         .FirstOrDefault();
 
@@ -401,9 +400,10 @@ namespace TMNT.Controllers {
                 updateStandard.ExpiryDate = intermediatestandard.ExpiryDate;
                 updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
 
-                repo.Update(updateStandard);
-                
-                inventoryRepo.Update(invItem);
+                _uow.IntermediateStandardRepository.Update(updateStandard);
+
+                _uow.InventoryItemRepository.Update(invItem);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(intermediatestandard);
@@ -415,7 +415,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            IntermediateStandard intermediatestandard = repo.Get(id);
+            IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get(id);
             if (intermediatestandard == null) {
                 return HttpNotFound();
             }
@@ -427,17 +427,18 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            IntermediateStandard intermediatestandard = repo.Get(id);
-            repo.Delete(id);
+            IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get(id);
+            _uow.IntermediateStandardRepository.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 
         private IntermediateStandardCreateViewModel SetIntermediateStandard(IntermediateStandardCreateViewModel model) {
-            var department = HelperMethods.GetUserDepartment();
-            var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
+            var department = _uow.GetUserDepartment();
+            var units = _uow.UnitRepository.Get();
+            var devices = _uow.DeviceRepository.Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
 
-            List<InventoryItem> items = new InventoryItemRepository().Get()
+            List<InventoryItem> items = _uow.InventoryItemRepository.Get()
                 .Where(item => item.Department == department)
                 .GroupBy(i => new { i.StockReagent, i.StockStandard, i.IntermediateStandard })
                 .Select(g => g.First())
@@ -454,6 +455,15 @@ namespace TMNT.Controllers {
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department && !item.IsArchived).ToList();
 
             return model;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
