@@ -27,12 +27,12 @@ namespace TMNT.Api {
         public IHttpActionResult GetDevices() {
             List<Device> devices = db.Devices.ToList();
             List<Department> departments = db.Departments.ToList();
-            foreach (var device in devices) {
-                device.DeviceVerifications = db.DeviceVerifications.Where(item => item.Device.DeviceId == device.DeviceId).ToList();
-                foreach (var department in departments) {
-                    device.Department = db.Departments.Where(item => item.DepartmentId == department.DepartmentId).First();
-                }
-            }
+            //foreach (var device in devices) {
+            //    device.DeviceVerifications = db.DeviceVerifications.Where(item => item.Device.DeviceId == device.DeviceId).ToList();
+            //    foreach (var department in departments) {
+            //        device.Department = db.Departments.Where(item => item.DepartmentId == department.DepartmentId).First();
+            //    }
+            //}
 
             if (devices == null) {
                 return NotFound();

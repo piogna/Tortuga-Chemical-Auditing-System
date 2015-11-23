@@ -19,7 +19,6 @@ namespace TMNT.Controllers {
 
         public WorkingStandardController()
             : this(new UnitOfWork()) {
-
         }
 
         public WorkingStandardController(UnitOfWork uow) {
@@ -101,10 +100,7 @@ namespace TMNT.Controllers {
         [Route("WorkingStandard/Create")]
         // GET: /WorkingStandard/Create
         public ActionResult Create() {
-            var model = new WorkingStandardCreateViewModel();
-            SetWorkingStandard(model);
-            this.Dispose();
-            return View(model);
+            return View(SetWorkingStandard(new WorkingStandardCreateViewModel()));
         }
 
         // POST: /WorkingStandard/Create
@@ -118,20 +114,17 @@ namespace TMNT.Controllers {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
                 ModelState.AddModelError("", "The creation of the Working Standard failed. Make sure the Prep List table is complete.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
             //if all 3 arrays are not of equal length, return to view with an error message
             if (!(PrepListItemAmounts.Length == PrepListItemLotNumbers.Length) || !(PrepListItemLotNumbers.Length == PrepListItemTypes.Length)) {
                 ModelState.AddModelError("", "The creation of the Working Standard failed. Make sure the Prep List table is complete.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             //setting the devices used
@@ -140,8 +133,7 @@ namespace TMNT.Controllers {
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             if (devicesUsed.Contains(",")) {
@@ -324,16 +316,13 @@ namespace TMNT.Controllers {
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + Workingstandard.IdCode + " failed. Please double check all inputs and try again.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.Valid:
                     if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                         //save pressed
@@ -344,8 +333,7 @@ namespace TMNT.Controllers {
                     }
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
             }
         }
 
@@ -451,6 +439,7 @@ namespace TMNT.Controllers {
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department).ToList();
 
+            _uow.Dispose();
             return model;
         }
 

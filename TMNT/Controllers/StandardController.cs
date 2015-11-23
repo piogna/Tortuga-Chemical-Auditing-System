@@ -17,13 +17,13 @@ namespace TMNT.Controllers {
     [PasswordChange]
     public class StandardController : Controller {
 
-        private IRepository<StockStandard> repo;
+        private UnitOfWork _uow;
         public StandardController()
-            : this(new StockStandardRepository(DbContextSingleton.Instance)) {
+            : this(new UnitOfWork()) {
         }
 
-        public StandardController(IRepository<StockStandard> repoStandard) {
-            repo = repoStandard;
+        public StandardController(UnitOfWork uow) {
+            this._uow = uow;
         }
 
         [Route("Standard")]
@@ -31,15 +31,15 @@ namespace TMNT.Controllers {
         public ActionResult Index() {
             var userDepartment = HelperMethods.GetUserDepartment();
             List<StockStandardIndexViewModel> lStandards = new List<StockStandardIndexViewModel>();
-            List<InventoryItem> invRepo = null;
+            List<InventoryItem> inventoryItems = null;
 
             if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
-                invRepo = new InventoryItemRepository().Get().ToList();
+                inventoryItems = _uow.InventoryItemRepository.Get().ToList();
             } else {
-                invRepo = new InventoryItemRepository().Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+                inventoryItems = _uow.InventoryItemRepository.Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
             }
 
-            foreach (var item in invRepo) {
+            foreach (var item in inventoryItems) {
                 if (item.StockStandard != null) {
                     lStandards.Add(new StockStandardIndexViewModel() {
                         StockStandardId = item.StockStandard.StockStandardId,
@@ -56,6 +56,7 @@ namespace TMNT.Controllers {
                     });
                 }
             }
+            this.Dispose();
             return View(lStandards);
         }
 
@@ -66,7 +67,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockStandard standard = repo.Get(id);
+            StockStandard standard = _uow.StockStandardRepository.Get(id);
 
             if (standard == null) {
                 return HttpNotFound("The standard requested does not exist.");
@@ -109,6 +110,7 @@ namespace TMNT.Controllers {
                     vStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
+            this.Dispose();
             return View(vStandard);
         }
 
@@ -134,8 +136,10 @@ namespace TMNT.Controllers {
                 return View(SetStockStandard(model));
             }
 
+            var inventoryRepository = _uow.InventoryItemRepository;
+
             //catalogue code must be unique - let's verify
-            bool doesCatalogueCodeExist = new InventoryItemRepository().Get()
+            bool doesCatalogueCodeExist = inventoryRepository.Get()
                 .Any(item => item.CatalogueCode != null && item.CatalogueCode.Equals(model.CatalogueCode));
 
             if (doesCatalogueCodeExist) {
@@ -146,7 +150,7 @@ namespace TMNT.Controllers {
             var devicesUsed = Request.Form["Devices"];
             var user = HelperMethods.GetCurrentUser();
             var department = HelperMethods.GetUserDepartment();
-            var numOfItems = new InventoryItemRepository().Get().Count();
+            var numOfItems = inventoryRepository.Get().Count();
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
@@ -158,6 +162,8 @@ namespace TMNT.Controllers {
 
             StockStandard createStandard = null;
             CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department, user.UserName);
+
+            this.Dispose();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -191,7 +197,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockStandard stockstandard = repo.Get(id);
+            StockStandard stockstandard = _uow.StockStandardRepository.Get(id);
 
             if (stockstandard == null) {
                 return HttpNotFound();
@@ -211,6 +217,8 @@ namespace TMNT.Controllers {
             foreach (var item in stockstandard.InventoryItems) {
                 model.SupplierName = item.SupplierName;
             }
+
+            this.Dispose();
             return View(model);
         }
 
@@ -224,7 +232,7 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "LotNumber,StockStandardId,ExpiryDate,IdCode,SupplierName,StockStandardName")] StockStandardEditViewModel stockstandard, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-                InventoryItemRepository inventoryRepo = new InventoryItemRepository();
+                InventoryItemRepository inventoryRepo = _uow.InventoryItemRepository;
                 var user = HelperMethods.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
@@ -239,7 +247,8 @@ namespace TMNT.Controllers {
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = stockstandard.ExpiryDate;
 
-                repo.Update(updateStandard);
+                _uow.StockStandardRepository.Update(updateStandard);
+                _uow.Commit();
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -279,13 +288,17 @@ namespace TMNT.Controllers {
                     oldSDS.DateAdded = DateTime.Today;
 
                     msdsRepo.Update(oldSDS);
+                    _uow.Commit();
                 }
 
                 invItem.SupplierName = stockstandard.SupplierName;
                 inventoryRepo.Update(invItem);
+                _uow.Commit();
+                this.Dispose();
 
                 return RedirectToAction("Details", new { id = stockstandard.StockStandardId });
             }
+            this.Dispose();
             return View(stockstandard);
         }
 
@@ -296,7 +309,8 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockStandard stockstandard = repo.Get(id);
+            StockStandard stockstandard = _uow.StockStandardRepository.Get(id);
+            this.Dispose();
             if (stockstandard == null) {
                 return HttpNotFound();
             }
@@ -309,13 +323,13 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult DeleteConfirmed(int id) {
-            repo.Delete(id);
+            _uow.StockStandardRepository.Delete(id);
             return RedirectToAction("Index");
         }
 
         private StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
-            var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
+            var units = _uow.UnitRepository.Get();
+            var devices = _uow.DeviceRepository.Get().ToList();
             var userDepartment = HelperMethods.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
@@ -323,7 +337,15 @@ namespace TMNT.Controllers {
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
 
+            this.Dispose();
             return model;
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

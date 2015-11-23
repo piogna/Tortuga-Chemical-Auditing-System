@@ -1,6 +1,5 @@
 ﻿$(function () {
-    var table = $('table');
-    var datatable = "";
+    var table = $('table'), datatable = "";
 
     for (var i = 0; i < table.length; i++) {
         if (table[i].id == "myTable") {
