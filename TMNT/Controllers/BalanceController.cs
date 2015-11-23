@@ -209,7 +209,8 @@ namespace TMNT.Controllers {
                     User = user
                 };
 
-                result = new DeviceVerificationRepostory().Create(verification);
+                _uow.DeviceVerificationRepostory.Create(verification);
+                result = _uow.Commit();
 
                 if (result != CheckModelState.Valid) {
                     //writing to db didn't work, break from loop
@@ -232,7 +233,7 @@ namespace TMNT.Controllers {
                 case CheckModelState.Valid:
                     balance.IsVerified = verification.DidTestPass;
                     balance.Status = "In Good Standing";
-                    repo.Update(balance);
+                    _uow.BalanceDeviceRepository.Update(balance);
                     //save pressed
                     return RedirectToAction("Index");
                 default:
@@ -247,7 +248,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = repo.Get(id);
+            Device device = _uow.BalanceDeviceRepository.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -262,7 +263,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DeviceTestId")] Device device) {
             if (ModelState.IsValid) {
-                repo.Update(device);
+                _uow.BalanceDeviceRepository.Update(device);
                 return RedirectToAction("Index");
             }
             return View(device);
@@ -274,7 +275,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = repo.Get(id);
+            Device device = _uow.BalanceDeviceRepository.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -291,8 +292,9 @@ namespace TMNT.Controllers {
                 return RedirectToAction("Index");
             }
 
-            var device = repo.Get(id);
-            var result = repo.Delete(id);
+            var device = _uow.BalanceDeviceRepository.Get(id);
+            _uow.BalanceDeviceRepository.Delete(id);
+            var result = _uow.Commit();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -314,8 +316,8 @@ namespace TMNT.Controllers {
         }
 
         private BalanceCreateViewModel SetCreateBalance(BalanceCreateViewModel model) {
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
-            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+            var locations = _uow.LocationRepository.Get();
+            var departments = _uow.DepartmentRepository.Get();
 
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Departments = departments
@@ -325,15 +327,15 @@ namespace TMNT.Controllers {
             model.SubDepartments = departments
                 .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
                 .ToList();
-            model.WeightUnits = new UnitRepository().Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
+            model.WeightUnits = _uow.UnitRepository.Get().Where(item => item.UnitType.Equals("Weight")).Select(item => item.UnitShorthandName).ToList();
 
             return model;
         }
 
         private BalanceVerificationViewModel SetVerificationBalance(BalanceVerificationViewModel model) {
             //TODO use in post method of verification
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
-            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+            var locations = _uow.LocationRepository.Get();
+            var departments = _uow.DepartmentRepository.Get(); ;
             
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Department = departments.Where(item => item.DepartmentId == model.Department.DepartmentId).First();
