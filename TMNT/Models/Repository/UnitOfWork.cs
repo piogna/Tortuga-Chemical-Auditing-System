@@ -255,7 +255,7 @@ namespace TMNT.Models.Repository
                 return _volumetricDeviceRepository;
             }
         }
-        public WorkingStandardRepository workingStandardRepository
+        public WorkingStandardRepository WorkingStandardRepository
         {
             get
             {
