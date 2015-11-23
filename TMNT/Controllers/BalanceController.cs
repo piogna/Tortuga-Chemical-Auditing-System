@@ -345,5 +345,14 @@ namespace TMNT.Controllers {
 
             return model;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
