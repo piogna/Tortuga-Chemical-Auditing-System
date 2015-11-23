@@ -426,6 +426,7 @@ namespace TMNT.Controllers {
         public ActionResult DeleteConfirmed(int id) {
             WorkingStandard Workingstandard = _uow.WorkingStandardRepository.Get(id);
             _uow.WorkingStandardRepository.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 

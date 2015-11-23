@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
@@ -12,6 +14,7 @@ namespace TMNT.Models.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private ApplicationDbContext _db;
+        private UserManager<ApplicationUser> usrManager;
         private DeviceRepository _deviceRepository;
         private InventoryItemRepository _inventoryItemRepository;
         private BalanceDeviceRepository _balanceDeviceRepository;
@@ -299,6 +302,38 @@ namespace TMNT.Models.Repository
                 return CheckModelState.Error;
             }
         }
+
+        #region UserHelperMethods
+        private UserManager<ApplicationUser> UserManager
+        {
+            get
+            {
+                return usrManager ?? new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_db));
+            }
+            set
+            {
+                usrManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_db));
+            }
+        }
+
+        public ApplicationUser GetCurrentUser()
+        {
+            return UserManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+        }
+
+        public Department GetUserDepartment()
+        {
+            var user = UserManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            return user.Department != null ? user.Department : null;
+        }
+
+        public List<string> GetUserRoles()
+        {
+            var user = UserManager.FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            return UserManager.GetRoles(user.Id) as List<string>;
+        }
+
+        #endregion
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)

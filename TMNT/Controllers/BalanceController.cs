@@ -264,6 +264,7 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "DeviceTestId")] Device device) {
             if (ModelState.IsValid) {
                 _uow.BalanceDeviceRepository.Update(device);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(device);

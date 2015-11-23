@@ -24,8 +24,8 @@ namespace TMNT.Controllers {
 
         [Route("")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
-            var user = HelperMethods.GetCurrentUser();
+            var userDepartment = _uow.GetUserDepartment();
+            var user = _uow.GetCurrentUser();
             IEnumerable<InventoryItem> inventoryRepo = null;
             IEnumerable<Device> deviceRepo = null;
 
@@ -39,7 +39,7 @@ namespace TMNT.Controllers {
                 deviceRepo = _uow.DeviceRepository.Get().Where(item => !item.IsVerified && item.Department == userDepartment && !item.IsArchived);
             }
 
-            var cofas = new CertificateOfAnalysisRepository().Get().Where(item => item.InventoryItem.Department == userDepartment).Count();
+            var cofas = _uow.CertificateOfAnalysisRepository.Get().Where(item => item.InventoryItem.Department == userDepartment).Count();
 
             if (userDepartment == null) {
                 ModelState.AddModelError("", "User is not designated a department");
@@ -61,7 +61,7 @@ namespace TMNT.Controllers {
                 PendingVerificationCount = deviceRepo.Count(),
                 DepartmentName = userDepartment.DepartmentName,
                 SubDepartment = userDepartment.SubDepartment,
-                Role = HelperMethods.GetUserRoles().First(),
+                Role = _uow.GetUserRoles().First(),
                 LocationName = userDepartment.Location.LocationName,
                 Name = user.FirstName + " " + user.LastName
             };
