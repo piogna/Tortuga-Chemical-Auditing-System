@@ -17,8 +17,7 @@ namespace TMNT.Controllers {
     public class IntermediateStandardController : Controller {
         private UnitOfWork _uow;
 
-        public IntermediateStandardController(UnitOfWork uow)
-        {
+        public IntermediateStandardController(UnitOfWork uow) {
             _uow = uow;
         }
 
@@ -30,10 +29,10 @@ namespace TMNT.Controllers {
             var userDepartment = HelperMethods.GetUserDepartment();
             List<IntermediateStandardIndexViewModel> lIntStandards = new List<IntermediateStandardIndexViewModel>();
 
-            var invRepo = new InventoryItemRepository().Get()
-                .Where(item => item.Type.Equals("Intermediate Standard"))
+            var invRepo = _uow.InventoryItemRepository.Get()
+                .Where(item => item.IntermediateStandard != null)
                 .ToList();
-            
+
             foreach (var item in invRepo) {
                 if (item.IntermediateStandard != null && item.Department == userDepartment) {
                     lIntStandards.Add(new IntermediateStandardIndexViewModel() {
@@ -48,6 +47,7 @@ namespace TMNT.Controllers {
                     });
                 }
             }
+            this.Dispose();
             return View(lIntStandards);
         }
 
@@ -97,6 +97,7 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
+            this.Dispose();
             return View(vIntermediateStandard);
         }
 
@@ -124,7 +125,7 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            if (PrepListItemTypes == null || PrepListItemAmounts == null ||  PrepListItemLotNumbers == null) {
+            if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
                 ModelState.AddModelError("", "The creation of the Intermediate Standard failed. Make sure the Prep List table is complete.");
                 SetIntermediateStandard(model);
                 return View(model);
@@ -135,7 +136,7 @@ namespace TMNT.Controllers {
                 SetIntermediateStandard(model);
                 return View(model);
             }
-            
+
             //setting the devices used
             var devicesUsed = Request.Form["Devices"];
 
@@ -174,7 +175,7 @@ namespace TMNT.Controllers {
             IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
                 AmountsWithUnits = PrepListItemAmounts
             };
-            
+
             prepListViewModel.LotNumbers = PrepListItemLotNumbers;
             prepListViewModel.Types = PrepListItemTypes;
 
@@ -229,7 +230,7 @@ namespace TMNT.Controllers {
                     _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
-                        StockReagent = item as StockReagent,
+                        StockReagent = reagent,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is StockStandard) {
@@ -250,7 +251,7 @@ namespace TMNT.Controllers {
                     _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
-                        StockStandard = item as StockStandard,
+                        StockStandard = standard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 } else if (item is IntermediateStandard) {
@@ -272,7 +273,7 @@ namespace TMNT.Controllers {
                     _uow.InventoryItemRepository.Update(invItem);
 
                     prepItems.Add(new PrepListItem() {
-                        IntermediateStandard = item as IntermediateStandard,
+                        IntermediateStandard = intStandard,
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 }
@@ -325,7 +326,7 @@ namespace TMNT.Controllers {
 
             switch (result) {
                 case CheckModelState.Invalid:
-                    ModelState.AddModelError("", "The creation of " +  intermediatestandard.IdCode + " failed. Please double check all inputs and try again.");
+                    ModelState.AddModelError("", "The creation of " + intermediatestandard.IdCode + " failed. Please double check all inputs and try again.");
                     SetIntermediateStandard(model);
                     return View(model);
                 case CheckModelState.DataError:
@@ -453,14 +454,13 @@ namespace TMNT.Controllers {
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department && !item.IsArchived).ToList();
+            this.Dispose();
 
             return model;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 _uow.Dispose();
             }
             base.Dispose(disposing);
