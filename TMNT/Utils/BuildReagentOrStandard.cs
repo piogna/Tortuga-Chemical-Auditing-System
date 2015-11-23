@@ -8,6 +8,7 @@ using TMNT.Models.ViewModels;
 
 namespace TMNT.Utils {
     public static class BuildReagentOrStandard {
+        private static UnitOfWork _uow = new UnitOfWork();
 
         /* Standard Code */
         public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
@@ -107,7 +108,8 @@ namespace TMNT.Utils {
                     createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
 
                     createStandard.InventoryItems.Add(inventoryItem);
-                    result = repo.Create(createStandard);
+                    repo.Create(createStandard);
+                    result = _uow.Commit();
 
                     //creation wasn't successful - break from loop and let switch statement handle the problem
                     if (result != CheckModelState.Valid) { break; }
@@ -116,7 +118,8 @@ namespace TMNT.Utils {
                 createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles;//only 1 bottle, no need to concatenate
 
                 createStandard.InventoryItems.Add(inventoryItem);
-                result = repo.Create(createStandard);
+                repo.Create(createStandard);
+                result = _uow.Commit();
             }
             return result;
         }
