@@ -53,7 +53,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-            this.Dispose();
             return View(lReagents);
         }
 
@@ -112,7 +111,6 @@ namespace TMNT.Controllers {
                     vReagent.DeviceTwo = invItem.SecondDeviceUsed == null ? null : deviceRepo.Get().Where(item => item == invItem.SecondDeviceUsed).First();
                 }
             }
-            this.Dispose();
             return View(vReagent);
         }
 
@@ -286,7 +284,6 @@ namespace TMNT.Controllers {
             //    result = repo.Create(reagent);
             //}
 
-            this.Dispose();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -361,7 +358,6 @@ namespace TMNT.Controllers {
                     vReagent.InitialAmount = invItem.InitialAmount == null ? invItem.InitialAmount = "N/A" : invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
                 }
             }
-            this.Dispose();
             return View(vReagent);
         }
 
@@ -485,7 +481,6 @@ namespace TMNT.Controllers {
                 result = _uow.Commit();
             }
 
-            this.Dispose();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -535,7 +530,6 @@ namespace TMNT.Controllers {
             foreach (var item in stockreagent.InventoryItems) {
                 model.SupplierName = item.SupplierName;
             }
-            this.Dispose();
             return View(model);
         }
 
@@ -606,13 +600,11 @@ namespace TMNT.Controllers {
                     oldSDS.DateAdded = DateTime.Today;
 
                     msdsRepo.Update(oldSDS);
-                    _uow.Dispose();
                 }
 
                 invItem.SupplierName = stockreagent.SupplierName;
                 invRepo.Update(invItem);
                 _uow.Commit();
-                _uow.Dispose();
                 return RedirectToAction("Details", new { id = stockreagent.ReagentId });
             }
             return View(stockreagent);
@@ -628,12 +620,10 @@ namespace TMNT.Controllers {
             StockReagent stockreagent = _uow.StockReagentRepository.Get(id);
 
             if (stockreagent == null) {
-                _uow.Dispose();
                 return HttpNotFound();
             }
 
             _uow.Commit();
-            _uow.Dispose();
             return View(stockreagent);
         }
 
@@ -645,7 +635,6 @@ namespace TMNT.Controllers {
         public ActionResult DeleteConfirmed(int id) {
             _uow.StockReagentRepository.Delete(id);
             _uow.Commit();
-            _uow.Dispose();
             return RedirectToAction("Index");
         }
 
@@ -658,7 +647,6 @@ namespace TMNT.Controllers {
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();
-            _uow.Dispose();
 
             return model;
         }
@@ -702,8 +690,14 @@ namespace TMNT.Controllers {
                     vReagent.InitialAmount = invItem.InitialAmount == null ? invItem.InitialAmount = "N/A" : invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
                 }
             }
-            _uow.Dispose();
             return model;
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

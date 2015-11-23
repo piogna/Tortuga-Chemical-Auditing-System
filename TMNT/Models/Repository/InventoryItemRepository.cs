@@ -17,8 +17,7 @@ namespace TMNT.Models.Repository {
         }
 
         public IEnumerable<InventoryItem> Get() {
-            var list = db.InventoryItems.ToList();
-            return list;
+            return db.InventoryItems.ToList();;
         }
 
         public InventoryItem Get(int? i) {
