@@ -8,7 +8,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class BalanceDeviceRepository : IRepository<Device> {
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public BalanceDeviceRepository() { }
 

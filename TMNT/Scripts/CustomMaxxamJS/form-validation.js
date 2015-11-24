@@ -3,16 +3,10 @@
    Created By: Tortuga
 */
 $(function () {
-    var requiredField = $('.required-field:not([type=hidden])');
-    var requiredFieldSectionTwo = $('.required-field-s2');
-    var btnNext = $('.btn-next');
-    var btnReview = $('.btn-review');
-    var buttonMessage = $('#button-message');
-    var buttonMessageSectionTwo = $('#button-message-s2');
-    var formIsValid = true;
-
-    var otherUnitWrapper = $("#other-unit-wrapper");
-    var otherUnitExplained = $("#OtherUnitExplained");
+    var requiredField = $('.required-field:not([type=hidden])'), requiredFieldSectionTwo = $('.required-field-s2'),
+    btnNext = $('.btn-next'), btnReview = $('.btn-review'), buttonMessage = $('#button-message'), buttonMessageSectionTwo = $('#button-message-s2'),
+    formIsValid = true,
+    otherUnitWrapper = $("#other-unit-wrapper"), otherUnitExplained = $("#OtherUnitExplained");
 
     $('#WeightUnits').on('change', function () {
         var options = $(this).find(":selected");
@@ -33,8 +27,7 @@ $(function () {
         });
     });
 
-    var concOtherUnitWrapper = $('#conc-other-unit-wrapper');
-    var concOtherUnitExplained = $("#ConcentrationOtherUnitExplained");
+    var concOtherUnitWrapper = $('#conc-other-unit-wrapper'), concOtherUnitExplained = $("#ConcentrationOtherUnitExplained");
 
     $('#ConcentrationUnits').on('change', function () {
         var options = $(this).find(":selected");

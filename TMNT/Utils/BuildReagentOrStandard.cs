@@ -10,8 +10,9 @@ namespace TMNT.Utils {
     public static class BuildReagentOrStandard {
 
         /* Standard Code */
-        public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            var deviceRepo = new BalanceDeviceRepository();
+        public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, 
+                HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, UnitOfWork _uow) {
+            var deviceRepo = _uow.BalanceDeviceRepository;
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             if (devicesUsed.Contains(",")) {
@@ -82,9 +83,10 @@ namespace TMNT.Utils {
             return inventoryItem;
         }
 
-        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, Department department, string user) {
+        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, 
+                Department department, string user, UnitOfWork _uow) {
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
-            StockStandardRepository repo = new StockStandardRepository(DbContextSingleton.Instance);
+            var repo = _uow.StockStandardRepository;
 
             StockStandard createStandard = new StockStandard() {
                 LotNumber = model.LotNumber,
@@ -99,7 +101,7 @@ namespace TMNT.Utils {
                 ExpiryDate = model.ExpiryDate,
                 CreatedBy = user,
                 DateModified = null,
-                CatalogueCode = model.CatalogueCode
+                CatalogueCode = model.CatalogueCode.ToUpper()
             };
 
             if (model.NumberOfBottles > 1) {
@@ -107,7 +109,8 @@ namespace TMNT.Utils {
                     createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
 
                     createStandard.InventoryItems.Add(inventoryItem);
-                    result = repo.Create(createStandard);
+                    repo.Create(createStandard);
+                    result = _uow.Commit();
 
                     //creation wasn't successful - break from loop and let switch statement handle the problem
                     if (result != CheckModelState.Valid) { break; }
@@ -116,7 +119,8 @@ namespace TMNT.Utils {
                 createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles;//only 1 bottle, no need to concatenate
 
                 createStandard.InventoryItems.Add(inventoryItem);
-                result = repo.Create(createStandard);
+                repo.Create(createStandard);
+                result = _uow.Commit();
             }
             return result;
         }

@@ -8,10 +8,13 @@ using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
 using System.Collections.Generic;
+using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
     [Authorize]
     public class ManageController : Controller {
+        private UnitOfWork _uow;
+
         public ManageController() {
         }
 
@@ -235,7 +238,7 @@ namespace TMNT.Controllers {
 
             if (model.OldPassword.Equals(model.NewPassword)) {
                 TempData["Error"] = new string[] { "The new password is not valid. Please choose another one." };
-                return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+                return RedirectToAction("ViewProfile", "Account", new { id = _uow.GetCurrentUser().UserName });
             }
 
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
@@ -250,7 +253,7 @@ namespace TMNT.Controllers {
                     if (user != null) {
                         await SignInAsync(user, isPersistent: false);
                     }
-                    
+
                     TempData["Success"] = "Password successfully changed!";
                     return RedirectToAction("ViewProfile", "Account", new { id = user.UserName });
                 }
@@ -258,7 +261,7 @@ namespace TMNT.Controllers {
             AddErrors(result);
             TempData["Error"] = result.Errors;
 
-            return RedirectToAction("ViewProfile", "Account", new { id = Helpers.HelperMethods.GetCurrentUser().UserName });
+            return RedirectToAction("ViewProfile", "Account", new { id = _uow.GetCurrentUser().UserName });
         }
 
         //

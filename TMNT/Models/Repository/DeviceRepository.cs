@@ -6,12 +6,12 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DeviceRepository : IRepository<Device> {
-        private ApplicationDbContext _db = DbContextSingleton.Instance;
+        private ApplicationDbContext _db;
 
         public DeviceRepository() { }
 
         public DeviceRepository(ApplicationDbContext db) {
-_db = db;
+            _db = db;
         }
 
         public IEnumerable<Device> Get() {

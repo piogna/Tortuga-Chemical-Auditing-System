@@ -7,7 +7,6 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
-using TMNT.Helpers;
 using TMNT.Filters;
 using TMNT.Models.Enums;
 
@@ -28,14 +27,14 @@ namespace TMNT.Controllers {
         // GET: /ScaleTest/
         [Route("Balances")]
         public ActionResult Index() {
-            var department = HelperMethods.GetUserDepartment();
+            var department = _uow.GetUserDepartment();
 
             var balances = _uow.BalanceDeviceRepository.Get().Where(item => item.Department.Equals(department) && !item.IsArchived);
             var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
                 CompareDates.SetBalanceToUnverified(item);
-                viewModels.Add(new BalanceIndexViewModel() { 
+                viewModels.Add(new BalanceIndexViewModel() {
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
@@ -193,7 +192,7 @@ namespace TMNT.Controllers {
 
             var balance = _uow.BalanceDeviceRepository.Get().Where(item => item.DeviceCode.Equals(balancetest.DeviceCode)).First();
             var result = CheckModelState.Invalid;
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var verification = new DeviceVerification();
 
             //arrays are aligned, so let's use a traditional for-loop
@@ -337,7 +336,7 @@ namespace TMNT.Controllers {
             //TODO use in post method of verification
             var locations = _uow.LocationRepository.Get();
             var departments = _uow.DepartmentRepository.Get(); ;
-            
+
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Department = departments.Where(item => item.DepartmentId == model.Department.DepartmentId).First();
             model.DeviceCode = model.DeviceCode;
@@ -347,10 +346,8 @@ namespace TMNT.Controllers {
             return model;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 _uow.Dispose();
             }
             base.Dispose(disposing);

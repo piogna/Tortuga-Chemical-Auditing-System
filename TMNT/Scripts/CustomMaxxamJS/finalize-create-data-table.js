@@ -3,8 +3,7 @@
     //$('#section-bar-1').addClass('section');
 
     //filling summary table
-    var inputs = $('.input-summary');
-    var table = $('table.summary-table > tbody');
+    var inputs = $('.input-summary'), table = $('table.summary-table > tbody');
 
     $('.btn-review').on('click', function (e) {
         //give Number of Bottles a default value if its value is 0 or empty

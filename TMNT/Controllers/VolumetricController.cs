@@ -7,8 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Filters;
-using TMNT.Helpers;
 using TMNT.Models;
+using TMNT.Models.Enums;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
@@ -18,21 +18,21 @@ namespace TMNT.Controllers {
     [PasswordChange]
     public class VolumetricController : Controller {
 
-        private IRepository<Device> repo;
+        private UnitOfWork _uow;
         public VolumetricController()
-            : this(new VolumetricDeviceRepository(DbContextSingleton.Instance)) {
+            : this(new UnitOfWork()) {
         }
 
-        public VolumetricController(IRepository<Device> repo) {
-            this.repo = repo;
+        public VolumetricController(UnitOfWork uow) {
+            this._uow = uow;
         }
 
         // GET: Volumetric
         [Route("Volumetrics")]
         public ActionResult Index() {
-            var department = HelperMethods.GetUserDepartment();
+            var department = _uow.GetUserDepartment();
 
-            var volumetrics = repo.Get().Where(item => item.Department.Equals(department));
+            var volumetrics = _uow.VolumetricDeviceRepository.Get().Where(item => item.Department.Equals(department));
             var viewModels = new List<VolumetricIndexViewModel>();
 
             foreach (var item in volumetrics) {
@@ -60,7 +60,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = repo.Get(id);
+            Device device = _uow.VolumetricDeviceRepository.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -81,21 +81,20 @@ namespace TMNT.Controllers {
         [Route("Volumetric/Create")]
         public ActionResult Create([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
             if (ModelState.IsValid) {
-                repo.Create(device);
+                _uow.VolumetricDeviceRepository.Create(device);
                 return RedirectToAction("Index");
             }
-
             return View(device);
         }
 
         [Route("Volumetric/Verification/{id?}")]
         public ActionResult Verification(int? id) {
             //sending all Locations to the view
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get().Select(name => name.LocationName).ToList();
-            var balance = repo.Get(id);
+            var locations = _uow.LocationRepository.Get().Select(name => name.LocationName).ToList();
+            var balance = _uow.VolumetricDeviceRepository.Get(id);
 
-            var device = new BalanceVerificationViewModel() {
-                BalanceId = balance.DeviceId,
+            var device = new VolumetricVerificationViewModel() {
+                VolumetricId = balance.DeviceId,
                 Location = balance.Department.Location,
                 DeviceCode = balance.DeviceCode,
                 CurrentLocation = balance.Department.Location.LocationName,
@@ -114,7 +113,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = repo.Get(id);
+            Device device = _uow.VolumetricDeviceRepository.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
@@ -127,9 +126,30 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
+            var result = CheckModelState.Invalid;
             if (ModelState.IsValid) {
-                repo.Update(device);
-                return RedirectToAction("Index");
+                _uow.VolumetricDeviceRepository.Update(device);
+                result = _uow.Commit();
+
+                //TODO cases
+                switch (result) {
+                    case CheckModelState.UpdateError:
+                        break;
+                    case CheckModelState.ConcurrencyError:
+                        break;
+                    case CheckModelState.Invalid:
+                        break;
+                    case CheckModelState.Disposed:
+                        break;
+                    case CheckModelState.Valid:
+                        return RedirectToAction("Index");
+                    case CheckModelState.DataError:
+                        break;
+                    case CheckModelState.Error:
+                        break;
+                    default:
+                        break;
+                }
             }
             return View(device);
         }
@@ -139,10 +159,14 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Device device = repo.Get(id);
+            var device = _uow.VolumetricDeviceRepository.Get(id);
             if (device == null) {
                 return HttpNotFound();
             }
+            _uow.VolumetricDeviceRepository.Delete(id);
+
+            var result = _uow.Commit();
+
             return View(device);
         }
 
@@ -150,13 +174,15 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            repo.Delete(id);
+            _uow.VolumetricDeviceRepository.Delete(id);
+            var result = _uow.Commit();
+
             return RedirectToAction("Index");
         }
 
         private VolumetricCreateViewModel SetCreateVolumetric(VolumetricCreateViewModel model) {
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
-            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+            var locations = _uow.LocationRepository.Get();
+            var departments = _uow.DepartmentRepository.Get();
 
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Departments = departments
@@ -168,6 +194,13 @@ namespace TMNT.Controllers {
                 .ToList();
 
             return model;
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

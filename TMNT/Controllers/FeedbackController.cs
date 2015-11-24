@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Web.Mvc;
 using TMNT.Models;
+using TMNT.Models.Repository;
 
 namespace TMNT.Controllers {
     public class FeedbackController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UnitOfWork _uow = new UnitOfWork();
 
         // GET: Ideas
         [Route("Feedback")]
@@ -28,7 +30,7 @@ namespace TMNT.Controllers {
         [Route("Feedback/Create")]
         public ActionResult Create([Bind(Include = "FeedbackId,Category,Comment")] Feedback feedback) {
             if (ModelState.IsValid) {
-                feedback.CreatedBy = Helpers.HelperMethods.GetCurrentUser().UserName;
+                feedback.CreatedBy = _uow.GetCurrentUser().UserName;
                 db.Feedback.Add(feedback);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -40,6 +42,7 @@ namespace TMNT.Controllers {
             if (disposing) {
                 db.Dispose();
             }
+            _uow.Dispose();
             base.Dispose(disposing);
         }
     }

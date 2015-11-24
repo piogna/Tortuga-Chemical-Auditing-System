@@ -4,25 +4,16 @@
 */
 
 $(function () {
-    var ChemicalType = $('#ChemicalType');
-    var LotNumber = $('#LotNumbers');
-    var Amount = $('#Amount');
-    var Units = $('#Units');
-
-    var Recipes = $('#build-recipe');
-    var RecipeTable = $('#recipe-table');
-    var AddItem = $('#another-item');
-    var RemoveItem = $('.recipe-table-remove-item');
-
-    var OptReagent = $('.opt-reagent');
-    var OptStandard = $('.opt-standard');
-    var OptIntStandard = $('.opt-int-standard');
-    var OptLabel = $('.opt-label');
-
-    var buttonMessage = $('#button-message');
-
-    var ItemCount = 1;
-    var Append;
+    //recipe form
+    var ChemicalType = $('#ChemicalType'), LotNumber = $('#LotNumbers'), Amount = $('#Amount'), Units = $('#Units'),
+    //recipe table and buttons
+    Recipes = $('#build-recipe'), RecipeTable = $('#recipe-table'), AddItem = $('#another-item'), RemoveItem = $('.recipe-table-remove-item'),
+    //selection options
+    OptReagent = $('.opt-reagent'), OptStandard = $('.opt-standard'), OptIntStandard = $('.opt-int-standard'), OptLabel = $('.opt-label'),
+    //button message
+    buttonMessage = $('#button-message'),
+    //miscellaneous
+    ItemCount = 1, Append = "";
 
     if ($('#recipe-table tbody tr').length == 0) {
         RecipeTable.append("<tr class='text-center recipe-table-no-data'><td colspan='5'>Add Prep List Item</td></tr>");

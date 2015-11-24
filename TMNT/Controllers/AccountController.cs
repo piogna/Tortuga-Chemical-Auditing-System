@@ -18,6 +18,7 @@ namespace TMNT.Controllers {
     public class AccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UnitOfWork _uow;
 
         public AccountController() {
         }
@@ -468,7 +469,7 @@ namespace TMNT.Controllers {
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Name = user.FirstName + " " + user.LastName,
-                Role = Helpers.HelperMethods.GetUserRoles().First(),
+                Role = _uow.GetUserRoles().First(),
                 LastPasswordChange = user.LastPasswordChange,
                 NextRequiredPasswordChange = user.NextRequiredPasswordChange
             };
@@ -495,7 +496,7 @@ namespace TMNT.Controllers {
                     _signInManager = null;
                 }
             }
-
+            //_uow.Dispose();
             base.Dispose(disposing);
         }
 

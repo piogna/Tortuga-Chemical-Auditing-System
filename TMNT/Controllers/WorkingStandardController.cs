@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using TMNT.Filters;
-using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Enums;
 using TMNT.Models.Repository;
@@ -19,7 +18,6 @@ namespace TMNT.Controllers {
 
         public WorkingStandardController()
             : this(new UnitOfWork()) {
-
         }
 
         public WorkingStandardController(UnitOfWork uow) {
@@ -29,7 +27,7 @@ namespace TMNT.Controllers {
         // GET: /WorkingStandard/
         [Route("WorkingStandard")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<WorkingStandardIndexViewModel> lIntStandards = new List<WorkingStandardIndexViewModel>();
 
             var invRepo = _uow.InventoryItemRepository.Get()
@@ -50,7 +48,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-            this.Dispose();
             return View(lIntStandards);
         }
 
@@ -94,17 +91,13 @@ namespace TMNT.Controllers {
                     vWorkingStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
-            this.Dispose();
             return View(vWorkingStandard);
         }
 
         [Route("WorkingStandard/Create")]
         // GET: /WorkingStandard/Create
         public ActionResult Create() {
-            var model = new WorkingStandardCreateViewModel();
-            SetWorkingStandard(model);
-            this.Dispose();
-            return View(model);
+            return View(SetWorkingStandard(new WorkingStandardCreateViewModel()));
         }
 
         // POST: /WorkingStandard/Create
@@ -118,20 +111,17 @@ namespace TMNT.Controllers {
 
             if (!ModelState.IsValid) {
                 var errors = ModelState.Where(item => item.Value.Errors.Any());
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             if (PrepListItemTypes == null || PrepListItemAmounts == null || PrepListItemLotNumbers == null) {
                 ModelState.AddModelError("", "The creation of the Working Standard failed. Make sure the Prep List table is complete.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
             //if all 3 arrays are not of equal length, return to view with an error message
             if (!(PrepListItemAmounts.Length == PrepListItemLotNumbers.Length) || !(PrepListItemLotNumbers.Length == PrepListItemTypes.Length)) {
                 ModelState.AddModelError("", "The creation of the Working Standard failed. Make sure the Prep List table is complete.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             //setting the devices used
@@ -140,8 +130,7 @@ namespace TMNT.Controllers {
 
             if (devicesUsed == null) {
                 ModelState.AddModelError("", "You must select a device that was used.");
-                SetWorkingStandard(model);
-                return View(model);
+                return View(SetWorkingStandard(model));
             }
 
             if (devicesUsed.Contains(",")) {
@@ -165,7 +154,7 @@ namespace TMNT.Controllers {
             }
             //finished setting the units to amount and concentration
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var invRepo = _uow.InventoryItemRepository;
             var numOfItems = invRepo.Get().Count();
 
@@ -314,26 +303,21 @@ namespace TMNT.Controllers {
 
             //creating the prep list and the Working standard
             _uow.PrepListRepository.Create(prepList);
-            _uow.Commit();
             Workingstandard.InventoryItems.Add(inventoryItem);
             _uow.WorkingStandardRepository.Create(Workingstandard);
-            var result = _uow.Commit();
 
-            this.Dispose();
+            var result = _uow.Commit();
 
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + Workingstandard.IdCode + " failed. Please double check all inputs and try again.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.DataError:
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists please contact your system administrator.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.Error:
                     ModelState.AddModelError("", "There was an error. Please try again.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
                 case CheckModelState.Valid:
                     if (!string.IsNullOrEmpty(submit) && submit.Equals("Save")) {
                         //save pressed
@@ -344,8 +328,7 @@ namespace TMNT.Controllers {
                     }
                 default:
                     ModelState.AddModelError("", "An unknown error occurred.");
-                    SetWorkingStandard(model);
-                    return View(model);
+                    return View(SetWorkingStandard(model));
             }
         }
 
@@ -371,7 +354,6 @@ namespace TMNT.Controllers {
                     model.ExpiryDate = item.WorkingStandard.ExpiryDate;
                 }
             }
-            this.Dispose();
             return View(model);
         }
 
@@ -384,7 +366,7 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "WorkingStandardId,IdCode,MaxxamId,ExpiryDate")] WorkingStandardEditViewModel workingStandard) {
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
-                var user = HelperMethods.GetCurrentUser();
+                var user = _uow.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.WorkingStandard != null && item.WorkingStandard.WorkingStandardId == workingStandard.WorkingStandardId)
@@ -399,7 +381,6 @@ namespace TMNT.Controllers {
 
                 _uow.WorkingStandardRepository.Update(updateStandard);
                 _uow.Commit();
-                _uow.Dispose();
 
                 return RedirectToAction("Index");
             }
@@ -431,7 +412,7 @@ namespace TMNT.Controllers {
         }
 
         private WorkingStandardCreateViewModel SetWorkingStandard(WorkingStandardCreateViewModel model) {
-            var department = HelperMethods.GetUserDepartment();
+            var department = _uow.GetUserDepartment();
             var units = _uow.UnitRepository.Get();
             var devices = _uow.DeviceRepository.Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
 

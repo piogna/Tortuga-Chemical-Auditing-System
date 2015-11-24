@@ -17,7 +17,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(CertificateOfAnalysis t) {
-                _db.CertificatesOfAnalysis.Add(t);
+            _db.CertificatesOfAnalysis.Add(t);
 
         }
 
@@ -53,7 +53,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(MSDS t) {
-                _db.MSDS.Add(t);
+            _db.MSDS.Add(t);
         }
 
         public void Delete(int? i) {

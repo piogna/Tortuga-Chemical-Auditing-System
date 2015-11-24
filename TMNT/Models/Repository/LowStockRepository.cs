@@ -7,8 +7,7 @@ namespace TMNT.Models.Repository {
     public class LowStockRepository : IRepository<InventoryItem> {
         private ApplicationDbContext _db;
 
-        public LowStockRepository(ApplicationDbContext db)
-        {
+        public LowStockRepository(ApplicationDbContext db) {
             _db = db;
         }
 

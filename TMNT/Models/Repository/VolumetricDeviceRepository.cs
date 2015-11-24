@@ -9,7 +9,7 @@ using TMNT.Utils;
 namespace TMNT.Models.Repository {
     public class VolumetricDeviceRepository : IRepository<Device> {
 
-        private ApplicationDbContext db = DbContextSingleton.Instance;
+        private ApplicationDbContext db;
 
         public VolumetricDeviceRepository() { }
 
@@ -25,16 +25,16 @@ namespace TMNT.Models.Repository {
             return db.Devices.Find(i);
         }
         public void Create(Device t) {
-                db.Devices.Add(t);
+            db.Devices.Add(t);
         }
 
         public void Update(Device t) {
-                db.Entry(t).State = EntityState.Modified;
+            db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
             var device = db.Devices.Find(i);
-                db.Entry(device).State = EntityState.Modified;
+            db.Entry(device).State = EntityState.Modified;
         }
 
         public void Dispose() {

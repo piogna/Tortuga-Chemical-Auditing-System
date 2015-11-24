@@ -7,7 +7,7 @@ using TMNT.Utils;
 
 namespace TMNT.Models.Repository {
     public class DeviceVerificationRepostory : IRepository<DeviceVerification> {
-        ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public DeviceVerificationRepostory() { }
 

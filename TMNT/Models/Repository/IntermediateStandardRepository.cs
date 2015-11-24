@@ -26,18 +26,15 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(IntermediateStandard t) {
-                _db.IntermediateStandards.Add(t);
+            _db.IntermediateStandards.Add(t);
         }
 
         public void Update(IntermediateStandard t) {
-                _db.Entry(t).State = EntityState.Modified;
-                
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-            
-                _db.IntermediateStandards.Remove(_db.IntermediateStandards.Find(i));//change to archive in the future?
-                
+            _db.IntermediateStandards.Remove(_db.IntermediateStandards.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {

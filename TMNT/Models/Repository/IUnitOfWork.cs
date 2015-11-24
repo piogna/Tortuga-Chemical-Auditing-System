@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TMNT.Models.Enums;
 
-namespace TMNT.Models.Repository
-{
-    interface IUnitOfWork : IDisposable
-    {
+namespace TMNT.Models.Repository {
+    interface IUnitOfWork : IDisposable {
         CheckModelState Commit();
     }
 }

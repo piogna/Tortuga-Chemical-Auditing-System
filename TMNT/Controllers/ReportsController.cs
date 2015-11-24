@@ -11,13 +11,13 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class ReportsController : Controller {
-        private IRepository<InventoryItem> repo;
+        private UnitOfWork _uow;
         public ReportsController()
-            : this(new InventoryItemRepository()) {
+            : this(new UnitOfWork()) {
         }
 
-        public ReportsController(IRepository<InventoryItem> repo) {
-            this.repo = repo;
+        public ReportsController(UnitOfWork uow) {
+            this._uow = uow;
         }
 
         [Route("Report/LowStockReport")]
@@ -27,7 +27,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/ExpiringStockReport")]
         public ActionResult ExpiringStockReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();
@@ -45,7 +45,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/DailyBalanceVerificationReport")]
         public ActionResult DailyBalanceVerificationReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();
@@ -53,15 +53,16 @@ namespace TMNT.Controllers {
 
         [Route("Report/DeviceVerificationReport")]
         public ActionResult DeviceVerificationReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
+            var balances = _uow.BalanceDeviceRepository.Get().ToList();
 
-            return View(new BalanceDeviceRepository().Get().ToList());
+            return View(balances);
         }
 
         [Route("Report/DeviceReportInformation")]
         public ActionResult DeviceReportInformation() {
-            var devices = new BalanceDeviceRepository().Get().ToList();
+            var devices = _uow.BalanceDeviceRepository.Get().ToList();
 
             var output = devices
                 .Select(item => new ReportDeviceVerificationViewModel() {
@@ -71,13 +72,13 @@ namespace TMNT.Controllers {
                     IsVerified = item.IsVerified.ToString(),
                     Status = item.Status
                 });
-            
+
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
         [Route("Report/InventoryReport")]
         public ActionResult InventoryReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();
@@ -85,7 +86,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/ExpiringInventoryReportInformation")]
         public ActionResult ExpiringInventoryReportInformation() {
-            var expiringInventory = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+            var expiringInventory = _uow.InventoryItemRepository.Get()
                 .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) ||
                         item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
                         item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
@@ -118,7 +119,7 @@ namespace TMNT.Controllers {
                 })
                 .ToList();
 
-            var expiringInventory2 = new InventoryItemRepository(DbContextSingleton.Instance).Get()
+            var expiringInventory2 = _uow.InventoryItemRepository.Get()
                 .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) ||
                         item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
                         item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) ||
@@ -152,8 +153,15 @@ namespace TMNT.Controllers {
                         break;
                 }
             }
-
+            _uow.Dispose();
             return Json(expiringInventory, JsonRequestBehavior.AllowGet);
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

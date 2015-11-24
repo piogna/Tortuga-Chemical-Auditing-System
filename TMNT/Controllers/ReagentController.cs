@@ -8,7 +8,6 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using System.Collections.Generic;
 using TMNT.Utils;
-using TMNT.Helpers;
 using TMNT.Models.Enums;
 using TMNT.Filters;
 
@@ -17,27 +16,27 @@ namespace TMNT.Controllers {
     [PasswordChange]
     public class ReagentController : Controller {
 
-        private IRepository<StockReagent> repo;
+        private UnitOfWork _uow;
 
-        public ReagentController() : this(new StockReagentRepository(DbContextSingleton.Instance)) { }
+        public ReagentController() : this(new UnitOfWork()) { }
 
-        public ReagentController(IRepository<StockReagent> repo) {
-            this.repo = repo;
+        public ReagentController(UnitOfWork uow) {
+            this._uow = uow;
         }
         // GET: /Reagent/
         [Route("Reagent")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<StockReagentIndexViewModel> lReagents = new List<StockReagentIndexViewModel>();
-            List<InventoryItem> invRepo = null;
+            List<InventoryItem> inventoryItems = null;
 
             if (userDepartment.DepartmentName.Equals("Quality Assurance")) {
-                invRepo = new InventoryItemRepository().Get().ToList();
+                inventoryItems = _uow.InventoryItemRepository.Get().ToList();
             } else {
-                invRepo = new InventoryItemRepository().Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+                inventoryItems = _uow.InventoryItemRepository.Get().Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
             }
             
-            foreach (var item in invRepo) {
+            foreach (var item in inventoryItems) {
                 if (item.StockReagent != null) {
                     lReagents.Add(new StockReagentIndexViewModel() {
                         ReagentId = item.StockReagent.ReagentId,
@@ -69,8 +68,8 @@ namespace TMNT.Controllers {
                 ViewBag.ReturnUrl = Request.UrlReferrer.AbsolutePath;
             }
 
-            StockReagent reagent = repo.Get(id);
-            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
+            StockReagent reagent = _uow.StockReagentRepository.Get(id);
+            var deviceRepo = _uow.DeviceRepository;
 
             if (reagent == null) {
                 return HttpNotFound();
@@ -135,7 +134,7 @@ namespace TMNT.Controllers {
                 return View(SetStockReagent(model));
             }
 
-            var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+            var invRepo = _uow.InventoryItemRepository;
 
             //catalogue code must be unique - let's verify
             bool doesCatalogueCodeExist = invRepo.Get()
@@ -156,7 +155,7 @@ namespace TMNT.Controllers {
             }
 
             var devicesUsed = Request.Form["Devices"];
-            var deviceRepo = new DeviceRepository(DbContextSingleton.Instance);
+            var deviceRepo = _uow.DeviceRepository;
 
 
             if (devicesUsed == null) {
@@ -171,7 +170,7 @@ namespace TMNT.Controllers {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
             }
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var numOfItems = invRepo.Get().Count();
 
             if (uploadCofA != null) {
@@ -217,10 +216,8 @@ namespace TMNT.Controllers {
             inventoryItem.CertificatesOfAnalysis.Add(model.CertificateOfAnalysis);
             //getting the enum result
 
-            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
-            StockReagent reagent = null;
-
-            reagent = new StockReagent() {
+            //CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+            StockReagent reagent = new StockReagent() {
                 LotNumber = model.LotNumber,
                 IdCode = user.Department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles,//append number of bottles
                 ReagentName = model.ReagentName,
@@ -233,11 +230,13 @@ namespace TMNT.Controllers {
                 DateCreated = DateTime.Today,
                 CreatedBy = user.UserName,
                 DateModified = null,
-                CatalogueCode = model.CatalogueCode
+                CatalogueCode = model.CatalogueCode.ToUpper()
             };
 
             reagent.InventoryItems.Add(inventoryItem);
-            result = repo.Create(reagent);
+            _uow.StockReagentRepository.Create(reagent);
+
+            var result = _uow.Commit();
 
             //if (model.NumberOfBottles > 1) {
             //    for (int i = 1; i <= model.NumberOfBottles; i++) {
@@ -284,6 +283,7 @@ namespace TMNT.Controllers {
             //    result = repo.Create(reagent);
             //}
 
+
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + reagent.ReagentName + " failed. Please double check all inputs and try again.");
@@ -316,14 +316,14 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockReagent stockreagent = repo.Get(id);
+            StockReagent stockreagent = _uow.StockReagentRepository.Get(id);
 
             if (stockreagent == null) {
                 return HttpNotFound();
             }
-            
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+
+            var devices = _uow.DeviceRepository.Get().ToList();
+            var userDepartment = _uow.GetUserDepartment();
 
             var vReagent = new StockReagentTopUpViewModel() {
                 ReagentId = stockreagent.ReagentId,
@@ -366,7 +366,7 @@ namespace TMNT.Controllers {
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Topup([Bind(Include = "ReagentId,NewMSDSNotes,NewLotNumber,NewExpiryDate,NewDateReceived,IsExpiryDateBasedOnDays,DaysUntilExpired,CatalogueCode")]
                 StockReagentTopUpViewModel model, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            var reagent = repo.Get(model.ReagentId);
+            var reagent = _uow.StockReagentRepository.Get(model.ReagentId);
 
             if (reagent == null) {
                 return HttpNotFound();
@@ -378,9 +378,9 @@ namespace TMNT.Controllers {
                 return View(SetTopupReagent(model, reagent));
             }
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
-            var department = HelperMethods.GetUserDepartment();
+            var department = user.Department;
             var numOfItems = invRepo.Get().Count();
 
             model.NumberOfBottles = reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(reagent.CatalogueCode)).First().NumberOfBottles;
@@ -427,11 +427,10 @@ namespace TMNT.Controllers {
             }
 
             //write record(s) to the db
-            CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
+            var result = CheckModelState.Invalid;//default to invalid to expect the worst
             //set new propeties to create new entity based on old
             StockReagent newReagent = null;
             
-
             if (model.NumberOfBottles > 1) {
                 for (int i = 1; i <= model.NumberOfBottles; i++) {
                     newReagent = new StockReagent() {
@@ -452,8 +451,8 @@ namespace TMNT.Controllers {
                         DateReceived = model.NewDateReceived
                     };
                     //reagent.InventoryItems.Add(reagent.InventoryItems.Where(x => x.CatalogueCode.Equals(model.CatalogueCode)).First());
-                    result = repo.Create(newReagent);
-
+                    _uow.StockReagentRepository.Create(newReagent);
+                    result = _uow.Commit();
                     //creation wasn't successful - break from loop and let switch statement handle the problem
                     if (result != CheckModelState.Valid) { break; }
                 }
@@ -477,8 +476,10 @@ namespace TMNT.Controllers {
                 };
 
                 //reagent.InventoryItems.Add(inventoryItem);
-                result = repo.Create(newReagent);
+                _uow.StockReagentRepository.Create(newReagent);
+                result = _uow.Commit();
             }
+
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -507,7 +508,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            StockReagent stockreagent = repo.Get(id);
+            StockReagent stockreagent = _uow.StockReagentRepository.Get(id);
 
             if (stockreagent == null) {
                 return HttpNotFound();
@@ -539,11 +540,11 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Edit([Bind(Include = "ReagentId,LotNumber,ExpiryDate,SupplierName,ReagentName,IdCode,Grade,GradeAdditionalNotes")] StockReagentEditViewModel stockreagent, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            var user = HelperMethods.GetCurrentUser();
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
-                var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+                var user = _uow.GetCurrentUser();
+                var invRepo = _uow.InventoryItemRepository;
 
                 InventoryItem invItem = invRepo.Get()
                         .Where(item => item.StockReagent != null && item.StockReagent.ReagentId == stockreagent.ReagentId)
@@ -557,7 +558,8 @@ namespace TMNT.Controllers {
                 updateReagent.ExpiryDate = stockreagent.ExpiryDate;
                 updateReagent.DateModified = DateTime.Today;
 
-                repo.Update(updateReagent);
+                _uow.StockReagentRepository.Update(updateReagent);
+                _uow.Commit();
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -601,7 +603,7 @@ namespace TMNT.Controllers {
 
                 invItem.SupplierName = stockreagent.SupplierName;
                 invRepo.Update(invItem);
-
+                _uow.Commit();
                 return RedirectToAction("Details", new { id = stockreagent.ReagentId });
             }
             return View(stockreagent);
@@ -614,10 +616,13 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StockReagent stockreagent = repo.Get(id);
+            StockReagent stockreagent = _uow.StockReagentRepository.Get(id);
+
             if (stockreagent == null) {
                 return HttpNotFound();
             }
+
+            _uow.Commit();
             return View(stockreagent);
         }
 
@@ -627,14 +632,15 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [AuthorizeRedirect(Roles = "Department Head,Analyst,Administrator,Manager,Supervisor")]
         public ActionResult DeleteConfirmed(int id) {
-            repo.Delete(id);
+            _uow.StockReagentRepository.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 
         private StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
-            var units = new UnitRepository(DbContextSingleton.Instance).Get();
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var units = _uow.UnitRepository.Get();
+            var devices = _uow.DeviceRepository.Get().ToList();
+            var userDepartment = _uow.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
@@ -645,8 +651,8 @@ namespace TMNT.Controllers {
         }
 
         private StockReagentTopUpViewModel SetTopupReagent(StockReagentTopUpViewModel model, StockReagent stockreagent) {
-            var devices = new DeviceRepository(DbContextSingleton.Instance).Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var devices = _uow.DeviceRepository.Get().ToList();
+            var userDepartment = _uow.GetUserDepartment();
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();
@@ -683,8 +689,14 @@ namespace TMNT.Controllers {
                     vReagent.InitialAmount = invItem.InitialAmount == null ? invItem.InitialAmount = "N/A" : invItem.InitialAmount.Contains("Other") ? invItem.InitialAmount + " (" + invItem.OtherUnitExplained + ")" : invItem.InitialAmount;
                 }
             }
-
             return model;
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

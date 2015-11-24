@@ -1,8 +1,6 @@
 ﻿$(function () {
-    var options = $('#help-options');
-    var selectedOption = $('#help-options option:selected');
-    var notesSection = $('#help-notes');
-    var message = "";
+    var options = $('#help-options'), selectedOption = $('#help-options option:selected'), notesSection = $('#help-notes'),
+    message = "";
 
     options.on('change', function (e) {
         var selectedOption = $('#help-options option:selected');

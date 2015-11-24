@@ -5,11 +5,8 @@
 
 $(function () {
     //selectors
-    var fileInput = $('input[type=file]');
-    var requiredFieldSectionTwo = $('.required-field-s2');
-    var tabs = $('.tabs-style-bar > nav > ul > li');
-    var sectionTwo = $('#section-bar-2');
-    var sectionThree = $('#section-bar-3');
+    var fileInput = $('input[type=file]'), requiredFieldSectionTwo = $('.required-field-s2'), tabs = $('.tabs-style-bar > nav > ul > li'),
+    sectionTwo = $('#section-bar-2'), sectionThree = $('#section-bar-3');
 
     //file validator script
     $('.btn-review').on('click', function () {

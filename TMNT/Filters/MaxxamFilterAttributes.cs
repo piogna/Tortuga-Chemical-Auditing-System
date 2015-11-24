@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using TMNT.Helpers;
+using TMNT.Models.Repository;
 
 namespace TMNT.Filters {
     [AttributeUsage(AttributeTargets.All)]
     public class PasswordChangeAttribute : ActionFilterAttribute {
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (HelperMethods.GetCurrentUser().IsFirstTimeLogin) {
+            if (new UnitOfWork().GetCurrentUser().IsFirstTimeLogin) {
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "");
                 redirectTargetDictionary.Add("action", "ChangePasswordFirstTime");
@@ -20,13 +20,16 @@ namespace TMNT.Filters {
     //don't use at this time
     [AttributeUsage(AttributeTargets.All)]
     public class ReadWriteRoleAttribute : ActionFilterAttribute {
+        private UnitOfWork _uow = new UnitOfWork();
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
-            if (HelperMethods.GetUserRoles().Contains("Quality Assurance")) {
+            if (_uow.GetUserRoles().Contains("Quality Assurance")) {
+                _uow.Dispose();
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "");
                 redirectTargetDictionary.Add("action", "InsufficientPrivileges");
                 redirectTargetDictionary.Add("controller", "Account");
                 filterContext.Result = new RedirectToRouteResult(redirectTargetDictionary);
+
             }
         }
     }
