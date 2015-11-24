@@ -8,11 +8,11 @@ using TMNT.Models.ViewModels;
 
 namespace TMNT.Utils {
     public static class BuildReagentOrStandard {
-        private static UnitOfWork _uow = new UnitOfWork();
 
         /* Standard Code */
-        public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS) {
-            var deviceRepo = new BalanceDeviceRepository();
+        public static StockStandardCreateViewModel BuildStandard(StockStandardCreateViewModel model, string devicesUsed, string[] AmountUnit, string[] ConcentrationUnit, 
+                HttpPostedFileBase uploadCofA, HttpPostedFileBase uploadMSDS, UnitOfWork _uow) {
+            var deviceRepo = _uow.BalanceDeviceRepository;
             if (model.NumberOfBottles == 0) { model.NumberOfBottles = 1; }
 
             if (devicesUsed.Contains(",")) {
@@ -83,9 +83,10 @@ namespace TMNT.Utils {
             return inventoryItem;
         }
 
-        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, Department department, string user) {
+        public static CheckModelState EnterStandardIntoDatabase(StockStandardCreateViewModel model, InventoryItem inventoryItem, int numOfItems, 
+                Department department, string user, UnitOfWork _uow) {
             CheckModelState result = CheckModelState.Invalid;//default to invalid to expect the worst
-            StockStandardRepository repo = new StockStandardRepository(DbContextSingleton.Instance);
+            var repo = _uow.StockStandardRepository;
 
             StockStandard createStandard = new StockStandard() {
                 LotNumber = model.LotNumber,

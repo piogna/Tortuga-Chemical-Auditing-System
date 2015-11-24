@@ -154,11 +154,11 @@ namespace TMNT.Controllers {
                 return View(SetStockStandard(model));
             }
 
-            model = BuildReagentOrStandard.BuildStandard(model, devicesUsed, AmountUnit, ConcentrationUnit, uploadCofA, uploadMSDS);
+            model = BuildReagentOrStandard.BuildStandard(model, devicesUsed, AmountUnit, ConcentrationUnit, uploadCofA, uploadMSDS, _uow);
             InventoryItem inventoryItem = BuildReagentOrStandard.BuildStandardInventoryItem(model, department);
 
             StockStandard createStandard = null;
-            CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department, user.UserName);
+            CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department, user.UserName, _uow);
 
             switch (result) {
                 case CheckModelState.Invalid:
