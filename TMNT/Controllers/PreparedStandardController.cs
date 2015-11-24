@@ -15,21 +15,22 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class PreparedStandardController : Controller {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
-        private IRepository<PreparedStandard> repoStandard;
+        private UnitOfWork _uow;
         public PreparedStandardController()
-            : this(new PreparedStandardRepository(DbContextSingleton.Instance)) {
+            : this(new UnitOfWork()) {
+
         }
 
-        public PreparedStandardController(IRepository<PreparedStandard> repoStandard) {
-            this.repoStandard = repoStandard;
+        public PreparedStandardController(UnitOfWork uow)
+        {
+            _uow = uow;
         }
 
         // GET: MaxxamMadeStandards
         [Route("PreparedStandard")]
         public ActionResult Index() {
-            var standards = repoStandard.Get();
+            var standards = _uow.PreparedStandardRepository.Get();
             List<PreparedStandardViewModel> list = new List<PreparedStandardViewModel>();
 
             foreach (var item in standards) {
@@ -74,7 +75,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedStandard maxxamMadeStandard = db.PreparedStandard.Find(id);
+            PreparedStandard maxxamMadeStandard = _uow.PreparedStandardRepository.Get(id);
             if (maxxamMadeStandard == null) {
                 return HttpNotFound();
             }
@@ -95,8 +96,8 @@ namespace TMNT.Controllers {
         [Route("PreparedStandard/Create")]
         public ActionResult Create([Bind(Include = "PreparedStandardId,LotNumber,IdCode,PreparedStandardName,SolventUsed,Purity,LastModifiedBy")] PreparedStandard maxxamMadeStandard) {
             if (ModelState.IsValid) {
-                db.PreparedStandard.Add(maxxamMadeStandard);
-                db.SaveChanges();
+                _uow.PreparedStandardRepository.Create(maxxamMadeStandard);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(maxxamMadeStandard);
@@ -108,7 +109,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedStandard maxxamMadeStandard = db.PreparedStandard.Find(id);
+            PreparedStandard maxxamMadeStandard = _uow.PreparedStandardRepository.Get(id);
             if (maxxamMadeStandard == null) {
                 return HttpNotFound();
             }
@@ -123,8 +124,8 @@ namespace TMNT.Controllers {
         [Route("PreparedStandard/Edit/{id?}")]
         public ActionResult Edit([Bind(Include = "PreparedStandardId,LotNumber,IdCode,PreparedStandardName,SolventUsed,Purity,LastModifiedBy")] PreparedStandard preparedStandard) {
             if (ModelState.IsValid) {
-                db.Entry(preparedStandard).State = EntityState.Modified;
-                db.SaveChanges();
+                _uow.PreparedStandardRepository.Update(preparedStandard);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(preparedStandard);
@@ -136,7 +137,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedStandard maxxamMadeStandard = db.PreparedStandard.Find(id);
+            PreparedStandard maxxamMadeStandard = _uow.PreparedStandardRepository.Get(id);
             if (maxxamMadeStandard == null) {
                 return HttpNotFound();
             }
@@ -147,16 +148,16 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Route("PreparedStandard/Delete/{id}")]
-        public ActionResult DeleteConfirmed(int id) {
-            PreparedStandard maxxamMadeStandard = db.PreparedStandard.Find(id);
-            db.PreparedStandard.Remove(maxxamMadeStandard);
-            db.SaveChanges();
+        public ActionResult DeleteConfirmed(int id)
+        {
+            _uow.PreparedStandardRepository.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {
-                db.Dispose();
+                _uow.Dispose();
             }
             base.Dispose(disposing);
         }
