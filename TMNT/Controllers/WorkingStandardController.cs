@@ -303,9 +303,9 @@ namespace TMNT.Controllers {
 
             //creating the prep list and the Working standard
             _uow.PrepListRepository.Create(prepList);
-            _uow.Commit();
             Workingstandard.InventoryItems.Add(inventoryItem);
             _uow.WorkingStandardRepository.Create(Workingstandard);
+
             var result = _uow.Commit();
 
             switch (result) {
@@ -381,7 +381,6 @@ namespace TMNT.Controllers {
 
                 _uow.WorkingStandardRepository.Update(updateStandard);
                 _uow.Commit();
-                _uow.Dispose();
 
                 return RedirectToAction("Index");
             }
@@ -433,7 +432,6 @@ namespace TMNT.Controllers {
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department).ToList();
 
-            _uow.Dispose();
             return model;
         }
 
