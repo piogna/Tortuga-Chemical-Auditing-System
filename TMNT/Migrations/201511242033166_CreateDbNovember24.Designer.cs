@@ -7,13 +7,13 @@ namespace TMNT.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class RemovingMoreUselessFields : IMigrationMetadata
+    public sealed partial class CreateDbNovember24 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RemovingMoreUselessFields));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateDbNovember24));
         
         string IMigrationMetadata.Id
         {
-            get { return "201511110003475_RemovingMoreUselessFields"; }
+            get { return "201511242033166_CreateDbNovember24"; }
         }
         
         string IMigrationMetadata.Source
