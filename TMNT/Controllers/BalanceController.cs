@@ -33,7 +33,7 @@ namespace TMNT.Controllers {
             var viewModels = new List<BalanceIndexViewModel>();
 
             foreach (var item in balances) {
-                CompareDates.SetBalanceToUnverified(item);
+                CompareDates.SetBalanceToUnverified(item, _uow);
                 viewModels.Add(new BalanceIndexViewModel() {
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,

@@ -198,7 +198,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HelperMethods.cs" />
     <Compile Include="Migrations\201510161217016_CreateDb.cs" />
     <Compile Include="Migrations\201510161217016_CreateDb.Designer.cs">
       <DependentUpon>201510161217016_CreateDb.cs</DependentUpon>
@@ -339,10 +338,6 @@
     <Compile Include="Migrations\201511140125341_StandardCatalogueCode.Designer.cs">
       <DependentUpon>201511140125341_StandardCatalogueCode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201511150206488_Test.cs" />
-    <Compile Include="Migrations\201511150206488_Test.Designer.cs">
-      <DependentUpon>201511150206488_Test.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201511150212435_RemoveFinalVolumeWorkingStandard.cs" />
     <Compile Include="Migrations\201511150212435_RemoveFinalVolumeWorkingStandard.Designer.cs">
       <DependentUpon>201511150212435_RemoveFinalVolumeWorkingStandard.cs</DependentUpon>
@@ -358,6 +353,14 @@
     <Compile Include="Migrations\201511151641320_VolumeNumbersForVeriications.cs" />
     <Compile Include="Migrations\201511151641320_VolumeNumbersForVeriications.Designer.cs">
       <DependentUpon>201511151641320_VolumeNumbersForVeriications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511240119401_fixreagent.cs" />
+    <Compile Include="Migrations\201511240119401_fixreagent.Designer.cs">
+      <DependentUpon>201511240119401_fixreagent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511240122444_DropColumns.cs" />
+    <Compile Include="Migrations\201511240122444_DropColumns.Designer.cs">
+      <DependentUpon>201511240122444_DropColumns.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -497,6 +500,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\json\balance-verifications.json" />
     <None Include="Properties\PublishProfiles\CapstonePublish.pubxml" />
+    <None Include="Properties\PublishProfiles\dev01.pubxml" />
     <None Include="Properties\PublishProfiles\MaxxamPublish.pubxml" />
     <None Include="Scripts\jquery-2.1.3-vsdoc.js" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
@@ -757,9 +761,6 @@
     <EmbeddedResource Include="Migrations\201511140125341_StandardCatalogueCode.resx">
       <DependentUpon>201511140125341_StandardCatalogueCode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511150206488_Test.resx">
-      <DependentUpon>201511150206488_Test.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511150212435_RemoveFinalVolumeWorkingStandard.resx">
       <DependentUpon>201511150212435_RemoveFinalVolumeWorkingStandard.cs</DependentUpon>
     </EmbeddedResource>
@@ -771,6 +772,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511151641320_VolumeNumbersForVeriications.resx">
       <DependentUpon>201511151641320_VolumeNumbersForVeriications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511240119401_fixreagent.resx">
+      <DependentUpon>201511240119401_fixreagent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511240122444_DropColumns.resx">
+      <DependentUpon>201511240122444_DropColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
