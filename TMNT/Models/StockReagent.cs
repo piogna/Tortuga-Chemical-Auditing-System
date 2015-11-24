@@ -16,9 +16,6 @@ namespace TMNT.Models {
         public string Grade { get; set; }
         public string GradeAdditionalNotes { get; set; }
         public string CatalogueCode { get; set; }
-        //public string Replaces { get; set; }
-        //public string ReplacedBy { get; set; }
-        //public bool IsArchived { get; set; }
 
         //shared
 

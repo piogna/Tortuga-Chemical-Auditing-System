@@ -24,7 +24,6 @@ namespace TMNT.Models {
         [Required]
         [Display(Name = "Last Verified By")]
         public virtual ApplicationUser User { get; set; }
-        [Required]
         public virtual Device Device { get; set; }
     }
 }

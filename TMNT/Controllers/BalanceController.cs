@@ -233,7 +233,7 @@ namespace TMNT.Controllers {
                     balance.IsVerified = verification.DidTestPass;
                     balance.Status = "In Good Standing";
                     _uow.BalanceDeviceRepository.Update(balance);
-                    _uow.Commit();
+                    //_uow.Commit();
                     //save pressed
                     return RedirectToAction("Index");
                 default:

@@ -23,7 +23,6 @@ namespace TMNT.Models {
         public string Volume { get; set; }
         public string AcceptanceCriteria { get; set; }
 
-        [Required]
         public virtual Department Department { get; set; }
 
         public virtual ICollection<DeviceVerification> DeviceVerifications { get; set; }
