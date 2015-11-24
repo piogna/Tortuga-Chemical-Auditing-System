@@ -25,7 +25,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(Department t) {
-                _db.Departments.Add(t);
+            _db.Departments.Add(t);
         }
 
         public void Update(Department t) {

@@ -24,7 +24,7 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(DeviceVerification t) {
-                _db.DeviceVerifications.Add(t);                
+            _db.DeviceVerifications.Add(t);
         }
 
         public void Update(DeviceVerification t) {

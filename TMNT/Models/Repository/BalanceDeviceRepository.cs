@@ -25,18 +25,17 @@ namespace TMNT.Models.Repository {
         }
 
         public void Create(Device t) {
-                _db.Devices.Add(t);
+            _db.Devices.Add(t);
         }
 
-        public void Update(Device t) { 
-                _db.Entry(t).State = EntityState.Modified;
-
+        public void Update(Device t) {
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
             var device = _db.Devices.Find(i);
-                device.Status = "Archived";
-                _db.Entry(device).State = EntityState.Modified;                
+            device.Status = "Archived";
+            _db.Entry(device).State = EntityState.Modified;
         }
 
         public void Dispose() {
