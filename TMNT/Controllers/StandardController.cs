@@ -8,7 +8,6 @@ using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using TMNT.Utils;
-using TMNT.Helpers;
 using TMNT.Models.Enums;
 using TMNT.Filters;
 
@@ -29,7 +28,7 @@ namespace TMNT.Controllers {
         [Route("Standard")]
         // GET: /Standard/
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<StockStandardIndexViewModel> lStandards = new List<StockStandardIndexViewModel>();
             List<InventoryItem> inventoryItems = null;
 
@@ -148,8 +147,8 @@ namespace TMNT.Controllers {
             }
 
             var devicesUsed = Request.Form["Devices"];
-            var user = HelperMethods.GetCurrentUser();
-            var department = HelperMethods.GetUserDepartment();
+            var user = _uow.GetCurrentUser();
+            var department = _uow.GetUserDepartment();
             var numOfItems = inventoryRepository.Get().Count();
 
             if (devicesUsed == null) {
@@ -233,7 +232,7 @@ namespace TMNT.Controllers {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = _uow.InventoryItemRepository;
-                var user = HelperMethods.GetCurrentUser();
+                var user = _uow.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.StockStandard != null && item.StockStandard.StockStandardId == stockstandard.StockStandardId)
@@ -330,7 +329,7 @@ namespace TMNT.Controllers {
         private StockStandardCreateViewModel SetStockStandard(StockStandardCreateViewModel model) {
             var units = _uow.UnitRepository.Get();
             var devices = _uow.DeviceRepository.Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();

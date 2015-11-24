@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Filters;
-using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Enums;
 using TMNT.Models.Repository;
@@ -31,7 +30,7 @@ namespace TMNT.Controllers {
         // GET: Volumetric
         [Route("Volumetrics")]
         public ActionResult Index() {
-            var department = HelperMethods.GetUserDepartment();
+            var department = _uow.GetUserDepartment();
 
             var volumetrics = _uow.VolumetricDeviceRepository.Get().Where(item => item.Department.Equals(department));
             var viewModels = new List<VolumetricIndexViewModel>();

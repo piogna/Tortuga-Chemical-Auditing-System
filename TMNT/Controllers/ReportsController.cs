@@ -27,7 +27,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/ExpiringStockReport")]
         public ActionResult ExpiringStockReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();
@@ -45,7 +45,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/DailyBalanceVerificationReport")]
         public ActionResult DailyBalanceVerificationReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();
@@ -53,7 +53,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/DeviceVerificationReport")]
         public ActionResult DeviceVerificationReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
             var balances = _uow.BalanceDeviceRepository.Get().ToList();
             this.Dispose();
@@ -79,7 +79,7 @@ namespace TMNT.Controllers {
 
         [Route("Report/InventoryReport")]
         public ActionResult InventoryReport() {
-            var user = Helpers.HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
             return View();

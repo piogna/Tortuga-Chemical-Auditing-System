@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using TMNT.Filters;
-using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Enums;
 using TMNT.Models.Repository;
@@ -28,7 +27,7 @@ namespace TMNT.Controllers {
         // GET: /WorkingStandard/
         [Route("WorkingStandard")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<WorkingStandardIndexViewModel> lIntStandards = new List<WorkingStandardIndexViewModel>();
 
             var invRepo = _uow.InventoryItemRepository.Get()
@@ -157,7 +156,7 @@ namespace TMNT.Controllers {
             }
             //finished setting the units to amount and concentration
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var invRepo = _uow.InventoryItemRepository;
             var numOfItems = invRepo.Get().Count();
 
@@ -372,7 +371,7 @@ namespace TMNT.Controllers {
         public ActionResult Edit([Bind(Include = "WorkingStandardId,IdCode,MaxxamId,ExpiryDate")] WorkingStandardEditViewModel workingStandard) {
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
-                var user = HelperMethods.GetCurrentUser();
+                var user = _uow.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()
                         .Where(item => item.WorkingStandard != null && item.WorkingStandard.WorkingStandardId == workingStandard.WorkingStandardId)
@@ -419,7 +418,7 @@ namespace TMNT.Controllers {
         }
 
         private WorkingStandardCreateViewModel SetWorkingStandard(WorkingStandardCreateViewModel model) {
-            var department = HelperMethods.GetUserDepartment();
+            var department = _uow.GetUserDepartment();
             var units = _uow.UnitRepository.Get();
             var devices = _uow.DeviceRepository.Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
 

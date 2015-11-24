@@ -8,7 +8,6 @@ using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 using System.Collections.Generic;
 using TMNT.Utils;
-using TMNT.Helpers;
 using TMNT.Models.Enums;
 using TMNT.Filters;
 
@@ -27,7 +26,7 @@ namespace TMNT.Controllers {
         // GET: /Reagent/
         [Route("Reagent")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<StockReagentIndexViewModel> lReagents = new List<StockReagentIndexViewModel>();
             List<InventoryItem> inventoryItems = null;
 
@@ -171,7 +170,7 @@ namespace TMNT.Controllers {
                 model.DeviceOne = deviceRepo.Get().Where(item => item.DeviceCode.Equals(devicesUsed.Split(',')[0])).FirstOrDefault();
             }
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var numOfItems = invRepo.Get().Count();
 
             if (uploadCofA != null) {
@@ -324,7 +323,7 @@ namespace TMNT.Controllers {
             }
 
             var devices = _uow.DeviceRepository.Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
 
             var vReagent = new StockReagentTopUpViewModel() {
                 ReagentId = stockreagent.ReagentId,
@@ -379,9 +378,9 @@ namespace TMNT.Controllers {
                 return View(SetTopupReagent(model, reagent));
             }
 
-            var user = HelperMethods.GetCurrentUser();
+            var user = _uow.GetCurrentUser();
             var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
-            var department = HelperMethods.GetUserDepartment();
+            var department = user.Department;
             var numOfItems = invRepo.Get().Count();
 
             model.NumberOfBottles = reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(reagent.CatalogueCode)).First().NumberOfBottles;
@@ -544,7 +543,7 @@ namespace TMNT.Controllers {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) {
-                var user = HelperMethods.GetCurrentUser();
+                var user = _uow.GetCurrentUser();
                 var invRepo = _uow.InventoryItemRepository;
 
                 InventoryItem invItem = invRepo.Get()
@@ -641,7 +640,7 @@ namespace TMNT.Controllers {
         private StockReagentCreateViewModel SetStockReagent(StockReagentCreateViewModel model) {
             var units = _uow.UnitRepository.Get();
             var devices = _uow.DeviceRepository.Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
 
             model.WeightUnits = units.Where(item => item.UnitType.Equals("Weight")).ToList();
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
@@ -653,7 +652,7 @@ namespace TMNT.Controllers {
 
         private StockReagentTopUpViewModel SetTopupReagent(StockReagentTopUpViewModel model, StockReagent stockreagent) {
             var devices = _uow.DeviceRepository.Get().ToList();
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();

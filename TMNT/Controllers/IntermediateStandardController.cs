@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using TMNT.Filters;
-using TMNT.Helpers;
 using TMNT.Models;
 using TMNT.Models.Enums;
 using TMNT.Models.Repository;
@@ -26,7 +25,7 @@ namespace TMNT.Controllers {
         // GET: /IntermediateStandard/
         [Route("IntermediateStandard")]
         public ActionResult Index() {
-            var userDepartment = HelperMethods.GetUserDepartment();
+            var userDepartment = _uow.GetUserDepartment();
             List<IntermediateStandardIndexViewModel> lIntStandards = new List<IntermediateStandardIndexViewModel>();
 
             var invRepo = _uow.InventoryItemRepository.Get()

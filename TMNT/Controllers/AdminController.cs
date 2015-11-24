@@ -8,10 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
 
-namespace TMNT.Controllers
-{
-    public class AdminController : Controller
-    {
+namespace TMNT.Controllers {
+    public class AdminController : Controller {
         //private ApplicationDbContext db = new ApplicationDbContext();
 
         //// GET: AdminController

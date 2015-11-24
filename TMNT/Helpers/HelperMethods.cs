@@ -7,7 +7,7 @@ using TMNT.Utils;
 
 namespace TMNT.Helpers {
     public abstract class HelperMethods {
-        private static ApplicationDbContext db = DbContextSingleton.Instance;
+        private static ApplicationDbContext db;// = DbContextSingleton.Instance;
         private static UserManager<ApplicationUser> usrManager;
 
 

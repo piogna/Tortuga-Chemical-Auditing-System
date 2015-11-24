@@ -7,12 +7,11 @@ namespace TMNT.Controllers {
     public class CofAController : Controller {
         private UnitOfWork _uow = new UnitOfWork();
 
-        public CofAController(UnitOfWork uow)
-        {
+        public CofAController(UnitOfWork uow) {
             _uow = uow;
         }
-        public CofAController() : this(new UnitOfWork())
-        {
+        public CofAController()
+            : this(new UnitOfWork()) {
 
         }
 
