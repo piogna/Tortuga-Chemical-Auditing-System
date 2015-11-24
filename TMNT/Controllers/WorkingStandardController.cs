@@ -365,7 +365,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "WorkingStandardId,IdCode,MaxxamId,ExpiryDate")] WorkingStandardEditViewModel workingStandard) {
             if (ModelState.IsValid) {
-                InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+                InventoryItemRepository inventoryRepo = _uow.InventoryItemRepository;
                 var user = _uow.GetCurrentUser();
 
                 InventoryItem invItem = inventoryRepo.Get()

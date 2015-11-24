@@ -9,7 +9,7 @@ using TMNT.Utils;
 
 namespace TMNT.Api {
     public class ReportsDevicesApiController : ApiController {
-        ApplicationDbContext db = DbContextSingleton.Instance;//ApplicationDbContext.Create();
+        ApplicationDbContext db = ApplicationDbContext.Create();
         //private IRepository<Device> _repo;
         public ReportsDevicesApiController() {
             db.Configuration.LazyLoadingEnabled = false;

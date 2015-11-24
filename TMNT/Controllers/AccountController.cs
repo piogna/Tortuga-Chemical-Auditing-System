@@ -488,6 +488,7 @@ namespace TMNT.Controllers {
             if (disposing) {
                 if (_userManager != null) {
                     _userManager.Dispose();
+                    _uow.Dispose();
                     _userManager = null;
                 }
 
@@ -496,13 +497,12 @@ namespace TMNT.Controllers {
                     _signInManager = null;
                 }
             }
-            //_uow.Dispose();
             base.Dispose(disposing);
         }
 
         private RegisterViewModel SetRegistration(RegisterViewModel model) {
-            var locations = new LocationRepository(DbContextSingleton.Instance).Get();
-            var departments = new DepartmentRepository(DbContextSingleton.Instance).Get();
+            var locations = _uow.LocationRepository.Get();
+            var departments = _uow.DepartmentRepository.Get();
 
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Departments = departments

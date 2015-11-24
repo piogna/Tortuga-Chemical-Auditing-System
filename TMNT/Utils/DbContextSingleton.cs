@@ -6,7 +6,7 @@ namespace TMNT.Utils {
         private static volatile ApplicationDbContext instance;
         private static object syncRoot = new object();
 
-        public DbContextSingleton() {  }
+        //public DbContextSingleton() {  }
 
         public static ApplicationDbContext Instance {
             get {

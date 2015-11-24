@@ -379,7 +379,7 @@ namespace TMNT.Controllers {
             }
 
             var user = _uow.GetCurrentUser();
-            var invRepo = new InventoryItemRepository(DbContextSingleton.Instance);
+            var invRepo = _uow.InventoryItemRepository;
             var department = user.Department;
             var numOfItems = invRepo.Get().Count();
 
@@ -412,7 +412,7 @@ namespace TMNT.Controllers {
                 //model.MSDS = msds;
                 //reagent.InventoryItems.Where(item => item.CatalogueCode.Equals(model.CatalogueCode)).First().MSDS.Add(msds);
 
-                var msdsRepo = new MSDSRepository(DbContextSingleton.Instance);
+                var msdsRepo = _uow.MSDSRepository;
 
                 var oldSDS = msdsRepo.Get()
                     .Where(item => item.InventoryItem.StockReagent != null && item.InventoryItem.StockReagent.CatalogueCode == reagent.CatalogueCode)
