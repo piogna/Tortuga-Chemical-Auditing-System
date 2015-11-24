@@ -15,21 +15,23 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class PreparedReagentController : Controller {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
+        private UnitOfWork _uow;
 
-        private IRepository<PreparedReagent> repo;
+        public PreparedReagentController()
+            : this(new UnitOfWork()) {
 
-        public PreparedReagentController() : this(new PreparedReagentRepository(DbContextSingleton.Instance)) { }
+        }
 
-        public PreparedReagentController(IRepository<PreparedReagent> repo) {
-            this.repo = repo;
+        public PreparedReagentController(UnitOfWork uow)
+        {
+            _uow = uow;
         }
 
         // GET: MaxxamMadeReagents
         [Route("PreparedReagent")]
         public ActionResult Index() {
-            var reagents = repo.Get();
+            var reagents = _uow.PreparedReagentRepository.Get();
 
             List<PreparedReagentViewModel> list = new List<PreparedReagentViewModel>();
 
@@ -75,7 +77,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            PreparedReagent maxxamMadeReagent = _uow.PreparedReagentRepository.Get(id);
             if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
@@ -96,8 +98,8 @@ namespace TMNT.Controllers {
         [Route("PreparedReagent/Create")]
         public ActionResult Create([Bind(Include = "PreparedReagentId,LotNumber,IdCode,PreparedReagentName,LastModifiedBy")] PreparedReagent preparedReagent) {
             if (ModelState.IsValid) {
-                db.PreparedReagent.Add(preparedReagent);
-                db.SaveChanges();
+                _uow.PreparedReagentRepository.Create(preparedReagent);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -110,7 +112,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            PreparedReagent maxxamMadeReagent = _uow.PreparedReagentRepository.Get(id);
             if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
@@ -125,8 +127,8 @@ namespace TMNT.Controllers {
         [Route("PreparedReagent/Edit/{id?}")]
         public ActionResult Edit([Bind(Include = "PreparedReagentId,LotNumber,IdCode,PreparedReagentName,LastModifiedBy")] PreparedReagent maxxamMadeReagent) {
             if (ModelState.IsValid) {
-                db.Entry(maxxamMadeReagent).State = EntityState.Modified;
-                db.SaveChanges();
+                _uow.PreparedReagentRepository.Update(maxxamMadeReagent);
+                _uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(maxxamMadeReagent);
@@ -138,7 +140,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
+            PreparedReagent maxxamMadeReagent = _uow.PreparedReagentRepository.Get(id);
             if (maxxamMadeReagent == null) {
                 return HttpNotFound();
             }
@@ -150,15 +152,14 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         [Route("PreparedReagent/Delete/{id}")]
         public ActionResult DeleteConfirmed(int id) {
-            PreparedReagent maxxamMadeReagent = db.PreparedReagent.Find(id);
-            db.PreparedReagent.Remove(maxxamMadeReagent);
-            db.SaveChanges();
+            _uow.PreparedReagentRepository.Delete(id);
+            _uow.Commit();
             return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing) {
             if (disposing) {
-                db.Dispose();
+                _uow.Dispose();
             }
             base.Dispose(disposing);
         }
