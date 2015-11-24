@@ -8,6 +8,19 @@ namespace TMNT.Controllers {
     [Authorize]
     [PasswordChange]
     public class PDFViewerController : Controller {
+
+        private UnitOfWork _uow;
+
+        public PDFViewerController()
+            : this(new UnitOfWork()) {
+
+        }
+
+        public PDFViewerController(UnitOfWork uow)
+        {
+            _uow = uow;
+        }
+
         // GET: PDFViewer
         public ActionResult Index() {
             return View();
@@ -25,7 +38,7 @@ namespace TMNT.Controllers {
 
             switch (type) {
                 case "CofA":
-                    cofa = new CofARepository().Get(id);
+                    cofa = _uow.CofARepository.Get(id);
                     fileBuffer = cofa.Content;
 
                     if (fileBuffer != null) {
@@ -36,7 +49,7 @@ namespace TMNT.Controllers {
 
                     break;
                 case "MSDS":
-                    msds = new MSDSRepository().Get(id);
+                    msds = _uow.MSDSRepository.Get(id);
                     fileBuffer = msds.Content;
 
                     if (fileBuffer != null) {
