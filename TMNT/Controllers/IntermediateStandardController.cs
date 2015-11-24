@@ -46,7 +46,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-            this.Dispose();
             return View(lIntStandards);
         }
 
@@ -96,7 +95,6 @@ namespace TMNT.Controllers {
                     vIntermediateStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
-            this.Dispose();
             return View(vIntermediateStandard);
         }
 
@@ -276,6 +274,7 @@ namespace TMNT.Controllers {
                         AmountTaken = prepListViewModel.AmountsWithUnits[counter]
                     });
                 }
+                _uow.Commit();
                 counter++;
             }
 
@@ -317,7 +316,7 @@ namespace TMNT.Controllers {
             };
 
             //creating the prep list and the intermediate standard
-            new PrepListRepository(DbContextSingleton.Instance).Create(prepList);
+            _uow.PrepListRepository.Create(prepList);
             intermediatestandard.InventoryItems.Add(inventoryItem);
             _uow.IntermediateStandardRepository.Create(intermediatestandard);
 
@@ -453,7 +452,6 @@ namespace TMNT.Controllers {
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department && !item.IsArchived).ToList();
-            this.Dispose();
 
             return model;
         }

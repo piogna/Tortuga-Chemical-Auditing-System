@@ -101,7 +101,7 @@ namespace TMNT.Utils {
                 ExpiryDate = model.ExpiryDate,
                 CreatedBy = user,
                 DateModified = null,
-                CatalogueCode = model.CatalogueCode
+                CatalogueCode = model.CatalogueCode.ToUpper()
             };
 
             if (model.NumberOfBottles > 1) {

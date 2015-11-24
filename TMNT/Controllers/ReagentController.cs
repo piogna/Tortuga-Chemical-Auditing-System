@@ -230,7 +230,7 @@ namespace TMNT.Controllers {
                 DateCreated = DateTime.Today,
                 CreatedBy = user.UserName,
                 DateModified = null,
-                CatalogueCode = model.CatalogueCode
+                CatalogueCode = model.CatalogueCode.ToUpper()
             };
 
             reagent.InventoryItems.Add(inventoryItem);
