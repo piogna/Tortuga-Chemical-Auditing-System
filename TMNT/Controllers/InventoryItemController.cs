@@ -8,21 +8,21 @@ using TMNT.Models.Repository;
 namespace TMNT.Controllers {
     public class InventoryItemController : Controller {
 
-        private IRepository<InventoryItem> repo;
+        private UnitOfWork _uow;
 
         public InventoryItemController()
-            : this(new InventoryItemRepository()) {
+            : this(new UnitOfWork()) {
 
         }
 
-        public InventoryItemController(IRepository<InventoryItem> repo) {
-            this.repo = repo;
+        public InventoryItemController(UnitOfWork uow) {
+            _uow = uow;
         }
 
         // GET: /InventoryItem/
         [Route("InventoryItem")]
         public ActionResult Index() {
-            return View(repo.Get());
+            return View(_uow.InventoryItemRepository.Get());
         }
 
         // GET: /InventoryItem/Details/5
@@ -31,7 +31,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);
+            InventoryItem inventoryitem = _uow.InventoryItemRepository.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -63,7 +63,7 @@ namespace TMNT.Controllers {
                     }
                     inventoryitem.CertificatesOfAnalysis.Add(cofa);
                 }
-                repo.Create(inventoryitem);
+                _uow.InventoryItemRepository.Create(inventoryitem);
                 return RedirectToAction("Index");
             }
 
@@ -76,7 +76,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);
+            InventoryItem inventoryitem = _uow.InventoryItemRepository.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -91,7 +91,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "InventoryItemId,CatalogueCode,InventoryItemName,Size,Grade,CaseNumber,UsedFor,MSDS,CreatedBy,DateCreated")] InventoryItem inventoryitem) {
             if (ModelState.IsValid) {
-                repo.Update(inventoryitem);
+                _uow.InventoryItemRepository.Update(inventoryitem);
                 return RedirectToAction("Index");
             }
             return View(inventoryitem);
@@ -103,7 +103,7 @@ namespace TMNT.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            InventoryItem inventoryitem = repo.Get(id);
+            InventoryItem inventoryitem = _uow.InventoryItemRepository.Get(id);
             if (inventoryitem == null) {
                 return HttpNotFound();
             }
@@ -115,7 +115,7 @@ namespace TMNT.Controllers {
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id) {
-            repo.Delete(id);
+            _uow.InventoryItemRepository.Delete(id);
             return RedirectToAction("Index");
         }
     }
