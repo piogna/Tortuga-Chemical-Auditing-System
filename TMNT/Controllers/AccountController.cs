@@ -18,7 +18,7 @@ namespace TMNT.Controllers {
     public class AccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private UnitOfWork _uow;
+        private UnitOfWork _uow = new UnitOfWork();
 
         public AccountController() {
         }
@@ -178,7 +178,7 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, string submit) {
             if (ModelState.IsValid) {
-                var locationRepo = new LocationRepository();
+                var locationRepo = _uow.LocationRepository;//new LocationRepository();
                 
                 var location = locationRepo.Get()
                     .Where(item => item.LocationName.Equals(model.LocationName))

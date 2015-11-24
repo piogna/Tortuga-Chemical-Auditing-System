@@ -268,7 +268,6 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\BuildReagentOrStandard.cs" />
     <Compile Include="Utils\CompareDates.cs" />
-    <Compile Include="Utils\DbContextSingleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\XmlDocument.xml" />
