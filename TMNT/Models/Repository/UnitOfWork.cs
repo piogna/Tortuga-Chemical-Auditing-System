@@ -210,17 +210,17 @@ namespace TMNT.Models.Repository {
             try {
                 _db.SaveChanges();
                 return CheckModelState.Valid;
-            } catch (DbUpdateConcurrencyException) {
+            } catch (DbUpdateConcurrencyException ex) {
                 return CheckModelState.ConcurrencyError;
-            } catch (DbUpdateException) {
+            } catch (DbUpdateException ex) {
                 return CheckModelState.UpdateError;
-            } catch (DbEntityValidationException) {
+            } catch (DbEntityValidationException ex) {
                 return CheckModelState.Invalid;
-            } catch (ObjectDisposedException) {
+            } catch (ObjectDisposedException ex) {
                 return CheckModelState.Disposed;
-            } catch (DataException) {
+            } catch (DataException ex) {
                 return CheckModelState.DataError;
-            } catch (Exception) {
+            } catch (Exception ex) {
                 return CheckModelState.Error;
             }
         }

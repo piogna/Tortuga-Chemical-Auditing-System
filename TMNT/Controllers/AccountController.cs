@@ -496,7 +496,7 @@ namespace TMNT.Controllers {
                     _signInManager = null;
                 }
             }
-            _uow.Dispose();
+            //_uow.Dispose();
             base.Dispose(disposing);
         }
 

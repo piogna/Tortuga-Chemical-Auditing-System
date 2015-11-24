@@ -34,7 +34,7 @@ namespace TMNT.Controllers {
 
             foreach (var item in balances) {
                 CompareDates.SetBalanceToUnverified(item);
-                viewModels.Add(new BalanceIndexViewModel() { 
+                viewModels.Add(new BalanceIndexViewModel() {
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
@@ -336,7 +336,7 @@ namespace TMNT.Controllers {
             //TODO use in post method of verification
             var locations = _uow.LocationRepository.Get();
             var departments = _uow.DepartmentRepository.Get(); ;
-            
+
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
             model.Department = departments.Where(item => item.DepartmentId == model.Department.DepartmentId).First();
             model.DeviceCode = model.DeviceCode;
@@ -346,10 +346,8 @@ namespace TMNT.Controllers {
             return model;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
                 _uow.Dispose();
             }
             base.Dispose(disposing);
