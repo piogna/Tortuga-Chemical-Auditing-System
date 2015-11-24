@@ -48,7 +48,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-            this.Dispose();
             return View(lIntStandards);
         }
 
@@ -92,7 +91,6 @@ namespace TMNT.Controllers {
                     vWorkingStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
-            this.Dispose();
             return View(vWorkingStandard);
         }
 
@@ -310,8 +308,6 @@ namespace TMNT.Controllers {
             _uow.WorkingStandardRepository.Create(Workingstandard);
             var result = _uow.Commit();
 
-            this.Dispose();
-
             switch (result) {
                 case CheckModelState.Invalid:
                     ModelState.AddModelError("", "The creation of " + Workingstandard.IdCode + " failed. Please double check all inputs and try again.");
@@ -358,7 +354,6 @@ namespace TMNT.Controllers {
                     model.ExpiryDate = item.WorkingStandard.ExpiryDate;
                 }
             }
-            this.Dispose();
             return View(model);
         }
 

@@ -55,7 +55,6 @@ namespace TMNT.Controllers {
                     });
                 }
             }
-            this.Dispose();
             return View(lStandards);
         }
 
@@ -109,7 +108,6 @@ namespace TMNT.Controllers {
                     vStandard.InitialAmount = invItem.InitialAmount;
                 }
             }
-            this.Dispose();
             return View(vStandard);
         }
 
@@ -161,8 +159,6 @@ namespace TMNT.Controllers {
 
             StockStandard createStandard = null;
             CheckModelState result = BuildReagentOrStandard.EnterStandardIntoDatabase(model, inventoryItem, numOfItems, department, user.UserName);
-
-            this.Dispose();
 
             switch (result) {
                 case CheckModelState.Invalid:
@@ -217,7 +213,6 @@ namespace TMNT.Controllers {
                 model.SupplierName = item.SupplierName;
             }
 
-            this.Dispose();
             return View(model);
         }
 
@@ -293,11 +288,9 @@ namespace TMNT.Controllers {
                 invItem.SupplierName = stockstandard.SupplierName;
                 inventoryRepo.Update(invItem);
                 _uow.Commit();
-                this.Dispose();
 
                 return RedirectToAction("Details", new { id = stockstandard.StockStandardId });
             }
-            this.Dispose();
             return View(stockstandard);
         }
 
@@ -309,7 +302,7 @@ namespace TMNT.Controllers {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             StockStandard stockstandard = _uow.StockStandardRepository.Get(id);
-            this.Dispose();
+
             if (stockstandard == null) {
                 return HttpNotFound();
             }
@@ -336,7 +329,6 @@ namespace TMNT.Controllers {
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department.Equals(userDepartment) && !item.IsArchived).ToList();
 
-            this.Dispose();
             return model;
         }
 

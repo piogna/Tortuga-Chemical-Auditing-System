@@ -52,7 +52,6 @@ namespace TMNT.Controllers {
                                         .First()
                 });
             }
-            this.Dispose();
             return View(viewModels);
         }
 
@@ -65,7 +64,6 @@ namespace TMNT.Controllers {
             if (device == null) {
                 return HttpNotFound();
             }
-            this.Dispose();
             return View(device);
         }
 
@@ -84,10 +82,8 @@ namespace TMNT.Controllers {
         public ActionResult Create([Bind(Include = "DeviceId,DeviceCode,IsVerified,DeviceType,Status")] Device device) {
             if (ModelState.IsValid) {
                 _uow.VolumetricDeviceRepository.Create(device);
-                this.Dispose();
                 return RedirectToAction("Index");
             }
-            this.Dispose();
             return View(device);
         }
 
@@ -109,7 +105,6 @@ namespace TMNT.Controllers {
                 WeightLimitThree = balance.AmountLimitThree == null ? null : balance.AmountLimitThree + " g",
                 NumberOfDecimals = balance.NumberOfDecimals
             };
-            this.Dispose();
             return View(device);
         }
 
@@ -122,7 +117,6 @@ namespace TMNT.Controllers {
             if (device == null) {
                 return HttpNotFound();
             }
-            this.Dispose();
             return View(device);
         }
 
@@ -157,7 +151,6 @@ namespace TMNT.Controllers {
                         break;
                 }
             }
-            this.Dispose();
             return View(device);
         }
 
@@ -174,7 +167,6 @@ namespace TMNT.Controllers {
 
             var result = _uow.Commit();
 
-            this.Dispose();
             return View(device);
         }
 
@@ -201,7 +193,6 @@ namespace TMNT.Controllers {
                 .Where(item => !string.IsNullOrEmpty(item.SubDepartment) || !item.DepartmentName.Equals("Quality Assurance"))
                 .ToList();
 
-            this.Dispose();
             return model;
         }
 

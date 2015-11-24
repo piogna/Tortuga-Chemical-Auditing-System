@@ -23,17 +23,13 @@ namespace TMNT.Filters {
         private UnitOfWork _uow = new UnitOfWork();
         public override void OnActionExecuting(ActionExecutingContext filterContext) {
             if (_uow.GetUserRoles().Contains("Quality Assurance")) {
+                _uow.Dispose();
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "");
                 redirectTargetDictionary.Add("action", "InsufficientPrivileges");
                 redirectTargetDictionary.Add("controller", "Account");
                 filterContext.Result = new RedirectToRouteResult(redirectTargetDictionary);
-            }
-        }
 
-        protected void Dispose(bool disposing) {
-            if (disposing) {
-                _uow.Dispose();
             }
         }
     }

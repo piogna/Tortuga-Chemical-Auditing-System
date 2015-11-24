@@ -56,7 +56,6 @@ namespace TMNT.Controllers {
             var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
             var balances = _uow.BalanceDeviceRepository.Get().ToList();
-            this.Dispose();
 
             return View(balances);
         }
@@ -73,7 +72,7 @@ namespace TMNT.Controllers {
                     IsVerified = item.IsVerified.ToString(),
                     Status = item.Status
                 });
-            this.Dispose();
+
             return Json(output, JsonRequestBehavior.AllowGet);
         }
 
