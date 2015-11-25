@@ -557,9 +557,10 @@ namespace TMNT.Controllers {
                 updateReagent.GradeAdditionalNotes = stockreagent.GradeAdditionalNotes;
                 updateReagent.ExpiryDate = stockreagent.ExpiryDate;
                 updateReagent.DateModified = DateTime.Today;
+                updateReagent.ReagentName = stockreagent.ReagentName;
 
                 _uow.StockReagentRepository.Update(updateReagent);
-                _uow.Commit();
+                //_uow.Commit();
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {

@@ -28,6 +28,7 @@ namespace TMNT.Models.Repository {
 
         public void Update(StockReagent t) {
             _db.Entry(t).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         public void Delete(int? i) {

@@ -6,8 +6,6 @@ using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
 using TMNT.Models.Enums;
 
 namespace TMNT.Models.Repository {

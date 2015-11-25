@@ -9,32 +9,32 @@ using TMNT.Utils;
 namespace TMNT.Models.Repository {
     public class VolumetricDeviceRepository : IRepository<Device> {
 
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public VolumetricDeviceRepository() { }
 
         public VolumetricDeviceRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<Device> Get() {
-            return db.Devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
+            return _db.Devices.Where(item => item.DeviceType.Equals("Volumetric")).ToList();
         }
 
         public Device Get(int? i) {
-            return db.Devices.Find(i);
+            return _db.Devices.Find(i);
         }
         public void Create(Device t) {
-            db.Devices.Add(t);
+            _db.Devices.Add(t);
         }
 
         public void Update(Device t) {
-            db.Entry(t).State = EntityState.Modified;
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-            var device = db.Devices.Find(i);
-            db.Entry(device).State = EntityState.Modified;
+            var device = _db.Devices.Find(i);
+            _db.Entry(device).State = EntityState.Modified;
         }
 
         public void Dispose() {

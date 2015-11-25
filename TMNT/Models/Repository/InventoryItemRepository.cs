@@ -8,36 +8,37 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class InventoryItemRepository : IRepository<InventoryItem> {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public InventoryItemRepository() { }
 
         public InventoryItemRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<InventoryItem> Get() {
-            return db.InventoryItems.ToList();
+            return _db.InventoryItems.ToList();
         }
 
         public InventoryItem Get(int? i) {
-            return db.InventoryItems.Find(i);
+            return _db.InventoryItems.Find(i);
         }
 
         public void Create(InventoryItem t) {
-            db.InventoryItems.Add(t);
+            _db.InventoryItems.Add(t);
         }
 
         public void Update(InventoryItem t) {
-            db.Entry(t).State = EntityState.Modified;
+            _db.Entry(t).State = EntityState.Modified;
+            _db.SaveChanges();
         }
 
         public void Delete(int? i) {
-            db.InventoryItems.Remove(db.InventoryItems.Find(i));//change to archive in the future?
+            _db.InventoryItems.Remove(_db.InventoryItems.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {
-            db.Dispose();
+            _db.Dispose();
         }
     }
 }

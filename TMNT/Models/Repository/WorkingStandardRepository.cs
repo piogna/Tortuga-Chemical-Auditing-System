@@ -8,7 +8,7 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class WorkingStandardRepository : IRepository<WorkingStandard> {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public WorkingStandardRepository() { }
 
@@ -17,31 +17,31 @@ namespace TMNT.Models.Repository {
         /// </summary>
         /// <param name="db"></param>
         public WorkingStandardRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<WorkingStandard> Get() {
-            return db.WorkingStandards.ToList();
+            return _db.WorkingStandards.ToList();
         }
 
         public WorkingStandard Get(int? i) {
-            return db.WorkingStandards.Find(i);
+            return _db.WorkingStandards.Find(i);
         }
 
         public void Create(WorkingStandard t) {
-            db.WorkingStandards.Add(t);
+            _db.WorkingStandards.Add(t);
         }
 
         public void Update(WorkingStandard t) {
-            db.Entry(t).State = EntityState.Modified;
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-            db.WorkingStandards.Remove(db.WorkingStandards.Find(i));//change to archive in the future?
+            _db.WorkingStandards.Remove(_db.WorkingStandards.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {
-            db.Dispose();
+            _db.Dispose();
         }
     }
 }

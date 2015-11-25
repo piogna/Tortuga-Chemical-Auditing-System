@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TMNT.Models.Repository {
     public class StockStandardApiRepository : IApiRepository<StockStandard> {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
         public IEnumerable<StockStandard> Get() {
             throw new NotImplementedException();
         }

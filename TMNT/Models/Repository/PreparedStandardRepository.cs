@@ -7,32 +7,32 @@ using System.Data;
 
 namespace TMNT.Models.Repository {
     public class PreparedStandardRepository : IRepository<PreparedStandard> {
-        private ApplicationDbContext db;
+        private ApplicationDbContext _db;
 
         public PreparedStandardRepository() { }
 
         public PreparedStandardRepository(ApplicationDbContext db) {
-            this.db = db;
+            this._db = db;
         }
 
         public IEnumerable<PreparedStandard> Get() {
-            return db.PreparedStandard;
+            return _db.PreparedStandard;
         }
 
         public PreparedStandard Get(int? i) {
-            return db.PreparedStandard.Find(i);
+            return _db.PreparedStandard.Find(i);
         }
 
         public void Create(PreparedStandard t) {
-            db.PreparedStandard.Add(t);
+            _db.PreparedStandard.Add(t);
         }
 
         public void Update(PreparedStandard t) {
-            db.Entry(t).State = EntityState.Modified;
+            _db.Entry(t).State = EntityState.Modified;
         }
 
         public void Delete(int? i) {
-            db.StockReagents.Remove(db.StockReagents.Find(i));//change to archive in the future?
+            _db.StockReagents.Remove(_db.StockReagents.Find(i));//change to archive in the future?
         }
 
         public void Dispose() {

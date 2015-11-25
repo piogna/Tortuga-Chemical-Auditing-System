@@ -242,7 +242,7 @@ namespace TMNT.Controllers {
                 updateStandard.ExpiryDate = stockstandard.ExpiryDate;
 
                 _uow.StockStandardRepository.Update(updateStandard);
-                _uow.Commit();
+                //_uow.Commit();
 
                 if (uploadCofA != null) {
                     var cofa = new CertificateOfAnalysis() {
@@ -287,7 +287,7 @@ namespace TMNT.Controllers {
 
                 invItem.SupplierName = stockstandard.SupplierName;
                 inventoryRepo.Update(invItem);
-                _uow.Commit();
+                //_uow.Commit();
 
                 return RedirectToAction("Details", new { id = stockstandard.StockStandardId });
             }
