@@ -375,12 +375,12 @@ namespace TMNT.Controllers {
                 WorkingStandard updateStandard = invItem.WorkingStandard;
                 updateStandard.IdCode = workingStandard.IdCode;
                 updateStandard.MaxxamId = workingStandard.MaxxamId;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
+                updateStandard.LastModifiedBy = user.UserName;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = workingStandard.ExpiryDate;
 
                 _uow.WorkingStandardRepository.Update(updateStandard);
-                _uow.Commit();
+                //_uow.Commit();
 
                 return RedirectToAction("Index");
             }

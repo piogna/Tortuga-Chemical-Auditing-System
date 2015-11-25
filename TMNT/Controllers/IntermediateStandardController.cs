@@ -397,12 +397,12 @@ namespace TMNT.Controllers {
                 updateStandard.MaxxamId = intermediatestandard.MaxxamId;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = intermediatestandard.ExpiryDate;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
+                updateStandard.LastModifiedBy = user.UserName;
 
                 _uow.IntermediateStandardRepository.Update(updateStandard);
 
                 _uow.InventoryItemRepository.Update(invItem);
-                _uow.Commit();
+                //_uow.Commit();
                 return RedirectToAction("Index");
             }
             return View(intermediatestandard);

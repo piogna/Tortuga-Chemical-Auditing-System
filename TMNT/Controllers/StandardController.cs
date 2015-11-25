@@ -237,7 +237,7 @@ namespace TMNT.Controllers {
                 updateStandard.StockStandardName = stockstandard.StockStandardName;
                 updateStandard.IdCode = stockstandard.IdCode;
                 updateStandard.LotNumber = stockstandard.LotNumber;
-                updateStandard.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
+                updateStandard.LastModifiedBy = user.UserName;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = stockstandard.ExpiryDate;
 

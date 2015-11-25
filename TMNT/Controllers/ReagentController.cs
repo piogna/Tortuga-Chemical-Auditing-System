@@ -552,7 +552,7 @@ namespace TMNT.Controllers {
 
                 StockReagent updateReagent = invItem.StockReagent;
                 updateReagent.LotNumber = stockreagent.LotNumber;
-                updateReagent.LastModifiedBy = !string.IsNullOrEmpty(user.UserName) ? user.UserName : "USERID";
+                updateReagent.LastModifiedBy = user.UserName;
                 updateReagent.Grade = stockreagent.Grade;
                 updateReagent.GradeAdditionalNotes = stockreagent.GradeAdditionalNotes;
                 updateReagent.ExpiryDate = stockreagent.ExpiryDate;
