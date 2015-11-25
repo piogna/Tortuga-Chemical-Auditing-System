@@ -34,7 +34,7 @@ namespace TMNT {
             emailBody += "<Strong>User: </Strong>" + user + "<br/><br/>";
             emailBody += "<Strong>Error Message: </Strong>" + exception.Message + "<br/><br/>";
             emailBody += "<Strong>Stack Trace: </Strong><br>" + exception.StackTrace;
-            String JS = "$.ajax({ url : 'http://kal-rul.com/PHP/AJAX.php',  type: 'POST',  data : {call:'sendEmail', to:'lomasian@hotmail.ca', subject:'Tortuga UAT - " + DateTime.Now + " - Error', message:'"+ emailBody.Replace("'","\"").Replace("\r\n", "</br>") +"'}});";
+            String JS = "$.ajax({ url : 'http://kal-rul.com/PHP/AJAX.php',  type: 'POST',  data : {call:'sendEmail', to:'lomasian@hotmail.ca;team.tortuga.contact@gmail.com', subject:'Tortuga UAT - " + DateTime.Now + " - Error', message:'"+ emailBody.Replace("'","\"").Replace("\r\n", "</br>") +"'}});";
 
             HttpContext.Current.Response.Write("<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script><script>"+JS+"</script>");
             Server.ClearError();

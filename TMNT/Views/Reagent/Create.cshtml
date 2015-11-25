@@ -188,7 +188,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field" } })
+                                        @Html.EditorFor(model => model.LotNumber, new { htmlAttributes = new { @placeholder = "Lot #", @class = "input-summary form-control required-field", @maxlength = 15 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.LotNumber)
                                 </div>
