@@ -19,11 +19,10 @@ namespace TMNT {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
         protected void Application_Error(object sender, EventArgs e)
         {
             var exception = Server.GetLastError();
-            /*
+            
             System.Web.HttpBrowserCapabilities browser = Request.Browser;
             String user = User.Identity.Name;
             if (user == "")
@@ -35,16 +34,9 @@ namespace TMNT {
             emailBody += "<Strong>User: </Strong>" + user + "<br/><br/>";
             emailBody += "<Strong>Error Message: </Strong>" + exception.Message + "<br/><br/>";
             emailBody += "<Strong>Stack Trace: </Strong><br>" + exception.StackTrace;
-             * */
-            using (var client = new WebClient())
-            {
-                var values = new NameValueCollection();
-                values["call"] = "sendEmail";
-                //values["subject"] = "Tortuga UAT - " + DateTime.Now + " - Error";
-                //values["message"] = emailBody;
-                values["to"] = "lomasian@hotmail.ca";
-                var response = client.UploadValues("http://kal-rul.com/PHP/AJAX.php", values);
-            }
+            String JS = "$.ajax({ url : 'http://kal-rul.com/PHP/AJAX.php',  type: 'POST',  data : {call:'sendEmail', to:'lomasian@hotmail.ca', subject:'Tortuga UAT - " + DateTime.Now + " - Error', message:'"+ emailBody.Replace("'","\"").Replace("\r\n", "</br>") +"'}});";
+
+            HttpContext.Current.Response.Write("<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script><script>"+JS+"</script>");
             Server.ClearError();
             var httpException = exception as HttpException;
 
