@@ -16,8 +16,7 @@ namespace TMNT.Controllers {
 
         }
 
-        public PDFViewerController(UnitOfWork uow)
-        {
+        public PDFViewerController(UnitOfWork uow) {
             _uow = uow;
         }
 
