@@ -22,8 +22,8 @@ namespace TMNT {
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Server.ClearError();
             var exception = Server.GetLastError();
+            /*
             System.Web.HttpBrowserCapabilities browser = Request.Browser;
             String user = User.Identity.Name;
             if (user == "")
@@ -35,13 +35,13 @@ namespace TMNT {
             emailBody += "<Strong>User: </Strong>" + user + "<br/><br/>";
             emailBody += "<Strong>Error Message: </Strong>" + exception.Message + "<br/><br/>";
             emailBody += "<Strong>Stack Trace: </Strong><br>" + exception.StackTrace;
-
+             * */
             using (var client = new WebClient())
             {
                 var values = new NameValueCollection();
                 values["call"] = "sendEmail";
-                values["subject"] = "Tortuga UAT - " + DateTime.Now + " - Error";
-                values["message"] = emailBody;
+                //values["subject"] = "Tortuga UAT - " + DateTime.Now + " - Error";
+                //values["message"] = emailBody;
                 values["to"] = "lomasian@hotmail.ca";
                 var response = client.UploadValues("http://kal-rul.com/PHP/AJAX.php", values);
             }
