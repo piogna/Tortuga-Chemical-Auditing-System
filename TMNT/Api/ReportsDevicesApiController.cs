@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TMNT.Models;
@@ -10,111 +12,67 @@ using TMNT.Utils;
 namespace TMNT.Api {
     public class ReportsDevicesApiController : ApiController {
         ApplicationDbContext db = ApplicationDbContext.Create();
-        //private IRepository<Device> _repo;
-        public ReportsDevicesApiController() {
+        private UnitOfWork _uow;
+
+        public ReportsDevicesApiController(UnitOfWork uow) {
+            _uow = uow;
+        }
+        public ReportsDevicesApiController() : this(new UnitOfWork()) {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
         }
 
-        //public ReportsDevicesApiController() : this(new DeviceRepository(DbContextSingleton.Instance)) { }
-
-        //public ReportsDevicesApiController(IRepository<Device> repo) {
-        //    _repo = repo;
-        //}
-
         //GET: All
         [ResponseType(typeof(Device))]
         public IHttpActionResult GetDevices() {
-            List<Device> devices = db.Devices.ToList();
-            List<Department> departments = db.Departments.ToList();
-            //foreach (var device in devices) {
-            //    device.DeviceVerifications = db.DeviceVerifications.Where(item => item.Device.DeviceId == device.DeviceId).ToList();
-            //    foreach (var department in departments) {
-            //        device.Department = db.Departments.Where(item => item.DepartmentId == department.DepartmentId).First();
-            //    }
-            //}
+            var devices = db.Devices;
+            var userDepartment = _uow.GetUserDepartment();
 
-            if (devices == null) {
+            var apidevices = devices
+                .Where(item => !item.IsArchived && item.Department.DepartmentId == userDepartment.DepartmentId)
+                .Select(item => new BalanceApiModel() {
+                    BalanceId = item.DeviceId,
+                    Department = item.Department,
+                    DeviceCode = item.DeviceCode,
+                    IsVerified = item.IsVerified,
+                    DeviceVerifications = item.DeviceVerifications.Where(v => v.VerifiedOn == DateTime.Today),
+                    LastVerifiedBy = item.DeviceVerifications.Count > 0 ?
+                                    item.DeviceVerifications.OrderByDescending(v => v.VerifiedOn).FirstOrDefault().User.UserName :
+                                    "New Device"
+                }).ToList();
+
+            if (apidevices == null) {
                 return NotFound();
             }
             try {
-                return Ok(devices);
+                return Ok(apidevices);
             } catch (Exception ex) {
 
             }
             return null;
         }
 
-        // GET: api/ReportsDevicesApi/5
-        //[ResponseType(typeof(Device))]
-        //public IHttpActionResult GetDevice(int? id) {
-        //    Device device = db.Devices.Find(id);
-        //    if (device == null) {
-        //        return NotFound();
-        //    }
+        protected override void Dispose(bool disposing) {
+            if (disposing) {
+                db.Dispose();
+                _uow.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
 
-        //    return Ok(device);
-        //}
+    public class BalanceApiModel {
+        public int BalanceId { get; set; }
+        public string DeviceCode { get; set; }
+        public Location Location { get; set; }
+        public Department Department { get; set; }
+        public bool IsVerified { get; set; }
+        public string Status { get; set; }
+        public int NumberOfDecimals { get; set; }
 
-        //// PUT: api/ReportsDevicesApi/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutDevice(int id, Device device) {
-        //    if (!ModelState.IsValid) {
-        //        return BadRequest(ModelState);
-        //    }
+        public DateTime? LastVerified { get; set; }
+        public string LastVerifiedBy { get; set; }//full name
 
-        //    if (id != device.DeviceId) {
-        //        return BadRequest();
-        //    }
-
-
-        //    try {
-        //        db.Devices.
-        //    } catch (DbUpdateConcurrencyException) {
-        //        if (!DeviceExists(id)) {
-        //            return NotFound();
-        //        } else {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        //// POST: api/ReportsDevicesApi
-        //[ResponseType(typeof(Device))]
-        //public IHttpActionResult PostDevice(Device device) {
-        //    if (!ModelState.IsValid) {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    _repo.Create(device);
-
-        //    return CreatedAtRoute("DefaultApi", new { id = device.DeviceId }, device);
-        //}
-
-        //// DELETE: api/ReportsDevicesApi/5
-        //[ResponseType(typeof(Device))]
-        //public IHttpActionResult DeleteDevice(int? id) {
-        //    Device device = _repo.Get(id);
-        //    if (device == null) {
-        //        return NotFound();
-        //    }
-
-        //    _repo.Delete(id);
-
-        //    return Ok(device);
-        //}
-
-        ////protected override void Dispose(bool disposing) {
-        ////    if (disposing) {
-        ////        db.Dispose();
-        ////    }
-        ////    base.Dispose(disposing);
-        ////}
-
-        //private bool DeviceExists(int? id) {
-        //    return _repo.Get().Count(e => e.DeviceId == id) > 0;
-        //}
+        public IEnumerable<DeviceVerification> DeviceVerifications { get; set; }
     }
 }

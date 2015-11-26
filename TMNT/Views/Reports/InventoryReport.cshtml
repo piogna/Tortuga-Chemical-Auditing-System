@@ -74,7 +74,7 @@
             //ajax call
             var getAjaxData = $.ajax({
                 type: "GET",
-                url: "../../Content/json/chemical-data.json",
+                url: "http://localhost:1413/api/expiringitems",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: onDataReceived,
@@ -85,16 +85,44 @@
             });
 
             $.when(getAjaxData).done(function (x) {
-                var table = $("#chemical-table tbody");
-                var text;
+                var table = $("#chemical-table tbody"), text = "";
 
-                $.each(json.Chemicals, function (i, row) {
-                    text += "<tr>" +
-                                "<td>" + row.Type + "</td>" +
-                                "<td>" + row.ExpiryDate + "</td>" +
-                                "<td>" + row.LotNumber + "</td>" +
-                                "<td>" + row.UsageCount + "</td>" +
-                            "</tr>";
+                $.each(json, function (i, row) {
+                    //console.log(row);
+                    var expiryDate = new Date(row.StockReagent.ExpiryDate),
+                        dayFormat = expiryDate.getFullYear() + "-" + (expiryDate.getMonth() + 1) + "-" + expiryDate.getDate();
+                    text += "<tr><td>" + row.ChemicalType + "</td>";
+
+                    switch (row.ChemicalType) {
+                        case "Reagent":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.StockReagent.LotNumber + "</td>"
+                            break;
+                        case "Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.StockStandard.LotNumber + "</td>"
+                            break;
+                        case "Intermediate Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.IntermediateStnadard.IdCode + "</td>"
+                            break;
+                        case "Working Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.WorkingStandard.IdCode + "</td>"
+                            break;
+                        default:
+                            alert("error reading in expiring chemicals");
+                            break;
+                    }
+
+                    if (row.UsageCount <= 20) {
+                        text += "<td>Low Importance</td>";
+                    } else if (row.UsageCount <= 30) {
+                        text += "<td>Medium Importance</td>";
+                    } else {
+                        text += "<td>High Importance</td>";
+                    }
+                    text += "</tr>";
                 });
                 table.append(text);
             });

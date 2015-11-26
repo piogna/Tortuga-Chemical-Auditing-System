@@ -72,7 +72,7 @@
             //ajax call
             var getAjaxData = $.ajax({
                 type: "GET",
-                url: "../../Content/json/balance-verifications.json",
+                url: "http://localhost:1413/api/reportsdevicesapi",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: onDataReceived,
@@ -86,11 +86,12 @@
                 var table = $("#device-table tbody");
                 var text;
 
-                $.each(json.Balances, function (i, row) {
-                    var zero = row.Verifications.length == 0 ? "Not Verified Today" : row.Verifications.length;
+                $.each(json, function (i, row) {
+                    console.log(row);
+                    var zero = row.DeviceVerifications.length == 0 ? "Not Verified Today" : row.DeviceVerifications.length;
                     text += "<tr>" +
                                 "<td>" + row.DeviceCode + "</td>" +
-                                "<td>" + row.Department + "</td>" +
+                                "<td>" + row.Department.SubDepartment + "</td>" +
                                 "<td>" + zero + "</td>" +
                                 "<td>" + row.LastVerifiedBy + "</td>" +
                             "</tr>";

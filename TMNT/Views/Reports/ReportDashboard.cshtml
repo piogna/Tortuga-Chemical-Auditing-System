@@ -259,8 +259,8 @@
                 balanceJson = data;
 
                 var text = "";
-                $.each(balanceJson.Balances, function (i, row) {
-                    if (row.Verifications.length === 0) {
+                $.each(balanceJson, function (i, row) {
+                    if (!row.IsVerified) {
                         text += "<tr>" +
                                     "<td>" + row.DeviceCode + "</td>" +
                                     "<td>" + row.LastVerifiedBy + "</td>";
@@ -274,39 +274,50 @@
                 chemicalJson = data;
 
                 var text = "";
-                $.each(chemicalJson.Chemicals, function (i, row) {
-                    text += "<tr>" +
-                                "<td>" + row.Type + "</td>" +
-                                "<td>" + row.ExpiryDate + "</td>" +
-                                "<td>" + row.LotNumber + "</td>";
+                $.each(chemicalJson, function (i, row) {
+                    var expiryDate = new Date(row.StockReagent.ExpiryDate),
+                        dayFormat = expiryDate.getFullYear() + "-" + (expiryDate.getMonth() + 1) + "-" + expiryDate.getDate();
+
+                    text += "<tr><td>" + row.ChemicalType + "</td>";
+
+                    switch (row.ChemicalType) {
+                        case "Reagent":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.StockReagent.LotNumber + "</td>"
+                            break;
+                        case "Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.StockStandard.LotNumber + "</td>"
+                            break;
+                        case "Intermediate Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.IntermediateStnadard.IdCode + "</td>"
+                            break;
+                        case "Working Standard":
+                            text += "<td>" + dayFormat + "</td>" +
+                            "<td>" + row.WorkingStandard.IdCode + "</td>"
+                            break;
+                        default:
+                            alert("error reading in expiring chemicals");
+                            break;
+                    }
 
                     if (row.UsageCount <= 20) {
-                        text += "<td>Low Important</td>";
+                        text += "<td>Low Importance</td>";
                     } else if (row.UsageCount <= 30) {
-                        text += "<td>Medium Important</td>";
+                        text += "<td>Medium Importance</td>";
                     } else {
-                        text += "<td>High Important</td>";
+                        text += "<td>High Importance</td>";
                     }
+                    text += "</tr>";
                 });
                 chemicalTable.append(text);
                 return true;
             }
-
-            //ajax calls
-            var getChemicalAjaxData = $.ajax({
-                type: "GET",
-                url: "../../Content/json/chemical-data.json",
-                contentType: "json",
-                success: onChemicalDataReceived,
-                error:
-                    function () {
-                        alert("error");
-                    }
-            });
-
+            //web api calls
             var getBalanceAjaxData = $.ajax({
                 type: "GET",
-                url: "../../Content/json/balance-verifications.json",
+                url: "http://localhost:1413/api/reportsdevicesapi",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: onBalanceDataReceived,
@@ -316,7 +327,43 @@
                     }
             });
 
-            $.when(getBalanceAjaxData, getChemicalAjaxData).done(function (x) {
+            var getChemicalAjaxData = $.ajax({
+                type: "GET",
+                url: "http://localhost:1413/api/expiringitems",
+                contentType: "json",
+                success: onChemicalDataReceived,
+                error:
+                    function () {
+                        alert("error");
+                    }
+            });
+
+            //ajax calls
+
+            //var getChemicalAjaxData = $.ajax({
+            //    type: "GET",
+            //    url: "../../Content/json/chemical-data.json",
+            //    contentType: "json",
+            //    success: onChemicalDataReceived,
+            //    error:
+            //        function () {
+            //            alert("error");
+            //        }
+            //});
+
+            //var getBalanceAjaxData = $.ajax({
+            //    type: "GET",
+            //    url: "../../Content/json/balance-verifications.json",
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: onBalanceDataReceived,
+            //    error:
+            //        function (xhr, status, error) {
+            //            alert("error");
+            //        }
+            //});
+
+            $.when(getBalanceAjaxData).done(function (x) {
                 //data tables
                 $('#balanceTable').dataTable({
                     "pageLength": 5,
@@ -336,8 +383,8 @@
                 var placeholder = $("#placeholder"), devicesTable = $('#myTable');
                 var passed = 0, failed = 0, notVerified = 0, tableRows = "";
 
-                $.each(balanceJson.Balances, function (i, row) {
-                    if (row.Verifications.length == 0) {
+                $.each(balanceJson, function (i, row) {
+                    if (row.DeviceVerifications.length == 0) {
                         tableRows += "<tr>" +
                             "<td>" + row.DeviceCode + "</td>" +
                             "<td>" + row.LastVerifiedBy + "</td>"
@@ -345,12 +392,13 @@
 
                         notVerified++;
                     }
-                    $.each(row.Verifications, function (innerI, innerRow) {
-                        if (innerRow === "Pass") {
+                    $.each(row.DeviceVerifications, function (innerI, innerRow) {
+                        if (innerRow.DidTestPass) {// === "Pass") {
                             passed++;
-                        } else if (innerRow === "Fail") {
+                        } else {// if (innerRow === "Fail") {
                             failed++;
                         }
+                        //console.log(innerRow);
                     })
                 });
 
@@ -474,7 +522,6 @@
             function setCode(lines) {
                 $("#code").text(lines.join("\n"));
             }
-
         });
     </script>
 </body>
