@@ -59,8 +59,8 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.StockStandardId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.StockStandardId }) |
-                    <a href="#">Print Label</a>
+                    @Html.ActionLink("Details", "Details", new { id = item.StockStandardId })
+                    @*<a href="#">Print Label</a>*@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StockStandardName)

@@ -59,8 +59,8 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.IntermediateStandardId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId }) |
-                    <a href="#">Print Label</a>
+                    @Html.ActionLink("Details", "Details", new { id = item.IntermediateStandardId })
+                    @*<a href="#">Print Label</a>*@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)

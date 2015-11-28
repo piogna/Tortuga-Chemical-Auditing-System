@@ -58,9 +58,9 @@
             <tr>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ReagentId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ReagentId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ReagentId })
                     @*@Html.ActionLink("Top-Up", "Topup", new { id = item.ReagentId }) |*@
-                    <a href="#">Print Label</a>
+                    @*<a href="#">Print Label</a>*@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReagentName)
