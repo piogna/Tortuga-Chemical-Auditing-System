@@ -38,6 +38,7 @@ namespace TMNT.Controllers {
                     BalanceId = item.DeviceId,
                     DeviceCode = item.DeviceCode,
                     IsVerified = item.IsVerified,
+                    BalanceType = item.BalanceType,
                     DepartmentName = item.Department.DepartmentName,
                     LastVerifiedBy = item.DeviceVerifications == null ? "N/A" :
                                 item.DeviceVerifications
@@ -73,14 +74,15 @@ namespace TMNT.Controllers {
                 DeviceCode = device.DeviceCode,
                 IsVerified = device.IsVerified,
                 Location = device.Department.Location,
+                BalanceType = device.BalanceType,
                 Status = device.Status,
                 NumberOfDecimals = device.NumberOfDecimals
             };
 
             if (device.DeviceVerifications.Count > 0) {
                 balanceData.DeviceVerifications = device.DeviceVerifications.OrderByDescending(x => x.VerifiedOn.Value.Date).ToList();
-                balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.VerifiedOn).First();
-                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).Select(item => item.User.UserName).First();
+                balanceData.LastVerified = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).First().VerifiedOn;
+                balanceData.LastVerifiedBy = device.DeviceVerifications.OrderByDescending(item => item.VerifiedOn).First().User.UserName;
             }
             return View(balanceData);
         }
@@ -92,10 +94,9 @@ namespace TMNT.Controllers {
 
         [Route("Balance/Create")]
         [HttpPost]
-        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree,NumberOfTestsToVerify")] BalanceCreateViewModel balance, string submit) {
+        public ActionResult Create([Bind(Include = "BalanceId,DeviceCode,LocationName,BalanceType,DepartmentName,SubDepartmentName,NumberOfDecimals,WeightLimitOne,WeightLimitTwo,WeightLimitThree,NumberOfTestsToVerify")] BalanceCreateViewModel balance, string submit) {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid) {
-
                 var doesDeviceAlreadyExist = _uow.BalanceDeviceRepository.Get().Any(item => item != null && item.DeviceCode.Equals(balance.DeviceCode));
 
                 if (doesDeviceAlreadyExist) {
@@ -111,6 +112,7 @@ namespace TMNT.Controllers {
                     NumberOfDecimals = balance.NumberOfDecimals,
                     Status = "Needs Verification",
                     IsVerified = false,
+                    BalanceType = balance.BalanceType,
                     DeviceType = "Balance",
                     NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                     Department = _uow.DepartmentRepository.Get().Where(item => item.DepartmentName.Equals(balance.DepartmentName) && item.SubDepartment.Equals(balance.SubDepartmentName)).First()
@@ -157,6 +159,7 @@ namespace TMNT.Controllers {
                 DeviceCode = balance.DeviceCode,
                 CurrentLocation = balance.Department.Location.LocationName,
                 LocationNames = locations,
+                BalanceType = balance.BalanceType,
                 NumberOfTestsToVerify = balance.NumberOfTestsToVerify,
                 WeightLimitOne = balance.AmountLimitOne + " g",
                 WeightLimitTwo = balance.AmountLimitTwo + " g ",

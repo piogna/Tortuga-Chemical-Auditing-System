@@ -207,6 +207,10 @@
     <Compile Include="Migrations\201511242320444_RemovedRequiredOnSomeForeignKeys.Designer.cs">
       <DependentUpon>201511242320444_RemovedRequiredOnSomeForeignKeys.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511281634575_BalanceType.cs" />
+    <Compile Include="Migrations\201511281634575_BalanceType.Designer.cs">
+      <DependentUpon>201511281634575_BalanceType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -505,6 +509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511242320444_RemovedRequiredOnSomeForeignKeys.resx">
       <DependentUpon>201511242320444_RemovedRequiredOnSomeForeignKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511281634575_BalanceType.resx">
+      <DependentUpon>201511281634575_BalanceType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

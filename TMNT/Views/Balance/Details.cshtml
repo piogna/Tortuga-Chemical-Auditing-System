@@ -125,20 +125,40 @@
     <div class="col-md-6">
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.LastVerified)
+                @Html.DisplayNameFor(model => model.BalanceType)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.LastVerified)
+                @Html.DisplayFor(model => model.BalanceType)
             </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastVerified)
+            </dt>
+
+            @if (Model.LastVerified == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.LastVerified)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.LastVerifiedBy)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.LastVerifiedBy)
-            </dd>
+            @if (Model.LastVerifiedBy == null) {
+                <dd>
+                    N/A
+                </dd>
+            } else {
+                <dd>
+                    @Html.DisplayFor(model => model.LastVerifiedBy)
+                </dd>
+            }
 
             <dt>
                 @Html.DisplayNameFor(model => model.NumberOfDecimals)

@@ -13,6 +13,8 @@ namespace TMNT.Models.ViewModels {
         public bool IsVerified { get; set; }
         [Display(Name = "Last Verified By")]
         public string LastVerifiedBy { get; set; }//full name
+        [Required(ErrorMessage = "Balance Type is Required"), Display(Name = "Balance Type")]
+        public string BalanceType { get; set; }
     }
 
     public class BalanceVerificationViewModel {
@@ -43,6 +45,8 @@ namespace TMNT.Models.ViewModels {
         public string VerifiedBy { get; set; }
         [Required(ErrorMessage = "Weight ID is Required")]
         public string WeightId { get; set; }
+        [Required(ErrorMessage = "Balance Type is Required"), Display(Name = "Balance Type")]
+        public string BalanceType { get; set; }
 
         public int NumberOfTestsToVerify { get; set; }
         public string WeightLimitOne { get; set; }
@@ -77,12 +81,15 @@ namespace TMNT.Models.ViewModels {
         public int WeightLimitThree { get; set; }
         [Required(ErrorMessage = "Number of Tests is Required"), Display(Name = "Number of Tests")]
         public int NumberOfTestsToVerify { get; set; }
+        [Required(ErrorMessage = "Balance Type is Required"), Display(Name = "Balance Type")]
+        public string BalanceType { get; set; }
 
         //properties to help populate the view
         public List<string> LocationNames { get; set; }
         public List<Department> Departments { get; set; }
         public List<Department> SubDepartments { get; set; }
         public List<string> WeightUnits { get; set; }
+        public List<string> BalanceTypes = new List<string>() { "Analytical", "Top Loading" };
     }
 
     public class BalanceDetailsViewModel {
@@ -97,6 +104,8 @@ namespace TMNT.Models.ViewModels {
         public string Status { get; set; }//in good standing, getting repaired etc
         [Display(Name = "Number of Decimals")]
         public int NumberOfDecimals { get; set; }
+        [Required(ErrorMessage = "Balance Type is Required"), Display(Name = "Balance Type")]
+        public string BalanceType { get; set; }
 
         [Display(Name = "Date Last Verified"), DataType(DataType.Date)]
         public DateTime? LastVerified { get; set; }

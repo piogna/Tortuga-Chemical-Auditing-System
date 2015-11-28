@@ -15,6 +15,7 @@ namespace TMNT.Models {
         public string AmountLimitTwo { get; set; }
         public string AmountLimitThree { get; set; }
         public bool IsArchived { get; set; }
+        public string BalanceType { get; set; }//quick property to have balances working more accurately
 
         //volumetric properties
         public string VolumetricDeviceType { get; set; }
