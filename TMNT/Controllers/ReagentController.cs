@@ -647,6 +647,7 @@ namespace TMNT.Controllers {
             model.VolumetricUnits = units.Where(item => item.UnitType.Equals("Volume")).ToList();
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == userDepartment && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == userDepartment && !item.IsArchived).ToList();
+            model.Department = userDepartment;
 
             return model;
         }
