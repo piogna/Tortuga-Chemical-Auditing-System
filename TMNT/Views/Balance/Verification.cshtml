@@ -37,6 +37,10 @@
             margin-left:0 !important;
             margin-right:0 !important;
         }
+
+        .underline {
+            text-decoration:underline;
+        }
     </style>
 }
 
@@ -61,6 +65,26 @@
         var verificationTable = $('#verification-table'), append;
         var save = $('input[type=submit]');
 
+        //execute this once
+        switch (balanceType) {
+            case "Analytical":
+                balanceVariance = CONST_ZERO_POINT_FIVE_PERCENT;
+                if (weightLimitOneVal < 0.01) {
+                    balanceVariance = CONST_TWO_PERCENT;
+                }
+                break;
+            case "Top Loading":
+                balanceVariance = CONST_TWO_PERCENT;
+                if (weightLimitOneVal < 0.2) {
+                    balanceVariance = CONST_FIVE_PERCENT;
+                }
+                break;
+            default:
+                //error
+                alert("Something went wrong. Please refresh and try ahain.");
+                return false;
+        }
+
         validateOne.on('click', function (e) {
             e.preventDefault();
             $('#placeholder').text("");
@@ -74,25 +98,6 @@
                 //is a valid number, proceed
                 var variance = ((weightLimitOneVal - weightOneVal) / weightLimitOneVal * 100).toFixed(numberOfDecimals);
                 if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
-
-                switch (balanceType) {
-                    case "Analytical":
-                        balanceVariance = CONST_ZERO_POINT_FIVE_PERCENT;
-                        if (weightLimitOneVal < 0.01) {
-                            balanceVariance = CONST_TWO_PERCENT;
-                        }
-                        break;
-                    case "Top Loading":
-                        balanceVariance = CONST_TWO_PERCENT;
-                        if (weightLimitOneVal < 0.2) {
-                            balanceVariance = CONST_FIVE_PERCENT;
-                        }
-                        break;
-                    default:
-                        //error
-                        alert("Something went wrong. Please refresh and try ahain.");
-                        return false;
-                }
 
                 if (!(variance > balanceVariance)) {
                     //valid range, first verification passed
@@ -137,7 +142,7 @@
                 var variance = ((weightLimitTwoVal - weightTwoVal) / weightLimitTwoVal * 100).toFixed(numberOfDecimals);
                 if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
 
-                if (!(variance > CONST_TWO_PERCENT)) {
+                if (!(variance > balanceVariance)) {
                     //valid range, first verification passed
                     var text = "<li style='color:#5cb85c'>Second weight passed</li>";
                     weightTwo.attr('readonly', 'readonly');
@@ -194,7 +199,7 @@
                 var variance = ((weightLimitThreeVal - weightThreeVal) / weightLimitThreeVal * 100).toFixed(numberOfDecimals);
                 if (variance < 0) { variance = -variance; }//making sure variance is always a positive number
 
-                if (!(variance > CONST_TWO_PERCENT)) {
+                if (!(variance > balanceVariance)) {
                     //valid range, first verification passed
                     var text = "<li style='color:#5cb85c'>Third weight passed</li><li style='color:#5cb85c'>You can now save the verification and use this balance!</li>";
                     message.append(text);
@@ -301,10 +306,15 @@
                             </div>
                         </div>
 
-                        @Html.Partial("_SectionHeader", "Instructions and Acceptance Criteria")
+                        @Html.Partial("_SectionHeader", "Instructions")
                         <div class="container">
                             If the measurement is outside the tolerance range, check the balance for cleanliness and level, re-zero and take a second measurement.
                             In the case of continued failure, place "Out of Service" sign, and notify supervisor and QA.
+                        </div>
+
+                        @Html.Partial("_SectionHeader", "Acceptance Criteria")
+                        <div class="container">
+                            Balance @Model.DeviceCode is type: <span class="underline">@Model.BalanceType</span><br />
                             <img src="~/Content/Images/balance-acceptance-criteria.PNG" />
                         </div>
 
