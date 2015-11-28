@@ -48,8 +48,8 @@ namespace TMNT.Controllers {
                                     item.DeviceVerifications
                                         .Where(x => x.Device.Equals(item))
                                         .OrderByDescending(x => x.VerifiedOn)
-                                        .Select(x => x.User.UserName)
                                         .First()
+                                        .User.UserName
                 });
             }
             return View(viewModels);
