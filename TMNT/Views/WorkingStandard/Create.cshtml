@@ -90,6 +90,24 @@
         .solvent-input-container-display {
             display: none;
         }
+
+        /* Summary */
+        .height {
+            min-height: 240px;
+        }
+
+        .iconbig {
+            font-size: 77px;
+            color: #5CB85C;
+        }
+
+        .uppercase {
+            text-transform:uppercase;
+        }
+
+        .font-fourteen {
+            font-size:14px;
+        }
     </style>
 }
 
@@ -440,30 +458,85 @@
                         </div>
                     </section>
                     <section id="section-bar-3">
-                        <div class="form-group">
-                            <div class="container">
-                                <table class="table table-bordered table-striped summary-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Field</th>
-                                            <th>Value</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size:14px;"></tbody>
-                                    <tfoot>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 text-center">
-                                    <input type="button" href='#section-bar-2' value="Cancel" class="btn btn-warning previous-section" />
-                                    <input name="submit" type="submit" class="btn btn-primary" value="Save" />
-                                    <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
-                                    @*<div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-default center-block active"><input type="radio">Print Label</label>
-                                        <label class="btn btn-default center-block"><input type="radio">Don't Print Label</label>
-                                    </div>*@
+                        <!-- Summary Page -->
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col-xs-12">
+                                    <i class="fa fa-search-plus pull-left icon"></i>
+                                    <h2>Summary</h2>
+                                    <hr>
+                                    <div class="row font-fourteen">
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase uppercase">Department Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Department: </dt>
+                                                        <dd>@Model.Department.DepartmentName</dd>
+                                                        <dt>Sub Department: </dt>
+                                                        <dd>@Model.Department.SubDepartment</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Location Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Location: </dt>
+                                                        <dd>@Model.Department.Location.LocationName</dd>
+                                                        <dt>Address: </dt>
+                                                        <dd>@Model.Department.Location.Address</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Safety Information</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Safety Notes: </dt>
+                                                        <dd id="summary-safety-notes"></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Device Details</div>
+                                                <div class="panel-body">
+                                                    <dl id="summary-devices"></dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row font-fourteen">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default no-border-radius">
+                                        <div class="panel-heading">
+                                            <h3 class="text-center uppercase"><strong>Intermediate Standard Details</strong></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt1" class="dl-horizontal"></dl>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt2" class="dl-horizontal"></dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="button" href='#section-bar-2' class="btn btn-warning previous-section" value="Cancel" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
                             </div>
                         </div>
                     </section>

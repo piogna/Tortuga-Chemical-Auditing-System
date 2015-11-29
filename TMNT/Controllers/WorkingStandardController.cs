@@ -428,6 +428,7 @@ namespace TMNT.Controllers {
             model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null && item.Department == department).ToList();
             model.StockStandards = items.Where(item => item.StockStandard != null && item.Department == department).ToList();
             model.StockReagents = items.Where(item => item.StockReagent != null && item.Department == department).ToList();
+            model.Department = department;
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department).ToList();

@@ -121,6 +121,7 @@ namespace TMNT.Models.ViewModels {
         public List<Unit> VolumetricUnits { get; set; }
         public Unit OtherUnit { get; set; }
         public List<string> ConcentrationUnits = new List<string>() { "mg/L", "µg/L", "µg/mL", "mg/mL", "ng/L" };
+        public Department Department { get; set; }
 
         public string[] Types { get; set; }
     }
