@@ -290,6 +290,7 @@
 
 @using (Html.BeginForm("CreateVerification", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.BalanceId)
     @Html.HiddenFor(model => model.NumberOfTestsToVerify)
     @Html.HiddenFor(model => model.NumberOfDecimals)
     @Html.HiddenFor(model => model.BalanceType)
@@ -451,7 +452,6 @@
                     </section>
                 </div>
             </div>
-
         </section>
         @Html.Partial("~/Views/Shared/_SectionsPartial.cshtml")
     </div>

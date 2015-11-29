@@ -175,7 +175,7 @@ namespace TMNT.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Balance/Verification")]
-        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,WeightOne,WeightTwo,WeightThree,Comments,WeightId")] BalanceVerificationViewModel balancetest,
+        public ActionResult CreateVerification([Bind(Include = "BalanceId,WeightId,DeviceCode,BalanceType,WeightOne,WeightTwo,WeightThree,Comments,WeightId")] BalanceVerificationViewModel balancetest,
             string[] WeightOneTable, string[] WeightTwoTable, string[] WeightThreeTable, string[] PassOrFailTable) {
 
             if (!ModelState.IsValid) {
@@ -339,13 +339,20 @@ namespace TMNT.Controllers {
         private BalanceVerificationViewModel SetVerificationBalance(BalanceVerificationViewModel model) {
             //TODO use in post method of verification
             var locations = _uow.LocationRepository.Get();
-            var departments = _uow.DepartmentRepository.Get(); ;
+            var userDepartment = _uow.GetUserDepartment();
+            var device = _uow.DeviceRepository.Get().Where(item => item.DeviceId == model.BalanceId).First();
 
             model.LocationNames = locations.Select(item => item.LocationName).ToList();
-            model.Department = departments.Where(item => item.DepartmentId == model.Department.DepartmentId).First();
-            model.DeviceCode = model.DeviceCode;
-            model.CurrentLocation = model.CurrentLocation;
-            model.NumberOfDecimals = model.NumberOfDecimals;
+            model.Department = userDepartment;
+            model.DeviceCode = device.DeviceCode;
+            model.CurrentLocation = device.Department.Location.LocationName;
+            model.NumberOfDecimals = device.NumberOfDecimals;
+            model.BalanceType = device.BalanceType;
+            model.NumberOfTestsToVerify = device.NumberOfTestsToVerify;
+            model.WeightLimitOne = device.AmountLimitOne + " g";
+            model.WeightLimitTwo = device.AmountLimitTwo + " g ";
+            model.WeightLimitThree = device.AmountLimitThree == null ? null : device.AmountLimitThree + " g";
+            model.NumberOfDecimals = device.NumberOfDecimals;
 
             return model;
         }
