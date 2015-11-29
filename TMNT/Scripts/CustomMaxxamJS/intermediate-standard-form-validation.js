@@ -5,7 +5,7 @@
 
 $(function () {
     //recipe form
-    var ChemicalType = $('#ChemicalType'), LotNumber = $('#LotNumbers'), Amount = $('#Amount'), Units = $('#Units'),
+    var ChemicalType = $('#ChemicalType'), LotNumber = $('#LotNumbers'), Amount = $('#PrepAmount'), Units = $('#PrepUnits'),
     //recipe table and buttons
     Recipes = $('#build-recipe'), RecipeTable = $('#recipe-table'), AddItem = $('#another-item'), RemoveItem = $('.recipe-table-remove-item'),
     //selection options

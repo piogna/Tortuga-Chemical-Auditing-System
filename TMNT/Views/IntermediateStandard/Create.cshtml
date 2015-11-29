@@ -94,6 +94,24 @@
         .solvent-input-container-display {
             display: none;
         }
+
+        /* Summary */
+        .height {
+            min-height: 240px;
+        }
+
+        .iconbig {
+            font-size: 77px;
+            color: #5CB85C;
+        }
+
+        .uppercase {
+            text-transform:uppercase;
+        }
+
+        .font-fourteen {
+            font-size:14px;
+        }
     </style>
 }
 
@@ -194,13 +212,13 @@
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
                                                 <div class="input-group-addon"></div>
-                                                <input name="Amount" id="Amount" type="number" min="0.01" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
+                                                <input name="Amount" id="PrepAmount" type="number" min="0.01" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
                                             </div>
                                         </div>
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
                                                 <div class="input-group-addon"></div>
-                                                <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                                <select data-placeholder="Units.." name="Unit" id="PrepUnits" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
                                                     <optgroup label="Weights">
                                                         @foreach (var item in Model.WeightUnits) {
                                                             <option value="@item.UnitId">
@@ -257,7 +275,7 @@
                                         <table id="recipe-table" class="table alert-success table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Item #</th>
+                                                    <th>No.</th>
                                                     <th>Chemical Type</th>
                                                     <th>ID</th>
                                                     <th>Amount</th>
@@ -287,14 +305,14 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
+                                            @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary-pt1 form-control no-border-radius required-field-s2" } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field-s2 input-summary">
+                                            <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field-s2 input-summary-pt1">
                                                 <option value="">Storage Requirement..</option>
                                                 <optgroup label="Storage Req's'">
                                                     @foreach (var item in Model.Storage) {
@@ -313,8 +331,8 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
-                                            <select data-placeholder="Units.." name="TotalAmountUnits" id="WeightUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary-pt1 form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
+                                            <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Weights">
                                                     @foreach (var item in Model.WeightUnits) {
                                                         <option value="@item.UnitShorthandName">
@@ -346,7 +364,7 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
+                                            @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary-pt2 form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
                                             <select data-placeholder="Units.." name="FinalConcentrationUnits" id="ConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Units">
                                                     @foreach (var item in Model.ConcentrationUnits) {
@@ -365,7 +383,7 @@
                                     <div id="conc-other-unit-wrapper" class="form-group hide">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                            @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary-pt2 form-control" } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.ConcentrationOtherUnitExplained)
                                     </div>
@@ -377,8 +395,8 @@
                                                     <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
                                                 </div>
                                             </div>
-                                            @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Expiry Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                                            @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden", @min = 1 } })
+                                            @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Expiry Date", @class = "form-control date-input input-summary-pt2 required-field", @Value = "", @type = "text" } })
+                                            @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary-pt2 required-field", @Value = "", @type = "hidden", @min = 1 } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.ExpiryDate)
                                         @Html.ValidationMessageFor(model => model.DaysUntilExpired)
@@ -386,7 +404,7 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field-s2 input-summary" multiple="multiple">
+                                            <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Balance ID's">
                                                     @foreach (var item in Model.BalanceDevices) {
                                                         if (@item.IsVerified) {
@@ -427,7 +445,7 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.SafetyNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "Safety Notes", @class = "input-summary form-control no-border-radius required-field-s2", @maxlength = 50 } })
+                                            @Html.EditorFor(model => model.SafetyNotes, new { htmlAttributes = new { @rows = 2, @style = "resize:none;", @placeholder = "Safety Notes", @class = "form-control no-border-radius required-field-s2", @maxlength = 50 } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.SafetyNotes)
                                     </div>
@@ -445,7 +463,89 @@
                         </div>
                     </section>
                     <section id="section-bar-3">
-                        <div class="form-group">
+                        <!-- Summary Page -->
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col-xs-12">
+                                    <i class="fa fa-search-plus pull-left icon"></i>
+                                    <h2>Summary</h2>
+                                    <hr>
+                                    <div class="row font-fourteen">
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase uppercase">Department Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Department: </dt>
+                                                        <dd>@Model.Department.DepartmentName</dd>
+                                                        <dt>Sub Department: </dt>
+                                                        <dd>@Model.Department.SubDepartment</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Location Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Location: </dt>
+                                                        <dd>@Model.Department.Location.LocationName</dd>
+                                                        <dt>Address: </dt>
+                                                        <dd>@Model.Department.Location.Address</dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Safety Information</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Safety Notes: </dt>
+                                                        <dd id="summary-safety-notes"></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Device Details</div>
+                                                <div class="panel-body">
+                                                    <dl id="summary-devices"></dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row font-fourteen">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default no-border-radius">
+                                        <div class="panel-heading">
+                                            <h3 class="text-center uppercase"><strong>Intermediate Standard Details</strong></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt1" class="dl-horizontal"></dl>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt2" class="dl-horizontal"></dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="button" href='#section-bar-2' class="btn btn-warning previous-section" value="Cancel" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
                             <div class="container">
                                 <table class="table table-bordered table-striped summary-table">
                                     <thead>
@@ -464,13 +564,13 @@
                                     <input type="button" href='#section-bar-2' value="Cancel" class="btn btn-warning previous-section" />
                                     <input name="submit" type="submit" class="btn btn-primary" value="Save" />
                                     <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
-                                    @*<div class="btn-group" data-toggle="buttons">
+                                    <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-default center-block active"><input type="radio">Print Label</label>
                                         <label class="btn btn-default center-block"><input type="radio">Don't Print Label</label>
-                                    </div>*@
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </section>
                 </div><!-- /content -->
             </div><!-- /tabs -->

@@ -26,7 +26,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard")]
         public ActionResult Index() {
             var userDepartment = _uow.GetUserDepartment();
-            List<IntermediateStandardIndexViewModel> lIntStandards = new List<IntermediateStandardIndexViewModel>();
+            var lIntStandards = new List<IntermediateStandardIndexViewModel>();
 
             var invRepo = _uow.InventoryItemRepository.Get()
                 .Where(item => item.IntermediateStandard != null)
@@ -169,15 +169,15 @@ namespace TMNT.Controllers {
             var numOfItems = _uow.InventoryItemRepository.Get().Count();
 
             //retrieving all table rows from recipe builder - replace with view model in the future
-            IntermediateStandardPrepListItemsViewModel prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
+            var prepListViewModel = new IntermediateStandardPrepListItemsViewModel() {
                 AmountsWithUnits = PrepListItemAmounts
             };
 
             prepListViewModel.LotNumbers = PrepListItemLotNumbers;
             prepListViewModel.Types = PrepListItemTypes;
 
-            List<object> reagentAndStandardContainer = new List<object>();
-            List<PrepListItem> prepItems = new List<PrepListItem>();
+            var reagentAndStandardContainer = new List<object>();
+            var prepItems = new List<PrepListItem>();
 
             //go through all types and sort out what they are, instantiate, and build list of objects
             foreach (var lotNumber in prepListViewModel.LotNumbers) {
@@ -385,10 +385,9 @@ namespace TMNT.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
-                //InventoryItemRepository inventoryRepo = new InventoryItemRepository(DbContextSingleton.Instance);
                 var user = _uow.GetCurrentUser();
 
-                InventoryItem invItem = _uow.InventoryItemRepository.Get()
+                var invItem = _uow.InventoryItemRepository.Get()
                         .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)
                         .FirstOrDefault();
 
@@ -437,7 +436,7 @@ namespace TMNT.Controllers {
             var units = _uow.UnitRepository.Get();
             var devices = _uow.DeviceRepository.Get().Where(item => item.Department.DepartmentId == department.DepartmentId).ToList();
 
-            List<InventoryItem> items = _uow.InventoryItemRepository.Get()
+            var items = _uow.InventoryItemRepository.Get()
                 .Where(item => item.Department == department)
                 .GroupBy(i => new { i.StockReagent, i.StockStandard, i.IntermediateStandard })
                 .Select(g => g.First())
@@ -449,6 +448,7 @@ namespace TMNT.Controllers {
             model.IntermediateStandards = items.Where(item => item.IntermediateStandard != null && item.Department == department).ToList();
             model.StockStandards = items.Where(item => item.StockStandard != null && item.Department == department).ToList();
             model.StockReagents = items.Where(item => item.StockReagent != null && item.Department == department).ToList();
+            model.Department = department;
 
             model.BalanceDevices = devices.Where(item => item.DeviceType.Equals("Balance") && item.Department == department && !item.IsArchived).ToList();
             model.VolumetricDevices = devices.Where(item => item.DeviceType.Equals("Volumetric") && item.Department == department && !item.IsArchived).ToList();

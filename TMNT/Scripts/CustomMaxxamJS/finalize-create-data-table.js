@@ -39,17 +39,15 @@
         table.append(row);
     });
 
-    var summaryCofa = $('#summary-cofa'), summaryMsds = $('#summary-msds'), summaryDevices = $('#summary-devices'), inputCofa = $('#CertificateOfAnalysis'),
-            inputMsds = $('#MSDS'), inputsPartOne = $('.input-summary-pt1'), inputsPartTwo = $('.input-summary-pt2'), inputDevices = $('#device-selector'),
-            summaryInfoPartOne = $('#summary-info-pt1'), summaryInfoPartTwo = $('#summary-info-pt2'),
+    /* BELOW IS REPLACING ABOVE */
+    //finalConcentrationUnits = $('#FinalConcentration'), 
+    var summaryCofa = $('#summary-cofa'), summaryMsds = $('#summary-msds'), summarySafetyNotes = $('#summary-safety-notes'), summaryDevices = $('#summary-devices'),
+        inputCofa = $('#CertificateOfAnalysis'), inputMsds = $('#MSDS'), inputSafetyNotes = $('#SafetyNotes'), inputMsdsNotes = $('#MSDSNotes'), inputsPartOne = $('.input-summary-pt1'),
+        inputsPartTwo = $('.input-summary-pt2'), inputDevices = $('#device-selector'), summaryInfoPartOne = $('#summary-info-pt1'), summaryInfoPartTwo = $('#summary-info-pt2'),
             summaryAppend;
 
-    $('.btn-review').on('click', function (e) {
-        //give Number of Bottles a default value if its value is 0 or empty
-        if (!$('#NumberOfBottles').val()) {
-            $('#NumberOfBottles').val("1");
-        }
-
+    $('.btn-review').on('click', function () {
+        //reset the summary page
         summaryAppend = "";
         summaryInfoPartOne.find("dt").remove();
         summaryInfoPartOne.find("dd").remove();
@@ -58,8 +56,25 @@
         summaryDevices.find("dt").remove();
         summaryDevices.find("dd").remove();
 
-        summaryCofa.text(inputCofa.val().split("\\").pop());
-        summaryMsds.text(inputMsds.val().split("\\").pop());
+        //give Number of Bottles a default value if its value is 0 or empty
+        if (!$('#NumberOfBottles').val()) {
+            $('#NumberOfBottles').val("1");
+        }
+
+        //setting the file names
+        if (inputCofa.val() && inputMsds.val()) {
+            summaryCofa.text(inputCofa.val().split("\\").pop());
+            summaryMsds.text(inputMsds.val().split("\\").pop());
+        }
+
+        //setting safety notes
+        if (inputMsdsNotes.val()) {
+            //reagent or standard
+            summarySafetyNotes.text(inputMsdsNotes.val());
+        } else {
+            //intermediate or working standard
+            summarySafetyNotes.text(inputSafetyNotes.val());
+        }
 
         $('#device-selector').each(function () {
             if ($(this).val()) {
@@ -74,8 +89,14 @@
 
         inputsPartOne.each(function () {
             if ($(this).val()) {
-                summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
-                    "<dd>" + $(this).val() + "</dd>";
+                if ($(this).attr("id") === "TotalAmount") {
+                    //concatenate initial amount with 
+                    summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
+                        "<dd>" + $(this).val() + " " + $('#Units').val() + "</dd>";
+                } else {
+                    summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
+                        "<dd>" + $(this).val() + "</dd>";
+                }
             }
         });
         summaryInfoPartOne.append(summaryAppend);
@@ -88,6 +109,9 @@
                     //concatenate initial amount with 
                     summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
                         "<dd>" + $(this).val() + " " + $('#Units').val() + "</dd>";
+                } else if ($(this).attr("id") === "FinalConcentration" || $(this).attr("id") === "Concentration") {
+                    summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
+                        "<dd>" + $(this).val() + " " + $('#ConcentrationUnits').val() + "</dd>";
                 } else {
                     //no special concatentation required
                     summaryAppend += "<dt>" + $(this).attr("name").replace(/([A-Z])/g, ' $1').trim() + ":</dt>" +
