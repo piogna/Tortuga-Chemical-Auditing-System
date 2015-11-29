@@ -58,8 +58,8 @@
         summaryDevices.find("dt").remove();
         summaryDevices.find("dd").remove();
 
-        summaryCofa.text(inputCofa.val());
-        summaryMsds.text(inputMsds.val());
+        summaryCofa.text(inputCofa.val().split("\\").pop());
+        summaryMsds.text(inputMsds.val().split("\\").pop());
 
         $('#device-selector').each(function () {
             if ($(this).val()) {
