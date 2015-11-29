@@ -208,13 +208,13 @@
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
                                                 <div class="input-group-addon"></div>
-                                                <input name="Amount" id="Amount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
+                                                <input name="Amount" id="PrepAmount" type="number" min="0" class="form-control text-box single-line no-border-radius" autocomplete="off" placeholder="Amount" />
                                             </div>
                                         </div>
                                         <div class="form-group zero-left-right-margin">
                                             <div class="input-group">
                                                 <div class="input-group-addon"></div>
-                                                <select data-placeholder="Units.." name="Unit" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
+                                                <select data-placeholder="Units.." name="Unit" id="PrepUnits" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius" multiple="multiple">
                                                     <optgroup label="Weights">
                                                         @foreach (var item in Model.WeightUnits) {
                                                             <option value="@item.UnitId">
@@ -303,14 +303,14 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary form-control no-border-radius required-field-s2" } })
+                                            @Html.EditorFor(model => model.UsedFor, new { htmlAttributes = new { @placeholder = "Used For", @rows = 6, @style = "resize:none;", @class = "input-summary-pt1 form-control no-border-radius required-field-s2" } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.UsedFor)
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field-s2 input-summary">
+                                            <select id="storage-locations" name="Storage" class="form-control no-border-radius required-field-s2 input-summary-pt1">
                                                 <option value="">Storage Requirement..</option>
                                                 <optgroup label="Storage Req's'">
                                                     @foreach (var item in Model.Storage) {
@@ -327,8 +327,8 @@
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
-                                            <select data-placeholder="Units.." name="TotalAmountUnits" id="WeightUnits" class="Units type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @placeholder = "Total Amount", @style = "width:50%;", @class = "units-list input-summary-pt1 form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
+                                            <select data-placeholder="Units.." name="TotalAmountUnits" id="Units" class="Units type-validation input-xlarge-fuid form-control valid no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Weights">
                                                     @foreach (var item in Model.WeightUnits) {
                                                         <option value="@item.UnitShorthandName">
@@ -353,15 +353,15 @@
                                     <div id="other-unit-wrapper" class="form-group hide">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                            @Html.EditorFor(model => model.OtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary-pt1 form-control" } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.OtherUnitExplained)
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
-                                            <select data-placeholder="Units.." name="FinalConcentrationUnits" id="ConcentrationUnits" class="type-validation input-xlarge-fuid form-control input-summary valid no-border-radius required-field-s2" multiple="multiple">
+                                            @Html.EditorFor(model => model.FinalConcentration, new { htmlAttributes = new { @placeholder = "Final Concentration", @style = "width:50%;", @class = "input-summary-pt2 form-control required-field-s2", @Value = "", @autocomplete = "off", @min = 0.01 } })
+                                            <select data-placeholder="Units.." name="FinalConcentrationUnits" id="ConcentrationUnits" class="type-validation input-xlarge-fuid form-control valid no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Units">
                                                     @foreach (var item in Model.ConcentrationUnits) {
                                                         <option value="@item">
@@ -379,7 +379,7 @@
                                     <div id="conc-other-unit-wrapper" class="form-group hide">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary form-control" } })
+                                            @Html.EditorFor(model => model.ConcentrationOtherUnitExplained, new { htmlAttributes = new { @placeholder = "Other Unit Follow-up", @class = "input-summary-pt2 form-control" } })
                                         </div>
                                         @Html.ValidationMessageFor(model => model.ConcentrationOtherUnitExplained)
                                     </div>
@@ -391,15 +391,15 @@
                                                     <label>@Html.EditorFor(model => model.IsExpiryDateBasedOnDays) Expire By Days?</label>
                                                 </div>
                                             </div>
-                                            @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary required-field", @Value = "", @type = "text" } })
-                                            @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
+                                            @Html.EditorFor(model => model.ExpiryDate, new { htmlAttributes = new { @placeholder = "Click to Select Date", @class = "form-control date-input input-summary-pt2 required-field", @Value = "", @type = "text" } })
+                                            @Html.EditorFor(model => model.DaysUntilExpired, new { htmlAttributes = new { @placeholder = "Days Until Expired", @class = "form-control hide-expiry-input input-summary-pt2 required-field", @Value = "", @type = "hidden" } })                                        <div class="input-group-addon input-group-addon-md">Expiry Date</div>
                                         </div>
                                         @Html.ValidationMessageFor(model => model.ExpiryDate)
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon addon-required" title="Required Field"></div>
-                                            <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field-s2 input-summary" multiple="multiple">
+                                            <select id="device-selector" name="Devices" class="select2 form-control no-border-radius required-field-s2" multiple="multiple">
                                                 <optgroup label="Balance ID's">
                                                     @foreach (var item in Model.BalanceDevices) {
                                                         if (@item.IsVerified) {
