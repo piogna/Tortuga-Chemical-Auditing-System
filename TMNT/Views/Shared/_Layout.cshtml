@@ -9,11 +9,15 @@
     <meta name="author" content="">
     <style>
         .modal-dialog {
-            width:900px !important;
+            width:70% !important; /*900px !important;*/
         }
         .modal-body {
             max-height:745px !important;
-            overflow-y:scroll;
+            overflow-y:auto;
+        }
+
+        #help-options {
+            width: 60%;
         }
     </style>
     <title>Maxxam Analytics - @ViewBag.Title</title>
@@ -184,12 +188,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Maxxam Help</h4>
+                    <h3 class="modal-title">Maxxam Help</h3>
                 </div>
                 <div class="modal-body">
                     <p>Welcome to the Maxxam Help section! Here you will find out how things work and, hopefully, answer any questions you may have.</p>
                     <p>Please choose the topic you need help with:
-                        <select id="help-options">
+                        <select id="help-options" class="form-control">
                             <option value="">Choose a topic..</option>
                             <optgroup label="Reagent and Standard">
                                 <option value="RSCreate">Create</option>
@@ -197,7 +201,7 @@
                                 <option value="RSEdit">Edit</option>
                                 <option value="RSLandingPage">Landing Page</option>
                             </optgroup>
-                            <optgroup label="Intermediate Standard">
+                            <optgroup label="Intermediate and Working Standard">
                                 <option value="ISCreate">Create</option>
                                 <option value="ISDetails">Details</option>
                                 <option value="ISEdit">Edit</option>
