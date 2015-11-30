@@ -87,7 +87,6 @@
                 var text;
 
                 $.each(json, function (i, row) {
-                    console.log(row);
                     var zero = row.DeviceVerifications.length == 0 ? "Not Verified Today" : row.DeviceVerifications.length;
                     text += "<tr>" +
                                 "<td>" + row.DeviceCode + "</td>" +

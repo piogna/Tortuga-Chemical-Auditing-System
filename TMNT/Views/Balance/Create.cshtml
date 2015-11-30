@@ -11,9 +11,26 @@
             margin-left: 0 !important;
             margin-right: 0 !important;
         }
+
+        /* Summary */
+        .height {
+            min-height: 240px;
+        }
+
+        .iconbig {
+            font-size: 77px;
+            color: #5CB85C;
+        }
+
+        .uppercase {
+            text-transform:uppercase;
+        }
+
+        .font-fourteen {
+            font-size:14px;
+        }
     </style>
 }
-
 
 @using (Html.BeginForm("Create", "Balance", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
@@ -55,14 +72,14 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Device Code", @class = "input-summary form-control required-field" } })
+                                        @Html.EditorFor(model => model.DeviceCode, new { htmlAttributes = new { @placeholder = "Device Code", @class = "input-summary-pt1 form-control required-field" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.DeviceCode)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select id="location-names" name="LocationName" class="form-control no-border-radius required-field input-summary">
+                                        <select id="location-names" name="LocationName" class="form-control no-border-radius required-field">
                                             <option value="">Locations..</option>
                                             @foreach (var item in Model.LocationNames) {
                                                 <option value="@item">
@@ -76,7 +93,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select id="department-names" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field input-summary">
+                                        <select id="department-names" disabled="disabled" name="DepartmentName" class="form-control no-border-radius required-field">
                                             <option value="">Departments..</option>
                                             @foreach (var item in Model.Departments) {
                                                 <option value="@item.DepartmentName">
@@ -90,7 +107,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select id="SubDepartmentName" disabled="disabled" name="SubDepartmentName" class="form-control no-border-radius required-field input-summary">
+                                        <select id="SubDepartmentName" disabled="disabled" name="SubDepartmentName" class="form-control no-border-radius required-field">
                                             <option value="">Sub Departments..</option>
                                             <optgroup class="hide opt-organics" label="Organics Sub Departments">
                                                 @foreach (var item in Model.SubDepartments) {
@@ -119,7 +136,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        <select id="balance-types" name="BalanceType" class="form-control no-border-radius required-field input-summary">
+                                        <select id="balance-types" name="BalanceType" class="form-control no-border-radius required-field input-summary-pt1">
                                             <option value="">Balance Types..</option>
                                             @foreach (var item in Model.BalanceTypes) {
                                                 <option value="@item">
@@ -133,14 +150,14 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.NumberOfDecimals, new { htmlAttributes = new { @placeholder = "Number of Decimals", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 1, @max = 10 } })
+                                        @Html.EditorFor(model => model.NumberOfDecimals, new { htmlAttributes = new { @placeholder = "Number of Decimals", @class = "input-summary-pt1 form-control required-field no-border-radius", @Value = "", @min = 1, @max = 10 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.NumberOfDecimals)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <label class="radio-inline"><input type="radio" name="NumberOfTestsToVerify" value="2" checked="checked">Two Verifications</label>
-                                        <label class="radio-inline"><input type="radio" name="NumberOfTestsToVerify" value="3">Three Verifications</label>
+                                        <label class="radio-inline input-summary-pt2"><input type="radio" name="NumberOfTestsToVerify" value="2" checked="checked">Two Verifications</label>
+                                        <label class="radio-inline input-summary-pt2"><input type="radio" name="NumberOfTestsToVerify" value="3">Three Verifications</label>
                                     </div>
                                     @Html.ValidationMessageFor(model => model.NumberOfTestsToVerify)
                                 </div>
@@ -149,21 +166,21 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitOne, new { htmlAttributes = new { @placeholder = "First Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
+                                        @Html.EditorFor(model => model.WeightLimitOne, new { htmlAttributes = new { @placeholder = "First Weight Limit", @class = "input-summary-pt2 form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitOne)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon addon-required" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitTwo, new { htmlAttributes = new { @placeholder = "Second Weight Limit", @class = "input-summary form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
+                                        @Html.EditorFor(model => model.WeightLimitTwo, new { htmlAttributes = new { @placeholder = "Second Weight Limit", @class = "input-summary-pt2 form-control required-field no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitTwo)
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon" title="Required Field"></div>
-                                        @Html.EditorFor(model => model.WeightLimitThree, new { htmlAttributes = new { @placeholder = "Third Weight Limit", @disabled = "disabled", @class = "input-summary form-control no-border-radius", @Value = "", @min = 0.01 } })
+                                        @Html.EditorFor(model => model.WeightLimitThree, new { htmlAttributes = new { @placeholder = "Third Weight Limit", @disabled = "disabled", @class = "input-summary-pt2 form-control no-border-radius", @Value = "", @min = 0.01 } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.WeightLimitThree)
                                 </div>
@@ -171,7 +188,7 @@
 
                             <div class="form-group">
                                 <div class="col-xs-12" id="reagent-next-fix">
-                                    <a href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next btn-review">Next »</a>
+                                    <a id="btn-create-balance" href='#section-bar-2' disabled="disabled" class="btn btn-default next-section btn-next">Next »</a>
                                 </div>
                                 <div class="col-xs-12 pull-right">
                                     <div id="button-message" class="pull-right button-message-error">Fill out required fields.</div>
@@ -180,7 +197,90 @@
                         </div>
                     </section>
                     <section id="section-bar-2">
-                        <div class="form-group">
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col-xs-12">
+                                    <i class="fa fa-search-plus pull-left icon"></i>
+                                    <h2>Summary</h2>
+                                    <hr>
+                                    <div class="row font-fourteen">
+                                        <div class="col-xs-12 col-md-6 col-lg-6">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase uppercase">Department Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Department: </dt>
+                                                        <dd id="summary-department-name"></dd>
+                                                        <dt>Sub Department: </dt>
+                                                        <dd id="summary-sub-department"></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6 col-lg-6">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Location Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Location: </dt>
+                                                        <dd id="summary-location-name"></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">File Upload Details</div>
+                                                <div class="panel-body">
+                                                    <dl>
+                                                        <dt>Certificate of Analysis File: </dt>
+                                                        <dd id="summary-cofa"></dd>
+                                                        <dt>Safety Data Sheet File: </dt>
+                                                        <dd id="summary-msds"></dd>
+                                                        <dt>Safety Notes: </dt>
+                                                        <dd id="summary-safety-notes"></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-3 col-lg-3">
+                                            <div class="panel panel-default height no-border-radius">
+                                                <div class="panel-heading uppercase">Device Details</div>
+                                                <div class="panel-body">
+                                                    <dl id="summary-devices"></dl>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row font-fourteen">
+                                <div class="col-md-12">
+                                    <div class="panel panel-default no-border-radius">
+                                        <div class="panel-heading">
+                                            <h3 class="text-center uppercase"><strong>Balance Details</strong></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt1" class="dl-horizontal"></dl>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 col-lg-6">
+                                                <dl id="summary-info-pt2" class="dl-horizontal"></dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <input type="button" href='#section-bar-2' class="btn btn-warning previous-section" value="Cancel" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save" />
+                                <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
                             <div class="container">
                                 <table class="table table-bordered table-striped summary-table">
                                     <thead>
@@ -201,7 +301,7 @@
                                     <input name="submit" type="submit" class="btn btn-primary" value="Save & New" />
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                     </section>
                 </div>
             </div>
@@ -214,10 +314,10 @@
 
     <script>
         $(function () {
-            var locationNames = $('#location-names'), departmentNames = $('#department-names'), subDepartmentNames = $('#SubDepartmentName');
-            var optOrganics = $('.opt-organics'), optInorganics = $('.opt-inorganics');
-            var rdoGroup = $('input[name=NumberOfTestsToVerify]:radio');
-            var weightThreeLimit = $('#WeightLimitThree');
+            var locationNames = $('#location-names'), departmentNames = $('#department-names'), subDepartmentNames = $('#SubDepartmentName'),
+               optOrganics = $('.opt-organics'), optInorganics = $('.opt-inorganics'),
+               rdoGroup = $('input[name=NumberOfTestsToVerify]:radio'),
+               weightThreeLimit = $('#WeightLimitThree');
 
             rdoGroup.on('click', function () {
                 if ($(this).val() === "2") {

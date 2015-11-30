@@ -314,6 +314,7 @@
                 chemicalTable.append(text);
                 return true;
             }
+
             //web api calls
             var getBalanceAjaxData = $.ajax({
                 type: "GET",
@@ -337,31 +338,6 @@
                         alert("error");
                     }
             });
-
-            //ajax calls
-
-            //var getChemicalAjaxData = $.ajax({
-            //    type: "GET",
-            //    url: "../../Content/json/chemical-data.json",
-            //    contentType: "json",
-            //    success: onChemicalDataReceived,
-            //    error:
-            //        function () {
-            //            alert("error");
-            //        }
-            //});
-
-            //var getBalanceAjaxData = $.ajax({
-            //    type: "GET",
-            //    url: "../../Content/json/balance-verifications.json",
-            //    contentType: "application/json; charset=utf-8",
-            //    dataType: "json",
-            //    success: onBalanceDataReceived,
-            //    error:
-            //        function (xhr, status, error) {
-            //            alert("error");
-            //        }
-            //});
 
             $.when(getBalanceAjaxData).done(function (x) {
                 //data tables
@@ -393,12 +369,11 @@
                         notVerified++;
                     }
                     $.each(row.DeviceVerifications, function (innerI, innerRow) {
-                        if (innerRow.DidTestPass) {// === "Pass") {
+                        if (innerRow.DidTestPass) {
                             passed++;
-                        } else {// if (innerRow === "Fail") {
+                        } else {
                             failed++;
                         }
-                        //console.log(innerRow);
                     })
                 });
 
@@ -453,65 +428,6 @@
                     "    }",
                     "});"
                 ]);
-                //END OF BALANCE CODE
-
-                //BEGINNING OF CHEMICAL CODE
-
-
-
-            //    var reagentUsageCount = [], standardUsageCount = [], intermediateUsageCount = [], workingUsageCount = [];
-
-            //    var count = 0;
-            //    $.each(chemicalJson.Chemicals, function (i, row) {
-            //        if (row.Type === "Reagent") {
-            //            reagentUsageCount.push([count, parseInt(row.UsageCount)]);
-            //        } else if (row.Type === "Standard") {
-            //            standardUsageCount.push([count, parseInt(row.UsageCount)]);
-            //        } else if (row.Type === "Intermediate Standard") {
-            //            intermediateUsageCount.push([count, parseInt(row.UsageCount)]);
-            //        } else {
-            //            workingUsageCount.push([count, parseInt(row.UsageCount)]);
-            //        }
-            //        count++;
-            //    });
-
-            //    var d1 = [];
-            //    for (var i = 0; i <= 10; i++) {
-            //        d1.push([i, parseInt(Math.random() * 30)]);
-            //    }
-
-            //    var d2 = [];
-            //    for (var i = 0; i <= 10; i++) {
-            //        d2.push([i, parseInt(Math.random() * 30)]);
-            //    }
-
-            //    var d3 = [];
-            //    for (var i = 0; i <= 10; i++) {
-            //        d3.push([i, parseInt(Math.random() * 30)]);
-            //    }
-
-            //    var stack = 0,
-            //        bars = false,
-            //        lines = true,
-            //        steps = false;
-
-            //    function plotWithOptions() {
-            //        $.plot("#placeholder2", [reagentUsageCount, standardUsageCount, intermediateUsageCount, workingUsageCount], {
-            //            series: {
-            //                stack: stack,
-            //                lines: {
-            //                    show: lines,
-            //                    fill: true,
-            //                    steps: steps
-            //                },
-            //                bars: {
-            //                    show: bars,
-            //                    barWidth: 0.6
-            //                }
-            //            }
-            //        });
-            //    }
-            //    plotWithOptions();
             });
 
 

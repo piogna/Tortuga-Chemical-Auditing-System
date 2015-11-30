@@ -88,7 +88,6 @@
                 var table = $("#chemical-table tbody"), text = "";
 
                 $.each(json, function (i, row) {
-                    //console.log(row);
                     var expiryDate = new Date(row.StockReagent.ExpiryDate),
                         dayFormat = expiryDate.getFullYear() + "-" + (expiryDate.getMonth() + 1) + "-" + expiryDate.getDate();
                     text += "<tr><td>" + row.ChemicalType + "</td>";
