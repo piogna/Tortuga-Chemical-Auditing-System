@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TMNT.Models;
@@ -28,10 +29,9 @@ namespace TMNT.Controllers
 
         [HttpPost]
         [Route("Audit/PerformAudit")]
-        public ActionResult PerformAudit([Bind(Include="IdCode,Type")] PerformAuditViewModel model)
+        public ActionResult PerformAudit([Bind(Include = "IdCode,Type")] PerformAuditViewModel model)
         {
-            AuditViewModel auditViewModel = new AuditViewModel();
-            auditViewModel.Items = new List<TMNT.Models.ViewModels.AuditViewModel.Item>();
+            AuditViewModel auditViewModel;
             if (model.Type == "ws")
             {
                 WorkingStandard workingStandard = _uow.WorkingStandardRepository.Get().Where(w => w.MaxxamId == model.IdCode).First();
@@ -40,90 +40,100 @@ namespace TMNT.Controllers
                     return HttpNotFound();
                 }
 
-                var vWorkingStandard = new WorkingStandardDetailsViewModel()
+                auditViewModel = new AuditViewModel
                 {
-                    WorkingStandardId = workingStandard.WorkingStandardId,
-                    PrepList = workingStandard.PrepList,
-                    PrepListItems = workingStandard.PrepList.PrepListItems.ToList(),
-                    IdCode = workingStandard.IdCode,
-                    MaxxamId = workingStandard.MaxxamId,
-                    LastModifiedBy = workingStandard.LastModifiedBy,
-                    Concentration = workingStandard.FinalConcentration,
-                    ExpiryDate = workingStandard.ExpiryDate,
-                    DateOpened = workingStandard.DateOpened,
-                    DateCreated = workingStandard.DateCreated,
-                    DateModified = workingStandard.DateModified,
-                    CreatedBy = workingStandard.CreatedBy
-                };
-
-                foreach (var invItem in workingStandard.InventoryItems)
-                {
-                    if (invItem.WorkingStandard.WorkingStandardId == workingStandard.WorkingStandardId)
-                    {
-                        vWorkingStandard.Department = invItem.Department;
-                        vWorkingStandard.UsedFor = invItem.UsedFor;
-                        vWorkingStandard.IsExpired = invItem.WorkingStandard.ExpiryDate < DateTime.Today;
-                        vWorkingStandard.IsExpiring = invItem.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.WorkingStandard.ExpiryDate < DateTime.Today);
-                        vWorkingStandard.InitialAmount = invItem.InitialAmount;
-                    }
-                }
-                auditViewModel.Items.Add(new TMNT.Models.ViewModels.AuditViewModel.Item {
+                    ChemType = "WorkingStandard",
                     Id = workingStandard.WorkingStandardId,
-                    ChemType = "ws",
-                    Level = 0
-                });
-
-                foreach (PrepListItem item in workingStandard.PrepList.PrepListItems)
-                {
-                    if (item.StockReagent != null || item.StockStandard != null)
-                    {
-                        //do stuff to handle adding base chems
-                    }
-                     else if(item.IntermediateStandard != null)
-                    {
-                         //handle int standards
-                    }
-                    else if (item.WorkingStandard != null)
-                    {
-
-                    }
-                }
+                    IdCode = workingStandard.IdCode,
+                    MaxxamId = workingStandard.MaxxamId
+                };
+                auditViewModel.Parents = GetAllParents(workingStandard.PrepList.PrepListItems);                
             }
             else if (model.Type == "is")
             {
                 IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get().Where(i => i.MaxxamId == model.IdCode).First();
-                var vIntermediateStandard = new IntermediateStandardDetailsViewModel()
+                if (intermediatestandard == null)
                 {
-                    IntermediateStandardId = intermediatestandard.IntermediateStandardId,
-                    Replaces = intermediatestandard.Replaces,
-                    ReplacedBy = intermediatestandard.ReplacedBy,
-                    PrepList = intermediatestandard.PrepList,
-                    PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
-                    IdCode = intermediatestandard.IdCode,
-                    MaxxamId = intermediatestandard.MaxxamId,
-                    LastModifiedBy = intermediatestandard.LastModifiedBy,
-                    Concentration = intermediatestandard.FinalConcentration,
-                    ExpiryDate = intermediatestandard.ExpiryDate,
-                    DateModified = intermediatestandard.DateModified,
-                    DateOpened = intermediatestandard.DateOpened,
-                    DateCreated = intermediatestandard.DateCreated,
-                    CreatedBy = intermediatestandard.CreatedBy
-                };
-
-                foreach (var invItem in intermediatestandard.InventoryItems)
-                {
-                    if (invItem.IntermediateStandard.IntermediateStandardId == intermediatestandard.IntermediateStandardId)
-                    {
-                        vIntermediateStandard.Department = invItem.Department;
-                        vIntermediateStandard.UsedFor = invItem.UsedFor;
-                        vIntermediateStandard.IsExpired = invItem.IntermediateStandard.ExpiryDate < DateTime.Today;
-                        vIntermediateStandard.IsExpiring = invItem.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(invItem.IntermediateStandard.ExpiryDate < DateTime.Today);
-                        vIntermediateStandard.InitialAmount = invItem.InitialAmount;
-                    }
+                    return HttpNotFound();
                 }
-                auditViewModel.IntermediateStandards.Add(new Tuple<IntermediateStandardDetailsViewModel, int>(vIntermediateStandard, 0));
+                auditViewModel = new AuditViewModel
+                {
+                    ChemType = "IntermediateStandard",
+                    Id = intermediatestandard.IntermediateStandardId,
+                    IdCode = intermediatestandard.IdCode,
+                    MaxxamId = intermediatestandard.MaxxamId
+                };
+                auditViewModel.Parents = GetAllParents(intermediatestandard.PrepList.PrepListItems);
             }
-            return View();
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View(auditViewModel);
+        }
+
+        public List<AuditViewModel> GetAllParents(ICollection<PrepListItem> items)
+        {
+            List<AuditViewModel> auditList = new List<AuditViewModel>();
+            foreach (PrepListItem item in items)
+            {
+                if (item.StockReagent != null)
+                {
+                    var reagent = item.StockReagent;
+                    AuditViewModel reagentAudit = new AuditViewModel
+                    {
+
+                        ChemType = "Reagent",
+                        Name = reagent.ReagentName,
+                        Id = reagent.ReagentId
+                    };
+                    auditList.Add(reagentAudit);
+                }
+                else if (item.StockStandard != null)
+                {
+                    var standard = item.StockStandard;
+                    AuditViewModel standardAudit = new AuditViewModel
+                    {
+                        ChemType = "Standard",
+                        Name = standard.StockStandardName,
+                        Id = standard.StockStandardId
+                    };
+                    auditList.Add(standardAudit);
+                }
+                else if (item.IntermediateStandard != null)
+                {
+                    var intStandard = item.IntermediateStandard;
+                    AuditViewModel intAudit = new AuditViewModel
+                    {
+                        ChemType = "IntermediateStandard",
+                        Id = intStandard.IntermediateStandardId,
+                        MaxxamId = intStandard.MaxxamId,
+                        IdCode = intStandard.IdCode
+                    };
+                    if (intStandard.PrepList.PrepListItems.Count > 0)
+                    {
+                        intAudit.Parents = GetAllParents(intStandard.PrepList.PrepListItems);
+                    }
+                    auditList.Add(intAudit);
+
+                }
+                else if (item.WorkingStandard != null)
+                {
+                    var workStandard = item.WorkingStandard;
+                    AuditViewModel workAudit = new AuditViewModel
+                    {
+                        ChemType = "WorkingStandard",
+                        Id = workStandard.WorkingStandardId,
+                        MaxxamId = workStandard.MaxxamId,
+                        IdCode = workStandard.IdCode
+                    };
+                    if(workStandard.PrepList.PrepListItems.Count > 0){
+                        workAudit.Parents = GetAllParents(workStandard.PrepList.PrepListItems);
+                    }
+                    auditList.Add(workAudit);
+                }
+            }
+            return auditList;
         }
     }
 }
