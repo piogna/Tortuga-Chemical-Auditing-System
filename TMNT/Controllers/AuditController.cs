@@ -34,7 +34,7 @@ namespace TMNT.Controllers
             AuditViewModel auditViewModel;
             if (model.Type == "ws")
             {
-                WorkingStandard workingStandard = _uow.WorkingStandardRepository.Get().Where(w => w.MaxxamId == model.IdCode).First();
+                WorkingStandard workingStandard = _uow.WorkingStandardRepository.Get().Where(w => w.IdCode == model.IdCode).FirstOrDefault();
                 if (workingStandard == null)
                 {
                     return HttpNotFound();
@@ -51,7 +51,7 @@ namespace TMNT.Controllers
             }
             else if (model.Type == "is")
             {
-                IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get().Where(i => i.MaxxamId == model.IdCode).First();
+                IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get().Where(i => i.IdCode == model.IdCode).FirstOrDefault();
                 if (intermediatestandard == null)
                 {
                     return HttpNotFound();
