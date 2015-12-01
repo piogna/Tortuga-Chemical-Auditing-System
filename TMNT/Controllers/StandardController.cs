@@ -44,7 +44,6 @@ namespace TMNT.Controllers {
                         StockStandardId = item.StockStandard.StockStandardId,
                         CreatedBy = item.StockStandard.CreatedBy,
                         CatalogueCode = item.CatalogueCode,
-                        DateCreated = item.StockStandard.DateCreated,
                         DateOpened = item.StockStandard.DateOpened,
                         ExpiryDate = item.StockStandard.ExpiryDate,
                         IdCode = item.StockStandard.IdCode,

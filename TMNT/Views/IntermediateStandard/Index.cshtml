@@ -32,7 +32,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                @Html.DisplayNameFor(model => model.IntermediateStandardName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOpened)
@@ -63,7 +63,7 @@
                     @*<a href="#">Print Label</a>*@
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateCreated)
+                    @Html.DisplayFor(modelItem => item.IntermediateStandardName)
                 </td>
                 @if (item.DateOpened == null) {
                     <td>
@@ -130,7 +130,7 @@
         <tr>
             <th>Action</th>
             <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
+                @Html.DisplayNameFor(model => model.IntermediateStandardName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOpened)

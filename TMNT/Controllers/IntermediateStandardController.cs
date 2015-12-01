@@ -37,7 +37,7 @@ namespace TMNT.Controllers {
                     lIntStandards.Add(new IntermediateStandardIndexViewModel() {
                         IntermediateStandardId = item.IntermediateStandard.IntermediateStandardId,
                         CreatedBy = item.IntermediateStandard.CreatedBy,
-                        DateCreated = item.IntermediateStandard.DateCreated,
+                        IntermediateStandardName = item.IntermediateStandard.IntermediateStandardName,
                         ExpiryDate = item.IntermediateStandard.ExpiryDate,
                         IdCode = item.IntermediateStandard.IdCode,
                         DateOpened = item.IntermediateStandard.DateOpened,
@@ -77,6 +77,7 @@ namespace TMNT.Controllers {
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
                 IdCode = intermediatestandard.IdCode,
                 LastModifiedBy = intermediatestandard.LastModifiedBy,
+                IntermediateStandardName = intermediatestandard.IntermediateStandardName,
                 Concentration = intermediatestandard.FinalConcentration,
                 ExpiryDate = intermediatestandard.ExpiryDate,
                 DateModified = intermediatestandard.DateModified,
@@ -294,6 +295,7 @@ namespace TMNT.Controllers {
                 DateCreated = DateTime.Today,
                 ExpiryDate = model.ExpiryDate,
                 DaysUntilExpired = model.DaysUntilExpired,
+                IntermediateStandardName = model.IntermediateStandardName,
                 Replaces = !string.IsNullOrEmpty(model.Replaces) ? model.Replaces : "N/A",
                 ReplacedBy = !string.IsNullOrEmpty(model.ReplacedBy) ? model.ReplacedBy : "N/A"
             };
