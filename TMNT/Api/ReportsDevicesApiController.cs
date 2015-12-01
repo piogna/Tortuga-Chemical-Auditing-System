@@ -29,11 +29,11 @@ namespace TMNT.Api {
             var userDepartment = _uow.GetUserDepartment();
 
             var apidevices = devices
-                .Where(item => !item.IsArchived && item.Department.DepartmentId == userDepartment.DepartmentId)
+                .Where(item => !item.IsArchived)
                 .Select(item => new BalanceApiModel() {
                     BalanceId = item.DeviceId,
-                    Department = item.Department,
                     DeviceCode = item.DeviceCode,
+                    Department = item.Department,
                     IsVerified = item.IsVerified,
                     DeviceVerifications = item.DeviceVerifications.Where(v => v.VerifiedOn == DateTime.Today),
                     LastVerifiedBy = item.DeviceVerifications.Count > 0 ?
@@ -41,11 +41,13 @@ namespace TMNT.Api {
                                     "New Device"
                 }).ToList();
 
-            if (apidevices == null) {
+            var deptDevices = apidevices.Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+
+            if (deptDevices == null) {
                 return NotFound();
             }
             try {
-                return Ok(apidevices);
+                return Ok(deptDevices);
             } catch (Exception ex) {
 
             }

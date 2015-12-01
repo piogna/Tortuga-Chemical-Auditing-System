@@ -24,8 +24,9 @@ namespace TMNT.Api {
 
         [ResponseType(typeof(InventoryItem))]
         public IHttpActionResult GetExpiringChemicals() {
+            var userDepartment = _uow.GetUserDepartment();
+
             var chemicals = db.InventoryItems
-                //.Where(item => item.StockStandard != null)
                 .Select(item => new InventoryLowStockApiModel() {
                     InventoryItemId = item.InventoryItemId,
                     StockStandard = item.StockStandard,
@@ -35,10 +36,10 @@ namespace TMNT.Api {
                     ChemicalType = item.Type
                 })
                 .ToList()
-                .Where(item => item.StockReagent != null && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockReagent.ExpiryDate < DateTime.Today) ||
-                                item.StockStandard != null && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockStandard.ExpiryDate < DateTime.Today) ||
-                                item.IntermediateStandard != null && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.IntermediateStandard.ExpiryDate < DateTime.Today) ||
-                                item.WorkingStandard != null && item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.WorkingStandard.ExpiryDate < DateTime.Today));
+                .Where(item => item.StockReagent != null && item.Department == userDepartment && item.StockReagent.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockReagent.ExpiryDate < DateTime.Today) ||
+                                item.StockStandard != null && item.Department == userDepartment && item.StockStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.StockStandard.ExpiryDate < DateTime.Today) ||
+                                item.IntermediateStandard != null && item.Department == userDepartment && item.IntermediateStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.IntermediateStandard.ExpiryDate < DateTime.Today) ||
+                                item.WorkingStandard != null && item.Department == userDepartment && item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.WorkingStandard.ExpiryDate < DateTime.Today));
 
             return Ok(chemicals);
         }
@@ -61,5 +62,6 @@ namespace TMNT.Api {
         public StockReagent StockReagent { get; set; }
         public IntermediateStandard IntermediateStandard { get; set; }
         public WorkingStandard WorkingStandard { get; set; }
+        public Department Department { get; set; }
     }
 }
