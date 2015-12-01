@@ -113,7 +113,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IntermediateStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] IntermediateStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "IntermediateStandardId,IntermediateStandardName,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] IntermediateStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -381,7 +381,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
+        public ActionResult Edit([Bind(Include = "IntermediateStandardId,IntermediateStandardName,IdCode,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
                 var user = _uow.GetCurrentUser();
 
@@ -390,6 +390,7 @@ namespace TMNT.Controllers {
                         .FirstOrDefault();
 
                 IntermediateStandard updateStandard = invItem.IntermediateStandard;
+                updateStandard.IntermediateStandardName = intermediatestandard.IntermediateStandardName;
                 updateStandard.IdCode = intermediatestandard.IdCode;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = intermediatestandard.ExpiryDate;
