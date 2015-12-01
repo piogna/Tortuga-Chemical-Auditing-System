@@ -14,20 +14,19 @@
     </script>
 }
 
-@helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList){
-        <li>
-            @auditList.IdCode
-            
-            @if (auditList.Parents.Count > 0)
-            {
-                <ul>
-                    @foreach(TMNT.Models.ViewModels.AuditViewModel item in auditList.Parents){
+@helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList) {
+    <li>
+        @auditList.IdCode
 
-                        @CreateTree(item)
+        @if (auditList.Parents.Count > 0) {
+            <ul>
+                @foreach (TMNT.Models.ViewModels.AuditViewModel item in auditList.Parents) {
 
-                    }
-                </ul>
-            }
+                    @CreateTree(item)
 
-        </li>
-    }
+                }
+            </ul>
+        }
+
+    </li>
+}

@@ -11,8 +11,7 @@
 <div id="audit-form">
     @using (Html.BeginForm("PerformAudit", "Audit",
             new { ReturnUrl = ViewBag.ReturnUrl },
-            FormMethod.Post, new { @class = "form-inline" }))
-    {
+            FormMethod.Post, new { @class = "form-inline" })) {
         @Html.AntiForgeryToken()
         <div class="form-group">
             <input type="text" class="form-control" name="IdCode" placeholder="Unique ID Code" />
