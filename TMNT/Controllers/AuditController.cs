@@ -83,6 +83,7 @@ namespace TMNT.Controllers
 
                         ChemType = "Reagent",
                         Name = reagent.ReagentName,
+                        IdCode = reagent.IdCode,
                         Id = reagent.ReagentId
                     };
                     auditList.Add(reagentAudit);
@@ -94,6 +95,7 @@ namespace TMNT.Controllers
                     {
                         ChemType = "Standard",
                         Name = standard.StockStandardName,
+                        IdCode = standard.IdCode,
                         Id = standard.StockStandardId
                     };
                     auditList.Add(standardAudit);
@@ -104,6 +106,7 @@ namespace TMNT.Controllers
                     AuditViewModel intAudit = new AuditViewModel
                     {
                         ChemType = "IntermediateStandard",
+                        Name = intStandard.IntermediateStandardName,
                         IdCode = intStandard.IdCode,
                         Id = intStandard.IntermediateStandardId
                     };
@@ -121,6 +124,7 @@ namespace TMNT.Controllers
                     {
                         ChemType = "WorkingStandard",
                         IdCode = workStandard.IdCode,
+                        Name = workStandard.WorkingStandardName,
                         Id = workStandard.WorkingStandardId
                     };
                     if(workStandard.PrepList.PrepListItems.Count > 0){

@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Audit";
 }
-<ul id="org" style="display:none">
+<ul id="org">
     @CreateTree(Model)
 </ul>
 
@@ -23,7 +23,7 @@
                 <ul>
                     @foreach(TMNT.Models.ViewModels.AuditViewModel item in auditList.Parents){
 
-                    @CreateTree(item)
+                        @CreateTree(item)
 
                     }
                 </ul>
