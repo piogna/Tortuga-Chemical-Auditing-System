@@ -8,6 +8,7 @@ namespace TMNT.Models.ViewModels {
         public string MostUsedReagentName { get; set; }
         [Display(Name = "Most Used Intermed.")]
         public string MostUsedIntermediateStandardName { get; set; }
+        public Department Department { get; set; }
     }
 
     public class ReportExpiringStockViewModel {

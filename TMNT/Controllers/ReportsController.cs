@@ -41,23 +41,24 @@ namespace TMNT.Controllers {
         [Route("ReportDashboard")]
         public ActionResult ReportDashboard() {
             var prepItems = _uow.PrepListItemRepository.Get();
+            var userDepartment = _uow.GetUserDepartment();
 
             var mostUsedReagent = prepItems
-                .Where(item => item.StockReagent != null)
+                .Where(item => item.StockReagent != null && item.StockReagent.InventoryItems.First().Department == userDepartment)
                 .GroupBy(item => item.StockReagent)
                 .OrderByDescending(item => item.Count())
                 .Select(item => item.Key.ReagentName)
                 .FirstOrDefault();
 
             var mostUsedStandard = prepItems
-                .Where(item => item.StockStandard != null)
+                .Where(item => item.StockStandard != null && item.StockStandard.InventoryItems.First().Department == userDepartment)
                 .GroupBy(item => item.StockStandard)
                 .OrderByDescending(item => item.Count())
                 .Select(item => item.Key.StockStandardName)
                 .FirstOrDefault();
 
             var mostUsedIntermeidateStandard = prepItems
-                .Where(item => item.IntermediateStandard != null)
+                .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.InventoryItems.First().Department == userDepartment)
                 .GroupBy(item => item.IntermediateStandard)
                 .OrderByDescending(item => item.Count())
                 .Select(item => item.Key.IntermediateStandardName)
@@ -73,7 +74,8 @@ namespace TMNT.Controllers {
             var model = new ReportDashboardViewModel() {
                 MostUsedReagentName = mostUsedReagent,
                 MostUsedStandardName = mostUsedStandard,
-                MostUsedIntermediateStandardName = mostUsedIntermeidateStandard
+                MostUsedIntermediateStandardName = mostUsedIntermeidateStandard,
+                Department = userDepartment
             };
 
             return View(model);

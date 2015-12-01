@@ -93,7 +93,7 @@
                 <span class="icon-bar"></span>
             </button>
             <h3 class="navbar-title">
-                Report Dashboard - Organics
+                Report Dashboard - @Model.Department.DepartmentName
             </h3>
         </div>
     </nav>
@@ -340,6 +340,12 @@
                 $('#chemicalTable').dataTable({
                     "pageLength": 10,
                     "order": [0, "asc"],
+                        aoColumns: [
+                          { mData: "Chemical Type" },
+                          { mData: "Expiry Date" },
+                          { mData: "Lot Number" },
+                          { mData: "Importance Based on Usage" }
+                        ],
                     "aLengthMenu": [[10, 25], [10, 25]],
                     "iDisplayLength": 10
                 });
