@@ -63,14 +63,20 @@ namespace TMNT.Controllers {
                 .Select(item => item.Key.IntermediateStandardName)
                 .FirstOrDefault();
 
-            var mostUsedWorkingStandard = prepItems
-                .Where(item => item.WorkingStandard != null)
-                .GroupBy(item => item.WorkingStandard)
-                .OrderByDescending(item => item.Count())
-                .Select(item => item.Key.IdCode)
-                .FirstOrDefault();
+            //var mostUsedWorkingStandard = prepItems
+            //    .Where(item => item.WorkingStandard != null)
+            //    .GroupBy(item => item.WorkingStandard)
+            //    .OrderByDescending(item => item.Count())
+            //    .Select(item => item.Key.WorkingStandardName)
+            //    .FirstOrDefault();
 
-            return View();
+            var model = new ReportDashboardViewModel() {
+                MostUsedReagentName = mostUsedReagent,
+                MostUsedStandardName = mostUsedStandard,
+                MostUsedIntermediateStandardName = mostUsedIntermeidateStandard
+            };
+
+            return View(model);
         }
 
         [Route("Report/DailyBalanceVerificationReport")]

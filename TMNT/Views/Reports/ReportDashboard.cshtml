@@ -1,4 +1,5 @@
-﻿
+﻿@model TMNT.Models.ViewModels.ReportDashboardViewModel
+
 @{
     Layout = null;
 }
@@ -76,6 +77,10 @@
             padding-bottom:5px;
             letter-spacing:1px;
         }
+
+        .text-uppercase {
+            text-transform:uppercase;
+        }
     </style>
 </head>
 <body>
@@ -149,42 +154,32 @@
             <h4 class="section-header-text">Monthly Chemical Report Snapshot</h4>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4>MOST USED REAGENT</h4>
-                        <h4>Acetone</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedReagentName)</h4>
+                        <h4>@Html.DisplayFor(model => model.MostUsedReagentName)</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4>MOST USED STANDARD</h4>
-                        <h4>Americium</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedStandardName)</h4>
+                        <h4>@Html.DisplayFor(model => model.MostUsedStandardName)</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-xs-12 col-md-4 col-lg-4">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4>MOST USED INTERMED.</h4>
-                        <h4>Erbium</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="text-center">
-                        <h4>MOST USED WORKING</h4>
-                        <h4>Hafnium</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedIntermediateStandardName)</h4>
+                        <h4>@Html.DisplayFor(model => model.MostUsedIntermediateStandardName)</h4>
                     </div>
                 </div>
             </div>
@@ -225,12 +220,6 @@
             <a href="@Url.Action("InventoryReport")" target="_blank" class="btn btn-primary pull-right">Printable View</a>
         </div>
     </div>
-
-    @*<div id="graph">
-        <div class="demo-container">
-            <div id="placeholder2" class="demo-placeholder"></div>
-        </div>
-    </div>*@
 
     <div class="footer">
         <hr />
