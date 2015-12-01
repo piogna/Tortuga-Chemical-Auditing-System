@@ -12,6 +12,9 @@ namespace TMNT.Models.ViewModels {
         public string IdCode { get; set; }
         [Display(Name = "Date Opened"), DataType(DataType.Date)]
         public DateTime? DateOpened { get; set; }
+        [Display(Name = "Solution Name")]
+        public string IntermediateStandardName { get; set; }
+
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -24,8 +27,6 @@ namespace TMNT.Models.ViewModels {
         public Unit Unit { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
-        public DateTime DateCreated { get; set; }
     }
 
     public class IntermediateStandardDetailsViewModel {
@@ -50,11 +51,11 @@ namespace TMNT.Models.ViewModels {
         public Unit Unit { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
         [Display(Name = "Initial Amount")]
         public string InitialAmount { get; set; }
         public string Concentration { get; set; }
+        [Display(Name = "Solution Name")]
+        public string IntermediateStandardName { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -77,8 +78,6 @@ namespace TMNT.Models.ViewModels {
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]
         public int FinalVolume { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
 
         //foreign keys
         public PrepList PrepList { get; set; }
@@ -117,6 +116,9 @@ namespace TMNT.Models.ViewModels {
         public string OtherUnitExplained { get; set; }
         [Display(Name = "Other Unit Follow-up")]
         public string ConcentrationOtherUnitExplained { get; set; }
+        [Display(Name = "Solution Name")]
+        public string IntermediateStandardName { get; set; }
+
 
         //View Model data fields
         public List<string> Storage = new List<string>() { "Fridge", "Freezer", "Shelf", "Other" };
@@ -150,8 +152,6 @@ namespace TMNT.Models.ViewModels {
         public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Final Concentration")]
@@ -162,6 +162,9 @@ namespace TMNT.Models.ViewModels {
         public int TotalAmount { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
+        [Display(Name = "Solution Name")]
+        public string IntermediateStandardName { get; set; }
+
     }
 
     public class IntermediateStandardPrepListItemsViewModel {

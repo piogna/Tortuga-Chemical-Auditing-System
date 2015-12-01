@@ -44,8 +44,7 @@ namespace TMNT.Controllers
                 {
                     ChemType = "WorkingStandard",
                     Id = workingStandard.WorkingStandardId,
-                    IdCode = workingStandard.IdCode,
-                    MaxxamId = workingStandard.MaxxamId
+                    IdCode = workingStandard.IdCode
                 };
                 auditViewModel.Parents = GetAllParents(workingStandard.PrepList.PrepListItems);                
             }
@@ -60,8 +59,7 @@ namespace TMNT.Controllers
                 {
                     ChemType = "IntermediateStandard",
                     Id = intermediatestandard.IntermediateStandardId,
-                    IdCode = intermediatestandard.IdCode,
-                    MaxxamId = intermediatestandard.MaxxamId
+                    IdCode = intermediatestandard.IdCode
                 };
                 auditViewModel.Parents = GetAllParents(intermediatestandard.PrepList.PrepListItems);
             }
@@ -106,9 +104,8 @@ namespace TMNT.Controllers
                     AuditViewModel intAudit = new AuditViewModel
                     {
                         ChemType = "IntermediateStandard",
-                        Id = intStandard.IntermediateStandardId,
-                        MaxxamId = intStandard.MaxxamId,
-                        IdCode = intStandard.IdCode
+                        IdCode = intStandard.IdCode,
+                        Id = intStandard.IntermediateStandardId
                     };
                     if (intStandard.PrepList.PrepListItems.Count > 0)
                     {
@@ -123,9 +120,8 @@ namespace TMNT.Controllers
                     AuditViewModel workAudit = new AuditViewModel
                     {
                         ChemType = "WorkingStandard",
-                        Id = workStandard.WorkingStandardId,
-                        MaxxamId = workStandard.MaxxamId,
-                        IdCode = workStandard.IdCode
+                        IdCode = workStandard.IdCode,
+                        Id = workStandard.WorkingStandardId
                     };
                     if(workStandard.PrepList.PrepListItems.Count > 0){
                         workAudit.Parents = GetAllParents(workStandard.PrepList.PrepListItems);

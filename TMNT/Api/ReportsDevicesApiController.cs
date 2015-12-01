@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TMNT.Models;
 using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
 using TMNT.Utils;
 
 namespace TMNT.Api {
@@ -29,11 +30,11 @@ namespace TMNT.Api {
             var userDepartment = _uow.GetUserDepartment();
 
             var apidevices = devices
-                .Where(item => !item.IsArchived && item.Department.DepartmentId == userDepartment.DepartmentId)
+                .Where(item => !item.IsArchived)
                 .Select(item => new BalanceApiModel() {
                     BalanceId = item.DeviceId,
-                    Department = item.Department,
                     DeviceCode = item.DeviceCode,
+                    Department = item.Department,
                     IsVerified = item.IsVerified,
                     DeviceVerifications = item.DeviceVerifications.Where(v => v.VerifiedOn == DateTime.Today),
                     LastVerifiedBy = item.DeviceVerifications.Count > 0 ?
@@ -41,11 +42,13 @@ namespace TMNT.Api {
                                     "New Device"
                 }).ToList();
 
-            if (apidevices == null) {
+            var deptDevices = apidevices.Where(item => item.Department.DepartmentName.Equals(userDepartment.DepartmentName)).ToList();
+
+            if (deptDevices == null) {
                 return NotFound();
             }
             try {
-                return Ok(apidevices);
+                return Ok(deptDevices);
             } catch (Exception ex) {
 
             }
@@ -59,20 +62,5 @@ namespace TMNT.Api {
             }
             base.Dispose(disposing);
         }
-    }
-
-    public class BalanceApiModel {
-        public int BalanceId { get; set; }
-        public string DeviceCode { get; set; }
-        public Location Location { get; set; }
-        public Department Department { get; set; }
-        public bool IsVerified { get; set; }
-        public string Status { get; set; }
-        public int NumberOfDecimals { get; set; }
-
-        public DateTime? LastVerified { get; set; }
-        public string LastVerifiedBy { get; set; }//full name
-
-        public IEnumerable<DeviceVerification> DeviceVerifications { get; set; }
     }
 }

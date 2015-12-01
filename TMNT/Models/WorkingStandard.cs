@@ -9,10 +9,8 @@ namespace TMNT.Models {
         }
         [Key]
         public int WorkingStandardId { get; set; }
-        [Required]
         public string IdCode { get; set; }
-        [Required]
-        public string MaxxamId { get; set; }
+        public string WorkingStandardName { get; set; }
         public string TotalVolume { get; set; }
         public string FinalConcentration { get; set; }
         public string LastModifiedBy { get; set; }

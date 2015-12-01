@@ -129,7 +129,7 @@ $(function () {
                 ChemicalType.val("");
                 LotNumber.val("");
                 Amount.val("");
-                $('#Units').val('').trigger('chosen:updated');
+                $('#PrepUnits').val('').trigger('chosen:updated');
                 OptLabel.text("Select a Chemical Type First");
                 LotNumber.attr("disabled", "disabled");
 

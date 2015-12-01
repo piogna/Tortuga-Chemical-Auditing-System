@@ -40,7 +40,45 @@ namespace TMNT.Controllers {
 
         [Route("ReportDashboard")]
         public ActionResult ReportDashboard() {
-            return View();
+            var prepItems = _uow.PrepListItemRepository.Get();
+            var userDepartment = _uow.GetUserDepartment();
+
+            var mostUsedReagent = prepItems
+                .Where(item => item.StockReagent != null && item.StockReagent.InventoryItems.First().Department == userDepartment)
+                .GroupBy(item => item.StockReagent)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.ReagentName)
+                .FirstOrDefault();
+
+            var mostUsedStandard = prepItems
+                .Where(item => item.StockStandard != null && item.StockStandard.InventoryItems.First().Department == userDepartment)
+                .GroupBy(item => item.StockStandard)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.StockStandardName)
+                .FirstOrDefault();
+
+            var mostUsedIntermeidateStandard = prepItems
+                .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.InventoryItems.First().Department == userDepartment)
+                .GroupBy(item => item.IntermediateStandard)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.IntermediateStandardName)
+                .FirstOrDefault();
+
+            //var mostUsedWorkingStandard = prepItems
+            //    .Where(item => item.WorkingStandard != null)
+            //    .GroupBy(item => item.WorkingStandard)
+            //    .OrderByDescending(item => item.Count())
+            //    .Select(item => item.Key.WorkingStandardName)
+            //    .FirstOrDefault();
+
+            var model = new ReportDashboardViewModel() {
+                MostUsedReagentName = mostUsedReagent,
+                MostUsedStandardName = mostUsedStandard,
+                MostUsedIntermediateStandardName = mostUsedIntermeidateStandard,
+                Department = userDepartment
+            };
+
+            return View(model);
         }
 
         [Route("Report/DailyBalanceVerificationReport")]
@@ -48,7 +86,7 @@ namespace TMNT.Controllers {
             var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
-            return View();
+            return View(user.Department);
         }
 
         [Route("Report/DeviceVerificationReport")]

@@ -11,7 +11,7 @@ namespace TMNT.Models {
         public int IntermediateStandardId { get; set; }
         public string IdCode { get; set; }
         public string Replaces { get; set; }
-        public string MaxxamId { get; set; }
+        public string IntermediateStandardName { get; set; }
         public int FinalVolume { get; set; }
         public string ReplacedBy { get; set; }
         public string TotalVolume { get; set; }

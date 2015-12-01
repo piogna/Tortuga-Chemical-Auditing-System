@@ -39,10 +39,9 @@ namespace TMNT.Controllers {
                     lIntStandards.Add(new WorkingStandardIndexViewModel() {
                         WorkingStandardId = item.WorkingStandard.WorkingStandardId,
                         CreatedBy = item.WorkingStandard.CreatedBy,
-                        DateCreated = item.WorkingStandard.DateCreated,
                         ExpiryDate = item.WorkingStandard.ExpiryDate,
                         IdCode = item.WorkingStandard.IdCode,
-                        MaxxamId = item.WorkingStandard.MaxxamId,
+                        WorkingStandardName = item.WorkingStandard.WorkingStandardName,
                         IsExpired = item.WorkingStandard.ExpiryDate < DateTime.Today,
                         IsExpiring = item.WorkingStandard.ExpiryDate < DateTime.Today.AddDays(30) && !(item.WorkingStandard.ExpiryDate < DateTime.Today)
                     });
@@ -72,7 +71,7 @@ namespace TMNT.Controllers {
                 PrepList = workingStandard.PrepList,
                 PrepListItems = workingStandard.PrepList.PrepListItems.ToList(),
                 IdCode = workingStandard.IdCode,
-                MaxxamId = workingStandard.MaxxamId,
+                WorkingStandardName = workingStandard.WorkingStandardName,
                 LastModifiedBy = workingStandard.LastModifiedBy,
                 Concentration = workingStandard.FinalConcentration,
                 ExpiryDate = workingStandard.ExpiryDate,
@@ -106,7 +105,7 @@ namespace TMNT.Controllers {
         [Route("WorkingStandard/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "WorkingStandardId,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] WorkingStandardCreateViewModel model,
+        public ActionResult Create([Bind(Include = "WorkingStandardId,WorkingStandardName,TotalVolume,UsedFor,FinalConcentration,TotalAmount,ExpiryDate,SafetyNotes,IsExpiryDateBasedOnDays,DaysUntilExpired,OtherUnitExplained,ConcentrationOtherUnitExplained")] WorkingStandardCreateViewModel model,
            string[] PrepListItemTypes, string[] PrepListAmountTakenUnits, string[] PrepListItemAmounts, string[] PrepListItemLotNumbers, string[] TotalAmountUnits, string[] FinalConcentrationUnits, string submit) {
 
             if (!ModelState.IsValid) {
@@ -187,7 +186,7 @@ namespace TMNT.Controllers {
                     } else if (type.Equals("Intermediate Standard")) {
                         var add = _uow.IntermediateStandardRepository
                             .Get()
-                            .Where(x => x.MaxxamId.Equals(lotNumber))
+                            .Where(x => x.IdCode.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }
@@ -277,13 +276,13 @@ namespace TMNT.Controllers {
             WorkingStandard Workingstandard = new WorkingStandard() {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
-                MaxxamId = user.Department.Location.LocationCode + "-" + (numOfItems + 1),// + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
                 IdCode = user.Department.Location.LocationCode + "-" + (invRepo.Get().Count() + 1),// + "-" + model.MaxxamId,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
                 CreatedBy = user.UserName,
                 DateCreated = DateTime.Today,
                 ExpiryDate = model.ExpiryDate,
+                WorkingStandardName = model.WorkingStandardName,
                 DaysUntilExpired = model.DaysUntilExpired
             };
 
@@ -346,7 +345,7 @@ namespace TMNT.Controllers {
             WorkingStandardEditViewModel model = new WorkingStandardEditViewModel() {
                 WorkingStandardId = Workingstandard.WorkingStandardId,
                 IdCode = Workingstandard.IdCode,
-                MaxxamId = Workingstandard.MaxxamId
+                WorkingStandardName = Workingstandard.WorkingStandardName
             };
 
             foreach (var item in Workingstandard.InventoryItems) {
@@ -363,7 +362,7 @@ namespace TMNT.Controllers {
         [Route("WorkingStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "WorkingStandardId,IdCode,MaxxamId,ExpiryDate")] WorkingStandardEditViewModel workingStandard) {
+        public ActionResult Edit([Bind(Include = "WorkingStandardId,WorkingStandardName,IdCode,MaxxamId,ExpiryDate")] WorkingStandardEditViewModel workingStandard) {
             if (ModelState.IsValid) {
                 InventoryItemRepository inventoryRepo = _uow.InventoryItemRepository;
                 var user = _uow.GetCurrentUser();
@@ -374,7 +373,7 @@ namespace TMNT.Controllers {
 
                 WorkingStandard updateStandard = invItem.WorkingStandard;
                 updateStandard.IdCode = workingStandard.IdCode;
-                updateStandard.MaxxamId = workingStandard.MaxxamId;
+                updateStandard.WorkingStandardName = workingStandard.WorkingStandardName;
                 updateStandard.LastModifiedBy = user.UserName;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = workingStandard.ExpiryDate;

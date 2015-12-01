@@ -1,4 +1,6 @@
-﻿@{
+﻿@model TMNT.Models.Department
+
+@{
     Layout = null;
 }
 
@@ -32,7 +34,7 @@
     <div class="container"> 
         <div class="col-md-12 section-header">
             <img src="~/Content/Images/maxxam.png" />
-            <h4 class="pull-right section-header-text">Daily Balance Verification Report: Organics</h4>
+            <h4 class="pull-right section-header-text">Daily Balance Verification Report: @Model.DepartmentName</h4>
         </div>
         <div class="container">
 
@@ -40,7 +42,7 @@
                 <thead>
                     <tr>
                         <td>Device Code</td>
-                        <td>Department</td>
+                        <td>Sub Department</td>
                         <td>Number of Tests to Verify</td>
                         <td>Verified By</td>
                     </tr>
