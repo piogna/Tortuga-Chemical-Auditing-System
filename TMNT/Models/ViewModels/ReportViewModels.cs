@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TMNT.Models.ViewModels {
     public class ReportDashboardViewModel {
@@ -33,5 +35,20 @@ namespace TMNT.Models.ViewModels {
         public string Department { get; set; }
         public string IsVerified { get; set; }
         public string Status { get; set; }
+    }
+
+    public class BalanceApiModel {
+        public int BalanceId { get; set; }
+        public string DeviceCode { get; set; }
+        public Location Location { get; set; }
+        public Department Department { get; set; }
+        public bool IsVerified { get; set; }
+        public string Status { get; set; }
+        public int NumberOfDecimals { get; set; }
+
+        public DateTime? LastVerified { get; set; }
+        public string LastVerifiedBy { get; set; }//full name
+
+        public IEnumerable<DeviceVerification> DeviceVerifications { get; set; }
     }
 }

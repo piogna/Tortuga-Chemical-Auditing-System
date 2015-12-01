@@ -86,7 +86,7 @@ namespace TMNT.Controllers {
             var user = _uow.GetCurrentUser();
             ViewBag.User = user.FirstName + " " + user.LastName;
 
-            return View();
+            return View(user.Department);
         }
 
         [Route("Report/DeviceVerificationReport")]

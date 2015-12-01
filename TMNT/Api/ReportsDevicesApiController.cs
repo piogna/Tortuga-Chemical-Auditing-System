@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using TMNT.Models;
 using TMNT.Models.Repository;
+using TMNT.Models.ViewModels;
 using TMNT.Utils;
 
 namespace TMNT.Api {
@@ -61,20 +62,5 @@ namespace TMNT.Api {
             }
             base.Dispose(disposing);
         }
-    }
-
-    public class BalanceApiModel {
-        public int BalanceId { get; set; }
-        public string DeviceCode { get; set; }
-        public Location Location { get; set; }
-        public Department Department { get; set; }
-        public bool IsVerified { get; set; }
-        public string Status { get; set; }
-        public int NumberOfDecimals { get; set; }
-
-        public DateTime? LastVerified { get; set; }
-        public string LastVerifiedBy { get; set; }//full name
-
-        public IEnumerable<DeviceVerification> DeviceVerifications { get; set; }
     }
 }
