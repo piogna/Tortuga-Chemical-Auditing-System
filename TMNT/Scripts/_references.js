@@ -20,3 +20,4 @@
 /// <reference path="custommaxxamjs/help-me.js" />
 /// <reference path="custommaxxamjs/intermediate-standard-form-validation.js" />
 /// <reference path="datepickerjs/bootstrap-datepicker.min.js" />
+/// <reference path="jquery.jorgchart.js" />

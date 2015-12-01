@@ -6,6 +6,13 @@
     @CreateTree(Model)
 </ul>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#org").jOrgChart();
+        });
+    </script>
+}
 
 @helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList){
         <li>
