@@ -56,6 +56,8 @@ namespace TMNT.Models.ViewModels {
         public string Concentration { get; set; }
         [Display(Name = "Solution Name")]
         public string IntermediateStandardName { get; set; }
+        [Display(Name = "Safety Notes")]
+        public string SafetyNotes { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
