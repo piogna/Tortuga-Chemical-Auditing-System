@@ -215,6 +215,10 @@
     <Compile Include="Migrations\201512010056319_RemoveIntStandardMaxxamIdAddName.Designer.cs">
       <DependentUpon>201512010056319_RemoveIntStandardMaxxamIdAddName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512010128278_RemoveMaxxamIdFromWorkingStandardAddName.cs" />
+    <Compile Include="Migrations\201512010128278_RemoveMaxxamIdFromWorkingStandardAddName.Designer.cs">
+      <DependentUpon>201512010128278_RemoveMaxxamIdFromWorkingStandardAddName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CertificateOfAnalysis.cs" />
@@ -514,6 +518,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512010056319_RemoveIntStandardMaxxamIdAddName.resx">
       <DependentUpon>201512010056319_RemoveIntStandardMaxxamIdAddName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512010128278_RemoveMaxxamIdFromWorkingStandardAddName.resx">
+      <DependentUpon>201512010128278_RemoveMaxxamIdFromWorkingStandardAddName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

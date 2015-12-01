@@ -60,9 +60,15 @@ namespace TMNT.Controllers {
                 .Where(item => item.IntermediateStandard != null)
                 .GroupBy(item => item.IntermediateStandard)
                 .OrderByDescending(item => item.Count())
-                .Select(item => item.Key.IdCode)
+                .Select(item => item.Key.IntermediateStandardName)
                 .FirstOrDefault();
 
+            var mostUsedWorkingStandard = prepItems
+                .Where(item => item.WorkingStandard != null)
+                .GroupBy(item => item.WorkingStandard)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.IdCode)
+                .FirstOrDefault();
 
             return View();
         }

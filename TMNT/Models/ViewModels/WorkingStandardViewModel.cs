@@ -7,8 +7,8 @@ namespace TMNT.Models.ViewModels {
         public int WorkingStandardId { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
+        [Display(Name = "Solution Name")]
+        public string WorkingStandardName { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -21,8 +21,6 @@ namespace TMNT.Models.ViewModels {
         public Unit Unit { get; set; }
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true), Display(Name = "Date Created")]
-        public DateTime DateCreated { get; set; }
     }
 
     public class WorkingStandardDetailsViewModel {
@@ -49,6 +47,8 @@ namespace TMNT.Models.ViewModels {
         [Display(Name = "Initial Amount")]
         public string InitialAmount { get; set; }
         public string Concentration { get; set; }
+        [Display(Name = "Solution Name")]
+        public string WorkingStandardName { get; set; }
 
         //properties to help with views and have nothing to do with the db
         public bool IsExpired { get; set; }
@@ -81,6 +81,8 @@ namespace TMNT.Models.ViewModels {
         public Device DeviceTwo { get; set; }
         public string TotalAmountUnits { get; set; }
         public string FinalConcentrationUnits { get; set; }
+        [Display(Name = "Solution Name")]
+        public string WorkingStandardName { get; set; }
 
         //inventory poperties
         public bool IsExpiryDateBasedOnDays { get; set; }
@@ -150,6 +152,8 @@ namespace TMNT.Models.ViewModels {
         public int TotalAmount { get; set; }
         [Display(Name = "Last Modified By")]
         public string LastModifiedBy { get; set; }
+        [Display(Name = "Solution Name")]
+        public string WorkingStandardName { get; set; }
     }
 
     public class WorkingStandardPrepListItemsViewModel {
