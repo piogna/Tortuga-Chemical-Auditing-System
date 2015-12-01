@@ -40,6 +40,30 @@ namespace TMNT.Controllers {
 
         [Route("ReportDashboard")]
         public ActionResult ReportDashboard() {
+            var prepItems = _uow.PrepListItemRepository.Get();
+
+            var mostUsedReagent = prepItems
+                .Where(item => item.StockReagent != null)
+                .GroupBy(item => item.StockReagent)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.ReagentName)
+                .FirstOrDefault();
+
+            var mostUsedStandard = prepItems
+                .Where(item => item.StockStandard != null)
+                .GroupBy(item => item.StockStandard)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.StockStandardName)
+                .FirstOrDefault();
+
+            var mostUsedIntermeidateStandard = prepItems
+                .Where(item => item.IntermediateStandard != null)
+                .GroupBy(item => item.IntermediateStandard)
+                .OrderByDescending(item => item.Count())
+                .Select(item => item.Key.IdCode)
+                .FirstOrDefault();
+
+
             return View();
         }
 

@@ -76,7 +76,6 @@ namespace TMNT.Controllers {
                 PrepList = intermediatestandard.PrepList,
                 PrepListItems = intermediatestandard.PrepList.PrepListItems.ToList(),
                 IdCode = intermediatestandard.IdCode,
-                MaxxamId = intermediatestandard.MaxxamId,
                 LastModifiedBy = intermediatestandard.LastModifiedBy,
                 Concentration = intermediatestandard.FinalConcentration,
                 ExpiryDate = intermediatestandard.ExpiryDate,
@@ -197,7 +196,7 @@ namespace TMNT.Controllers {
                     } else if (type.Equals("Intermediate Standard")) {
                         var add = _uow.IntermediateStandardRepository
                             .Get()
-                            .Where(x => x.MaxxamId.Equals(lotNumber))
+                            .Where(x => x.IdCode.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }
@@ -254,7 +253,6 @@ namespace TMNT.Controllers {
                 } else if (item is IntermediateStandard) {
                     var intStandard = item as IntermediateStandard;
                     var invItem = _uow.InventoryItemRepository.Get().Where(x => x.IntermediateStandard == intStandard).First();
-                    //var invItem = intStandard.InventoryItems.First();
 
                     if (invItem.IntermediateStandard.DateOpened == null) {
                         invItem.IntermediateStandard.DateOpened = DateTime.Today;
@@ -289,8 +287,7 @@ namespace TMNT.Controllers {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
                 FinalVolume = model.FinalVolume,
-                MaxxamId = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.MaxxamId,//append number of bottles// model.MaxxamId,
-                IdCode = department.Location.LocationCode + "-" + (_uow.InventoryItemRepository.Get().Count() + 1) + "-" + model.MaxxamId,// + "/",//append number of bottles?
+                IdCode = department.Location.LocationCode + "-" + (_uow.InventoryItemRepository.Get().Count() + 1) + "-" + model.CreatedBy,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
                 CreatedBy = user.UserName,
@@ -365,8 +362,7 @@ namespace TMNT.Controllers {
                 IntermediateStandardId = intermediatestandard.IntermediateStandardId,
                 Replaces = intermediatestandard.Replaces,
                 ReplacedBy = intermediatestandard.ReplacedBy,
-                IdCode = intermediatestandard.IdCode,
-                MaxxamId = intermediatestandard.MaxxamId
+                IdCode = intermediatestandard.IdCode
             };
 
             foreach (var item in intermediatestandard.InventoryItems) {
@@ -383,7 +379,7 @@ namespace TMNT.Controllers {
         [Route("IntermediateStandard/Edit/{id?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,MaxxamId,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
+        public ActionResult Edit([Bind(Include = "IntermediateStandardId,IdCode,ExpiryDate")] IntermediateStandardEditViewModel intermediatestandard) {
             if (ModelState.IsValid) {
                 var user = _uow.GetCurrentUser();
 
@@ -393,7 +389,6 @@ namespace TMNT.Controllers {
 
                 IntermediateStandard updateStandard = invItem.IntermediateStandard;
                 updateStandard.IdCode = intermediatestandard.IdCode;
-                updateStandard.MaxxamId = intermediatestandard.MaxxamId;
                 updateStandard.DateModified = DateTime.Today;
                 updateStandard.ExpiryDate = intermediatestandard.ExpiryDate;
                 updateStandard.LastModifiedBy = user.UserName;

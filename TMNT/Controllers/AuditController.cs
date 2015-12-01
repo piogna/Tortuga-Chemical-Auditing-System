@@ -60,8 +60,7 @@ namespace TMNT.Controllers
                 {
                     ChemType = "IntermediateStandard",
                     Id = intermediatestandard.IntermediateStandardId,
-                    IdCode = intermediatestandard.IdCode,
-                    MaxxamId = intermediatestandard.MaxxamId
+                    IdCode = intermediatestandard.IdCode
                 };
                 auditViewModel.Parents = GetAllParents(intermediatestandard.PrepList.PrepListItems);
             }
@@ -107,7 +106,6 @@ namespace TMNT.Controllers
                     {
                         ChemType = "IntermediateStandard",
                         Id = intStandard.IntermediateStandardId,
-                        MaxxamId = intStandard.MaxxamId,
                         IdCode = intStandard.IdCode
                     };
                     if (intStandard.PrepList.PrepListItems.Count > 0)

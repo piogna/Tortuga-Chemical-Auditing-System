@@ -187,7 +187,7 @@ namespace TMNT.Controllers {
                     } else if (type.Equals("Intermediate Standard")) {
                         var add = _uow.IntermediateStandardRepository
                             .Get()
-                            .Where(x => x.MaxxamId.Equals(lotNumber))
+                            .Where(x => x.IdCode.Equals(lotNumber))
                             .FirstOrDefault();
                         if (add != null) { reagentAndStandardContainer.Add(add); break; }
                     }

@@ -200,9 +200,9 @@
                                                     <optgroup class="opt opt-int-standard" label="Intermediate Standards">
                                                         @foreach (var item in Model.IntermediateStandards) {
                                                             if (item.IntermediateStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IdCode - Expired</option>
                                                             } else {
-                                                                <option value="@item.IntermediateStandard.MaxxamId">@item.IntermediateStandard.IdCode</option>
+                                                                <option value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IdCode</option>
                                                             }
                                                         }
                                                     </optgroup>

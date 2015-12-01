@@ -50,8 +50,6 @@ namespace TMNT.Models.ViewModels {
         public Unit Unit { get; set; }
         [Required, Display(Name = "Used For"), DataType(DataType.MultilineText)]
         public string UsedFor { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
         [Display(Name = "Initial Amount")]
         public string InitialAmount { get; set; }
         public string Concentration { get; set; }
@@ -77,8 +75,6 @@ namespace TMNT.Models.ViewModels {
         public int FinalConcentration { get; set; }
         [Display(Name = "Final Volume")]
         public int FinalVolume { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
 
         //foreign keys
         public PrepList PrepList { get; set; }
@@ -150,8 +146,6 @@ namespace TMNT.Models.ViewModels {
         public string ReplacedBy { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
-        [Display(Name = "Maxxam Id")]
-        public string MaxxamId { get; set; }
         [Display(Name = "Expiry Date"), DataType(DataType.Date)]
         public DateTime? ExpiryDate { get; set; }
         [Display(Name = "Final Concentration")]
