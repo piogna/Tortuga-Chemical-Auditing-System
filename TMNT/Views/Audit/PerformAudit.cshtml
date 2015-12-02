@@ -13,6 +13,8 @@
             min-height: 125px;
         }
 
+
+
         .jOrgChart > table {
             margin:0 auto;
         }
@@ -46,7 +48,7 @@
 
 @helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList) {
     <li class="@auditList.ChemType">
-        <a href="@auditList.ChemType/Details/@auditList.Id">@auditList.IdCode</a>
+        <a href="/@auditList.ChemType/Details/@auditList.Id">@auditList.IdCode</a>
 
         @if (auditList.Parents.Count > 0)
         {
