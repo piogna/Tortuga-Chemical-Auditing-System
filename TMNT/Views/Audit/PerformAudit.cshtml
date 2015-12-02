@@ -1,13 +1,47 @@
 ﻿@model TMNT.Models.ViewModels.AuditViewModel
+
+@section AddToHead {
+    <link href="~/Content/jquery.jOrgChart.css" rel="stylesheet" />
+    <style>
+        #chemical-map-container {
+            padding:40px;
+        }
+
+        .jOrgChart .node {
+            color:#fff;
+            width: 250px;
+            min-height: 125px;
+        }
+
+        .jOrgChart > table {
+            margin:0 auto;
+        }
+    </style>
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            $("#org").jOrgChart(
+                { chartElement: "#chart" }
+                );
+        });
+    </script>
+}
+
 @{
     ViewBag.Title = "Audit";
 }
-<ul id="org">
+
+
+<ul id="org" style="display:none;">
     @CreateTree(Model)
 </ul>
 
-<div id="chart" class="orgChart">
+<div id="chemical-map-container" class="text-center">
+    <div id="chart" class="orgChart">
 
+    </div>
 </div>
 
 @helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList) {
@@ -26,12 +60,4 @@
             </ul>
         }
     </li>
-}
-
-@section scripts {
-    <script>
-        $(function () {
-            $("#org").jOrgChart();
-        });
-    </script>
 }

@@ -79,6 +79,7 @@ namespace TMNT.Controllers {
                 LastModifiedBy = intermediatestandard.LastModifiedBy,
                 IntermediateStandardName = intermediatestandard.IntermediateStandardName,
                 Concentration = intermediatestandard.FinalConcentration,
+                SafetyNotes = intermediatestandard.SafetyNotes,
                 ExpiryDate = intermediatestandard.ExpiryDate,
                 DateModified = intermediatestandard.DateModified,
                 DateOpened = intermediatestandard.DateOpened,

@@ -8,13 +8,13 @@ using Microsoft.Owin.Security;
 using TMNT.Models;
 using System;
 using TMNT.Models.Repository;
-using System.Net.Mail;
 using System.Net;
 using System.Configuration;
-using TMNT.Utils;
+using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
+    [PasswordChange]
     public class AccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;

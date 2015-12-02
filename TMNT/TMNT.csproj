@@ -308,6 +308,7 @@
     <Content Include="Content\Images\syringe-icon.png" />
     <Content Include="Content\Images\underConstruction.jpg" />
     <None Include="Content\json\chemical-data.json" />
+    <Content Include="Content\jquery.jOrgChart.css" />
     <Content Include="Content\login-styles.css" />
     <Content Include="Content\maxxam-forms.css" />
     <Content Include="Content\metisMenu.css" />

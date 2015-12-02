@@ -74,6 +74,7 @@ namespace TMNT.Controllers {
                 WorkingStandardName = workingStandard.WorkingStandardName,
                 LastModifiedBy = workingStandard.LastModifiedBy,
                 Concentration = workingStandard.FinalConcentration,
+                SafetyNotes = workingStandard.SafetyNotes,
                 ExpiryDate = workingStandard.ExpiryDate,
                 DateOpened = workingStandard.DateOpened,
                 DateCreated = workingStandard.DateCreated,
