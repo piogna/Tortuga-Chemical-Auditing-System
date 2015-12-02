@@ -14,7 +14,6 @@ using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
-    [PasswordChange]
     public class AccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -166,7 +165,11 @@ namespace TMNT.Controllers {
         // GET: /Account/Register
         [Route("Account/Register")]
         [AllowAnonymous]
+        [AuthorizeRedirect(Roles = "Administrator")]
         public ActionResult Register() {
+            if (!_uow.GetUserRoles().Contains("Administrator")) {
+                return new RedirectResult("~/AccessDenied");
+            }
             return View(SetRegistration(new RegisterViewModel()));
         }
 
@@ -176,9 +179,14 @@ namespace TMNT.Controllers {
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [AuthorizeRedirect(Roles = "Administrator")]
         public async Task<ActionResult> Register(RegisterViewModel model, string submit) {
+            if (!_uow.GetUserRoles().Contains("Administrator")) {
+                return new RedirectResult("~/AccessDenied");
+            }
+
             if (ModelState.IsValid) {
-                var locationRepo = _uow.LocationRepository;//new LocationRepository();
+                var locationRepo = _uow.LocationRepository;
                 
                 var location = locationRepo.Get()
                     .Where(item => item.LocationName.Equals(model.LocationName))
