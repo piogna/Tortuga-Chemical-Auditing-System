@@ -11,12 +11,14 @@
 </div>
 
 @helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList) {
-    <li>
-        @auditList.IdCode
+    <li class="@auditList.ChemType">
+        <a href="@auditList.ChemType/Details/@auditList.Id">@auditList.IdCode</a>
 
-        @if (auditList.Parents.Count > 0) {
+        @if (auditList.Parents.Count > 0)
+        {
             <ul>
-                @foreach (TMNT.Models.ViewModels.AuditViewModel item in auditList.Parents) {
+                @foreach (TMNT.Models.ViewModels.AuditViewModel item in auditList.Parents)
+                {
 
                     @CreateTree(item)
 
