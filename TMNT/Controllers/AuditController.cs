@@ -4,11 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TMNT.Filters;
 using TMNT.Models;
 using TMNT.Models.Repository;
 using TMNT.Models.ViewModels;
 
 namespace TMNT.Controllers {
+    [Authorize]
+    [PasswordChange]
     public class AuditController : Controller {
         private UnitOfWork _uow;
 
@@ -19,12 +22,14 @@ namespace TMNT.Controllers {
 
         // GET: Audit
         [Route("Audit")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Index() {
             return View();
         }
 
         [HttpPost]
         [Route("Audit/PerformAudit")]
+        [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult PerformAudit([Bind(Include = "IdCode,Type")] PerformAuditViewModel model) {
             AuditViewModel auditViewModel;
             if (model.Type == "ws") {
