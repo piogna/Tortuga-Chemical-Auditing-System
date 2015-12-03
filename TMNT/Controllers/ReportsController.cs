@@ -40,29 +40,55 @@ namespace TMNT.Controllers {
 
         [Route("ReportDashboard")]
         public ActionResult ReportDashboard() {
-            var prepItems = _uow.PrepListItemRepository.Get();
+            var prepItems = _uow.PrepListItemRepository.Get().ToList();
             var userDepartment = _uow.GetUserDepartment();
 
-            var mostUsedReagent = prepItems
-                .Where(item => item.StockReagent != null && item.StockReagent.InventoryItems.First().Department == userDepartment)
-                .GroupBy(item => item.StockReagent)
-                .OrderByDescending(item => item.Count())
-                .Select(item => item.Key.ReagentName)
-                .FirstOrDefault();
+            //var usedReagent = prepItems
+            //    .Where(item => item.StockReagent != null)
+            //    .GroupBy(item => item.StockReagent)
+            //    .OrderByDescending(item => item.Count())
+            //    .ToList()
+            //    .Select(item => item.Key.ReagentName)
+            //    .FirstOrDefault();
 
-            var mostUsedStandard = prepItems
-                .Where(item => item.StockStandard != null && item.StockStandard.InventoryItems.First().Department == userDepartment)
-                .GroupBy(item => item.StockStandard)
-                .OrderByDescending(item => item.Count())
-                .Select(item => item.Key.StockStandardName)
-                .FirstOrDefault();
+            var reagent = prepItems
+                .Where(item => item.StockReagent != null)
+                .GroupBy(x => x.StockReagent)
+                          .OrderByDescending(s => s.Count())
+                          .First().Key;
 
-            var mostUsedIntermeidateStandard = prepItems
-                .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.InventoryItems.First().Department == userDepartment)
-                .GroupBy(item => item.IntermediateStandard)
-                .OrderByDescending(item => item.Count())
-                .Select(item => item.Key.IntermediateStandardName)
-                .FirstOrDefault();
+
+            //var mostUsedReagent = _uow.PrepListItemRepository.Get()
+                //.Where(item => item.StockReagent != null)// && item.StockReagent.InventoryItems.First().Department.DepartmentId == userDepartment.DepartmentId)
+                //.GroupBy(item => item.StockReagent)
+                //.OrderByDescending(item => item.Count())
+                //.Select(item => item.StockReagent.ReagentName)
+                //.FirstOrDefault();
+
+            //var mostUsedStandard = prepItems
+            //    .Where(item => item.StockStandard != null && item.StockStandard.InventoryItems.First().Department == userDepartment)
+            //    .GroupBy(item => item.StockStandard)
+            //    .OrderByDescending(item => item.Count())
+            //    .FirstOrDefault();
+
+            var standard = prepItems
+                .Where(item => item.StockStandard != null)
+                .GroupBy(x => x.StockStandard)
+                          .OrderByDescending(s => s.Count())
+                          .First().Key;
+
+            //var mostUsedIntermediateStandard = prepItems
+            //    .Where(item => item.IntermediateStandard != null && item.IntermediateStandard.InventoryItems.First().Department == userDepartment)
+            //    .GroupBy(item => item.IntermediateStandard)
+            //    .OrderByDescending(item => item.Count())
+            //    .Select(item => item.Key.IntermediateStandardName)
+            //    .FirstOrDefault();
+
+            var intStandard = prepItems
+                .Where(item => item.IntermediateStandard != null)
+                .GroupBy(x => x.IntermediateStandard)
+                          .OrderByDescending(s => s.Count())
+                          .First().Key;
 
             //var mostUsedWorkingStandard = prepItems
             //    .Where(item => item.WorkingStandard != null)
@@ -72,9 +98,9 @@ namespace TMNT.Controllers {
             //    .FirstOrDefault();
 
             var model = new ReportDashboardViewModel() {
-                MostUsedReagentName = mostUsedReagent,
-                MostUsedStandardName = mostUsedStandard,
-                MostUsedIntermediateStandardName = mostUsedIntermeidateStandard,
+                StockReagentName = reagent.ReagentName,
+                StockStandardName = standard.StockStandardName,
+                IntermediateStandardName = intStandard.IntermediateStandardName,
                 Department = userDepartment
             };
 

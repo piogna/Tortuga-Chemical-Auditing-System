@@ -178,27 +178,27 @@
                                                     <optgroup class="opt opt-reagent" label="Reagents">
                                                         @foreach (var item in Model.StockReagents) {
                                                             if (item.StockReagent.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockReagent.LotNumber">@item.StockReagent.ReagentName - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.IdCode</option>
+                                                                <option value="@item.StockReagent.LotNumber">@item.StockReagent.ReagentName</option>
                                                             }
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-standard" label="Standards">
                                                         @foreach (var item in Model.StockStandards) {
                                                             if (item.StockStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.StockStandard.LotNumber">@item.StockStandard.StockStandardName - Expired</option>
                                                             } else {
-                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.IdCode</option>
+                                                                <option value="@item.StockStandard.LotNumber">@item.StockStandard.StockStandardName</option>
                                                             }
                                                         }
                                                     </optgroup>
                                                     <optgroup class="opt opt-int-standard" label="Intermediate Standards">
                                                         @foreach (var item in Model.IntermediateStandards) {
                                                             if (item.IntermediateStandard.ExpiryDate < DateTime.Today) {
-                                                                <option disabled="disabled" value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IdCode - Expired</option>
+                                                                <option disabled="disabled" value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IntermediateStandardName - Expired</option>
                                                             } else {
-                                                                <option value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IdCode</option>
+                                                                <option value="@item.IntermediateStandard.IdCode">@item.IntermediateStandard.IntermediateStandardName</option>
                                                             }
                                                         }
                                                     </optgroup>

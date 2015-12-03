@@ -105,16 +105,16 @@ namespace TMNT.Utils {
             };
 
             if (model.NumberOfBottles > 1) {
-                for (int i = 1; i <= model.NumberOfBottles; i++) {
-                    createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + i;//append number of bottles
+                //for (int i = 1; i <= model.NumberOfBottles; i++) {
+                    createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles;//append number of bottles
 
                     createStandard.InventoryItems.Add(inventoryItem);
                     repo.Create(createStandard);
                     result = _uow.Commit();
 
                     //creation wasn't successful - break from loop and let switch statement handle the problem
-                    if (result != CheckModelState.Valid) { break; }
-                }
+                    //if (result != CheckModelState.Valid) { break; }
+                //}
             } else {
                 createStandard.IdCode = department.Location.LocationCode + "-" + (numOfItems + 1) + "-" + model.LotNumber + "/" + model.NumberOfBottles;//only 1 bottle, no need to concatenate
 
