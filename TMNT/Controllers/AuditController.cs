@@ -21,7 +21,7 @@ namespace TMNT.Controllers {
         public AuditController() : this(new UnitOfWork()) { }
 
         // GET: Audit
-        [Route("Audit")]
+        [Route("Audit/PerformAudit")]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult Index() {
             return View();
@@ -31,11 +31,17 @@ namespace TMNT.Controllers {
         [Route("Audit/PerformAudit")]
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult PerformAudit([Bind(Include = "IdCode,Type")] PerformAuditViewModel model) {
+            if (!ModelState.IsValid) {
+                //ViewBag.ErrorMessage = "The compound you have searched for was not found.";
+                return View("Index");
+            }
+
             AuditViewModel auditViewModel;
             if (model.Type == "ws") {
                 WorkingStandard workingStandard = _uow.WorkingStandardRepository.Get().Where(w => w.IdCode == model.IdCode).FirstOrDefault();
                 if (workingStandard == null) {
-                    return HttpNotFound();
+                    ViewBag.ErrorMessage = "The compound you have searched for was not found.";
+                    return View("Index");
                 }
 
                 auditViewModel = new AuditViewModel {

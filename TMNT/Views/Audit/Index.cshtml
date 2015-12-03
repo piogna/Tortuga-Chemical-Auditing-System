@@ -1,4 +1,6 @@
-﻿@{
+﻿@model TMNT.Models.ViewModels.PerformAuditViewModel
+
+@{
     ViewBag.Title = "Perform Audit";
 }
 <div class="row">
@@ -8,20 +10,33 @@
         </h1>
     </div>
 </div>
-<div id="audit-form">
-    @using (Html.BeginForm("PerformAudit", "Audit",
-            new { ReturnUrl = ViewBag.ReturnUrl },
-            FormMethod.Post, new { @class = "form-inline" })) {
+<div id="audit-form" class="form-horizontal">
+    @using (Html.BeginForm("PerformAudit", "Audit", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "" })) {
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            <input type="text" class="form-control" name="IdCode" placeholder="Unique ID Code" />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="text-danger" style="margin-bottom:20px;">
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage)) {
+                @ViewBag.ErrorMessage
+            }
         </div>
-        <div class="form-group">
-            <label class="radio-inline"><input type="radio" name="Type" value="ws">Working Standard</label>
-            <label class="radio-inline"><input type="radio" name="Type" value="is">Intermediate Standard</label>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon addon-required no-border-radius"  style="color:red;"title="Required Field">*</div>
+                    <input type="text" class="form-control no-border-radius" name="IdCode" placeholder="Unique ID Code" />
+                </div>
+                @Html.ValidationMessageFor(model => model.IdCode)
+            </div>
+            <div class="form-group">
+                <label class="radio-inline"><input type="radio" name="Type" value="ws">Working Standard</label>
+                <label class="radio-inline"><input type="radio" name="Type" value="is">Intermediate Standard</label>
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Start!" class="btn btn-default" />
+        <div class="col-md-12 input-group">
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Perform Audit" />
+            </div>
         </div>
     }
 </div>
