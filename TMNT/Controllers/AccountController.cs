@@ -14,7 +14,6 @@ using TMNT.Filters;
 
 namespace TMNT.Controllers {
     [Authorize]
-    [PasswordChange]
     public class AccountController : Controller {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
