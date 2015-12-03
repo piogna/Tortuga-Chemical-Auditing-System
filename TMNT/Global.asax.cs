@@ -17,7 +17,7 @@ namespace TMNT {
         }
         protected void Application_Error(object sender, EventArgs e) {
             var exception = Server.GetLastError();
-
+            string host = HttpContext.Current.Request.Url.Host;
             System.Web.HttpBrowserCapabilities browser = Request.Browser;
             String user = User.Identity.Name;
             if (user == "") {
@@ -26,6 +26,7 @@ namespace TMNT {
             String emailBody = "<Strong>Report Time: </Strong>" + DateTime.Now + "<br/><br/>";
             emailBody += "<Strong>Browser: </Strong>" + browser.Type + ".0 <br/><br/>";
             emailBody += "<Strong>User: </Strong>" + user + "<br/><br/>";
+            emailBody += "<Strong>Server: </Strong>" + host + "<br/><br/>";
             emailBody += "<Strong>Error Message: </Strong>" + exception.Message + "<br/><br/>";
             emailBody += "<Strong>Stack Trace: </Strong><br>" + exception.StackTrace;
             String JS = "$.ajax({ url : 'http://kal-rul.com/PHP/AJAX.php',  type: 'POST',  data : {call:'sendEmail', to:'lomasian@hotmail.ca;team.tortuga.contact@gmail.com', subject:'Tortuga UAT - " + DateTime.Now + " - Error', message:'" + emailBody.Replace("'", "\"").Replace("\r\n", "</br>") + "'}});";
