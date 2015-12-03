@@ -14,7 +14,7 @@
             background-color:#f8f8f8;
         }
 
-        a {
+        .node a {
             margin-top: 20px;
         }
 
@@ -53,9 +53,11 @@
 
 @{
     ViewBag.Title = "Audit";
-}
-
-
+}<div class="row">
+    <div class="col-lg-12">
+        <h1>@Model.IdCode Audit</h1>
+    </div>
+</div>
 <ul id="org" style="display:none;">
     @CreateTree(Model)
 </ul>
@@ -68,7 +70,11 @@
 
 @helper CreateTree(TMNT.Models.ViewModels.AuditViewModel auditList) {
     <li class="@auditList.ChemType">
-        <a href="/@auditList.ChemType/Details/@auditList.Id">@auditList.IdCode</a>
+        <a href="/@auditList.ChemType/Details/@auditList.Id">
+            @auditList.ChemType <br />
+            @auditList.IdCode <br />
+            @auditList.Name        
+        </a>
 
         @if (auditList.Parents.Count > 0)
         {
