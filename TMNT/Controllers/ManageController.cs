@@ -192,7 +192,7 @@ namespace TMNT.Controllers {
                 return View(model);
             }
 
-            model.OldPassword = "!Maxxam123";
+            model.OldPassword = "password";
 
             if (model.OldPassword.Equals(model.NewPassword)) {
                 ModelState.AddModelError("", "The new password is not valid. Please choose another one.");
