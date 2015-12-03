@@ -418,7 +418,7 @@ namespace TMNT.Controllers {
 
             List<InventoryItem> items = _uow.InventoryItemRepository.Get()
                 .Where(item => item.Department == department)
-                .GroupBy(i => new { i.StockReagent, i.StockStandard, i.WorkingStandard })
+                .GroupBy(i => new { i.StockReagent, i.StockStandard, i.IntermediateStandard })
                 .Select(g => g.First())
                 .ToList();
 
