@@ -289,7 +289,7 @@ namespace TMNT.Controllers {
                 TotalVolume = model.TotalAmount.ToString() + " " + model.TotalAmountUnits,
                 FinalConcentration = model.FinalConcentration.ToString() + " " + model.FinalConcentrationUnits,
                 FinalVolume = model.FinalVolume,
-                IdCode = department.Location.LocationCode + "-" + (_uow.InventoryItemRepository.Get().Count() + 1) + "-" + model.CreatedBy,// + "/",//append number of bottles?
+                IdCode = department.Location.LocationCode + "-" + (_uow.InventoryItemRepository.Get().Count() + 1) + "-" + user.Department.SubDepartment,// + "/",//append number of bottles?
                 PrepList = model.PrepList,
                 SafetyNotes = model.SafetyNotes,
                 CreatedBy = user.UserName,

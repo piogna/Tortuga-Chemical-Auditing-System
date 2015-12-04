@@ -158,8 +158,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedReagentName)</h4>
-                        <h4>@Html.DisplayFor(model => model.MostUsedReagentName)</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.StockReagentName)</h4>
+                        <h4>@Html.DisplayFor(model => model.StockReagentName)</h4>
                     </div>
                 </div>
             </div>
@@ -168,8 +168,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedStandardName)</h4>
-                        <h4>@Html.DisplayFor(model => model.MostUsedStandardName)</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.StockStandardName)</h4>
+                        <h4>@Html.DisplayFor(model => model.StockStandardName)</h4>
                     </div>
                 </div>
             </div>
@@ -178,8 +178,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <div class="text-center">
-                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.MostUsedIntermediateStandardName)</h4>
-                        <h4>@Html.DisplayFor(model => model.MostUsedIntermediateStandardName)</h4>
+                        <h4 class="text-uppercase">@Html.DisplayNameFor(model => model.IntermediateStandardName)</h4>
+                        <h4>@Html.DisplayFor(model => model.IntermediateStandardName)</h4>
                     </div>
                 </div>
             </div>
@@ -301,6 +301,19 @@
                     text += "</tr>";
                 });
                 chemicalTable.append(text);
+
+                $('#chemicalTable').dataTable({
+                    "pageLength": 10,
+                    "order": [0, "asc"],
+                    aoColumns: [
+                      { mData: "Chemical Type" },
+                      { mData: "Expiry Date" },
+                      { mData: "Lot Number" },
+                      { mData: "Importance Based on Usage" }
+                    ],
+                    "aLengthMenu": [[10, 25], [10, 25]],
+                    "iDisplayLength": 10
+                });
                 return true;
             }
 
@@ -337,18 +350,18 @@
                     "iDisplayLength": 5
                 });
 
-                $('#chemicalTable').dataTable({
-                    "pageLength": 10,
-                    "order": [0, "asc"],
-                        aoColumns: [
-                          { mData: "Chemical Type" },
-                          { mData: "Expiry Date" },
-                          { mData: "Lot Number" },
-                          { mData: "Importance Based on Usage" }
-                        ],
-                    "aLengthMenu": [[10, 25], [10, 25]],
-                    "iDisplayLength": 10
-                });
+                //$('#chemicalTable').dataTable({
+                //    "pageLength": 10,
+                //    "order": [0, "asc"],
+                //        aoColumns: [
+                //          { mData: "Chemical Type" },
+                //          { mData: "Expiry Date" },
+                //          { mData: "Lot Number" },
+                //          { mData: "Importance Based on Usage" }
+                //        ],
+                //    "aLengthMenu": [[10, 25], [10, 25]],
+                //    "iDisplayLength": 10
+                //});
 
                 //BEGINNING OF BALANCE CODE
                 var placeholder = $("#placeholder"), devicesTable = $('#myTable');

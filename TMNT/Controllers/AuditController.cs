@@ -32,7 +32,6 @@ namespace TMNT.Controllers {
         [AuthorizeRedirect(Roles = "Department Head,Administrator,Manager,Supervisor")]
         public ActionResult PerformAudit([Bind(Include = "IdCode,Type")] PerformAuditViewModel model) {
             if (!ModelState.IsValid) {
-                //ViewBag.ErrorMessage = "The compound you have searched for was not found.";
                 return View("Index");
             }
 
@@ -53,7 +52,8 @@ namespace TMNT.Controllers {
             } else if (model.Type == "is") {
                 IntermediateStandard intermediatestandard = _uow.IntermediateStandardRepository.Get().Where(i => i.IdCode == model.IdCode).FirstOrDefault();
                 if (intermediatestandard == null) {
-                    return HttpNotFound();
+                    ViewBag.ErrorMessage = "The compound you have searched for was not found.";
+                    return View("Index");
                 }
                 auditViewModel = new AuditViewModel {
                     ChemType = "IntermediateStandard",

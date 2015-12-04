@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations;
 namespace TMNT.Models.ViewModels {
     public class ReportDashboardViewModel {
         [Display(Name = "Most Used Standard")]
-        public string MostUsedStandardName { get; set; }
+        public string StockStandardName { get; set; }
         [Display(Name = "Most Used Reagent")]
-        public string MostUsedReagentName { get; set; }
+        public string StockReagentName { get; set; }
         [Display(Name = "Most Used Intermed.")]
-        public string MostUsedIntermediateStandardName { get; set; }
+        public string IntermediateStandardName { get; set; }
         public Department Department { get; set; }
     }
 
@@ -19,8 +19,6 @@ namespace TMNT.Models.ViewModels {
         public string Type { get; set; }
         [Display(Name = "Expiry Date")]
         public string ExpiryDate { get; set; }
-        //[Display(Name = "Date Opened")]
-        //public string DateOpened { get; set; }
         [Display(Name = "ID Code")]
         public string IdCode { get; set; }
         [Display(Name = "Supplier")]

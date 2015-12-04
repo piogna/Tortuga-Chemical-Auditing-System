@@ -62,7 +62,7 @@ namespace TMNT.Controllers {
                 SubDepartment = userDepartment.SubDepartment,
                 Role = _uow.GetUserRoles().First(),
                 LocationName = userDepartment.Location.LocationName,
-                Name = user.FirstName + " " + user.LastName
+                Name = user.FirstName
             };
 
             switch (model.Role) {
