@@ -52,7 +52,7 @@ namespace TMNT.Controllers {
             //    .FirstOrDefault();
 
             var reagent = prepItems
-                .Where(item => item.StockReagent != null)
+                .Where(item => item.StockReagent != null && userDepartment == item.StockReagent.InventoryItems.First().Department)
                 .GroupBy(x => x.StockReagent)
                           .OrderByDescending(s => s.Count())
                           .First().Key;
@@ -72,7 +72,7 @@ namespace TMNT.Controllers {
             //    .FirstOrDefault();
 
             var standard = prepItems
-                .Where(item => item.StockStandard != null)
+                .Where(item => item.StockStandard != null && userDepartment == item.StockStandard.InventoryItems.First().Department)
                 .GroupBy(x => x.StockStandard)
                           .OrderByDescending(s => s.Count())
                           .First().Key;
@@ -85,7 +85,7 @@ namespace TMNT.Controllers {
             //    .FirstOrDefault();
 
             var intStandard = prepItems
-                .Where(item => item.IntermediateStandard != null)
+                .Where(item => item.IntermediateStandard != null && userDepartment == item.IntermediateStandard.InventoryItems.First().Department)
                 .GroupBy(x => x.IntermediateStandard)
                           .OrderByDescending(s => s.Count())
                           .First().Key;
