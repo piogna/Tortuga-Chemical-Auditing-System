@@ -40,10 +40,10 @@
                 "<img src='../../Content/images/help-images/reagent-details.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
                 "Some points about the Details Page:" +
                 "<ul>" +
-                    "<li>Location Information: Contains information abou the location, address, phone number, fax number, department name, and sub department<li>" +
-                    "<li>Reagent Information: Everything from Reagent/Standard Lot # to who created the Reagent/Standard is contained in this section<li>" +
-                    "<li>Device Used: Will contain information on the device that was used when the Reagent/Standard was created<li>" +
-                    "<li>All Certificates of Analysis for \" Reagent or Standard ID Code \": Shows all the CofA's that have been paired to the Reagent/Standard<li>" +
+                    "<li>Location Information: Contains information abou the location, address, phone number, fax number, department name, and sub department</li>" +
+                    "<li>Reagent Information: Everything from Reagent/Standard Lot # to who created the Reagent/Standard is contained in this section</li>" +
+                    "<li>Device Used: Will contain information on the device that was used when the Reagent/Standard was created</li>" +
+                    "<li>All Certificates of Analysis for \" Reagent or Standard ID Code \": Shows all the CofA's that have been paired to the Reagent/Standard</li>" +
                 "</ul>" +
                 "We hope you found this helpful! :)";
         } else if (selectedOption.val() === "RSEdit") {
@@ -110,9 +110,9 @@
                 "<img src='../../Content/images/help-images/intermediate-standard-details.PNG' style='width:100%;border:1px solid #ccc;margin-top:5px;margin-bottom:5px;' alt=''/>" +
                 "Some points about the Details Page:" +
                 "<ul>" +
-                    "<li>Location Information: Contains information abou the location, address, phone number, fax number, department name, and sub department<li>" +
-                    "<li>Intermediate/Working Standard Information: Everything from Intermediate/Working Standard Lot # to who created the Intermediate/Working Standard is contained in this section<li>" +
-                    "<li>Prep List Table: All items that were use to create this Intermediate/Working Standard will be listed here. You will have the ability to view all of their details aswell<li>" +
+                    "<li>Location Information: Contains information abou the location, address, phone number, fax number, department name, and sub department</li>" +
+                    "<li>Intermediate/Working Standard Information: Everything from Intermediate/Working Standard Lot # to who created the Intermediate/Working Standard is contained in this section</li>" +
+                    "<li>Prep List Table: All items that were use to create this Intermediate/Working Standard will be listed here. You will have the ability to view all of their details aswell</li>" +
                 "</ul>" +
                 "We hope you found this helpful! :)";
         } else if (selectedOption.val() === "ISEdit") {
